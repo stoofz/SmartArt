@@ -6,29 +6,29 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Customers {
+model Customer {
   id        Int      @id @default(autoincrement())
-  first_name      String
-  last_name       String
+  firstName      String
+  lastName       String
   email     String @unique
-  sub_id    String
-  addresses Addresses[]
-  orders Orders[]
-  payments Payments[]
-  carts Carts[]
-  wishlists Wishlists[]
+  subId    String
+  address Address[]
+  order Order[]
+  payment Payment[]
+  cart Cart[]
+  wishlist Wishlist[]
   feedback Feedback[]
   @@map("customers")
 }
 
-model Addresses {
+model Address {
   id  Int   @id @default(autoincrement())
-  customer Customers @relation(fields: [customer_id], references: [id])
-  customer_id Int @unique
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
   street String
   city String
   province String
@@ -39,114 +39,114 @@ model Addresses {
   @@map("addresses")
 }
 
-model Products {
+model Product {
   id        Int      @id @default(autoincrement())
-  category Catergories @relation(fields: [category_id], references: [id])
-  category_id Int
+  category Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
   name      String
   price     Decimal
   stock     Int
   image     String
   description String
-  carts Carts[]
-  order_items Order_items[]
-  wishlists Wishlists[]
+  cart Cart[]
+  orderItem OrderItem[]
+  wishlists Wishlist[]
   feedback Feedback[]
-  discounts Discounts[]
+  discount Discount[]
   @@map("products")
 }
 
-model Catergories {
+model Category {
   id        Int      @id @default(autoincrement())
   name      String
-  products  Products[]
+  products  Product[]
   @@map("categories")
 }
 
-model Orders {
+model Order {
   id        Int      @id @default(autoincrement())
-  customer Customers @relation(fields: [customer_id], references: [id])
-  customer_id Int @unique
-  payment Payments @relation(fields: [payment_id], references: [id])
-  payment_id Int
-  order_date DateTime
-  total_price Decimal
-  order_items Order_items[]
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  payment Payment @relation(fields: [paymentId], references: [id])
+  paymentId Int
+  orderDate DateTime
+  totalPrice Decimal
+  orderItem OrderItem[]
   @@map("orders")
 }
 
-model Payments {
+model Payment {
   id        Int      @id @default(autoincrement())
-  customer Customers @relation(fields: [customer_id], references: [id])
-  customer_id Int @unique
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
   date DateTime
-  total_price Decimal
-  stripe_charge_id String
-  Orders Orders[]
+  totalPrice Decimal
+  stripeChargeId String
+  Order Order[]
   @@map("payments")
 }
 
-model Carts {
+model Cart {
   id       Int      @id @default(autoincrement())
-  customer Customers @relation(fields: [customer_id], references: [id])
-  customer_id Int @unique
-  product Products @relation(fields: [product_id], references: [id])
-  product_id Int @unique
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  product Product @relation(fields: [productId], references: [id])
+  productId Int
   qty Int
   @@map("carts")
 }
 
-model Order_items {
+model OrderItem {
   id        Int      @id @default(autoincrement())
-  order Orders @relation(fields: [order_id], references: [id])
-  order_id Int @unique
-  product Products @relation(fields: [product_id], references: [id])
-  product_id Int @unique
+  order Order @relation(fields: [orderId], references: [id])
+  orderId Int
+  product Product @relation(fields: [productId], references: [id])
+  productId Int
   qty Int
   price Decimal
   @@map("order_items")
 }
 
 
-model Wishlists {
+model Wishlist {
   id        Int      @id @default(autoincrement())
-  customer Customers @relation(fields: [customer_id], references: [id])
-  customer_id Int @unique
-  product Products @relation(fields: [product_id], references: [id])
-  product_id Int @unique
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  product Product @relation(fields: [productId], references: [id])
+  productId Int
   @@map("wishlists")
 }
 
 
 model Feedback {
   id        Int      @id @default(autoincrement())
-  customer Customers @relation(fields: [customer_id], references: [id])
-  customer_id Int @unique
-  product Products @relation(fields: [product_id], references: [id])
-  product_id Int @unique
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  product Product @relation(fields: [productId], references: [id])
+  productId Int
   rating Int
   comment String
   @@map("feedback")
 }
 
 
-model Discounts {
+model Discount {
   id        Int      @id @default(autoincrement())
-  product Products @relation(fields: [product_id], references: [id])
-  product_id Int @unique
+  product Product @relation(fields: [productId], references: [id])
+  productId Int
   discount Int
-  start_date DateTime
-  end_date DateTime
+  startDate DateTime
+  endDate DateTime
   description String
   @@map("discounts")
 }
 
 
-model Admins {
+model Admin {
   id        Int      @id @default(autoincrement())
-  first_name      String
-  last_name       String
+  firstName      String
+  lastName       String
   email     String @unique
-  sub_id   String
+  subId   String
   @@map("admins")
 }
