@@ -7,5 +7,5 @@ CREATE TABLE products (
   price DECIMAL NOT NULL,
   stock INTEGER NOT NULL,
   image VARCHAR(255),
-  description VARCHAR(255)
+  description TEXT
 );
