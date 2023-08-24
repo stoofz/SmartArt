@@ -9,5 +9,5 @@ CREATE TABLE addresses (
   country VARCHAR(255) NOT NULL,
   postal VARCHAR(255) NOT NULL,
   phone VARCHAR(255) NOT NULL,
-  billing BOOLEAN NOT NULL,
+  billing BOOLEAN NOT NULL
 );

@@ -1,0 +1,1 @@
+INSERT INTO admins (email, sub_id, first_name, last_name) VALUES ('test@test.com', '1ffe23f', 'tester', 'test');

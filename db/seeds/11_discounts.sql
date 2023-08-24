@@ -1,0 +1,3 @@
+INSERT INTO discounts (product_id, discount, start_date, end_date, description) VALUES (2, 10, '2023-08-01', '2023-09-30', '10% off in August - September');
+INSERT INTO discounts (product_id, discount, start_date, end_date, description) VALUES (1, 20, '2023-08-01', '2023-09-30', '20% off in August - September');
+INSERT INTO discounts (product_id, discount, start_date, end_date, description) VALUES (4, 40, '2023-08-01', '2023-09-30', '40% off in August - September');

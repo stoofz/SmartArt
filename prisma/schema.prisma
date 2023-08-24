@@ -20,6 +20,9 @@ model Customers {
   orders Orders[]
   payments Payments[]
   carts Carts[]
+  wishlists Wishlists[]
+  feedback Feedback[]
+  @@map("customers")
 }
 
 model Addresses {
@@ -33,6 +36,7 @@ model Addresses {
   postal String
   phone String
   billing Boolean
+  @@map("addresses")
 }
 
 model Products {
@@ -43,15 +47,20 @@ model Products {
   price     Decimal
   stock     Int
   image     String
-  decsription String
+  description String
   carts Carts[]
   order_items Order_items[]
+  wishlists Wishlists[]
+  feedback Feedback[]
+  discounts Discounts[]
+  @@map("products")
 }
 
 model Catergories {
   id        Int      @id @default(autoincrement())
   name      String
   products  Products[]
+  @@map("categories")
 }
 
 model Orders {
@@ -63,6 +72,7 @@ model Orders {
   order_date DateTime
   total_price Decimal
   order_items Order_items[]
+  @@map("orders")
 }
 
 model Payments {
@@ -73,6 +83,7 @@ model Payments {
   total_price Decimal
   stripe_charge_id String
   Orders Orders[]
+  @@map("payments")
 }
 
 model Carts {
@@ -82,6 +93,7 @@ model Carts {
   product Products @relation(fields: [product_id], references: [id])
   product_id Int @unique
   qty Int
+  @@map("carts")
 }
 
 model Order_items {
@@ -92,6 +104,41 @@ model Order_items {
   product_id Int @unique
   qty Int
   price Decimal
+  @@map("order_items")
+}
+
+
+model Wishlists {
+  id        Int      @id @default(autoincrement())
+  customer Customers @relation(fields: [customer_id], references: [id])
+  customer_id Int @unique
+  product Products @relation(fields: [product_id], references: [id])
+  product_id Int @unique
+  @@map("wishlists")
+}
+
+
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  customer Customers @relation(fields: [customer_id], references: [id])
+  customer_id Int @unique
+  product Products @relation(fields: [product_id], references: [id])
+  product_id Int @unique
+  rating Int
+  comment String
+  @@map("feedback")
+}
+
+
+model Discounts {
+  id        Int      @id @default(autoincrement())
+  product Products @relation(fields: [product_id], references: [id])
+  product_id Int @unique
+  discount Int
+  start_date DateTime
+  end_date DateTime
+  description String
+  @@map("discounts")
 }
 
 
@@ -101,4 +148,5 @@ model Admins {
   last_name       String
   email     String @unique
   sub_id   String
+  @@map("admins")
 }
