@@ -10,28 +10,95 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
-  Blog  Blog[]
+model Customers {
+  id        Int      @id @default(autoincrement())
+  first_name      String
+  last_name       String
+  email     String @unique
+  sub_id    String
+  addresses Addresses[]
+  orders Orders[]
+  payments Payments[]
+  carts Carts[]
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Addresses {
+  id  Int   @id @default(autoincrement())
+  customer Customers @relation(fields: [customer_id], references: [id])
+  customer_id Int @unique
+  street String
+  city String
+  province String
+  country String
+  postal String
+  phone String
+  billing Boolean
 }
 
-model Blog {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Products {
+  id        Int      @id @default(autoincrement())
+  category Catergories @relation(fields: [category_id], references: [id])
+  category_id Int
+  name      String
+  price     Decimal
+  stock     Int
+  image     String
+  decsription String
+  carts Carts[]
+  order_items Order_items[]
+}
+
+model Catergories {
+  id        Int      @id @default(autoincrement())
+  name      String
+  products  Products[]
+}
+
+model Orders {
+  id        Int      @id @default(autoincrement())
+  customer Customers @relation(fields: [customer_id], references: [id])
+  customer_id Int @unique
+  payment Payments @relation(fields: [payment_id], references: [id])
+  payment_id Int
+  order_date DateTime
+  total_price Decimal
+  order_items Order_items[]
+}
+
+model Payments {
+  id        Int      @id @default(autoincrement())
+  customer Customers @relation(fields: [customer_id], references: [id])
+  customer_id Int @unique
+  date DateTime
+  total_price Decimal
+  stripe_charge_id String
+  Orders Orders[]
+}
+
+model Carts {
+  id       Int      @id @default(autoincrement())
+  customer Customers @relation(fields: [customer_id], references: [id])
+  customer_id Int @unique
+  product Products @relation(fields: [product_id], references: [id])
+  product_id Int @unique
+  qty Int
+}
+
+model Order_items {
+  id        Int      @id @default(autoincrement())
+  order Orders @relation(fields: [order_id], references: [id])
+  order_id Int @unique
+  product Products @relation(fields: [product_id], references: [id])
+  product_id Int @unique
+  qty Int
+  price Decimal
+}
+
+
+model Admins {
+  id        Int      @id @default(autoincrement())
+  first_name      String
+  last_name       String
+  email     String @unique
+  sub_id   String
 }

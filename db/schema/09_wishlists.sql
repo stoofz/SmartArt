@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS wishlists CASCADE;
+
+CREATE TABLE wishlists (
+  id SERIAL PRIMARY KEY NOT NULL,
+  customer_id INTEGER REFERENCES customers (id) ON DELETE CASCADE,
+  product_id INTEGER REFERENCES products (id) ON DELETE CASCADE
+);

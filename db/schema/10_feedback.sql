@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS feedback CASCADE;
+
+CREATE TABLE feedback (
+  id SERIAL PRIMARY KEY NOT NULL,
+  customer_id INTEGER REFERENCES customers (id) ON DELETE CASCADE,
+  product_id INTEGER REFERENCES products (id) ON DELETE CASCADE,
+  rating INTEGER NOT NULL,
+  comment VARCHAR(255) NOT NULL
+);
