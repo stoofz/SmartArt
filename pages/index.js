@@ -3,6 +3,7 @@
 // import { Inter } from 'next/font/google'
 // import styles from '@/styles/Home.module.css'
 // import { PrismaClient } from '@prisma/client'
+import { checkout } from './checkout';
 
 // const inter = Inter({ subsets: ['latin'] })
 
@@ -16,9 +17,21 @@ export default function Index() {
 
   if (user) {
     return (
-      <div>
-        Welcome {user.name}! <a href="/api/auth/logout">Logout</a>
-      </div>
+      <>
+        <div>
+          Welcome {user.name}! <a href="/api/auth/logout">Logout</a>
+        </div>
+        <button onClick={(() => {
+          checkout({
+            lineItems: [
+              {
+                price: "price_1Nj4SeH35BfCvqiXMUdxS2np",
+                quantity: 2
+              }
+            ]
+          })
+        })}>BUY!</button>
+      </>
     );
   }
 
