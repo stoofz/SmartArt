@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,150 +11,142 @@ datasource db {
 }
 
 model Customer {
-  id         Int        @id @default(autoincrement())
-  first_name String     @db.VarChar(255)
-  last_name  String     @db.VarChar(255)
-  email      String     @db.VarChar(255)
-  sub_id     String     @db.VarChar(255)
-  addresses  Address[]
-  carts      Cart[]
-  feedback   Feedback[]
-  orders     Order[]
-  payments   Payment[]
-  wishlists  Wishlist[]
-
+  id        Int      @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  email     String @unique
+  subId    String
+  address Address[]
+  order Order[]
+  payment Payment[]
+  cart Cart[]
+  wishlist Wishlist[]
+  feedback Feedback[]
   @@map("customers")
 }
 
 model Address {
-  id          Int       @id @default(autoincrement())
-  customer_id Int?
-  street      String    @db.VarChar(255)
-  city        String    @db.VarChar(255)
-  province    String    @db.VarChar(255)
-  country     String    @db.VarChar(255)
-  postal      String    @db.VarChar(255)
-  phone       String    @db.VarChar(255)
-  billing     Boolean
-  customers   Customer? @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
+  id  Int   @id @default(autoincrement())
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  street String
+  city String
+  province String
+  country String
+  postal String
+  phone String
+  billing Boolean
   @@map("addresses")
 }
 
 model Product {
-  id          Int         @id @default(autoincrement())
-  category_id Int?
-  name        String      @db.VarChar(255)
-  price       Decimal     @db.Decimal
-  stock       Int
-  image       String?     @db.VarChar(255)
-  description String?
-  carts       Cart[]
-  discounts   Discount[]
-  feedback    Feedback[]
-  order_items OrderItem[]
-  categories  Category?   @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  wishlists   Wishlist[]
-
+  id        Int      @id @default(autoincrement())
+  category Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  name      String
+  price     Decimal
+  stock     Int
+  image     String
+  description String
+  cart Cart[]
+  orderItem OrderItem[]
+  wishlists Wishlist[]
+  feedback Feedback[]
+  discount Discount[]
   @@map("products")
 }
 
 model Category {
-  id       Int       @id @default(autoincrement())
-  name     String    @db.VarChar(255)
-  products Product[]
-
+  id        Int      @id @default(autoincrement())
+  name      String
+  products  Product[]
   @@map("categories")
 }
 
 model Order {
-  id          Int         @id @default(autoincrement())
-  customer_id Int?
-  payment_id  Int?
-  order_date  DateTime    @db.Timestamp(6)
-  total_price Decimal     @db.Decimal
-  order_items OrderItem[]
-  customers   Customer?   @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  payments    Payment?    @relation(fields: [payment_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
+  id        Int      @id @default(autoincrement())
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  payment Payment @relation(fields: [paymentId], references: [id])
+  paymentId Int
+  orderDate DateTime
+  totalPrice Decimal
+  orderItem OrderItem[]
   @@map("orders")
 }
 
 model Payment {
-  id               Int       @id @default(autoincrement())
-  customer_id      Int?
-  date             DateTime  @db.Timestamp(6)
-  total_price      Decimal   @db.Decimal
-  stripe_charge_id String    @db.VarChar(255)
-  orders           Order[]
-  customers        Customer? @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
+  id        Int      @id @default(autoincrement())
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  date DateTime
+  totalPrice Decimal
+  stripeChargeId String
+  Order Order[]
   @@map("payments")
 }
 
 model Cart {
-  id          Int       @id @default(autoincrement())
-  customer_id Int?
-  product_id  Int?
-  qty         Int
-  customers   Customer? @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  products    Product?  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
+  id       Int      @id @default(autoincrement())
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  product Product @relation(fields: [productId], references: [id])
+  productId Int
+  qty Int
   @@map("carts")
 }
 
 model OrderItem {
-  id         Int      @id @default(autoincrement())
-  order_id   Int?
-  product_id Int?
-  qty        Int
-  price      Decimal  @db.Decimal
-  orders     Order?   @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  products   Product? @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
+  id        Int      @id @default(autoincrement())
+  order Order @relation(fields: [orderId], references: [id])
+  orderId Int
+  product Product @relation(fields: [productId], references: [id])
+  productId Int
+  qty Int
+  price Decimal
   @@map("order_items")
 }
 
-model Wishlist {
-  id          Int       @id @default(autoincrement())
-  customer_id Int?
-  product_id  Int?
-  customers   Customer? @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  products    Product?  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
+model Wishlist {
+  id        Int      @id @default(autoincrement())
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  product Product @relation(fields: [productId], references: [id])
+  productId Int
   @@map("wishlists")
 }
 
-model Feedback {
-  id          Int       @id @default(autoincrement())
-  customer_id Int?
-  product_id  Int?
-  rating      Int
-  comment     String    @db.VarChar(255)
-  customers   Customer? @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  products    Product?  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  product Product @relation(fields: [productId], references: [id])
+  productId Int
+  rating Int
+  comment String
   @@map("feedback")
 }
 
-model Discount {
-  id          Int      @id @default(autoincrement())
-  product_id  Int?
-  discount    Int
-  start_date  DateTime @db.Date
-  end_date    DateTime @db.Date
-  description String   @db.VarChar(255)
-  products    Product? @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
+model Discount {
+  id        Int      @id @default(autoincrement())
+  product Product @relation(fields: [productId], references: [id])
+  productId Int
+  discount Int
+  startDate DateTime
+  endDate DateTime
+  description String
   @@map("discounts")
 }
 
-model Admin {
-  id         Int    @id @default(autoincrement())
-  email      String @db.VarChar(255)
-  sub_id     String @db.VarChar(255)
-  first_name String @db.VarChar(255)
-  last_name  String @db.VarChar(255)
 
+model Admin {
+  id        Int      @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  email     String @unique
+  subId   String
   @@map("admins")
 }
