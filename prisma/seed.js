@@ -10,56 +10,56 @@ async function main() {
   try {
  
     // Insert data into the "admins" table
-    // await prisma.admin.create({
-    //   data: {
-    //     email: 'test@test6.com',
-    //     subId: '1ffe23f',
-    //     firstName: 'tester',
-    //     lastName: 'test',
-    //   },
-    // });
+    await prisma.admin.create({
+      data: {
+        email: 'test@test6.com',
+        subId: '1ffe23f',
+        firstName: 'tester',
+        lastName: 'test',
+      },
+    });
 
     // Insert data into the "customers" table
 
 // CUSTOMERS
     //Hold "customers" table data in array
-    // const customersData = [
-    //   {
-    //     firstName: 'Pete',
-    //     lastName: 'Mo',
-    //     email: 'mpo@mail.com',
-    //     subId: 'werff34r23f',
-    //   },
-    //   {
-    //     firstName: 'Lyda',
-    //     lastName: 'Feep',
-    //     email: 'feep@mail.com',
-    //     subId: '32141241241',
-    //   },
-    //   {
-    //     firstName: 'Todd',
-    //     lastName: 'Bangaran',
-    //     email: 'tbang@mail.com',
-    //     subId: '4324235',
-    //   },
-    //   {
-    //     firstName: 'George',
-    //     lastName: 'Till',
-    //     email: 'gtill@mail.com',
-    //     subId: '4234235235',
-    //   },
-    //   {
-    //     firstName: 'Tyson',
-    //     lastName: 'Meo',
-    //     email: 'tmeo@mail.com',
-    //     subId: '4234235332',
-    //   }
-    // ];
+    const customersData = [
+      {
+        firstName: 'Pete',
+        lastName: 'Mo',
+        email: 'mpo@mail.com',
+        subId: 'werff34r23f',
+      },
+      {
+        firstName: 'Lyda',
+        lastName: 'Feep',
+        email: 'feep@mail.com',
+        subId: '32141241241',
+      },
+      {
+        firstName: 'Todd',
+        lastName: 'Bangaran',
+        email: 'tbang@mail.com',
+        subId: '4324235',
+      },
+      {
+        firstName: 'George',
+        lastName: 'Till',
+        email: 'gtill@mail.com',
+        subId: '4234235235',
+      },
+      {
+        firstName: 'Tyson',
+        lastName: 'Meo',
+        email: 'tmeo@mail.com',
+        subId: '4234235332',
+      }
+    ];
 
     //  //Insert data into the "customers" table
-    // const createdCustomers = await prisma.customer.createMany({
-    //   data: customersData,
-    // });
+    const createdCustomers = await prisma.customer.createMany({
+      data: customersData,
+    });
     //Get and store in var newly created customers to extract id dinamically
     const customers = await prisma.customer.findMany();
     // console.log("LINE 63: Customers:", customers);
@@ -260,12 +260,12 @@ async function main() {
           qty: 1 
         },
         { 
-          cartId: carts[3].id,
+          cartId: carts[2].id,
           productId: products[1].id,
           qty: 4 
         },
         { 
-          cartId: carts[3].id,
+          cartId: carts[2].id,
           productId: products[2].id,
           qty: 1 
         }, 
