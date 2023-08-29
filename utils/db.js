@@ -12,9 +12,9 @@ const createUser = async (user) => {
     await prisma.customer.create({
       data: {
         email: user.email,
-        sub_id: user.sub,
-        first_name: user.first_name,
-        last_name: user.last_name,
+        subId: user.sub,
+        firstName: user.first_name,
+        lastName: user.last_name,
       },
     });
   }
