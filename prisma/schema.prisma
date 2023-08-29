@@ -48,7 +48,7 @@ model Product {
   stock     Int
   image     String
   description String
-  cart Cart[]
+  cartItem CartItem[]
   orderItem OrderItem[]
   wishlists Wishlist[]
   feedback Feedback[]
@@ -87,13 +87,21 @@ model Payment {
 }
 
 model Cart {
-  id       Int      @id @default(autoincrement())
-  customer Customer @relation(fields: [customerId], references: [id])
-  customerId Int
-  product Product @relation(fields: [productId], references: [id])
-  productId Int
-  qty Int
+  id          Int       @id @default(autoincrement())
+  customer    Customer  @relation(fields: [customerId], references: [id])
+  customerId  Int
+  cartItems   CartItem[] // Establish a one-to-many relationship with CartItem
   @@map("carts")
+}
+
+model CartItem {
+  id         Int       @id @default(autoincrement())
+  cart       Cart      @relation(fields: [cartId], references: [id])
+  cartId     Int
+  product    Product   @relation(fields: [productId], references: [id])
+  productId  Int
+  qty        Int
+  @@map("cart_items")
 }
 
 model OrderItem {
