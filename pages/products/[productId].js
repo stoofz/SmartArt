@@ -1,3 +1,4 @@
+/* eslint-disable func-style */
 import prisma from 'utils/prisma';
 
 const ProductDetailsPage = ({ product }) => {

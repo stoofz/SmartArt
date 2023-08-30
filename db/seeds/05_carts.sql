@@ -7,8 +7,3 @@
 -- INSERT INTO carts (customer_id, product_id, qty) VALUES (4, 2, 4);
 -- INSERT INTO carts (customer_id, product_id, qty) VALUES (4, 3, 1);
 -- INSERT INTO carts (customer_id, product_id, qty) VALUES (5, 3, 3);
-
-
-INSERT INTO carts (customer_id) VALUES (1);
-INSERT INTO carts (customer_id) VALUES (1);
-INSERT INTO carts (customer_id) VALUES (2);
