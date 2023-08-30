@@ -14,12 +14,13 @@ const createUser = async(cust) => {
       const customer = await stripe.customers.create({
         email: cust.email,
       });
+      console.log(customer);
       await prisma.customer.create({
         data: {
-          email: user.email,
-          subId: user.sub,
-          firstName: user.first_name,
-          lastName: user.last_name,
+          email: cust.email,
+          subId: cust.sub,
+          firstName: cust.first_name,
+          lastName: cust.last_name,
           stripeId: customer.id,
         },
       });
