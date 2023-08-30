@@ -3,24 +3,24 @@ import initStripe from 'stripe';
 const stripe = initStripe(process.env.STRIPE_SECRET_KEY);
 
 //naming here on user vs customer vs customers is confusing
-const createUser = async(req, res) => {
-  const { email } = JSON.parse(req.body);
+const createUser = async(cust) => {
   const user = await prisma.customer.findUnique({
     where: {
-      email: email,
+      email: cust.email,
     },
   });
   if (!user) {
     try {
       const customer = await stripe.customers.create({
-        email,
+        email: cust.email,
       });
+      console.log(customer);
       await prisma.customer.create({
         data: {
-          email: user.email,
-          subId: user.sub,
-          firstName: user.first_name,
-          lastName: user.last_name,
+          email: cust.email,
+          subId: cust.sub,
+          firstName: cust.first_name,
+          lastName: cust.last_name,
           stripeId: customer.id,
         },
       });
@@ -28,7 +28,6 @@ const createUser = async(req, res) => {
       console.log(err);
     } finally {
       await prisma.$disconnect();
-      res.send({ received: true });
     }
   }
 };
