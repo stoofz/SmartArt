@@ -1,3 +1,4 @@
+/* eslint-disable func-style */
 import Link from 'next/link';
 import prisma from 'utils/prisma';
 
@@ -8,7 +9,7 @@ const ProductsPage = ({ products }) => {
       {products.map(product => (
         <div key={product.id}>
           <Link href={`/products/${product.id}`}>
-              <h4>{product.name}</h4>
+            <h4>{product.name}</h4>
           </Link>
           <p>{product.price}</p>
         </div>
@@ -22,7 +23,7 @@ export async function getServerSideProps() {
   const products = await prisma.Product.findMany()
 
   const serializedProduct = JSON.parse(JSON.stringify(products));
-  
+
   return { props: { products: serializedProduct } };
 }
 

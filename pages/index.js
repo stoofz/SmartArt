@@ -21,7 +21,7 @@ export default function Index() {
         <div>
           Welcome {user.name}! <a href="/api/auth/logout">Logout</a>
         </div>
-        <button onClick={(() => {
+        <button type="submit" onClick={(() => {
           checkout({
             lineItems: [
               {
@@ -30,7 +30,7 @@ export default function Index() {
               }
             ]
           })
-        })}>BUY!</button>
+        })}>Checkout</button>
       </>
     );
   }
