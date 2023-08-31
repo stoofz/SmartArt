@@ -2,28 +2,29 @@
 
 import prisma from "../../utils/prisma";
 
+// eslint-disable-next-line func-style
 export default async function handler(req, res) {
 
   //ADD to CART
   if (req.method === "POST") {
     // Extract data from the request body
     const { userId, productId, quantity } = req.body;
-    
+
     try {
       // Check if the user has an active cart
       const userCart = await prisma.cart.findFirst({
         where: {
           customerId: userId,
-         
+
         },
       });
-      
+
       if (!userCart) {
         // If the user doesn't have an active cart, create one
         const newCart = await prisma.cart.create({
           data: {
             customerId: userId,
-            
+
           },
         });
 
@@ -38,11 +39,11 @@ export default async function handler(req, res) {
             qty: quantity,
           },
         });
-        
+
       } else {
         // If the user has an active cart, use its ID as cartId
         const cartId = userCart.id;
-        
+
         // Check if the item is already in the cart
         const existingCartItem = await prisma.cartItem.findFirst({
           where: {
@@ -50,7 +51,7 @@ export default async function handler(req, res) {
             productId: productId,
           },
         });
-       
+
         if (existingCartItem) {
           // If the item exists, update the quantity
           await prisma.cartItem.update({
@@ -84,11 +85,12 @@ export default async function handler(req, res) {
   } else {
     res.status(405).end(); // Method Not Allowed
   }
-  
-//DELETE FROM CART
+
+  //DELETE FROM CART
   if (req.method === "DELETE") {
     //Delete a single item from my cart
   }
+  // return userCart;
 }
 
 //   }
@@ -103,3 +105,4 @@ export default async function handler(req, res) {
 
 //   prisma.disconnect
 // }
+

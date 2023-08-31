@@ -1,21 +1,22 @@
+/* eslint-disable camelcase */
 /* eslint-disable func-style */
-import { loadStripe } from '@stripe/stripe-js';
+import { Stripe } from 'stripe';
+const stripe = Stripe('sk_test_51NbCSCH35BfCvqiXv8R8Jnt564uRewU56aVEvT6uwECmnA65dt1mGejJvW9jupFfyi3kkXt29LA85l6hi3DeHKhF00Eesma9ce');
+import { redirect } from 'next/navigation';
 
-export async function checkout({ lineItems }) {
-  let stripePromise = null;
+export default async function checkout({ lineItems }) {
 
-  const getStripe = () => {
-    if (!stripePromise) {
-      stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
-    }
-    return stripePromise;
-  };
-  const stripe = await getStripe();
-
-  await stripe.redirectToCheckout({
-    mode: 'payment',
-    lineItems,
-    successUrl: `${window.location.origin}?session_id={CHECKOUT_SESSION_ID}`,
-    cancelUrl: window.location.origin
-  });
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: 'payment',
+      line_items: lineItems,
+      success_url: `${window.location.origin}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: window.location.origin,
+    });
+    console.log(session);
+    return session;
+    // Respond with a success message or status
+  } catch (error) {
+    console.error('Error reaching checkout', error);
+  }
 }
