@@ -86,7 +86,7 @@ const Cart = ({  cartItems, productDetails, subtotal  }) => {
   )}
 
 export async function getServerSideProps({ req }) {
-  // Get the user ID from your authentication system.
+  // Get the user ID from auth.
   // const userId = req.user.id; 
   const userId = 3; 
 
@@ -134,8 +134,8 @@ export async function getServerSideProps({ req }) {
    
   
    
-    console.log("LINE 80", productDetails)
-    console.log("LINE 90", subtotal)
+    // console.log("LINE 80", productDetails)
+    // console.log("LINE 90", subtotal)
 
 
     return { props: { cartItems: serializedCartItems, productDetails, subtotal } };

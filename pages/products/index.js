@@ -14,12 +14,12 @@ const ProductsPage = ({ products }) => {
         productId,
         quantity,
       });
-      // Optionally, you can show a success message or update the UI to reflect the cart changes.
+      // Show a success message ????.
       console.log('Item added to cart:', response.data);
     } catch (error) {
       console.error('Error adding item to cart:', error);
-      // Handle the error, show an error message to the user.
-      // setError('An error occurred while adding the item to the cart.');
+      //  Show an error message to the user????
+      
     }
   };
 

@@ -84,7 +84,8 @@ export default async function handler(req, res) {
   } else {
     res.status(405).end(); // Method Not Allowed
   }
-
+  
+//DELETE FROM CART
   if (req.method === "DELETE") {
     //Delete a single item from my cart
   }
