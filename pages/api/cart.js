@@ -3,6 +3,8 @@
 import prisma from "../../utils/prisma";
 
 export default async function handler(req, res) {
+
+  //ADD to CART
   if (req.method === "POST") {
     // Extract data from the request body
     const { userId, productId, quantity } = req.body;
@@ -81,6 +83,10 @@ export default async function handler(req, res) {
     }
   } else {
     res.status(405).end(); // Method Not Allowed
+  }
+
+  if (req.method === "DELETE") {
+    //Delete a single item from my cart
   }
 }
 

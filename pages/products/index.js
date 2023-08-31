@@ -6,7 +6,7 @@ import axios from 'axios';
 const ProductsPage = ({ products }) => {
   const handleAddToCart = async (productId) => {
     const userId = 3; // Replace with the actual user's ID
-    const quantity = 1; // You can adjust the quantity as needed
+    const quantity = 1; 
 
     try {
       const response = await axios.post('/api/cart', {
@@ -36,6 +36,11 @@ const ProductsPage = ({ products }) => {
           <button onClick={() => handleAddToCart(product.id)}>Add to Cart</button>
         </div>
       ))}
+
+
+
+     
+
     </main>
   );
 };
