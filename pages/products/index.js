@@ -1,8 +1,29 @@
 /* eslint-disable func-style */
 import Link from 'next/link';
-import prisma from 'utils/prisma';
+import prisma from '../../utils/prisma';
+import axios from 'axios';
 
 const ProductsPage = ({ products }) => {
+  const handleAddToCart = async (productId) => {
+    const userId = 3; // Replace with the actual user's ID
+    const quantity = 1; 
+
+    try {
+      const response = await axios.post('/api/cart', {
+        userId,
+        productId,
+        quantity,
+      });
+      // Show a success message ????.
+      console.log('Item added to cart:', response.data);
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+      //  Show an error message to the user????
+      
+    }
+  };
+
+
   return (
     <main>
       <h3>Products</h3>
@@ -12,8 +33,14 @@ const ProductsPage = ({ products }) => {
             <h4>{product.name}</h4>
           </Link>
           <p>{product.price}</p>
+          <button onClick={() => handleAddToCart(product.id)}>Add to Cart</button>
         </div>
       ))}
+
+
+
+     
+
     </main>
   );
 };
