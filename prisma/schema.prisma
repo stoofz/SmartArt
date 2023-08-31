@@ -11,11 +11,12 @@ datasource db {
 }
 
 model Customer {
-  id        Int      @id @default(autoincrement())
-  firstName      String
-  lastName       String
-  email     String @unique
-  subId    String
+  id  Int @id @default(autoincrement())
+  firstName  String
+  lastName  String
+  email  String @unique
+  subId  String
+  stripeId  String? @unique
   address Address[]
   order Order[]
   payment Payment[]

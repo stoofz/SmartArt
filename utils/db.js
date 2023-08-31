@@ -1,25 +1,35 @@
 import prisma from 'utils/prisma';
+import initStripe from 'stripe';
+const stripe = initStripe(process.env.STRIPE_SECRET_KEY);
 
-const createUser = async (user) => {
-
-  const customer = await prisma.customer.findUnique({
+//naming here on user vs customer vs customers is confusing
+const createUser = async(cust) => {
+  const user = await prisma.customer.findUnique({
     where: {
-      email: user.email,
+      email: cust.email,
     },
   });
-
-  if (!customer) {
-    await prisma.customer.create({
-      data: {
-        email: user.email,
-        subId: user.sub,
-        firstName: user.first_name,
-        lastName: user.last_name,
-      },
-    });
+  if (!user) {
+    try {
+      const customer = await stripe.customers.create({
+        email: cust.email,
+      });
+      console.log(customer);
+      await prisma.customer.create({
+        data: {
+          email: cust.email,
+          subId: cust.sub,
+          firstName: cust.first_name,
+          lastName: cust.last_name,
+          stripeId: customer.id,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      await prisma.$disconnect();
+    }
   }
-  await prisma.$disconnect();
-  return customer;
-}
+};
 
 export { createUser };
