@@ -23,7 +23,7 @@ const Cart = ({ cartItems, productDetails: defaultProducts, subtotal, lineItems 
         userId,
         productId,
       };
-      console.log("payload", payload);
+      // only extract through data
       const response = await axios.delete('/api/cart', { data: payload });
 
       if (response.status === 200) {
