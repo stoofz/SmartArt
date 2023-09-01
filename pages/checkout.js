@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable func-style */
 import { Stripe } from 'stripe';
-const stripe = Stripe('sk_test_51NbCSCH35BfCvqiXv8R8Jnt564uRewU56aVEvT6uwECmnA65dt1mGejJvW9jupFfyi3kkXt29LA85l6hi3DeHKhF00Eesma9ce');
 import { redirect } from 'next/navigation';
 
 export default async function checkout({ lineItems }) {
+// in the frontend, key has to be accessed via .env prefixed by NEXT_PUBLIC
+  const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
 
   try {
     const session = await stripe.checkout.sessions.create({
