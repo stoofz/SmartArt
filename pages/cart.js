@@ -33,7 +33,10 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
     }
   })
   // Function to delete an item from the cart 
- 
+  const calculateTotalPrice = (products) => products.reduce((acc, item) => {
+    acc += item.qty * item.price;
+    return acc;
+  }, 0);
   
   const deleteFromCart = async (productId) => {
 
@@ -46,9 +49,9 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
       const response = await axios.delete('/api/cart', { data: payload });
 
       if (response.status === 200) {
-        // Item deleted successfully, update the cart items state
-        setProductDetails((prevProductDetails) =>
-          prevProductDetails.reduce((list, item) => {
+        //  update the cart items state, new product details
+        
+        const newProductDetails = productDetails.reduce((list, item) => {
             if (item.productId !== productId) {
               list.push(item);
               return list;
@@ -64,7 +67,11 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
 
           }, [])
 
-        );
+        const totalPrice = calculateTotalPrice(newProductDetails)
+
+        setProductDetails(newProductDetails);
+
+        setTotal(totalPrice)
 
       }
     } catch (error) {
@@ -85,7 +92,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
       const response = await axios.put('/api/cart', payload); // Make a PUT request
 
       if (response.status === 200) {
-        const newProduct = productDetails.map((item) => {
+        const newProductDetails = productDetails.map((item) => {
 
           if (item.productId === productId) {
             // Update the quantity for the matching product
@@ -97,13 +104,9 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
           return item;
         })
 
-        const totalPrice = newProduct.reduce((acc, item) => {
-          
-          acc += (item.qty * item.price);
-          return acc;
-        }, 0)
+        const totalPrice = calculateTotalPrice(newProductDetails)
        
-        setProductDetails(newProduct)
+        setProductDetails(newProductDetails)
      
        setTotal(totalPrice)
       }
