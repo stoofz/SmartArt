@@ -33,7 +33,7 @@ const createUser = async(cust) => {
 };
 
 
-const addToCart = async (userId, productId, quantity) => {
+const addToCartApi = async (userId, productId, quantity) => {
 
   // Check if the user has an active cart
   const userCart = await prisma.cart.findFirst({
@@ -98,8 +98,7 @@ const addToCart = async (userId, productId, quantity) => {
     }
   }
 }
-const deteteFromCart = async (userId, productId) => {
-
+const deteteFromCartApi = async (userId, productId) => {
 
   // Check if the user has an active cart
   const userCart = await prisma.cart.findFirst({
@@ -108,13 +107,11 @@ const deteteFromCart = async (userId, productId) => {
     },
   });
 
-
   if (!userCart) {
     // If the user doesn't have an active cart, respond with an error
     return res.status(404).json({ error: 'User cart not found' });
   }
   const cartId = userCart.id;
-
   // Check if the item is in the user's cart
   const existingCartItem = await prisma.cartItem.findFirst({
     where: {
@@ -143,12 +140,51 @@ const deteteFromCart = async (userId, productId) => {
       });
     }
 
-
-    // Respond with a success message or status
-    // return res.status(200).json({ message: 'Item deleted from the cart' });
   } else {
     // If the item doesn't exist in the cart, respond with an error
     return res.status(404).json({ error: 'Item not found in the cart' });
   }
+  
 }
-export { createUser, addToCart, deteteFromCart };
+
+const updateCartApi = async (userId, productId, quantity) => {
+  // Check if the user has an active cart
+  const userCart = await prisma.cart.findFirst({
+    where: {
+      customerId: userId,
+    },
+  });
+
+  if (userCart) {
+    const cartId = userCart.id;
+
+    // Check if the item is in the user's cart
+    const existingCartItem = await prisma.cartItem.findFirst({
+      where: {
+        cartId: cartId,
+        productId: productId,
+      },
+    });
+
+    if (existingCartItem) {
+      // If the item exists, update the quantity
+      await prisma.cartItem.update({
+        where: {
+          id: existingCartItem.id,
+        },
+        data: {
+          qty: quantity,
+        },
+      });
+
+    } else {
+      // If the item doesn't exist in the cart, respond with an error
+      res.status(404).json({ error: 'Item not found in the cart' });
+    }
+  } else {
+    // If the user doesn't have an active cart, respond with an error
+    res.status(404).json({ error: 'User does not have an active cart' });
+  }
+}
+
+export { createUser, addToCartApi, deteteFromCartApi, updateCartApi };

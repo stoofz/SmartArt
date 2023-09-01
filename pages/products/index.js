@@ -28,7 +28,7 @@ export default function ProductsPage({ products }) {
       <Link href={`/products/${product.id}`}>
         <h4>{product.name}</h4>
       </Link>
-      <p>{product.price}</p>
+      <p>${(product.price / 100).toFixed(2)}</p>
       <button onClick={() => handleAddToCart(product.id)}>Add to Cart</button>
     </div>
   ));

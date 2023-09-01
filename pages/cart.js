@@ -13,9 +13,10 @@ const Cart = ({ cartItems, productDetails: defaultProducts, subtotal, lineItems 
   const [cartOpen, setCartOpen] = useState(false);
   const [productDetails, setProductDetails] = useState(defaultProducts);
   // Function to delete an item from the cart 
+  const userId = 3;
 
   const deleteFromCart = async (productId) => {
-    const userId = 3;
+   
 
     try {
 
@@ -50,6 +51,42 @@ const Cart = ({ cartItems, productDetails: defaultProducts, subtotal, lineItems 
       console.error('Error deleting item from cart:', error);
     }
   };
+
+
+  const updateCartItemQuantity = async (productId, newQuantity) => {
+
+    try {
+      const payload = {
+        userId,
+        productId,
+        quantity: newQuantity,
+      };
+
+      const response = await axios.put('/api/cart', payload); // Make a PUT request
+
+      if (response.status === 200) {
+        setProductDetails((prevProductDetails) =>
+         
+            prevProductDetails.map((item) => {
+              if (item.productId === productId) {
+                // Update the quantity for the matching product
+                return {
+                  ...item,
+                  qty: newQuantity,
+                };
+              }
+              return item;
+            })
+        );
+      }
+    } catch (error) {
+      console.error('Error updating item quantity in cart:', error);
+    }
+  };
+
+
+
+  
   //to display on top of cart
   // const getTotalItems = (items) =>
   //   items.reduce((acc, item) => acc + item.amount, 0);
@@ -72,7 +109,7 @@ const Cart = ({ cartItems, productDetails: defaultProducts, subtotal, lineItems 
           <div>
             <h3>{item.name}</h3>
             <div className="flex justify-between">
-              <p>Price: ${item.price}</p>
+              <p>Price: ${(item.price / 100).toFixed(2)}</p>
               <p>Total: ${(item.qty * item.price / 100).toFixed(2)}</p>
             </div>
             <div className="flex justify-between">
@@ -104,7 +141,7 @@ const Cart = ({ cartItems, productDetails: defaultProducts, subtotal, lineItems 
                     backgroundColor: 'darkgray', // Background color on hover (darker gray)
                   },
                 }}
-              // onClick={() => addToCart(item)}
+                onClick={() => updateCartItemQuantity(item.productId, item.qty + 1)}
               >
                 +
               </Button>
@@ -112,7 +149,7 @@ const Cart = ({ cartItems, productDetails: defaultProducts, subtotal, lineItems 
           </div>
         </div>
       ))}
-      <h2>Total: ${subtotal}</h2>
+      <h2>Total: ${(subtotal / 100).toFixed(2)}</h2>
       <button type="submit" onClick={(() => {
         const session = checkout({
           lineItems
