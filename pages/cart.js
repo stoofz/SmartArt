@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable func-style */
 /* eslint-disable semi */
+import axios from 'axios';
 import Link from 'next/link';
 import prisma from 'utils/prisma';
 import { Button, Drawer, IconButton, Badge } from "@mui/material";
@@ -8,15 +9,51 @@ import { AddShoppingCart } from "@mui/material";
 import React, { useState } from 'react';
 import checkout from './checkout';
 
-const Cart = ({ cartItems, productDetails, subtotal, lineItems }) => {
+const Cart = ({ cartItems, productDetails: defaultProducts, subtotal, lineItems }) => {
   const [cartOpen, setCartOpen] = useState(false);
+  const [productDetails, setProductDetails] = useState(defaultProducts);
+  // Function to delete an item from the cart 
 
-  const getTotalItems = (items) =>
-    items.reduce((acc, item) => acc + item.amount, 0);
+  const deleteFromCart = async (productId) => {
+    const userId = 3;
 
+    try {
 
-  // console.log("LINE 5", productDetails)
-  // console.log("LINE 6", cartItems.id)
+      const payload = {
+        userId,
+        productId,
+      };
+      console.log("payload", payload);
+      const response = await axios.delete('/api/cart', { data: payload });
+
+      if (response.status === 200) {
+        // Item deleted successfully, update the cart items state
+        setProductDetails((prevProductDetails) =>
+          prevProductDetails.reduce((list, item) => {
+            if (item.productId !== productId) {
+              list.push(item);
+              return list;
+            }
+
+            if (item.qty === 1) {
+              return list;
+            }
+
+            item.qty--;
+            list.push(item);
+            return list;
+
+          }, [])
+        );
+      }
+    } catch (error) {
+      console.error('Error deleting item from cart:', error);
+    }
+  };
+  //to display on top of cart
+  // const getTotalItems = (items) =>
+  //   items.reduce((acc, item) => acc + item.amount, 0);
+
   return (
     // <>
     //   <IconButton className="fixed z-50 top-20 right-20" onClick={() => setCartOpen(true)}>
@@ -24,12 +61,8 @@ const Cart = ({ cartItems, productDetails, subtotal, lineItems }) => {
     //       <AddShoppingCart />
     //     </Badge>
     //   </IconButton>
-
-
-
     //   <div className="m-40">
     //  <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
-
 
     <div className="font-sans w-96 p-5">
 
@@ -45,7 +78,6 @@ const Cart = ({ cartItems, productDetails, subtotal, lineItems }) => {
             <div className="flex justify-between">
               <Button
                 size="small"
-
                 variant="contained"
                 style={{
                   backgroundColor: 'lightgray', // Initial background color (gray)
@@ -55,7 +87,7 @@ const Cart = ({ cartItems, productDetails, subtotal, lineItems }) => {
                     backgroundColor: 'darkgray', // Background color on hover (darker gray)
                   },
                 }}
-              // onClick={() => removeFromCart(item.id)}
+                onClick={() => deleteFromCart(item.productId)}
               >
                 -
               </Button>
@@ -131,12 +163,13 @@ export async function getServerSideProps({ req }) {
 
         const totalPerProduct = price * cartItem.qty;
 
-        console.log("LINE 75", totalPerProduct)
         productDetails.push({
+          productId: product.id,
           name: product.name,
           price: price,
           description: product.description,
           qty: cartItem.qty,
+          image: product.image,
           totalPerProduct: totalPerProduct,
         });
       }
@@ -144,12 +177,6 @@ export async function getServerSideProps({ req }) {
 
     // Calculate subtotal
     const subtotal = productDetails.reduce((acc, item) => acc + item.totalPerProduct, 0);
-
-
-
-    // console.log("LINE 80", productDetails)
-    // console.log("LINE 90", subtotal)
-
 
     for (const product of productDetails) {
       lineItems.push({
