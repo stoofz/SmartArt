@@ -9,6 +9,8 @@
 
 import { useUser } from '@auth0/nextjs-auth0/client';
 
+import { setSession, clearSession } from 'utils/session';
+
 export default function Index() {
   const { user, error, isLoading } = useUser();
 
@@ -16,10 +18,13 @@ export default function Index() {
   if (error) return <div>{error.message}</div>;
 
   if (user) {
+
+    setSession(user);
+
     return (
       <>
         <div>
-          Welcome {user.name}! <a href="/api/auth/logout">Logout</a>
+          Welcome {user.name}! <a href="/api/auth/logout" onClick={clearSession}>Logout</a>
         </div>
         {/* <button type="submit" onClick={(() => {
           checkout({
