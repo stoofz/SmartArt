@@ -8,18 +8,36 @@ import { Button, Drawer, IconButton, Badge } from "@mui/material";
 import { AddShoppingCart } from "@mui/material";
 import React, { useState } from 'react';
 import checkout from './checkout';
+import { ContactsOutlined } from '@mui/icons-material';
 
-const Cart = ({ cartItems, productDetails: defaultProducts, subtotal, lineItems }) => {
+const Cart = ({ productDetails: defaultProducts, subtotal }) => {
   const [cartOpen, setCartOpen] = useState(false);
   const [productDetails, setProductDetails] = useState(defaultProducts);
-  // Function to delete an item from the cart 
+  const [total, setTotal] = useState(subtotal);
+ 
   const userId = 3;
 
-  const deleteFromCart = async (productId) => {
+  const lineItems = productDetails.map((item) => {
    
+    return {
+        quantity: item.qty,
+        price_data: {
+          currency: "CAD",
+          product_data: {
+            name: item.name,
+            description: item.description || undefined,
+            images: item.image ? [item.image] : [],
+          },
+          unit_amount: item.price,
+        }
+    }
+  })
+  // Function to delete an item from the cart 
+ 
+  
+  const deleteFromCart = async (productId) => {
 
     try {
-
       const payload = {
         userId,
         productId,
@@ -45,7 +63,9 @@ const Cart = ({ cartItems, productDetails: defaultProducts, subtotal, lineItems 
             return list;
 
           }, [])
+
         );
+
       }
     } catch (error) {
       console.error('Error deleting item from cart:', error);
@@ -65,19 +85,27 @@ const Cart = ({ cartItems, productDetails: defaultProducts, subtotal, lineItems 
       const response = await axios.put('/api/cart', payload); // Make a PUT request
 
       if (response.status === 200) {
-        setProductDetails((prevProductDetails) =>
-         
-            prevProductDetails.map((item) => {
-              if (item.productId === productId) {
-                // Update the quantity for the matching product
-                return {
-                  ...item,
-                  qty: newQuantity,
-                };
-              }
-              return item;
-            })
-        );
+        const newProduct = productDetails.map((item) => {
+
+          if (item.productId === productId) {
+            // Update the quantity for the matching product
+            return {
+              ...item,
+              qty: newQuantity,
+            };
+          }
+          return item;
+        })
+
+        const totalPrice = newProduct.reduce((acc, item) => {
+          
+          acc += (item.qty * item.price);
+          return acc;
+        }, 0)
+       
+        setProductDetails(newProduct)
+     
+       setTotal(totalPrice)
       }
     } catch (error) {
       console.error('Error updating item quantity in cart:', error);
@@ -117,11 +145,11 @@ const Cart = ({ cartItems, productDetails: defaultProducts, subtotal, lineItems 
                 size="small"
                 variant="contained"
                 style={{
-                  backgroundColor: 'lightgray', // Initial background color (gray)
+                  backgroundColor: 'lightgray', 
                   color: 'white',
-                  transition: 'background-color 0.3s', // Add a smooth transition on hover
+                  transition: 'background-color 0.3s', 
                   '&:hover': {
-                    backgroundColor: 'darkgray', // Background color on hover (darker gray)
+                    backgroundColor: 'darkgray', 
                   },
                 }}
                 onClick={() => deleteFromCart(item.productId)}
@@ -134,11 +162,11 @@ const Cart = ({ cartItems, productDetails: defaultProducts, subtotal, lineItems 
                 // disableElevation
                 variant="contained"
                 style={{
-                  backgroundColor: 'lightgray', // Initial background color (gray)
+                  backgroundColor: 'lightgray', 
                   color: 'white',
-                  transition: 'background-color 0.3s', // Add a smooth transition on hover
+                  transition: 'background-color 0.3s', 
                   '&:hover': {
-                    backgroundColor: 'darkgray', // Background color on hover (darker gray)
+                    backgroundColor: 'darkgray', 
                   },
                 }}
                 onClick={() => updateCartItemQuantity(item.productId, item.qty + 1)}
@@ -149,11 +177,12 @@ const Cart = ({ cartItems, productDetails: defaultProducts, subtotal, lineItems 
           </div>
         </div>
       ))}
-      <h2>Total: ${(subtotal / 100).toFixed(2)}</h2>
+      <h2>Total: ${(total / 100).toFixed(2)}</h2>
       <button type="submit" onClick={(() => {
         const session = checkout({
           lineItems
-          // use window.location to redirect to session.url, which is stripe checkout
+          
+          // w.location to redirect to session.url, which is stripe checkout
         }).then(session => window.location.assign(session.url));
       })}>Checkout</button>
 
@@ -215,24 +244,7 @@ export async function getServerSideProps({ req }) {
     // Calculate subtotal
     const subtotal = productDetails.reduce((acc, item) => acc + item.totalPerProduct, 0);
 
-    for (const product of productDetails) {
-      lineItems.push({
-        quantity: product.qty,
-        price_data: {
-          currency: "CAD",
-          product_data: {
-            name: product.name,
-            description: product.description || undefined,
-            images: product.image ? [product.image] : [],
-          },
-          unit_amount: product.price,
-        }
-      });
-    }
-    const serializedLineItems = JSON.parse(JSON.stringify(lineItems));
-
-
-    return { props: { cartItems: serializedCartItems, productDetails, subtotal, lineItems: serializedLineItems } };
+    return { props: { productDetails, subtotal } };
 
   } catch (error) {
     console.error('Error fetching cart items:', error);
