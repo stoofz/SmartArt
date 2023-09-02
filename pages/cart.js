@@ -124,14 +124,13 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
   //   items.reduce((acc, item) => acc + item.amount, 0);
 
   return (
-    // <>
+   
     //   <IconButton className="fixed z-50 top-20 right-20" onClick={() => setCartOpen(true)}>
     //     <Badge badgeContent={getTotalItems(cartItems)} color="error">
     //       <AddShoppingCart />
     //     </Badge>
     //   </IconButton>
-    //   <div className="m-40">
-    //  <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
+    // 
     <Container className="px-32 flex flex-col pt-32">
       <Typography variant="h4" gutterBottom>
         Your Shopping Cart
@@ -141,7 +140,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
       ) : (
         <div style={{ width: '80%' }}>
           {productDetails.map((item, index) => (
-            // <div className="cart-item" key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+          
 
             <div key={index} className={`${true ? "flex" : ""} items-center border-b pb-5 pt-5`}
               style={{borderColor: 'lightblue'}}>
@@ -216,71 +215,6 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
       </Button>
       </div>
     </Container>
-
-    // <div className="font-sans w-96 p-5">
-    //   <AddShoppingCartIcon/>
-    //   <h2>Your Cart</h2>
-    //   {productDetails.map((item, index) => (
-    //     <div key={index} className="flex justify-between font-sans border-b border-lightblue pb-5">
-    //       <div>
-    //         <h3>{item.name}</h3>
-    //         <div className="flex justify-between">
-    //           <p>Price: ${(item.price / 100).toFixed(2)}</p>
-    //           <p>Total: ${(item.qty * item.price / 100).toFixed(2)}</p>
-    //         </div>
-    //         <div className="flex justify-between">
-    //           <Button
-    //             size="small"
-    //             variant="contained"
-    //             style={{
-    //               backgroundColor: 'lightgray', 
-    //               color: 'white',
-    //               transition: 'background-color 0.3s', 
-    //               '&:hover': {
-    //                 backgroundColor: 'darkgray', 
-    //               },
-    //             }}
-    //             onClick={() => deleteFromCart(item.productId)}
-    //           >
-    //             -
-    //           </Button>
-    //           <p>{item.qty}</p>
-    //           <Button
-    //             size="small"
-    //             // disableElevation
-    //             variant="contained"
-    //             style={{
-    //               backgroundColor: 'lightgray', 
-    //               color: 'white',
-    //               transition: 'background-color 0.3s', 
-    //               '&:hover': {
-    //                 backgroundColor: 'darkgray', 
-    //               },
-    //             }}
-    //             onClick={() => updateCartItemQuantity(item.productId, item.qty + 1)}
-    //           >
-    //             +
-    //           </Button>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   ))}
-    //   <h2>Total: ${(total / 100).toFixed(2)}</h2>  
-
-      // <button type="submit" onClick={(() => {
-      //   const session = checkout({
-      //     lineItems
-          
-      //     // w.location to redirect to session.url, which is stripe checkout
-      //   }).then(session => window.location.assign(session.url));
-      // })}>Checkout</button>
-
-    // </div>
-
-
-    // </Drawer>
-    //   </div>
-    // </>
   )
 }
 
