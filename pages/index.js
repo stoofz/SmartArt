@@ -10,6 +10,7 @@
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 import { setSession, clearSession } from 'utils/session';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 export default function Index() {
   const { user, error, isLoading } = useUser();
@@ -25,6 +26,7 @@ export default function Index() {
       <>
         <div>
           Welcome {user.name}! <a href="/api/auth/logout" onClick={clearSession}>Logout</a>
+          <AddShoppingCartIcon />
         </div>
         {/* <button type="submit" onClick={(() => {
           checkout({

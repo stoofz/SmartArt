@@ -5,13 +5,14 @@ import axios from 'axios';
 import Link from 'next/link';
 import prisma from 'utils/prisma';
 import { Button, Drawer, IconButton, Badge } from "@mui/material";
-import { AddShoppingCart } from "@mui/material";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import React, { useState } from 'react';
 import checkout from './checkout';
-import { ContactsOutlined } from '@mui/icons-material';
+
+import { Typography, Container, Grid } from '@mui/material';
 
 const Cart = ({ productDetails: defaultProducts, subtotal }) => {
-  const [cartOpen, setCartOpen] = useState(false);
+  
   const [productDetails, setProductDetails] = useState(defaultProducts);
   const [total, setTotal] = useState(subtotal);
  
@@ -131,65 +132,150 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
     //   </IconButton>
     //   <div className="m-40">
     //  <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
+    <Container className="px-32 flex flex-col pt-32">
+      <Typography variant="h4" gutterBottom>
+        Your Shopping Cart
+      </Typography>
+      {productDetails.length === 0 ? (
+        <Typography variant="body1">Your cart is empty.</Typography>
+      ) : (
+        <div style={{ width: '80%' }}>
+          {productDetails.map((item, index) => (
+            // <div className="cart-item" key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
 
-    <div className="font-sans w-96 p-5">
+            <div key={index} className={`${true ? "flex" : ""} items-center border-b pb-5 pt-5`}
+              style={{borderColor: 'lightblue'}}>
 
-      <h2>Your Cart</h2>
-      {productDetails.map((item, index) => (
-        <div key={index} className="flex justify-between font-sans border-b border-lightblue pb-5">
-          <div>
-            <h3>{item.name}</h3>
-            <div className="flex justify-between">
-              <p>Price: ${(item.price / 100).toFixed(2)}</p>
-              <p>Total: ${(item.qty * item.price / 100).toFixed(2)}</p>
+              <img className="w-[109px] h-[134px] " src="https://via.placeholder.com/109x134" />
+              <div className="cart-item-details flex-grow" style={{ marginLeft: '20px' }}>
+                <Typography variant="h6" className="flex-grow-0 flex-shrink-0">{item.name}</Typography>
+
+                <div className="flex justify-between w-1/2 pt-5">
+                  <Typography variant="body2">Price: ${(item.price / 100).toFixed(2)}</Typography>
+                  <Typography variant="body2">Total: ${(item.qty * item.price / 100).toFixed(2)}</Typography>
+                </div>
+            
+
+                <div className="flex justify-between w-1/2 pt-5 ">
+                  <Button
+                    size="small"
+                    variant="contained"
+                    style={{
+                      backgroundColor: 'lightgray',
+                      color: 'white',
+                      transition: 'background-color 0.3s',
+                      '&:hover': {
+                        backgroundColor: 'darkgray',
+                      },
+                    }}
+                    onClick={() => deleteFromCart(item.productId)}
+                  >
+                    -
+                  </Button>
+                  <p>{item.qty}</p>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    style={{
+                      backgroundColor: 'lightgray',
+                      color: 'white',
+                      transition: 'background-color 0.3s',
+                      '&:hover': {
+                        backgroundColor: 'darkgray',
+                      },
+                    }}
+                    onClick={() => updateCartItemQuantity(item.productId, item.qty + 1)}
+                  >
+                    +
+                  </Button>
+                </div>
+              </div>
             </div>
-            <div className="flex justify-between">
-              <Button
-                size="small"
-                variant="contained"
-                style={{
-                  backgroundColor: 'lightgray', 
-                  color: 'white',
-                  transition: 'background-color 0.3s', 
-                  '&:hover': {
-                    backgroundColor: 'darkgray', 
-                  },
-                }}
-                onClick={() => deleteFromCart(item.productId)}
-              >
-                -
-              </Button>
-              <p>{item.qty}</p>
-              <Button
-                size="small"
-                // disableElevation
-                variant="contained"
-                style={{
-                  backgroundColor: 'lightgray', 
-                  color: 'white',
-                  transition: 'background-color 0.3s', 
-                  '&:hover': {
-                    backgroundColor: 'darkgray', 
-                  },
-                }}
-                onClick={() => updateCartItemQuantity(item.productId, item.qty + 1)}
-              >
-                +
-              </Button>
-            </div>
-          </div>
+          ))}
         </div>
-      ))}
-      <h2>Total: ${(total / 100).toFixed(2)}</h2>
-      <button type="submit" onClick={(() => {
+      )}
+      <div className="cart-total">
+        <Typography variant="h6">Total: ${(total / 100).toFixed(2)}</Typography>
+      </div>
+      <div className="inline-block pb-20">
+      <Button size="small"
+      variant="contained"
+      style={{
+        backgroundColor: 'lightblue',
+        color: 'white',
+        transition: 'background-color 0.3s',
+        '&:hover': {
+          backgroundColor: 'blue',
+        },
+      }} 
+      type="submit" onClick={(() => {
         const session = checkout({
           lineItems
-          
-          // w.location to redirect to session.url, which is stripe checkout
         }).then(session => window.location.assign(session.url));
-      })}>Checkout</button>
+      })}>Checkout
+      </Button>
+      </div>
+    </Container>
 
-    </div>
+    // <div className="font-sans w-96 p-5">
+    //   <AddShoppingCartIcon/>
+    //   <h2>Your Cart</h2>
+    //   {productDetails.map((item, index) => (
+    //     <div key={index} className="flex justify-between font-sans border-b border-lightblue pb-5">
+    //       <div>
+    //         <h3>{item.name}</h3>
+    //         <div className="flex justify-between">
+    //           <p>Price: ${(item.price / 100).toFixed(2)}</p>
+    //           <p>Total: ${(item.qty * item.price / 100).toFixed(2)}</p>
+    //         </div>
+    //         <div className="flex justify-between">
+    //           <Button
+    //             size="small"
+    //             variant="contained"
+    //             style={{
+    //               backgroundColor: 'lightgray', 
+    //               color: 'white',
+    //               transition: 'background-color 0.3s', 
+    //               '&:hover': {
+    //                 backgroundColor: 'darkgray', 
+    //               },
+    //             }}
+    //             onClick={() => deleteFromCart(item.productId)}
+    //           >
+    //             -
+    //           </Button>
+    //           <p>{item.qty}</p>
+    //           <Button
+    //             size="small"
+    //             // disableElevation
+    //             variant="contained"
+    //             style={{
+    //               backgroundColor: 'lightgray', 
+    //               color: 'white',
+    //               transition: 'background-color 0.3s', 
+    //               '&:hover': {
+    //                 backgroundColor: 'darkgray', 
+    //               },
+    //             }}
+    //             onClick={() => updateCartItemQuantity(item.productId, item.qty + 1)}
+    //           >
+    //             +
+    //           </Button>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   ))}
+    //   <h2>Total: ${(total / 100).toFixed(2)}</h2>  
+
+      // <button type="submit" onClick={(() => {
+      //   const session = checkout({
+      //     lineItems
+          
+      //     // w.location to redirect to session.url, which is stripe checkout
+      //   }).then(session => window.location.assign(session.url));
+      // })}>Checkout</button>
+
+    // </div>
 
 
     // </Drawer>
