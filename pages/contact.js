@@ -1,4 +1,6 @@
 import React, { useRef } from 'react';
+import { TextField, Button } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 import emailjs from '@emailjs/browser';
 
 
@@ -20,13 +22,18 @@ const ContactUs = () => {
 
   return (
     <div>
-      <h1>Contact Us</h1>
       <form ref={form} onSubmit={sendEmail}>
-        <input type="text" name="from_name" placeholder="Name" required="required" />
-        <input type="email" name="from_email" placeholder="Email" required="required" /><br />
-        <input type="text" name="subject" placeholder="Subject" required="required" /><br />
-        <textarea name="message" placeholder="Message" required="required" rows="4" /><br />
-        <input type="submit" value="Send" />
+        <h1>Contact Us</h1>
+        <br />
+        <div>
+          <TextField id="outlined-basic" label="Name" variant="outlined" size="small" type="text" name="from_name" required="required" />
+          <TextField id="outlined-basic" label="Email" variant="outlined" size="small" type="email" name="from_email" required="required" />
+        </div>
+        <TextField id="outlined-basic" label="Subject" variant="outlined" size="small" type="text" name="subject" required="required" />
+        <br />
+        <TextField id="outlined-basic" label="Message" variant="outlined" size="small" type="text" name="message" required="required" />
+        <br />
+        <Button variant="outlined" endIcon={<SendIcon />} type="submit">Send</Button>
       </form>
     </div>
   );

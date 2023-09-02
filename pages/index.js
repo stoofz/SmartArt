@@ -12,6 +12,8 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { setSession, clearSession } from 'utils/session';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
+import Footer from '../components/Footer';
+
 export default function Index() {
   const { user, error, isLoading } = useUser();
 
@@ -38,6 +40,7 @@ export default function Index() {
             ]
           })
         })}>Checkout</button> */}
+        <Footer />
       </>
     );
   }
