@@ -8,6 +8,7 @@
 // const inter = Inter({ subsets: ['latin'] })
 
 import { useUser } from '@auth0/nextjs-auth0/client';
+import React, { useEffect } from 'react';
 
 import { setSession, clearSession } from 'utils/session';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
