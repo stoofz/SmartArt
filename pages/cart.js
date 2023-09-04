@@ -7,30 +7,30 @@ import prisma from 'utils/prisma';
 import { Button, Drawer, IconButton, Badge } from "@mui/material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import React, { useState } from 'react';
-import checkout from './checkout';
+import checkout from './api/checkout';
 
 import { Typography, Container, Grid } from '@mui/material';
 
 const Cart = ({ productDetails: defaultProducts, subtotal }) => {
-  
+
   const [productDetails, setProductDetails] = useState(defaultProducts);
   const [total, setTotal] = useState(subtotal);
- 
+
   const userId = 3;
 
   const lineItems = productDetails.map((item) => {
-   
+
     return {
-        quantity: item.qty,
-        price_data: {
-          currency: "CAD",
-          product_data: {
-            name: item.name,
-            description: item.description || undefined,
-            images: item.image ? [item.image] : [],
-          },
-          unit_amount: item.price,
-        }
+      quantity: item.qty,
+      price_data: {
+        currency: "CAD",
+        product_data: {
+          name: item.name,
+          description: item.description || undefined,
+          images: item.image ? [item.image] : [],
+        },
+        unit_amount: item.price,
+      }
     }
   })
   // Function to delete an item from the cart 
@@ -38,7 +38,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
     acc += item.qty * item.price;
     return acc;
   }, 0);
-  
+
   const deleteFromCart = async (productId) => {
 
     try {
@@ -51,22 +51,22 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
 
       if (response.status === 200) {
         //  update the cart items state, new product details
-        
+
         const newProductDetails = productDetails.reduce((list, item) => {
-            if (item.productId !== productId) {
-              list.push(item);
-              return list;
-            }
-
-            if (item.qty === 1) {
-              return list;
-            }
-
-            item.qty--;
+          if (item.productId !== productId) {
             list.push(item);
             return list;
+          }
 
-          }, [])
+          if (item.qty === 1) {
+            return list;
+          }
+
+          item.qty--;
+          list.push(item);
+          return list;
+
+        }, [])
 
         const totalPrice = calculateTotalPrice(newProductDetails)
 
@@ -106,10 +106,10 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
         })
 
         const totalPrice = calculateTotalPrice(newProductDetails)
-       
+
         setProductDetails(newProductDetails)
-     
-       setTotal(totalPrice)
+
+        setTotal(totalPrice)
       }
     } catch (error) {
       console.error('Error updating item quantity in cart:', error);
@@ -117,8 +117,6 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
   };
 
 
-
-  
   //to display on top of cart
   // const getTotalItems = (items) =>
   //   items.reduce((acc, item) => acc + item.amount, 0);
@@ -144,7 +142,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
             // <div className="cart-item" key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
 
             <div key={index} className={`${true ? "flex" : ""} items-center border-b pb-5 pt-5`}
-              style={{borderColor: 'lightblue'}}>
+              style={{ borderColor: 'lightblue' }}>
 
               <img className="w-[109px] h-[134px] " src="https://via.placeholder.com/109x134" />
               <div className="cart-item-details flex-grow" style={{ marginLeft: '20px' }}>
@@ -154,7 +152,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
                   <Typography variant="body2">Price: ${(item.price / 100).toFixed(2)}</Typography>
                   <Typography variant="body2">Total: ${(item.qty * item.price / 100).toFixed(2)}</Typography>
                 </div>
-            
+
 
                 <div className="flex justify-between w-1/2 pt-5 ">
                   <Button
@@ -198,22 +196,22 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
         <Typography variant="h6">Total: ${(total / 100).toFixed(2)}</Typography>
       </div>
       <div className="inline-block pb-20">
-      <Button size="small"
-      variant="contained"
-      style={{
-        backgroundColor: 'lightblue',
-        color: 'white',
-        transition: 'background-color 0.3s',
-        '&:hover': {
-          backgroundColor: 'blue',
-        },
-      }} 
-      type="submit" onClick={(() => {
-        const session = checkout({
-          lineItems
-        }).then(session => window.location.assign(session.url));
-      })}>Checkout
-      </Button>
+        <Button size="small"
+          variant="contained"
+          style={{
+            backgroundColor: 'lightblue',
+            color: 'white',
+            transition: 'background-color 0.3s',
+            '&:hover': {
+              backgroundColor: 'blue',
+            },
+          }}
+          type="submit" onClick={(() => {
+            const session = checkout({
+              lineItems
+            }).then(session => window.location.assign(session.url))
+          })}>Checkout
+        </Button>
       </div>
     </Container>
 
@@ -267,13 +265,13 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
     //   ))}
     //   <h2>Total: ${(total / 100).toFixed(2)}</h2>  
 
-      // <button type="submit" onClick={(() => {
-      //   const session = checkout({
-      //     lineItems
-          
-      //     // w.location to redirect to session.url, which is stripe checkout
-      //   }).then(session => window.location.assign(session.url));
-      // })}>Checkout</button>
+    // <button type="submit" onClick={(() => {
+    //   const session = checkout({
+    //     lineItems
+
+    //     // w.location to redirect to session.url, which is stripe checkout
+    //   }).then(session => window.location.assign(session.url));
+    // })}>Checkout</button>
 
     // </div>
 
