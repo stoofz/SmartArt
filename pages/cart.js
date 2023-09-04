@@ -9,7 +9,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import React, { useState } from 'react';
 import checkout from './checkout';
 
-import { Typography, Container, Grid } from '@mui/material';
+import { Typography, Container } from '@mui/material';
 
 const Cart = ({ productDetails: defaultProducts, subtotal }) => {
   
