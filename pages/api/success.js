@@ -57,66 +57,83 @@ export default async function handler(req, res) {
 
 
 
-      // Function to create an order and order details
       const createOrderAndDetails = async (cartItems, userId, totalPriceFromSession, stripeChargeId) => {
-        const client = await prisma.$connect(); // Connect to the database
-
+       
         try {
-          await client.$transaction(async (tx) => {
-            // Create the order within the transaction
-            const createdOrder = await tx.order.create({
-              data: {
-                customerId: userId,
-                orderDate: new Date(),
-                totalPrice: totalPriceFromSession,
-                orderStatus: "Completed",
-               
+
+            // Create the payment associated with the order
+          const payment = await prisma.payment.create({
+            data: {
+              customer: {
+                connect: {
+                  id: parseInt(userId),
+                }
               },
-            });
-
-            // Create order details for each cart item within the transaction
-            const orderDetails = await Promise.all(
-              cartItems.map(async (cartItem) => {
-                const createdOrderItem = await tx.orderItem.create({
-                  data: {
-                    orderId: createdOrder.id,
-                    productId: cartItem.productId,
-                    qty: cartItem.qty,
-                    price: cartItem.product.price,
-                  },
-                });
-
-                return createdOrderItem;
-              })
-            );
-
-            // Create the payment associated with the order within the transaction
-            const payment = await tx.payment.create({
-              data: {
-                customerId: userId,
-                date: new Date(),
-                totalPrice: totalPriceFromSession, // Use the total price from the session
-                stripeChargeId: stripeChargeId, 
-                orders: {
-                  connect: { id: createdOrder.id }, // Connect the payment to the order
-                },
-              },
-            });
-
-            return { order: createdOrder, orderDetails: orderDetails, payment: payment };
+              date: new Date(),
+              totalPrice: totalPriceFromSession,
+              stripeChargeId: stripeChargeId,
+              // orders: {
+              //   connect: { id: createdOrder.id },
+              // },
+            },
           });
+
+          // Create the order
+          const createdOrder = await prisma.order.create({
+            data: {
+              customer:{
+                connect:{
+                  id: parseInt(userId),
+                } 
+              } ,
+              
+              payment: {
+                connect: {
+                  id: parseInt(payment.id),
+                }
+              },
+              orderDate: new Date(),
+              totalPrice: totalPriceFromSession,
+              orderStatus: "Completed",
+            },
+          });
+
+       
+          // Create order details for each cart item
+          const orderDetails = await Promise.all(
+            cartItems.map(async (cartItem) => {
+              const createdOrderItem = await prisma.orderItem.create({
+                data: {
+                  orderId: createdOrder.id,
+                  productId: cartItem.productId,
+                  qty: cartItem.qty,
+                  price: cartItem.product.price,
+                },
+              });
+
+              return createdOrderItem;
+            })
+          );
+
+        
+
+          return {
+             order: createdOrder,
+             orderDetails: orderDetails,
+             payment: payment 
+            };
         } catch (error) {
           console.error('Error creating order, order details, and payment:', error);
           throw error;
         } finally {
-          await prisma.$disconnect(); // Disconnect from the database
+          await prisma.$disconnect(); 
         }
       };
 
+      const { order, orderDetails, payment } = await createOrderAndDetails(cartItems, userId, orderDetailsSession.totalPrice, stripeChargeId);
+      // console.log("LINE orderDetailsSession.totalPrice", orderDetailsSession.totalPrice);
+      console.log(" payment", payment)
 
-      const { order, orderDetails } = await createOrderAndDetails(cartItems, userId, orderDetailsSession.totalPrice, stripeChargeId);
-
-      console.log("order, orderDetails", order, orderDetails)
       res.status(200).json(orderDetailsSession);
     } catch (error) {
       console.error('Error fetching or saving order details', error);
