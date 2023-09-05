@@ -4,7 +4,7 @@
 import axios from 'axios';
 import Link from 'next/link';
 import prisma from 'utils/prisma';
-import { Button, IconButton, Badge } from "@mui/material";
+import { Button, Drawer, IconButton, Badge } from "@mui/material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import React, { useState } from 'react';
 import checkout from './api/checkout';
@@ -33,6 +33,8 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
       }
     }
   })
+
+
   // Function to delete an item from the cart 
   const calculateTotalPrice = (products) => products.reduce((acc, item) => {
     acc += item.qty * item.price;
@@ -73,7 +75,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
         setProductDetails(newProductDetails);
 
         setTotal(totalPrice)
-
+        // localStorage.setItem('lineItems', JSON.stringify(lineItems));
       }
     } catch (error) {
       console.error('Error deleting item from cart:', error);
@@ -110,6 +112,8 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
         setProductDetails(newProductDetails)
 
         setTotal(totalPrice)
+
+        // localStorage.setItem('lineItems', JSON.stringify(lineItems));
       }
     } catch (error) {
       console.error('Error updating item quantity in cart:', error);
