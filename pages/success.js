@@ -1,6 +1,8 @@
 import axios from 'axios';
+
 // import prisma from 'utils/prisma';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Stripe } from 'stripe';
 
@@ -13,8 +15,8 @@ const Success = () => {
   const router = useRouter();
   const { session_id } = router.query;
   const [orderDetails, setOrderDetails] = useState(null);
-const userId = 3;
-
+  const userId = 3; 
+  console.log("orderDetails", orderDetails)
   useEffect(() => {
     if (session_id) {
       // Fetch order details based on the session ID
@@ -23,7 +25,7 @@ const userId = 3;
           const response = await axios.get(`/api/success?session_id=${session_id}&userId=${userId}`);
           if (response.status === 200) {
             setOrderDetails(response.data);
-            console.log("response.data", response.data)
+            
           }
         } catch (error) {
           console.error('Error fetching order details', error);
@@ -42,9 +44,9 @@ const userId = 3;
       </div>
     );
   }
-
+  console.log("orderDetails.order.id", orderDetails.order.id)
   // Check if payment was successful
-  const paymentSuccessful = orderDetails.paymentStatus === 'paid';
+  const paymentSuccessful = orderDetails.orderDetailsSession.paymentStatus === 'paid';
 
   return (
     <div className="container mx-auto mt-8">
@@ -54,29 +56,58 @@ const userId = 3;
 
           <Card className="p-4 border border-gray-300 rounded shadow-md">
             <p className="mb-4">
-              Your Order # <strong>{orderDetails.orderNumber}</strong>
+              Your Order # <strong>{orderDetails.orderDetailsSession.orderNumber}</strong>
             </p>
             <p>
-              Total Price: <strong>{orderDetails.totalPrice} CAD</strong>
+              Total Price: <strong>{orderDetails.orderDetailsSession.totalPrice} CAD</strong>
             </p>
             <p>
-              Customer Name: <strong>{orderDetails.customerName}</strong>
+              Customer Name: <strong>{orderDetails.orderDetailsSession.customerName}</strong>
             </p>
             <p>
-              Customer Email: <strong>{orderDetails.customerEmail}</strong>
+              Customer Email: <strong>{orderDetails.orderDetailsSession.customerEmail}</strong>
             </p>
             <p>
-              Payment Method: <strong>{orderDetails.paymentMethod}</strong>
+              Payment Method: <strong>{orderDetails.orderDetailsSession.paymentMethod}</strong>
             </p>
             <p>
-              Payment Status: <strong>{orderDetails.paymentStatus}</strong>
+              Payment Status: <strong>{orderDetails.orderDetailsSession.paymentStatus}</strong>
             </p>
+
+            <div className="mt-4">
+
+              <Link href={`/orders/${orderDetails.order.id}`}>
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                >
+                  View Order
+                </button>
+              </Link>
+
+
+              
+            </div>
           </Card>
         </>
       ) : (
+        <>
         <div className="text-red-500 text-2xl">
           Payment Unsuccessful. Please try again later.
         </div>
+        
+          <div className="mt-4">
+              <button
+                onClick={() => {
+                
+                  router.push('/cart');  // Redirect to cart page
+                }}
+                className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2"
+              >
+                Retry Payment
+              </button>
+              </div>
+          </>
+
       )}
     </div>
   );
