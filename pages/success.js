@@ -9,43 +9,18 @@ const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
 
 // import { useSearchParams } from 'next/navigation';
 
-
 const Success = () => {
   const router = useRouter();
   const { session_id } = router.query;
-  // console.log("LINE session_id:", router.query);
   const [orderDetails, setOrderDetails] = useState(null);
-
-  // const lineItems = JSON.parse(localStorage.getItem('lineItems'));
-  // const handleSuccessfulPayment = async (customerId, totalPrice, stripeChargeId) => {
-  //   try {
-  //     const response = await axios.post('/api/createOrder', {
-  //       customerId,
-  //       totalPrice,
-  //       stripeChargeId,
-  //     });
-
-  //     if (response.status === 201) {
-  //       // Handle success, e.g., show a success message
-  //       console.log('Order and payment created:', response.data);
-  //     } else {
-  //       // Handle server error
-  //       console.error('Server error:', response.statusText);
-  //     }
-  //   } catch (error) {
-  //     // Handle network or other errors
-  //     console.error('Error:', error);
-  //   }
-  // };
-
-
+const userId = 3;
 
   useEffect(() => {
     if (session_id) {
       // Fetch order details based on the session ID
       const fetchOrderDetails = async () => {
         try {
-          const response = await axios.get(`/api/success?session_id=${session_id}`);
+          const response = await axios.get(`/api/success?session_id=${session_id}&userId=${userId}`);
           if (response.status === 200) {
             setOrderDetails(response.data);
             console.log("response.data", response.data)
