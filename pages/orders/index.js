@@ -5,10 +5,6 @@ import { Typography, Container } from '@mui/material';
 
 const OrdersHistoryList = ({ userOrders }) => {
 
-  console.log("OREDER ITEMS", userOrders);
-
- 
-
   return (
     <Container className="px-32 flex flex-col pt-32">
       <Typography variant="h4" gutterBottom>
@@ -81,7 +77,7 @@ export async function getServerSideProps(context) {
   // }
 
   // const userId = session.user.id;
-  const userId = 2;
+  const userId = 3;
 
   try {
     // Fetch user-specific orders from Prisma

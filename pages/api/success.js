@@ -1,5 +1,5 @@
 import { Stripe } from 'stripe';
-import prisma from "../../utils/prisma";
+
 import { createOrderAndDetails, fetchCartItems } from 'utils/db';
 
 const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     try {
       // Retrieve payment-related information from Stripe using the session_id
       const session = await stripe.checkout.sessions.retrieve(session_id.toString());
-      //  console.log("LINE session.metadata", session.metadata);
+     
       const stripeChargeId = session.payment_intent;
       // extract the cartId from the session metadata//Convert string to integer
       const cartId = parseInt(session.metadata.cartId, 10);
@@ -54,47 +54,3 @@ export default async function handler(req, res) {
   }
 }
 
-
-
-
-
-
-// // Fetch cart items based on cartId
-// const cartItems = await fetchCartItems(cartId);
-
-// // Create order and order details
-// const { order, orderDetails } = await createOrderAndDetails(cartItems, customerId);
-
-// // Respond with the created order and order details
-// res.status(201).json({
-//   message: 'Order created successfully',
-//   order: order,
-//   orderDetails: orderDetails,
-// });
-
-
-
-
-
-
-
-
-// export default async function handler(req, res) {
-
-//   console.log(req.body)
-//   //GET lineItems ---not working as expected
-//   if (req.method === "GET") {
-//     try {
-//       await stripe.checkout.sessions.retrieve(
-//         params,
-//         {
-//           expand: ['line_items']
-//         });
-//       res.status(200).json({ message: 'Checkout Session Returned' });
-//     }
-//     catch (error) {
-//       console.error('Error retrieving session', error);
-//       res.status(500).json({ error: 'An error occurred while completing your order' });
-//     }
-//   }
-// }

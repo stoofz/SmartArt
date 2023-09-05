@@ -148,7 +148,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
     //       <AddShoppingCart />
     //     </Badge>
     //   </IconButton>
-    //   <div className="m-40">
+    
    
     <Container className="px-32 flex flex-col pt-32">
       <Typography variant="h4" gutterBottom>
@@ -252,7 +252,7 @@ export async function getServerSideProps({ req }) {
     const cartItems = userCart ? userCart.cartItems : [];
     const serializedCartItems = JSON.parse(JSON.stringify(cartItems));
     const productDetails = [];
-    const lineItems = [];
+    
 
     for (const cartItem of serializedCartItems) {
       const product = await prisma.product.findUnique({
