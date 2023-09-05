@@ -173,7 +173,12 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
 
                 <div className="flex justify-between w-1/2 pt-5">
 
-                  <Typography variant="body2">Price: {(item.price / 100).toFixed(2)}</Typography>
+                <Typography variant="body2">
+                      {item.price !== item.originalPrice ? (
+                        <span>
+                          <span style={{ textDecoration: 'line-through', color: 'red' }}> ${(item.originalPrice / 100).toFixed(2)} </span> {' '} ${(item.price / 100).toFixed(2)}
+                        </span>) : (`$${(item.price / 100).toFixed(2)}`)}
+                  </Typography>
 
                   <Typography variant="body2">Total: ${(item.qty * item.price / 100).toFixed(2)}</Typography>
                 </div>
@@ -273,14 +278,14 @@ export async function getServerSideProps({ req }) {
       if (product) {
         // Convert price to a plain number
         const price = Number(await applyDiscountToProduct(product.id, product.price))
-      //  const originalPrice = Number(product.price);
+        const originalPrice = Number(product.price);
 
         const totalPerProduct = price * cartItem.qty;
 
         productDetails.push({
           productId: product.id,
           name: product.name,
-        //  originalPrice: originalPrice,
+          originalPrice: originalPrice,
           price: price,
           description: product.description,
           qty: cartItem.qty,
