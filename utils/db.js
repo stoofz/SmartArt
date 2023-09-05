@@ -14,7 +14,7 @@ const createUser = async(cust) => {
       const customer = await stripe.customers.create({
         email: cust.email,
       });
-      console.log(customer);
+      //console.log(customer);
       await prisma.customer.create({
         data: {
           email: cust.email,
@@ -187,4 +187,37 @@ const updateCartApi = async (userId, productId, quantity) => {
   }
 }
 
-export { createUser, addToCartApi, deteteFromCartApi, updateCartApi };
+
+const applyDiscount = async (product_id, product_price) => {
+  const discount = await prisma.discount.findFirst({
+    where: {
+      productId: product_id,
+    },
+  });
+
+  await prisma.$disconnect();
+  
+  // Check if discount exists,
+  if (discount) {
+
+    const today = new Date();
+    const startDate = new Date(discount.startDate);
+    const endDate = new Date(discount.endDate);
+    const discountValid = today >= startDate && today <= endDate;
+
+    // Calculate discounted price by percentage off
+    const discountedPrice = product_price - (product_price * (discount.discount / 100))
+
+    // If discount is within valid date range, return discounted price
+    if (discountValid) {
+      return discountedPrice;
+    } else {
+      return product_price;
+    }
+
+  } else {
+    return product_price;
+  }
+};
+
+export { createUser, addToCartApi, deteteFromCartApi, updateCartApi, applyDiscount };

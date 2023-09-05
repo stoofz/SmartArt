@@ -11,6 +11,28 @@ import checkout from './api/checkout';
 
 import { Typography, Container } from '@mui/material';
 
+
+const applyDiscountToProduct = async (productId, productPrice) => {
+
+  try {
+    const payload = {
+      productId,
+      productPrice,
+    };
+  
+    // only a full path works with a port oher than 80 such as 3000, goes to 127.0.0.1:80 by default
+    const response = await axios.post('http://127.0.0.1:3000/api/applyDiscount', payload);
+    
+    if (response.status === 200) {
+      const data = await response.data;
+      return data.discountedPrice;
+    }
+  } catch (error) {
+    console.error('Error applying discount:', error);
+  }
+};
+
+
 const Cart = ({ productDetails: defaultProducts, subtotal }) => {
 
   const [productDetails, setProductDetails] = useState(defaultProducts);
@@ -29,6 +51,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
           description: item.description || undefined,
           images: item.image ? [item.image] : [],
         },
+        original_unit_amount: item.originalPrice,
         unit_amount: item.price,
       }
     }
@@ -149,7 +172,12 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
                 <Typography variant="h6" className="flex-grow-0 flex-shrink-0">{item.name}</Typography>
 
                 <div className="flex justify-between w-1/2 pt-5">
-                  <Typography variant="body2">Price: ${(item.price / 100).toFixed(2)}</Typography>
+                  <Typography variant="body2">
+                      {item.price !== item.originalPrice ? (
+                        <span>
+                          <span style={{ textDecoration: 'line-through', color: 'red' }}> ${(item.originalPrice / 100).toFixed(2)} </span> {' '} ${(item.price / 100).toFixed(2)}
+                        </span>) : (`$${(item.price / 100).toFixed(2)}`)}
+                  </Typography>
                   <Typography variant="body2">Total: ${(item.qty * item.price / 100).toFixed(2)}</Typography>
                 </div>
 
@@ -247,13 +275,15 @@ export async function getServerSideProps({ req }) {
 
       if (product) {
         // Convert price to a plain number
-        const price = Number(product.price);
+        const price = Number(await applyDiscountToProduct(product.id, product.price))
+        const originalPrice = Number(product.price);
 
         const totalPerProduct = price * cartItem.qty;
 
         productDetails.push({
           productId: product.id,
           name: product.name,
+          originalPrice: originalPrice,
           price: price,
           description: product.description,
           qty: cartItem.qty,
