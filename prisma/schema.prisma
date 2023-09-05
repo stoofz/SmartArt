@@ -72,6 +72,7 @@ model Order {
   paymentId Int
   orderDate DateTime
   totalPrice Decimal
+  orderStatus String?
   orderItem OrderItem[]
   @@map("orders")
 }
