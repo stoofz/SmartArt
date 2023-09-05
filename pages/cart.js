@@ -52,7 +52,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
           images: item.image ? [item.image] : [],
         },
        // original_unit_amount: item.originalPrice,
-        unit_amount: item.price,
+       unit_amount: parseInt(item.price),
       }
     }
   })
