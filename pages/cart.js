@@ -10,6 +10,7 @@ import React, { useState } from 'react';
 import checkout from './api/checkout';
 
 import { Typography, Container } from '@mui/material';
+import { useSessionId } from 'utils/session';
 
 
 const applyDiscountToProduct = async (productId, productPrice) => {
@@ -38,7 +39,9 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
   const [productDetails, setProductDetails] = useState(defaultProducts);
   const [total, setTotal] = useState(subtotal);
 
-  const userId = 3;
+  const userId = useSessionId();
+  //console.log('userId from cookie:', userId);
+  //const userId = 3;
 
   const lineItems = productDetails.map((item) => {
     return {
@@ -265,8 +268,14 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
 
 export async function getServerSideProps({ req }) {
   // Get the user ID from auth.
-  // const userId = req.user.id; 
-  const userId = 3;
+  // const userId = req.user.id;
+
+  const sessionId = req.cookies.sessionId || null;
+  const userId = parseInt(sessionId);
+  //console.log('sessionID from cookie:', sessionId);
+
+  //const userId = 3;
+
 
   try {
     // Query the database to find the user's cart.
