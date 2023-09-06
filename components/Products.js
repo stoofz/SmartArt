@@ -10,38 +10,22 @@ import Link from '@mui/material/Link';
 import NextLink from 'next/link';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import CloseIcon from '@mui/icons-material/Close';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import Modal from '@mui/material/Modal';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import Dialog from '@mui/material/Dialog';
+import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
-
-{/* <div>
-<h1>Orders</h1>
-<ul>
-  {orders.map((order) => (
-    <li key={order.id}>
-      {order.id} - {' '}
-      <button onClick={() => handleOrderViewOpen(order)}>View</button>
-    </li>
-  ))}
-</ul> */}
-// const dayListItems = () => (props.days.map((day) => 
-// <DayListItem
-//   key={day.id}
-//   name={day.name}
-//   spots={day.spots} 
-//   selected={props.value === day.name}
-//   setDay={() => props.onChange(day.name)}
-// />
-// ))
-// return (
-//   <ul>{dayListItems()}</ul>
-// );
+import Backdrop from '@mui/material/Backdrop';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 
 
 const Products = () => {
   const [products, setProducts] = useState([]);
-  const [selectProduct, setSelectProduct] = useState(null);
+  const [open, setOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const [value, setValue] = useState(2.5);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -57,68 +41,177 @@ const Products = () => {
     getProducts();
   }, []);
 
-  //fill in HeartIcon on click and add to/remove from Wishlist
-  const addToWishlist = () => {
-    if(!clicked) {
-    setClicked(true);
-    //logic to add to wishlist
+  //add logic to add to wishlist
+  const handleHeartClick = (productId) => {
+    if (clicked === productId) {
+      setClicked(false)
     } else {
-      setClicked(false);
-      //logic to remove from wishlist
+      setClicked(productId)
     }
-  }
+  };
+
+  // const handleDialogOpen = (product) => {
+  //   setSelectProduct(product);
+  //   setDialogOpen((prev) => !prev);
+  // };
+
+  // const handleDialogClose = () => {
+  //   setSelectProduct(null);
+  //   setDialogOpen(false);
+  // };
+
+  //fill in HeartIcon on click and add to/remove from Wishlist
+  // const addToWishlist = (id) => {
+  //   if (!clicked) {
+  //     setClicked(true);
+  //     //logic to add to wishlist
+  //   } else {
+  //     setClicked(false);
+  //     //logic to remove from wishlist
+  //   }
+  // }
 
   const productList = () => (products.map((product) =>
     <Card
+      className={"MuiElevatedCard--01"}
       key={product.id}
-      sx={{ maxWidth: 345 }}
       variant='outlined'
+      sx={{ boxShadow: 2 }}
+      p={4}
+      m={8}
     >
-      <CardMedia
-        sx={{ height: 140 }}
-        image={product.image}
-        title="image alt"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          <NextLink
-            href={{
-              pathname: "/products/[productId]",
-              query: { productId: product.id },
-            }} passHref>
-            <Link
-              overlay
-              underline="none"
-              sx={{ color: 'text.tertiary' }}
+      <CardContent className={"MuiCardContent-root"}>
+        <Grid item p={1} m={2}>
+          <Grid container style={{ height: '100%' }}>
+            <Grid container justifyContent="center">
+              <CardMedia
+                className={"MuiCardMedia-root"}
+                sx={{ height: 140 }}
+                image={product.image}
+                title="image alt"
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <Grid item p={1} m={0}>
+          <Grid container style={{ height: '100%' }} justifyContent="center">
+            <Typography gutterBottom variant="h7" text-align="center">
+              <NextLink
+                href={{
+                  pathname: "/products/[productId]",
+                  query: { productId: product.id },
+                }}
+                passHref
+              >
+                <Link
+                  classname={"MuiCardContent-link"}
+                  overlay
+                  underline="none"
+                >
+                  {product.name}
+                </Link>
+              </NextLink>
+            </Typography>
+          </Grid>
+        </Grid>
+
+        <Grid item>
+          <Grid container style={{ height: '100%' }} justifyContent="center">
+            <Typography variant="h8" text-align="center">
+              ${(product.price / 100).toFixed(2)}
+            </Typography>
+          </Grid>
+        </Grid>
+
+        <Grid item>
+          <Grid container style={{ height: '100%' }} justifyContent="center">
+            <NextLink
+              href={{
+                pathname: "/products/[productId]",
+                query: { productId: product.id },
+              }}
+              passHref
             >
-              {product.name}
-            </Link>
-          </NextLink>
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          ${product.price}
-        </Typography>
+              <Link
+                classname={"MuiCardContent-link"}
+                overlay
+                underline="none"
+              >
+                <Rating
+                  id={product.id}
+                  name="simple-controlled"
+                  precision={0.1}
+                  value={value}
+                  onChange={(newValue) => {
+                    setValue(newValue);
+                  }}
+                >
+                </Rating>
+              </Link>
+            </NextLink>
+          </Grid>
+        </Grid>
+
+        <Grid item>
+          <Grid container justifyContent="center">
+            <CardActions>
+              <Button size="small" onClick={() => handleHeartClick(product.id)}>
+                {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              </Button>
+              <Button size="small"><AddShoppingCartIcon /></Button>
+              <Button onClick={() => setOpen(!open)}>
+                <OpenInFullIcon />
+              </Button>
+              {/* // adjust backdrop to be transparent */}
+              <Dialog open={open}>
+                <Button onClick={() => setOpen(!open)}>
+                  <CloseIcon />
+                </Button>
+                <DialogTitle>
+                  <NextLink
+                    href={{
+                      pathname: "/products/[productId]",
+                      query: { productId: product.id },
+                    }}
+                    passHref
+                  >
+                    <Link
+                      classname={"MuiCardContent-link"}
+                      overlay
+                      underline="none"
+                    >
+                      {product.name}
+                    </Link>
+                  </NextLink>
+                </DialogTitle>
+                {product.description}
+                ${(product.price / 100).toFixed(2)}
+                <DialogActions>
+                  <Button size="small" onClick={() => handleClick()}>
+                    {clicked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                  </Button>
+                  <Button size="small"><AddShoppingCartIcon /></Button>
+                </DialogActions>
+              </Dialog>
+            </CardActions>
+          </Grid>
+        </Grid>
       </CardContent>
-      <CardActions>
-        <Button size="small" onClick={() => addToWishlist()}>
-          {clicked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-        </Button>
-        <Button size="small"><AddShoppingCartIcon/></Button>
-      </CardActions>
-    </Card>
+    </Card >
   ))
 
   return (
-    <Grid
-    container 
-    spacing={3}
-    direction='column'
-    justifyContent="center"
-    alignItems="center"
+    <Grid container
+      align="center"
+      justifyContent="space-evenly"
+      rowSpacing={1}
+      columnSpacing={1}
+      maxWidth={3 / 4}
+      paddingLeft={50}
+      paddingTop={10}
     >
-      <Grid item xs={3}>
-        {productList()}
-      </Grid>
+      {productList()}
     </Grid>
   );
 }
