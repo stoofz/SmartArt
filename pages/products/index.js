@@ -3,10 +3,16 @@
 import prisma from '../../utils/prisma';
 import axios from 'axios';
 import Link from 'next/link';
+import { useSessionId } from 'utils/session';
+
 
 export default function ProductsPage({ products }) {
+
+  const userId = useSessionId();
+
   const handleAddToCart = async (productId) => {
-    const userId = 3; // Replace with the actual user's ID
+
+    //const userId = 3; // Replace with the actual user's ID
     const quantity = 1;
 
     try {
