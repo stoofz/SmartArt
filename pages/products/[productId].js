@@ -1,5 +1,6 @@
 /* eslint-disable func-style */
 import prisma from 'utils/prisma';
+import formatDate from 'utils/formatDate';
 
 const ProductDetailsPage = ({ product, reviews }) => {
 
@@ -23,8 +24,8 @@ const ProductDetailsPage = ({ product, reviews }) => {
       <p>{reviews.comment}</p> */}
         {reviews.map((review) => (
           <li key={review.id}>
-            <p>Name</p>
-            <p>Date</p>
+            <p>{review.customer.firstName} {review.customer.lastName}</p>
+            <p>{review.date}</p>
             <p>{review.rating}</p>
             <p>{review.comment}</p>
           </li>
@@ -45,8 +46,11 @@ export async function getServerSideProps(context) {
   const serializedProduct = JSON.parse(JSON.stringify(product));
 
   const reviews = await prisma.feedback.findMany({
-    where: { productId: parseInt(productId) }
+    where: { productId: parseInt(productId) },
+    include: { customer: true }
   });
+
+  console.log("Reviews:", reviews)
 
   const serializedReviews = JSON.parse(JSON.stringify(reviews));
 
