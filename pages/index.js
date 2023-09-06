@@ -32,6 +32,10 @@ export default function Index() {
           Welcome {user.name}! <a href="/api/auth/logout" onClick={clearSession}>Logout</a>
           <AddShoppingCartIcon />
         </div>
+        <main>
+          <Products></Products>
+        </main>
+        <Footer />
       </>
     );
   }

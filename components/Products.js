@@ -188,8 +188,8 @@ const Products = () => {
                 {product.description}
                 ${(product.price / 100).toFixed(2)}
                 <DialogActions>
-                  <Button size="small" onClick={() => handleClick()}>
-                    {clicked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                  <Button size="small" onClick={() => handleHeartClick(product.id)}>
+                    {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                   </Button>
                   <Button size="small"><AddShoppingCartIcon /></Button>
                 </DialogActions>
