@@ -4,7 +4,7 @@
 import axios from 'axios';
 import Link from 'next/link';
 import prisma from 'utils/prisma';
-import { Button, IconButton, Badge } from "@mui/material";
+import { Button, Drawer, IconButton, Badge } from "@mui/material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import React, { useState } from 'react';
 import checkout from './api/checkout';
@@ -41,7 +41,6 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
   const userId = 3;
 
   const lineItems = productDetails.map((item) => {
-
     return {
       quantity: item.qty,
       price_data: {
@@ -56,6 +55,44 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
       }
     }
   })
+
+  const getCartIdForUser = async () => {
+    try {
+      const response = await axios.get(`/api/getCartId/`);
+
+      if (response.status === 200) {
+        return response.data.cartId;
+      } else {
+        //  the request was not successful
+        console.error('Error getting cartId:', response.statusText);
+        return null;
+      }
+    } catch (error) {
+      // Handle network or other errors
+      console.error('Error getting cartId:', error);
+      return null;
+    }
+  };
+
+ 
+  const handleCheckout = async () => {
+    try {
+
+      // Use the userId to get the cartId
+      const cartId = await getCartIdForUser(userId);
+      // Call the checkout function with cartId
+      const session = await checkout({
+        cartId, // Pass the cartId as an argument to checkout
+        lineItems, // Your lineItems data
+      });
+      // Redirect to Stripe checkout
+      window.location.href = session.url;
+    } catch (error) {
+      console.error('Error during checkout:', error);
+    }
+  };
+
+
   // Function to delete an item from the cart 
   const calculateTotalPrice = (products) => products.reduce((acc, item) => {
     acc += item.qty * item.price;
@@ -63,7 +100,6 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
   }, 0);
 
   const deleteFromCart = async (productId) => {
-
     try {
       const payload = {
         userId,
@@ -71,32 +107,23 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
       };
       // only extract through data
       const response = await axios.delete('/api/cart', { data: payload });
-
       if (response.status === 200) {
         //  update the cart items state, new product details
-
         const newProductDetails = productDetails.reduce((list, item) => {
           if (item.productId !== productId) {
             list.push(item);
             return list;
           }
-
           if (item.qty === 1) {
             return list;
           }
-
           item.qty--;
           list.push(item);
           return list;
-
         }, [])
-
         const totalPrice = calculateTotalPrice(newProductDetails)
-
         setProductDetails(newProductDetails);
-
         setTotal(totalPrice)
-
       }
     } catch (error) {
       console.error('Error deleting item from cart:', error);
@@ -105,19 +132,15 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
 
 
   const updateCartItemQuantity = async (productId, newQuantity) => {
-
     try {
       const payload = {
         userId,
         productId,
         quantity: newQuantity,
       };
-
       const response = await axios.put('/api/cart', payload); // Make a PUT request
-
       if (response.status === 200) {
         const newProductDetails = productDetails.map((item) => {
-
           if (item.productId === productId) {
             // Update the quantity for the matching product
             return {
@@ -127,11 +150,8 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
           }
           return item;
         })
-
         const totalPrice = calculateTotalPrice(newProductDetails)
-
         setProductDetails(newProductDetails)
-
         setTotal(totalPrice)
       }
     } catch (error) {
@@ -151,7 +171,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
     //       <AddShoppingCart />
     //     </Badge>
     //   </IconButton>
-    //   <div className="m-40">
+    
    
     <Container className="px-32 flex flex-col pt-32">
       <Typography variant="h4" gutterBottom>
@@ -236,11 +256,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
               backgroundColor: 'blue',
             },
           }}
-          type="submit" onClick={(() => {
-            const session = checkout({
-              lineItems
-            }).then(session => window.location.assign(session.url))
-          })}>Checkout
+          type="submit" onClick={handleCheckout}>Checkout
         </Button>
       </div>
     </Container>
@@ -266,7 +282,7 @@ export async function getServerSideProps({ req }) {
     const cartItems = userCart ? userCart.cartItems : [];
     const serializedCartItems = JSON.parse(JSON.stringify(cartItems));
     const productDetails = [];
-    const lineItems = [];
+    
 
     for (const cartItem of serializedCartItems) {
       const product = await prisma.product.findUnique({

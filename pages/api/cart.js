@@ -56,7 +56,7 @@ export default async function handler(req, res) {
 
       await updateCartApi(userId, productId, quantity)
       
-      //     // Respond with a success message or status
+        // Respond with a success message or status
           res.status(200).json({ message: 'Item quantity updated in the cart' });
   
     } catch (error) {

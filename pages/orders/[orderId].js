@@ -43,7 +43,7 @@ export async function getServerSideProps(context) {
 
   const orderId = context.params.orderId;
   
-  const userId = 2;
+  const userId = 3;
 
   try {
     // Fetch the order by ID
@@ -75,8 +75,7 @@ export async function getServerSideProps(context) {
         },
       };
     }
-    console.log("ORDERID", order)
-  
+
     const serializedOrder = JSON.parse(JSON.stringify(order));
 
     return { props: { order: serializedOrder } };
