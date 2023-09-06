@@ -4,7 +4,7 @@
 import axios from 'axios';
 import Link from 'next/link';
 import prisma from 'utils/prisma';
-import { Button, Drawer, IconButton, Badge } from "@mui/material";
+import { Button, IconButton, Badge } from "@mui/material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import React, { useState } from 'react';
 import checkout from './api/checkout';
