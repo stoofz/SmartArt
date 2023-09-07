@@ -16,15 +16,20 @@ import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 
-const ProductDetailsPage = ({ product, reviews: defaultReviews }) => {
+const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [openForm, setOpenForm] = useState(false);
   const [reviews, setReviews] = useState(defaultReviews);
 
-
-  const userId = useSessionId();
+console.log("reviews", reviews)
+  // const userId = useSessionId();
   
   const handleFormOpen = () => {
+    if (!user) {
+      // User is not logged in, show an alert or perform any other action
+      alert('Please log in to leave a review.');
+    } else {
     setOpenForm(true);
+    }
   };
 
   const handleFormClose = () => {
@@ -35,21 +40,27 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews }) => {
   const handleReviewSubmit = (rating, comment) => {
     
     const newReview = {
-      rating,
-      comment,
-      customer: {
-        firstName: customer.firstName,
-        lastName: customer.lastName,
-      },
-      date: new Date(), 
+        customerId: user.id,
+        productId: 1,
+        rating: 5,
+        comment: 'This is a great product!',
+        date: new Date(),
+          customer: {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            subId: user.subId,
+            stripeId: user.stripeId
+      }
+    
+      
     };
 
+    //Update reviews object, add new review
     setReviews([...reviews, newReview]);
-    
-    console.log('Review Text:', newReview);
-    // You can also update the UI with the new review if needed
     handleFormClose(); // Close the form after submission
-    // You can also update the UI with the new review if needed
+   
   };
 
   
@@ -65,6 +76,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews }) => {
         <p>{product.price}</p>
       </main>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
+       
       <Button
           onClick={handleFormOpen}
           startIcon={<AddIcon />}
@@ -74,6 +86,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews }) => {
       >
         Please Rate and Review!
       </Button>
+        
       </div>
       <ReviewForm
         open={openForm}
@@ -88,8 +101,10 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews }) => {
         <Paper elevation={6} >
           <List>
           
-          {reviews.map((review) => (
-            <div key={review.id}>
+          {reviews
+          .sort((a, b) => b.date - a.date) // Sort reviews by date in descending order
+          .map((review, index) => (
+            <div key={index}>
 
               <ListItem alignItems="flex-start">
                 <Avatar style={{ marginRight: '8px' }}>{review.customer.firstName}</Avatar>
@@ -148,16 +163,17 @@ export async function getServerSideProps({ req, params } ) {
 
   const sessionId = req.cookies.sessionId || null;
   const userId = parseInt(sessionId);
-  const user = await prisma.customer.findUnique({
-    where: {
-      id: userId,
-    },
-    select: {
-      firstName: true,
-      lastName: true,
-    },
-  });
+  let user = null;
 
+  // Check if userId is a valid number before fetching the user
+  if (!isNaN(userId)) {
+    user = await prisma.customer.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+  }
+console.log("user", user)
   return { props: { product: serializedProduct, reviews: serializedReviews, user: user || null } };
 }
 
