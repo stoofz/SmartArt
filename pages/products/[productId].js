@@ -1,17 +1,43 @@
 /* eslint-disable func-style */
 import prisma from 'utils/prisma';
+import React, { useState } from 'react';
+
+import ReviewForm from '../../components/ReviewForm';
 
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import StarIcon from '@mui/icons-material/Star';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
+import Rating from '@mui/material/Rating';
+import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
 
 const ProductDetailsPage = ({ product, reviews }) => {
+  const [openForm, setOpenForm] = useState(false);
+  
 
+  const handleFormOpen = () => {
+    setOpenForm(true);
+  };
+
+  const handleFormClose = () => {
+    setOpenForm(false);
+  };
+
+  const handleReviewSubmit = (rating, reviewText) => {
+    // Handle the review submission, e.g., send data to the server
+   
+    console.log('Rating:', rating);
+    console.log('Review Text:', reviewText);
+    // You can also update the UI with the new review if needed
+    handleFormClose(); // Close the form after submission
+    // You can also update the UI with the new review if needed
+  };
+
+  
   if (!product) {
     return <div>Loading...</div>;
   }
@@ -23,8 +49,23 @@ const ProductDetailsPage = ({ product, reviews }) => {
         <p>{product.description}</p>
         <p>{product.price}</p>
       </main>
-   
-      
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <Button
+          onClick={handleFormOpen}
+          startIcon={<AddIcon />}
+          variant="outlined"
+          style={{ backgroundColor: 'lightblue', color: 'white', borderColor: 'transparent' }}
+        
+      >
+        Please Rate and Review!
+      </Button>
+      </div>
+      <ReviewForm
+        open={openForm}
+        onClose={handleFormClose}
+        onSubmit={handleReviewSubmit}
+      />
+
       <section style={{ maxWidth: '600px', margin: '0 auto' }}>
         <Typography variant="h4" gutterBottom>
           Customer Reviews
@@ -45,9 +86,13 @@ const ProductDetailsPage = ({ product, reviews }) => {
                           {review.customer.firstName} {review.customer.lastName}
                         </Typography>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                          {Array.from({ length: review.rating }).map((_, index) => (
-                            <StarIcon key={index} color="primary" style={{ fontSize: '18px' }} />
-                          ))}
+                          <Rating
+                            name="read-only"
+                            value={review.rating}
+                            precision={0.5} // Adjust this based on your rating system
+                            readOnly
+                            sx={{ fontSize: '18px' }} // You can use sx to style the Rating component
+                          />
                         </div>
                       </div>
                       <div style={{ fontSize: '14px', color: '#777' }}>{new Date(review.date).toLocaleDateString()}</div>
