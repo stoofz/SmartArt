@@ -22,21 +22,20 @@ import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import { styled } from '@mui/system';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { setSession, useSessionId } from 'utils/session';
-import { addToCartApi } from 'utils/db';
+import { useUser } from '@auth0/nextjs-auth0/client';
+// import { addToCartApi } from 'utils/db';
 
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
-  const [value, setValue] = useState(2.5);
   const { user, error, isLoading } = useUser();
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
   const userId = useSessionId();
-  const history = useHistory();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -61,23 +60,24 @@ const Products = () => {
     }
   };
 
-  //ratings
-  const handleRatingStars = (productId) => {
-    if (clicked === productId) {
-      setClicked(false)
-    } else {
-      setClicked(productId)
+  //add to cart
+  const handleAddToCart = async (productId) => {
+    const quantity = 1;
+
+    try {
+      const response = await axios.post('/api/cart', {
+        userId,
+        productId,
+        quantity,
+      });
+      // Show a success message ????.
+      console.log('Item added to cart:', response.data);
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+      //  Show an error message to the user????
+
     }
   };
-
-  //add to cart
-  const addToCart = (userId, productId, quantity) => {
-    if (user) {
-      addToCartApi(userId, productId, quantity)
-    } else {
-      history.push('/login');
-    }
-  }
 
   const theme = createTheme({
     palette: {
@@ -104,7 +104,7 @@ const Products = () => {
     left: 1;
     right: 0;
     top: 0;
-    bottom: 20;
+    bottom: 1;
     width: fit-content;
     height: 40px;
     visibility: hidden;
@@ -114,9 +114,9 @@ const Products = () => {
   const HeartIconStyled = styled(Button)`
     position: absolute;
     left: 0;
-    right: 1;
+    right: 0;
     top: 0;
-    bottom: 20;
+    bottom: 1;
     width: fit-content;
     visibility: hidden;
     color: ${theme.palette.info.main}
@@ -124,11 +124,10 @@ const Products = () => {
 
   const CartIconStyled = styled(Button)`
     position: absolute;
-    left: 0;
-    right: 0;
-    middle: 1;
+    left: 1;
+    right: 1;
     top: 0;
-    bottom: 20;
+    bottom: 1;
     width: fit-content;
     height: 40px;
     visibility: hidden;
@@ -144,6 +143,12 @@ const Products = () => {
     }  
    }
    `;
+
+  const DivStyled = styled("div")`
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  `;
 
 
   const productList = () => (products.map((product) =>
@@ -161,10 +166,7 @@ const Products = () => {
           />
           <CardContent>
             <CardActions>
-              <div
-                display='flex'
-                justify-content='space-evenly'
-              >
+              <DivStyled>
                 <ExpandIconStyled
                   variant="text"
                   className="icon-button"
@@ -204,6 +206,7 @@ const Products = () => {
                       variant="text"
                       className="icon-button"
                       sx={{ color: theme.palette.primary.main }}
+                      // works fine in Dialog
                       onClick={() => handleHeartClick(product.id)}
                     >
                       {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
@@ -212,12 +215,13 @@ const Products = () => {
                       sx={{ color: theme.palette.primary.main }}
                       variant="text"
                       className="icon-button"
-                      onClick={() => addToCart(userId, product.id, 1)}
+                      onClick={() => handleAddToCart(product.id)}
                     >
                       <AddShoppingCartIcon />
                     </Button>
                   </DialogActions>
                 </Dialog>
+                {/* funny behaviour, can't unclick, and then can't click anything on page */}
                 <HeartIconStyled
                   variant="text"
                   className="icon-button"
@@ -228,11 +232,11 @@ const Products = () => {
                 <CartIconStyled
                   variant="text"
                   className="icon-button"
-                  onClick={() => addToCart(userId, product.id, 1)}
+                  onClick={() => handleAddToCart(product.idd)}
                 >
                   <AddShoppingCartIcon />
                 </CartIconStyled>
-              </div>
+              </DivStyled>
               {/* // adjust backdrop to be transparent */}
             </CardActions>
 
@@ -271,12 +275,10 @@ const Products = () => {
                 >
                   <Rating
                     id={product.id}
-                    name="simple-controlled"
+                    name="read-only"
+                    readOnly
                     precision={0.1}
-                    value={value}
-                    onClick={(newValue) => {
-                      setValue(newValue);
-                    }}
+                    value={2.5}
                   >
                   </Rating>
                 </Link>
@@ -291,49 +293,6 @@ const Products = () => {
               </Grid>
             </Grid>
 
-            {/* <Grid item>
-            <Grid container justifyContent="center">
-              <CardActions>
-                <Button size="small" onClick={() => handleHeartClick(product.id)}>
-                  {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                </Button>
-                <Button size="small"><AddShoppingCartIcon /></Button>
-                <Button onClick={() => setOpen(!open)}>
-                  <OpenInFullIcon />
-                </Button>
-                {/* // adjust backdrop to be transparent */}
-            {/* <Dialog open={open}>
-                  <Button onClick={() => setOpen(!open)}>
-                    <CloseIcon />
-                  </Button>
-                  <DialogTitle>
-                    <NextLink
-                      href={{
-                        pathname: "/products/[productId]",
-                        query: { productId: product.id },
-                      }}
-                      passHref
-                    >
-                      <Link
-                        classname={"MuiCardContent-link"}
-                        overlay
-                        underline="none"
-                      >
-                        {product.name}
-                      </Link>
-                    </NextLink>
-                  </DialogTitle>
-                  {product.description}
-                  ${(product.price / 100).toFixed(2)}
-                  <DialogActions>
-                    <Button size="small" onClick={() => handleHeartClick(product.id)}>
-                      {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                    </Button>
-                    <Button size="small"><AddShoppingCartIcon /></Button>
-                  </DialogActions>
-                </Dialog>
-              </CardActions>
-            </Grid> */}
           </CardContent>
         </Card >
       </ContainerStyled>
@@ -341,15 +300,17 @@ const Products = () => {
   ))
 
   return (
-    <Grid container
-      align="center"
-      justify-content="center"
-      maxWidth="75%"
-      paddingLeft="25%"
-      spacing={8}
-    >
-      {productList()}
-    </Grid>
+    <ThemeProvider theme={theme}>
+      <Grid container
+        align="center"
+        justify-content="center"
+        maxWidth="75%"
+        paddingLeft="25%"
+        spacing={5}
+      >
+        {productList()}
+      </Grid>
+    </ThemeProvider>
   );
 }
 
