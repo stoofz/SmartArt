@@ -18,7 +18,7 @@ const ReviewForm = ({ open, onClose, onSubmit, comment, setComment, rating, setR
       <DialogTitle>Write a Review:</DialogTitle>
       <DialogContent>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Rating
+      <Rating
           name="simple-controlled"
           value={rating}
           onChange={(event, newValue) => {

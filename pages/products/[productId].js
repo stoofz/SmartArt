@@ -76,25 +76,14 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
       lastName: user.lastName,
       customerId: user.id,
       productId: product.id,
-      //   rating: rating,
-      //   comment: comment,
-      //   date: new Date(),
-      //     customer: {
-      //       id: user.id,
-      //       firstName: user.firstName,
-      //       lastName: user.lastName,
-      //       email: user.email,
-      //       subId: user.subId,
-      //       stripeId: user.stripeId
-      // }
-
+  
     };
 
     //Update reviews object, add new review
     setReviews([...reviews, newReview]);
     handleFormClose(); // Close the form after submission
     setComment()
-    setRating()
+    setRating(0)
     saveReviewToDb(newReview);
   };
 
@@ -160,6 +149,9 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                             value={review.rating}
                             precision={0.5} 
                             readOnly
+                            // onChange={(event, newValue) => {
+                            //   console.log("rating")
+                            // }}
                             sx={{ fontSize: '18px' }} 
                           />
                         </div>
