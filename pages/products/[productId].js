@@ -19,8 +19,10 @@ import AddIcon from '@mui/icons-material/Add';
 const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [openForm, setOpenForm] = useState(false);
   const [reviews, setReviews] = useState(defaultReviews);
+  const [comment, setComment] = useState('');
+  const [rating, setRating] = useState(0);
 
-console.log("reviews", reviews)
+  console.log("product", product)
   // const userId = useSessionId();
   
   const handleFormOpen = () => {
@@ -41,9 +43,9 @@ console.log("reviews", reviews)
     
     const newReview = {
         customerId: user.id,
-        productId: 1,
-        rating: 5,
-        comment: 'This is a great product!',
+        productId: product.id,
+        rating: rating,
+        comment: comment,
         date: new Date(),
           customer: {
             id: user.id,
@@ -60,7 +62,8 @@ console.log("reviews", reviews)
     //Update reviews object, add new review
     setReviews([...reviews, newReview]);
     handleFormClose(); // Close the form after submission
-   
+    setComment();
+    setRating();
   };
 
   
@@ -92,6 +95,10 @@ console.log("reviews", reviews)
         open={openForm}
         onClose={handleFormClose}
         onSubmit={handleReviewSubmit}
+        comment={comment}
+        setComment={setComment}
+        rating={rating}
+        setRating={setRating}
       />
 
       <section style={{ maxWidth: '600px', margin: '0 auto' }}>

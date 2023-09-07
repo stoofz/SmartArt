@@ -7,9 +7,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Rating from '@mui/material/Rating';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 
-const ReviewForm = ({ open, onClose, onSubmit }) => {
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState('');
+const ReviewForm = ({ open, onClose, onSubmit, comment, setComment, rating, setRating }) => {
+ 
+  
 
 
 
