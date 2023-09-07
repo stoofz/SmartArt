@@ -50,6 +50,15 @@ const Products = () => {
     }
   };
 
+  //ratings
+  const handleRatingStars = (productId) => {
+    if (clicked === productId) {
+      setClicked(false)
+    } else {
+      setClicked(productId)
+    }
+  };
+
   // const handleDialogOpen = (product) => {
   //   setSelectProduct(product);
   //   setDialogOpen((prev) => !prev);
@@ -143,7 +152,7 @@ const Products = () => {
                   name="simple-controlled"
                   precision={0.1}
                   value={value}
-                  onChange={(newValue) => {
+                  onClick={(newValue) => {
                     setValue(newValue);
                   }}
                 >
@@ -209,7 +218,7 @@ const Products = () => {
       columnSpacing={1}
       maxWidth={3 / 4}
       paddingLeft={50}
-      paddingTop={10}
+      height="auto"
     >
       {productList()}
     </Grid>

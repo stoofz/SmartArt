@@ -9,12 +9,12 @@
 
 import { useUser } from '@auth0/nextjs-auth0/client';
 import React, { useEffect } from 'react';
-
 import { setSession, clearSession } from 'utils/session';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+
 
 import Footer from '../components/Footer';
-import Products from '../components/Products'
+import Products from '../components/Products';
+import Nav from '../components/Nav';
 
 export default function Index() {
   const { user, error, isLoading } = useUser();
@@ -28,10 +28,10 @@ export default function Index() {
 
     return (
       <>
-        <div>
-          Welcome {user.name}! <a href="/api/auth/logout" onClick={clearSession}>Logout</a>
-          <AddShoppingCartIcon />
-        </div>
+        <Nav>
+          {/* Welcome {user.name}! <a href="/api/auth/logout" onClick={clearSession}>Logout</a>
+          <AddShoppingCartIcon /> */}
+        </Nav>
         <main>
           <Products></Products>
         </main>
@@ -42,9 +42,12 @@ export default function Index() {
 
   return (
     <>
-      <nav>
-        <a href="/api/auth/login">Login</a>
-      </nav>
+      <header>
+        <Nav>
+          {/* Welcome {user.name}! <a href="/api/auth/logout" onClick={clearSession}>Logout</a>
+          <AddShoppingCartIcon /> */}
+        </Nav>
+      </header>
       <main>
         <Products></Products>
       </main>
