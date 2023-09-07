@@ -16,6 +16,7 @@ import Divider from '@mui/material/Divider';
 import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [openForm, setOpenForm] = useState(false);
@@ -23,7 +24,6 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
 
-  
   const handleFormOpen = () => {
     if (!user) {
       // User is not logged in, show an alert or perform any other action
@@ -35,6 +35,8 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
 
   const handleFormClose = () => {
     setOpenForm(false);
+    setComment();
+    setRating(0)
   };
 
 //SAVE reviews to feedback table in db
@@ -57,6 +59,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
       console.error('An error occurred while saving the review:', error);
     }
   };
+
 
 // Handle the review submission,
   const handleReviewSubmit = (rating, comment) => {
@@ -85,6 +88,32 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
     setComment()
     setRating(0)
     saveReviewToDb(newReview);
+  };
+
+  // Function to handle review deletion from db and update UI
+  const deleteReviewFromDb = async (id) => {
+    try {
+      // Show an alert to confirm before deleting
+      const confirmDelete = window.confirm('Are you sure you want to delete this review?');
+
+      if (confirmDelete) {
+        // Send a DELETE request to the API route
+        const response = await axios.delete('/api/deleteReview', { data: { id } });
+
+        if (response.status === 200) {
+          // Update the UI by removing the deleted review from the state
+          setReviews(reviews.filter((review) => review.id !== id));
+          console.log('Review deleted successfully');
+        } else {
+          // Handle error
+          console.error('Failed to delete the review');
+        }
+      } else {
+        console.log('Review deletion canceled');
+      }
+    } catch (error) {
+      console.error('Error deleting review:', error);
+    }
   };
 
   
@@ -149,20 +178,22 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                             value={review.rating}
                             precision={0.5} 
                             readOnly
-                            // onChange={(event, newValue) => {
-                            //   console.log("rating")
-                            // }}
                             sx={{ fontSize: '18px' }} 
                           />
                         </div>
                       </div>
                       <div style={{ fontSize: '14px', color: '#777' }}>{new Date(review.date).toLocaleDateString("en-CA")}</div>
                       <div style={{ fontSize: '14px', color: '#777', marginTop: '8px' }}>{review.comment}</div>
+                     
                     </div>
-               
               }
                   />
-              
+                <Button
+                  onClick={() => deleteReviewFromDb(review.id)}
+                  style={{ backgroundColor: 'lightpink', color: 'white', borderColor: 'transparent' }}
+                >
+                  <DeleteIcon /> Delete
+                </Button>
               </ListItem>
               <Divider variant="inset" component="li" />
             </div>
@@ -191,10 +222,11 @@ export async function getServerSideProps({ req, params } ) {
   });
 
   const extractedReviews = reviews.map((review) => {
-    const { date, rating, comment } = review;
+    const { id, date, rating, comment } = review;
     const { firstName, lastName } = review.customer;
 
     return {
+      id,
       date,
       rating,
       comment,
