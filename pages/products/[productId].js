@@ -22,8 +22,6 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
 
-  console.log("product", product)
-  // const userId = useSessionId();
   
   const handleFormOpen = () => {
     if (!user) {
@@ -40,6 +38,13 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
 
 // Handle the review submission,
   const handleReviewSubmit = (rating, comment) => {
+
+    // Check if rating is 0 or comment is empty
+    if (rating === 0 || !comment || comment.trim() === '') {
+      // Show an error message to the user or handle the validation error
+      alert('Please provide a rating and comment before submitting.');
+      return; // Prevent further execution of the function
+    }
     
     const newReview = {
         customerId: user.id,
