@@ -29,17 +29,17 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
       // User is not logged in, show an alert or perform any other action
       alert('Please log in to leave a review.');
     } else {
-    setOpenForm(true);
+      setOpenForm(true);
     }
   };
 
   const handleFormClose = () => {
     setOpenForm(false);
     setComment();
-    setRating(0)
+    setRating(0);
   };
 
-//SAVE reviews to feedback table in db
+  //SAVE reviews to feedback table in db
   const saveReviewToDb = async (newReview) => {
     try {
       const response = await axios.post('/api/saveReview', newReview, {
@@ -61,11 +61,11 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   };
 
 
-// Handle the review submission,
+  // Handle the review submission,
   const handleReviewSubmit = (rating, comment) => {
-    
+
     // Check if rating is 0 or comment is empty
-    if ( !comment || comment.trim() === '') {
+    if (!comment || comment.trim() === '') {
       // Show an error message to the user or handle the validation error
       alert('Please provide a rating and comment before submitting.');
       return; // Prevent further execution of the function
@@ -79,14 +79,14 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
       lastName: user.lastName,
       customerId: user.id,
       productId: product.id,
-  
+
     };
 
     //Update reviews object, add new review
     setReviews([...reviews, newReview]);
     handleFormClose(); // Close the form after submission
-    setComment()
-    setRating(0)
+    setComment();
+    setRating(0);
     saveReviewToDb(newReview);
   };
 
@@ -116,7 +116,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
     }
   };
 
-  
+
   if (!product) {
     return <div>Loading...</div>;
   }
@@ -129,17 +129,17 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
         <p>{product.price}</p>
       </main>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-       
-      <Button
+
+        <Button
           onClick={handleFormOpen}
           startIcon={<AddIcon />}
           variant="outlined"
           style={{ backgroundColor: 'lightblue', color: 'white', borderColor: 'transparent' }}
-        
-      >
-        Please Rate and Review!
-      </Button>
-        
+
+        >
+          Please Rate and Review!
+        </Button>
+
       </div>
       <ReviewForm
         open={openForm}
@@ -157,59 +157,62 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
         </Typography>
         <Paper elevation={6} >
           <List>
-          
-          {reviews
+
+            {reviews
               .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort reviews by date in descending order
-          .map((review, index) => (
-            <div key={index}>
+              .map((review, index) => (
+                <div key={index}>
 
-              <ListItem alignItems="flex-start">
-                <Avatar style={{ marginRight: '8px' }}>{review.firstName}</Avatar>
-                <ListItemText 
-                primary={
-                    <div>
-                      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
-                        <Typography variant="body1" style={{ marginRight: '8px' }}>
-                          {review.firstName} {review.lastName}
-                        </Typography>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                          <Rating
-                            name="read-only"
-                            value={review.rating}
-                            precision={0.5} 
-                            readOnly
-                            sx={{ fontSize: '18px' }} 
-                          />
+                  <ListItem alignItems="flex-start">
+                    <Avatar style={{ marginRight: '8px' }}>{review.firstName}</Avatar>
+                    <ListItemText
+                      primary={
+                        <div>
+                          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                            <Typography variant="body1" style={{ marginRight: '8px' }}>
+                              {review.firstName} {review.lastName}
+                            </Typography>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                              <Rating
+                                name="read-only"
+                                value={review.rating}
+                                precision={0.5}
+                                readOnly
+                                sx={{ fontSize: '18px' }}
+                              />
+                            </div>
+                          </div>
+                          <div style={{ fontSize: '14px', color: '#777' }}>{new Date(review.date).toLocaleDateString("en-CA")}</div>
+                          <div style={{ fontSize: '14px', color: '#777', marginTop: '8px' }}>{review.comment}</div>
+
                         </div>
-                      </div>
-                      <div style={{ fontSize: '14px', color: '#777' }}>{new Date(review.date).toLocaleDateString("en-CA")}</div>
-                      <div style={{ fontSize: '14px', color: '#777', marginTop: '8px' }}>{review.comment}</div>
-                     
-                    </div>
-              }
-                  />
-                <Button
-                  onClick={() => deleteReviewFromDb(review.id)}
-                  style={{ backgroundColor: 'lightpink', color: 'white', borderColor: 'transparent' }}
-                >
-                  <DeleteIcon /> Delete
-                </Button>
-              </ListItem>
-              <Divider variant="inset" component="li" />
-            </div>
+                      }
+                    />
 
-          ))}
-        
-        </List>
+                    {user && user.id === review.customerId && ( // Check if user is logged in and owns this review
+                      <Button
+                        onClick={() => deleteReviewFromDb(review.id)}
+                        style={{ backgroundColor: 'lightpink', color: 'white', borderColor: 'transparent' }}
+                      >
+                        <DeleteIcon /> Delete
+                      </Button>
+                    )}
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                </div>
+
+              ))}
+
+          </List>
         </Paper>
-        
+
       </section>
-    
+
     </div>
   );
 };
 
-export async function getServerSideProps({ req, params } ) {
+export async function getServerSideProps({ req, params }) {
   const productId = params.productId;
   const product = await prisma.product.findUnique({
     where: { id: parseInt(productId) }
@@ -220,13 +223,14 @@ export async function getServerSideProps({ req, params } ) {
     where: { productId: parseInt(productId) },
     include: { customer: true }
   });
-
+console.log("reviews", reviews)
   const extractedReviews = reviews.map((review) => {
-    const { id, date, rating, comment } = review;
+    const { id, customerId, date, rating, comment } = review;
     const { firstName, lastName } = review.customer;
 
     return {
       id,
+      customerId,
       date,
       rating,
       comment,
@@ -234,9 +238,9 @@ export async function getServerSideProps({ req, params } ) {
       lastName,
     };
   });
-  
+
   const serializedReviews = JSON.parse(JSON.stringify(extractedReviews));
-console.log("reviews", reviews)
+  console.log("reviews", reviews);
 
   const sessionId = req.cookies.sessionId || null;
   const userId = parseInt(sessionId);
@@ -250,7 +254,7 @@ console.log("reviews", reviews)
       },
     });
   }
-console.log("user", user)
+  console.log("user", user);
   return { props: { product: serializedProduct, reviews: serializedReviews, user: user || null } };
 }
 
