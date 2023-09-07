@@ -3,22 +3,15 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Rating from '@mui/material/Rating';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 
 const ReviewForm = ({ open, onClose, onSubmit }) => {
   const [rating, setRating] = useState(0);
-  const [reviewText, setReviewText] = useState('');
+  const [comment, setComment] = useState('');
 
-  const handleReviewSubmit = () => {
-    // Handle the review submission, e.g., send data to the server
-    console.log('Rating:', rating);
-    console.log('Review Text:', reviewText);
-    // You can also update the UI with the new review if needed
-    onSubmit(rating, reviewText);
-  };
+
 
   return (
     <Dialog open={open} onClose={onClose} >
@@ -36,9 +29,9 @@ const ReviewForm = ({ open, onClose, onSubmit }) => {
           placeholder="   Write your review here..."
           minRows={3}
             style={{ width: "500px", border: "1px solid lightblue", borderRadius: "8px", marginTop: "15px" }}
-          value={reviewText}
+          value={comment}
           onChange={(event) => {
-            setReviewText(event.target.value);
+            setComment(event.target.value);
           }}
         />
         </div>
@@ -50,7 +43,7 @@ const ReviewForm = ({ open, onClose, onSubmit }) => {
           Cancel
         </Button>
         <Button 
-        onClick={handleReviewSubmit} 
+          onClick={() => onSubmit(rating, comment)}
         style={{ backgroundColor: 'lightblue', color: 'white', borderColor: 'transparent' }}>
           Submit Review
         </Button>

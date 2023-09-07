@@ -1,6 +1,7 @@
 /* eslint-disable func-style */
 import prisma from 'utils/prisma';
 import React, { useState } from 'react';
+import { useSessionId } from '../../utils/session';
 
 import ReviewForm from '../../components/ReviewForm';
 
@@ -15,10 +16,13 @@ import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 
-const ProductDetailsPage = ({ product, reviews }) => {
+const ProductDetailsPage = ({ product, reviews: defaultReviews }) => {
   const [openForm, setOpenForm] = useState(false);
-  
+  const [reviews, setReviews] = useState(defaultReviews);
 
+
+  const userId = useSessionId();
+  
   const handleFormOpen = () => {
     setOpenForm(true);
   };
@@ -27,11 +31,22 @@ const ProductDetailsPage = ({ product, reviews }) => {
     setOpenForm(false);
   };
 
-  const handleReviewSubmit = (rating, reviewText) => {
-    // Handle the review submission, e.g., send data to the server
-   
-    console.log('Rating:', rating);
-    console.log('Review Text:', reviewText);
+// Handle the review submission,
+  const handleReviewSubmit = (rating, comment) => {
+    
+    const newReview = {
+      rating,
+      comment,
+      customer: {
+        firstName: customer.firstName,
+        lastName: customer.lastName,
+      },
+      date: new Date(), 
+    };
+
+    setReviews([...reviews, newReview]);
+    
+    console.log('Review Text:', newReview);
     // You can also update the UI with the new review if needed
     handleFormClose(); // Close the form after submission
     // You can also update the UI with the new review if needed
@@ -117,28 +132,33 @@ const ProductDetailsPage = ({ product, reviews }) => {
   );
 };
 
-export async function getServerSideProps(context) {
-
-  const productId = context.params.productId;
-
+export async function getServerSideProps({ req, params } ) {
+  const productId = params.productId;
   const product = await prisma.product.findUnique({
     where: { id: parseInt(productId) }
   });
-
   const serializedProduct = JSON.parse(JSON.stringify(product));
 
   const reviews = await prisma.feedback.findMany({
     where: { productId: parseInt(productId) },
     include: { customer: true }
   });
-
-  console.log("Reviews:", reviews)
-
   const serializedReviews = JSON.parse(JSON.stringify(reviews));
 
-  console.log("serializedReviews:", serializedReviews.rating)
 
-  return { props: { product: serializedProduct, reviews: serializedReviews } };
+  const sessionId = req.cookies.sessionId || null;
+  const userId = parseInt(sessionId);
+  const user = await prisma.customer.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      firstName: true,
+      lastName: true,
+    },
+  });
+
+  return { props: { product: serializedProduct, reviews: serializedReviews, user: user || null } };
 }
 
 export default ProductDetailsPage;
