@@ -141,7 +141,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
           <List>
           
           {reviews
-          .sort((a, b) => b.date - a.date) // Sort reviews by date in descending order
+              .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort reviews by date in descending order
           .map((review, index) => (
             <div key={index}>
 
