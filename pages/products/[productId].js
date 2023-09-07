@@ -1,7 +1,8 @@
 /* eslint-disable func-style */
 import prisma from 'utils/prisma';
 import React, { useState } from 'react';
-import { useSessionId } from '../../utils/session';
+import axios from 'axios';
+
 
 import ReviewForm from '../../components/ReviewForm';
 
@@ -36,6 +37,27 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
     setOpenForm(false);
   };
 
+//SAVE reviews to feedback table in db
+  const saveReviewToDb = async (newReview) => {
+    try {
+      const response = await axios.post('/api/saveReview', newReview, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.status === 201) {
+        // Review saved successfully, you can update the UI or take other actions.
+        console.log('Review saved successfully');
+      } else {
+        // Handle errors, e.g., show an error message to the user.
+        console.error('Failed to save the review');
+      }
+    } catch (error) {
+      console.error('An error occurred while saving the review:', error);
+    }
+  };
+
 // Handle the review submission,
   const handleReviewSubmit = (rating, comment) => {
     
@@ -52,8 +74,8 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
       comment: comment,
       firstName: user.firstName,
       lastName: user.lastName,
-      //   customerId: user.id,
-      //   productId: product.id,
+      customerId: user.id,
+      productId: product.id,
       //   rating: rating,
       //   comment: comment,
       //   date: new Date(),
@@ -73,6 +95,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
     handleFormClose(); // Close the form after submission
     setComment()
     setRating()
+    saveReviewToDb(newReview);
   };
 
   
@@ -135,9 +158,9 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                           <Rating
                             name="read-only"
                             value={review.rating}
-                            precision={0.5} // Adjust this based on your rating system
+                            precision={0.5} 
                             readOnly
-                            sx={{ fontSize: '18px' }} // You can use sx to style the Rating component
+                            sx={{ fontSize: '18px' }} 
                           />
                         </div>
                       </div>
