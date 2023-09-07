@@ -156,7 +156,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                           />
                         </div>
                       </div>
-                      <div style={{ fontSize: '14px', color: '#777' }}>{new Date(review.date).toLocaleDateString()}</div>
+                      <div style={{ fontSize: '14px', color: '#777' }}>{new Date(review.date).toLocaleDateString("en-CA")}</div>
                       <div style={{ fontSize: '14px', color: '#777', marginTop: '8px' }}>{review.comment}</div>
                     </div>
                
