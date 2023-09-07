@@ -20,7 +20,7 @@ const ReviewForm = ({ open, onClose, onSubmit, comment, setComment, rating, setR
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Rating
           name="product-rating"
-          value={rating}
+          defaultValue={rating}
           onChange={(event, newValue) => {
             setRating(newValue);
           }}

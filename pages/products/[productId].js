@@ -38,37 +38,41 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
 
 // Handle the review submission,
   const handleReviewSubmit = (rating, comment) => {
-
+    
     // Check if rating is 0 or comment is empty
-    if (rating === 0 || !comment || comment.trim() === '') {
+    if ( !comment || comment.trim() === '') {
       // Show an error message to the user or handle the validation error
       alert('Please provide a rating and comment before submitting.');
       return; // Prevent further execution of the function
     }
-    
+
     const newReview = {
-        customerId: user.id,
-        productId: product.id,
-        rating: rating,
-        comment: comment,
-        date: new Date(),
-          customer: {
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            subId: user.subId,
-            stripeId: user.stripeId
-      }
-    
-      
+      date: new Date(),
+      rating: rating,
+      comment: comment,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      //   customerId: user.id,
+      //   productId: product.id,
+      //   rating: rating,
+      //   comment: comment,
+      //   date: new Date(),
+      //     customer: {
+      //       id: user.id,
+      //       firstName: user.firstName,
+      //       lastName: user.lastName,
+      //       email: user.email,
+      //       subId: user.subId,
+      //       stripeId: user.stripeId
+      // }
+
     };
 
     //Update reviews object, add new review
     setReviews([...reviews, newReview]);
     handleFormClose(); // Close the form after submission
-    setComment();
-    setRating();
+    setComment()
+    setRating()
   };
 
   
@@ -119,13 +123,13 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
             <div key={index}>
 
               <ListItem alignItems="flex-start">
-                <Avatar style={{ marginRight: '8px' }}>{review.customer.firstName}</Avatar>
+                <Avatar style={{ marginRight: '8px' }}>{review.firstName}</Avatar>
                 <ListItemText 
                 primary={
                     <div>
                       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
                         <Typography variant="body1" style={{ marginRight: '8px' }}>
-                          {review.customer.firstName} {review.customer.lastName}
+                          {review.firstName} {review.lastName}
                         </Typography>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                           <Rating
@@ -170,8 +174,22 @@ export async function getServerSideProps({ req, params } ) {
     where: { productId: parseInt(productId) },
     include: { customer: true }
   });
-  const serializedReviews = JSON.parse(JSON.stringify(reviews));
 
+  const extractedReviews = reviews.map((review) => {
+    const { date, rating, comment } = review;
+    const { firstName, lastName } = review.customer;
+
+    return {
+      date,
+      rating,
+      comment,
+      firstName,
+      lastName,
+    };
+  });
+  
+  const serializedReviews = JSON.parse(JSON.stringify(extractedReviews));
+console.log("reviews", reviews)
 
   const sessionId = req.cookies.sessionId || null;
   const userId = parseInt(sessionId);
