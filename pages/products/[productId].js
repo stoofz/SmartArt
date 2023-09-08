@@ -23,7 +23,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [reviews, setReviews] = useState(defaultReviews);
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
-
+console.log("reviews", reviews)
   const handleFormOpen = () => {
     if (!user) {
       // User is not logged in, show an alert or perform any other action
@@ -223,7 +223,7 @@ export async function getServerSideProps({ req, params }) {
     where: { productId: parseInt(productId) },
     include: { customer: true }
   });
-console.log("reviews", reviews)
+// console.log("reviews", reviews)
   const extractedReviews = reviews.map((review) => {
     const { id, customerId, date, rating, comment } = review;
     const { firstName, lastName } = review.customer;

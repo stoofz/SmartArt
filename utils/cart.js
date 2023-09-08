@@ -1,5 +1,6 @@
 import axios from 'axios';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const handleAddToCart = async (productId, userId) => {
   
@@ -10,6 +11,11 @@ const handleAddToCart = async (productId, userId) => {
       userId,
       productId,
       quantity,
+    });
+
+    toast.success('Item added to cart successfully', {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000, // Auto-close the message after 3 seconds
     });
     // Show a success message ????.
     console.log('Item added to cart:', response.data);
