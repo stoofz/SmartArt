@@ -165,8 +165,10 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
         </Typography>
         <Paper elevation={6} >
           <List>
-
-            {reviews
+            {reviews.length === 0 ? ( // Check if there are no reviews
+              <Typography variant="body1" style={{ paddingLeft: '10px' }}>No reviews available.</Typography>
+            ) : (
+            reviews
               .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort reviews by date in descending order
               .map((review, index) => (
                 <div key={index}>
@@ -208,7 +210,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                   </ListItem>
                   <Divider variant="inset" component="li" />
                 </div>
-              ))}
+              )))}
           </List>
         </Paper>
       </section>

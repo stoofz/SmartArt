@@ -161,20 +161,13 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
       console.error('Error updating item quantity in cart:', error);
     }
   };
-
+console.log("productsDetails", productDetails[0].image)
 
   //to display on top of cart
   // const getTotalItems = (items) =>
   //   items.reduce((acc, item) => acc + item.amount, 0);
 
   return (
-    // <>
-    //   <IconButton className="fixed z-50 top-20 right-20" onClick={() => setCartOpen(true)}>
-    //     <Badge badgeContent={getTotalItems(cartItems)} color="error">
-    //       <AddShoppingCart />
-    //     </Badge>
-    //   </IconButton>
-    
    
     <Container className="px-32 flex flex-col pt-32">
       <Typography variant="h4" gutterBottom>
@@ -190,7 +183,9 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
             <div key={index} className={`${true ? "flex" : ""} items-center border-b pb-5 pt-5`}
               style={{ borderColor: 'lightblue' }}>
 
-              <img className="w-[109px] h-[134px] " src="https://via.placeholder.com/109x134" />
+              {/* <img className="w-[109px] h-[134px] " src="https://via.placeholder.com/109x134" /> */}
+              <img className="w-[109px] h-[134px]" src={`uploads/${item.image}`}/>
+              
               <div className="cart-item-details flex-grow" style={{ marginLeft: '20px' }}>
                 <Typography variant="h6" className="flex-grow-0 flex-shrink-0">{item.name}</Typography>
 

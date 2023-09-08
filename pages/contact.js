@@ -1,39 +1,11 @@
 import React, { useRef } from 'react';
-import { TextField, Button } from '@mui/material';
+// import { TextField, Button } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import { Button, TextField, Typography, Container, Grid, Paper } from '@mui/material';
+
 import emailjs from '@emailjs/browser';
 
 
-
-
-
-
-const containerStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: '100vh',
-};
-
-const formStyle = {
-  width: '100%',
-  maxWidth: '400px',
-  padding: '16px',
-  border: '1px solid #ccc',
-  borderRadius: '8px',
-  boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-  backgroundColor: 'white',
-  textAlign: 'center',
-};
-
-const textFieldStyle = {
-  margin: '8px 0',
-};
-
-const buttonStyle = {
-  marginTop: '16px',
-};
 
 
 const ContactUs = () => {
@@ -53,59 +25,83 @@ const ContactUs = () => {
   };
 
   return (
-    <div style={containerStyle}>
-      <form ref={form} onSubmit={sendEmail}  style={formStyle} onSubmit={sendEmail}>
-        <h1>Contact Us</h1>
-        <div>
-          <TextField
-            style={textFieldStyle}
-            label="Name"
-            variant="outlined"
-            size="small"
-            type="text"
-            name="from_name"
-            required
-          />
-          <TextField
-            style={textFieldStyle}
-            label="Email"
-            variant="outlined"
-            size="small"
-            type="email"
-            name="from_email"
-            required
-          />
-        </div>
-        <TextField
-          style={textFieldStyle}
-          label="Subject"
-          variant="outlined"
-          size="small"
-          type="text"
-          name="subject"
-          required
-        />
-        <TextField
-          style={textFieldStyle}
-          label="Message"
-          variant="outlined"
-          size="small"
-          type="text"
-          name="message"
-          multiline
-          rows={4}
-          required
-        />
-        <Button
-          style={buttonStyle}
-          variant="outlined"
-          endIcon={<SendIcon />}
-          type="submit"
-        >
-          Send
-        </Button>
-      </form>
-    </div>
+    <Container maxWidth="md">
+      <Paper elevation={6} style={{ padding: '16px' }}>
+        <Typography variant="h4" gutterBottom>
+          Contact Us
+        </Typography>
+        <form ref={form} onSubmit={sendEmail}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Name"
+                variant="outlined"
+                size="small"
+                type="text"
+                name="from_name"
+                required
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Email"
+                variant="outlined"
+                size="small"
+                type="email"
+                name="from_email"
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Subject"
+                variant="outlined"
+                size="small"
+                type="text"
+                name="subject"
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Message"
+                variant="outlined"
+                size="small"
+                multiline
+                rows={4}
+                name="message"
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                type="submit"
+                variant="contained"
+                endIcon={<SendIcon />}
+                style={{
+                  backgroundColor: 'lightpink',
+                  color: 'white',
+                  transition: 'background-color 0.3s',
+                  '&:hover': {
+                    backgroundColor: 'darkgray',
+                  },
+                }}
+               
+              >
+                Send
+              </Button>
+
+             
+            </Grid>
+          </Grid>
+        </form>
+      </Paper>
+    </Container>
+   
     // <div>
     //   <form ref={form} onSubmit={sendEmail}>
     //     <h1>Contact Us</h1>
