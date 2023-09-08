@@ -59,9 +59,9 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
     }
   })
 
-  const getCartIdForUser = async () => {
+  const getCartIdForUser = async (userId) => {
     try {
-      const response = await axios.get(`/api/getCartId/`);
+      const response = await axios.get(`/api/getCartId/?userId=${userId}`);
 
       if (response.status === 200) {
         return response.data.cartId;
@@ -212,7 +212,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
                     size="small"
                     variant="contained"
                     style={{
-                      backgroundColor: 'lightgray',
+                      backgroundColor: 'lightpink',
                       color: 'white',
                       transition: 'background-color 0.3s',
                       '&:hover': {
@@ -228,7 +228,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
                     size="small"
                     variant="contained"
                     style={{
-                      backgroundColor: 'lightgray',
+                      backgroundColor: 'lightgreen',
                       color: 'white',
                       transition: 'background-color 0.3s',
                       '&:hover': {
@@ -245,10 +245,13 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
           ))}
         </div>
       )}
+      
+
       <div className="cart-total">
         <Typography variant="h6">Total: ${(total / 100).toFixed(2)}</Typography>
       </div>
-      <div className="inline-block pb-20">
+      
+      <div className="inline-block pb-20 flex justify-between">
         <Button size="small"
           variant="contained"
           style={{
@@ -261,7 +264,19 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
           }}
           type="submit" onClick={handleCheckout}>Checkout
         </Button>
+        <Link href={`/products/`}>
+          <Button size="small"
+            variant="contained"
+            style={{ backgroundColor: 'lightblue', color: 'white',  transition: 'background-color 0.3s',
+            '&:hover': {
+              backgroundColor: 'blue',
+            }, }}
+          >
+            Continue shopping
+          </Button>
+        </Link>
       </div>
+     
     </Container>
   )
 }

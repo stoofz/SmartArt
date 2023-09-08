@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-
-
+import { useSessionId } from '/utils/session';
+import Button from '@mui/material/Button';
 import { CircularProgress, Card } from "@mui/material";
 
 
@@ -12,8 +12,12 @@ const Success = () => {
   const router = useRouter();
   const { session_id } = router.query;
   const [orderDetails, setOrderDetails] = useState(null);
-  const userId = 3; 
-  console.log("orderDetails", orderDetails)
+
+  const userId = useSessionId();
+  // const userId = 3; 
+
+
+
   useEffect(() => {
     if (session_id) {
       // Fetch order details based on the session ID
@@ -46,7 +50,7 @@ const Success = () => {
   const paymentSuccessful = orderDetails.orderDetailsSession.paymentStatus === 'paid';
 
   return (
-    <div className="container mx-auto mt-8">
+    <div className="container mx-auto mt-8 " style={{width:"700px"}}>
       {paymentSuccessful ? (
         <>
           <h1 className="text-3xl text-green-500 mb-4">Payment Successful! Thank you for your order!</h1>
@@ -71,14 +75,33 @@ const Success = () => {
               Payment Status: <strong>{orderDetails.orderDetailsSession.paymentStatus}</strong>
             </p>
 
-            <div className="mt-4">
+            <div className="mt-4 flex justify-between">
 
               <Link href={`/orders/${orderDetails.order.id}`}>
-                <button
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                <Button size="small"
+                  variant="contained"
+                  style={{
+                    backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
+                    '&:hover': {
+                      backgroundColor: 'blue',
+                    },
+                  }}
                 >
                   View Order
-                </button>
+                </Button>
+              </Link>
+              <Link href={`/products/`}>
+                <Button size="small"
+                  variant="contained"
+                  style={{
+                    backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
+                    '&:hover': {
+                      backgroundColor: 'blue',
+                    },
+                  }}
+                >
+                  Continue shopping
+                </Button>
               </Link>
 
 

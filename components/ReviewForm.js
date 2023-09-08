@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -9,10 +9,6 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 
 const ReviewForm = ({ open, onClose, onSubmit, comment, setComment, rating, setRating }) => {
  
-  
-
-
-
   return (
     <Dialog open={open} onClose={onClose} >
       <DialogTitle>Write a Review:</DialogTitle>

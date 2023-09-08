@@ -1,6 +1,8 @@
 import prisma from 'utils/prisma';
 import formatDate from 'utils/formatDate';
+import Link from 'next/link';
 import { Typography, Container } from '@mui/material';
+import Button from '@mui/material/Button';
 
 const OrderPage = ({ order }) => {
 console.log("ORDER", order)
@@ -35,15 +37,31 @@ console.log("ORDER", order)
           </div>
         </div>
       </div>
+      <Link href={`/products/`}>
+        <Button size="small"
+          variant="contained"
+          style={{
+            backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
+            '&:hover': {
+              backgroundColor: 'blue',
+            },
+          }}
+        >
+          Continue shopping
+        </Button>
+      </Link>
+     
+      
     </Container>
   );
 };
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps( {req, params }) {
 
-  const orderId = context.params.orderId;
-  
-  const userId = 3;
+  const orderId = params.orderId;
+  const sessionId = req.cookies.sessionId || null;
+  const userId = parseInt(sessionId);
+  //  const userId = 3;
 
   try {
     // Fetch the order by ID

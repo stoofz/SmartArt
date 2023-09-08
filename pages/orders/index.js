@@ -2,14 +2,31 @@ import prisma from 'utils/prisma';
 import formatDate from 'utils/formatDate';
 import Link from 'next/link';
 import { Typography, Container } from '@mui/material';
+import Button from '@mui/material/Button';
 
 const OrdersHistoryList = ({ userOrders }) => {
 
   return (
     <Container className="px-32 flex flex-col pt-32">
-      <Typography variant="h4" gutterBottom>
-        Your Order History
-      </Typography>
+      <div className=" flex justify-between">
+        <Typography variant="h4" gutterBottom>
+          Your Order History
+        </Typography>
+        <Link href={`/products/`}>
+          <Button size="small"
+            variant="contained"
+            style={{
+              backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
+              '&:hover': {
+                backgroundColor: 'blue',
+              },
+            }}
+          >
+            Continue shopping
+          </Button>
+        </Link>
+      </div>
+    
       {userOrders.length === 0 ? (
         <Typography variant="body1">You have no order history.</Typography>
       ) : (
@@ -64,20 +81,12 @@ const OrdersHistoryList = ({ userOrders }) => {
 
 };
 
-export async function getServerSideProps(context) {
-  // const session = await getSession(context);
-  // if (!session) {
-  //   // If the user is not authenticated, redirect them to the login page or handle it as needed.
-  //   return {
-  //     redirect: {
-  //       destination: '/login',
-  //       permanent: false,
-  //     },
-  //   };
-  // }
+export async function getServerSideProps( { req } ) {
 
-  // const userId = session.user.id;
-  const userId = 3;
+  const sessionId = req.cookies.sessionId || null;
+  const userId = parseInt(sessionId);
+ // console.log("req.cookies", sessionId)
+  // const userId = 3;
 
   try {
     // Fetch user-specific orders from Prisma
