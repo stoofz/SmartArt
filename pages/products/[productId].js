@@ -4,7 +4,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 import { averageRating } from 'utils/rating';
+import { getReviews } from 'utils/reviews';
+import { handleAddToCart } from 'utils/cart';
+import { useSessionId } from '/utils/session';
 import ReviewForm from '../../components/ReviewForm';
+
 
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -17,13 +21,16 @@ import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [openForm, setOpenForm] = useState(false);
   const [reviews, setReviews] = useState(defaultReviews);
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
-console.log("reviews", reviews)
+
+  const userId = useSessionId();
+
   const handleFormOpen = () => {
     if (!user) {
       // User is not logged in, show an alert or perform any other action
@@ -126,6 +133,7 @@ console.log("reviews", reviews)
         <h3>{product.name}</h3>
         <p>{product.description}</p>
         <p>{product.price}</p>
+        <AddShoppingCartIcon onClick={() => handleAddToCart(product.id, userId)} />
         <Rating name="read-only" value={averageRating(reviews)} readOnly precision={0.5} />
       </main>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -219,27 +227,30 @@ export async function getServerSideProps({ req, params }) {
   });
   const serializedProduct = JSON.parse(JSON.stringify(product));
 
-  const reviews = await prisma.feedback.findMany({
-    where: { productId: parseInt(productId) },
-    include: { customer: true }
-  });
-// console.log("reviews", reviews)
-  const extractedReviews = reviews.map((review) => {
-    const { id, customerId, date, rating, comment } = review;
-    const { firstName, lastName } = review.customer;
+  //Get nessesary data about reviews
+  const reviews = await getReviews(productId);
 
-    return {
-      id,
-      customerId,
-      date,
-      rating,
-      comment,
-      firstName,
-      lastName,
-    };
-  });
+//   const reviews = await prisma.feedback.findMany({
+//     where: { productId: parseInt(productId) },
+//     include: { customer: true }
+//   });
+// // console.log("reviews", reviews)
+//   const extractedReviews = reviews.map((review) => {
+//     const { id, customerId, date, rating, comment } = review;
+//     const { firstName, lastName } = review.customer;
 
-  const serializedReviews = JSON.parse(JSON.stringify(extractedReviews));
+//     return {
+//       id,
+//       customerId,
+//       date,
+//       rating,
+//       comment,
+//       firstName,
+//       lastName,
+//     };
+//   });
+
+  const serializedReviews = JSON.parse(JSON.stringify(reviews));
   console.log("reviews", reviews);
 
   const sessionId = req.cookies.sessionId || null;
