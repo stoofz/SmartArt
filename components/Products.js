@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { handleAddToCart } from 'utils/cart';
+import { useSessionId } from '../utils/session';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -26,6 +28,9 @@ const Products = () => {
   const [open, setOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [value, setValue] = useState(2.5);
+
+
+  const userId = useSessionId();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -159,7 +164,9 @@ const Products = () => {
               <Button size="small" onClick={() => handleHeartClick(product.id)}>
                 {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
               </Button>
-              <Button size="small"><AddShoppingCartIcon /></Button>
+              <Button size="small"
+                onClick={() => handleAddToCart(product.id, userId)}
+              ><AddShoppingCartIcon  /></Button>
               <Button onClick={() => setOpen(!open)}>
                 <OpenInFullIcon />
               </Button>
@@ -191,14 +198,24 @@ const Products = () => {
                   <Button size="small" onClick={() => handleHeartClick(product.id)}>
                     {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                   </Button>
-                  <Button size="small"><AddShoppingCartIcon /></Button>
+                  <Button size="small" onClick={() => handleAddToCart(product.id, userId)}>
+                    <AddShoppingCartIcon />
+                  </Button>
+                 
                 </DialogActions>
+                
               </Dialog>
+              
             </CardActions>
+       
           </Grid>
+          
         </Grid>
+        
       </CardContent>
+      
     </Card >
+    
   ))
 
   return (
