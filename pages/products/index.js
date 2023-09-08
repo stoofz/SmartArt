@@ -5,34 +5,12 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useSessionId } from 'utils/session';
 import { handleAddToCart } from 'utils/cart';
-
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 
 export default function ProductsPage({ products }) {
 
   const userId = useSessionId();
-
- 
-
-  // const handleAddToCart = async (productId) => {
-
-  //   //const userId = 3; // Replace with the actual user's ID
-  //   const quantity = 1;
-
-  //   try {
-  //     const response = await axios.post('/api/cart', {
-  //       userId,
-  //       productId,
-  //       quantity,
-  //     });
-  //     // Show a success message ????.
-  //     console.log('Item added to cart:', response.data);
-  //   } catch (error) {
-  //     console.error('Error adding item to cart:', error);
-  //     //  Show an error message to the user????
-
-  //   }
-  // };
 
 
   const productItems = () => (products.map((product) =>
@@ -41,7 +19,7 @@ export default function ProductsPage({ products }) {
         <h4>{product.name}</h4>
       </Link>
       <p>${(product.price / 100).toFixed(2)}</p>
-      <button onClick={() => handleAddToCart(product.id, userId)}>Add to Cart</button>
+      <AddShoppingCartIcon onClick={() => handleAddToCart(product.id, userId)} />
     </div>
   ));
   return (
