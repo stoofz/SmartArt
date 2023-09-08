@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 import { averageRating } from 'utils/rating';
-import { getReviews } from 'utils/reviews';
+// import { getReviews } from 'utils/reviews';
 import { handleAddToCart } from 'utils/cart';
 import { useSessionId } from '/utils/session';
 import ReviewForm from '../../components/ReviewForm';
@@ -208,14 +208,10 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                   </ListItem>
                   <Divider variant="inset" component="li" />
                 </div>
-
               ))}
-
           </List>
         </Paper>
-
       </section>
-
     </div>
   );
 };
@@ -227,31 +223,29 @@ export async function getServerSideProps({ req, params }) {
   });
   const serializedProduct = JSON.parse(JSON.stringify(product));
 
-  //Get nessesary data about reviews
-  const reviews = await getReviews(productId);
 
-//   const reviews = await prisma.feedback.findMany({
-//     where: { productId: parseInt(productId) },
-//     include: { customer: true }
-//   });
-// // console.log("reviews", reviews)
-//   const extractedReviews = reviews.map((review) => {
-//     const { id, customerId, date, rating, comment } = review;
-//     const { firstName, lastName } = review.customer;
+  const reviews = await prisma.feedback.findMany({
+    where: { productId: parseInt(productId) },
+    include: { customer: true }
+  });
 
-//     return {
-//       id,
-//       customerId,
-//       date,
-//       rating,
-//       comment,
-//       firstName,
-//       lastName,
-//     };
-//   });
+  const extractedReviews = reviews.map((review) => {
+    const { id, customerId, date, rating, comment } = review;
+    const { firstName, lastName } = review.customer;
 
-  const serializedReviews = JSON.parse(JSON.stringify(reviews));
-  console.log("reviews", reviews);
+    return {
+      id,
+      customerId,
+      date,
+      rating,
+      comment,
+      firstName,
+      lastName,
+    };
+  });
+
+  const serializedReviews = JSON.parse(JSON.stringify(extractedReviews));
+ 
 
   const sessionId = req.cookies.sessionId || null;
   const userId = parseInt(sessionId);
@@ -265,7 +259,7 @@ export async function getServerSideProps({ req, params }) {
       },
     });
   }
-  console.log("user", user);
+
   return { props: { product: serializedProduct, reviews: serializedReviews, user: user || null } };
 }
 
