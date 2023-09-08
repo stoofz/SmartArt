@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import Link from 'next/link';
 // import { TextField, Button } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { Button, TextField, Typography, Container, Grid, Paper } from '@mui/material';
@@ -9,6 +10,7 @@ import emailjs from '@emailjs/browser';
 
 
 const ContactUs = () => {
+  const [isEmailSent, setEmailSent] = useState(false);
   const form = useRef();
 
   const sendEmail = (e) => {
@@ -19,14 +21,40 @@ const ContactUs = () => {
           console.log(result.text);
           // clear form on submit
           e.target.reset();
+        setEmailSent(true);
       }, (error) => {
           console.log(error.text);
       });
   };
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }} >
       <Paper elevation={6} style={{ padding: '16px' }}>
+
+        {isEmailSent ? (
+          <div>
+            <Typography variant="h4" gutterBottom>
+              Thank you for sending your email!
+            </Typography>
+            <Typography variant="body1">
+              We'll get back to you as soon as possible.
+            </Typography>
+            <Link href={`/products/`}>
+              <Button size="small"
+                variant="contained"
+                style={{
+                  backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
+                  '&:hover': {
+                    backgroundColor: 'blue',
+                  },
+                }}
+              >
+                Continue shopping
+              </Button>
+            </Link>
+          </div>
+        ) : (
+            <div>
         <Typography variant="h4" gutterBottom>
           Contact Us
         </Typography>
@@ -99,6 +127,8 @@ const ContactUs = () => {
             </Grid>
           </Grid>
         </form>
+        </div>
+        )}
       </Paper>
     </Container>
    

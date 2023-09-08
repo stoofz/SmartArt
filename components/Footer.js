@@ -1,6 +1,7 @@
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -40,7 +41,10 @@ export default function Footer() {
               </ul>
             </div>
             <div className="p-3">
-              <h3 className="font-bold">Contact</h3>
+              <Link href={`/contact/`}>
+                <h3 className="font-bold">Contact</h3>
+              </Link>
+        
               <ul>
                 <li>Getting Started</li>
                 <li>Pricing</li>
