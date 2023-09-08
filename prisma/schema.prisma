@@ -45,6 +45,9 @@ model Product {
   category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId Int
   name      String
+  artist    String
+  country   String
+  dimensions String
   price     Decimal
   stock     Int
   image     String
