@@ -84,9 +84,9 @@ const OrdersHistoryList = ({ userOrders }) => {
 export async function getServerSideProps( { req } ) {
 
   const sessionId = req.cookies.sessionId || null;
- // const userId = parseInt(sessionId);
+  const userId = parseInt(sessionId);
  // console.log("req.cookies", sessionId)
-  const userId = 3;
+  // const userId = 3;
 
   try {
     // Fetch user-specific orders from Prisma

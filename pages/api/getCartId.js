@@ -6,8 +6,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    // const userId = req.query.userId; 
-    const userId = 3;
+     const userId = req.query.userId; 
+    // const userId = 3;
     // Use getCartIdForUser to retrieve the cart ID
     const userCart = await prisma.cart.findFirst({
       where: {

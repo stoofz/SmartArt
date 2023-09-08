@@ -60,9 +60,9 @@ export async function getServerSideProps( {req, params }) {
 
   const orderId = params.orderId;
   const sessionId = req.cookies.sessionId || null;
-  //const userId = parseInt(sessionId);
-   const userId = 3;
-console.log("orderId", orderId)
+  const userId = parseInt(sessionId);
+  //  const userId = 3;
+
   try {
     // Fetch the order by ID
     const order = await prisma.Order.findUnique({

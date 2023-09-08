@@ -59,9 +59,9 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
     }
   })
 
-  const getCartIdForUser = async () => {
+  const getCartIdForUser = async (userId) => {
     try {
-      const response = await axios.get(`/api/getCartId/`);
+      const response = await axios.get(`/api/getCartId/?userId=${userId}`);
 
       if (response.status === 200) {
         return response.data.cartId;

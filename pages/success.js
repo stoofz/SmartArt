@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-
+import { useSessionId } from '/utils/session';
 import Button from '@mui/material/Button';
 import { CircularProgress, Card } from "@mui/material";
 
@@ -12,8 +12,12 @@ const Success = () => {
   const router = useRouter();
   const { session_id } = router.query;
   const [orderDetails, setOrderDetails] = useState(null);
-  const userId = 3; 
-  console.log("orderDetails", orderDetails)
+
+  const userId = useSessionId();
+  // const userId = 3; 
+
+
+
   useEffect(() => {
     if (session_id) {
       // Fetch order details based on the session ID
