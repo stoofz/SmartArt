@@ -3,7 +3,7 @@ import prisma from 'utils/prisma';
 import React, { useState } from 'react';
 import axios from 'axios';
 
-
+import { averageRating } from 'utils/rating';
 import ReviewForm from '../../components/ReviewForm';
 
 import Paper from '@mui/material/Paper';
@@ -116,7 +116,6 @@ console.log("reviews", reviews)
     }
   };
 
-
   if (!product) {
     return <div>Loading...</div>;
   }
@@ -127,6 +126,7 @@ console.log("reviews", reviews)
         <h3>{product.name}</h3>
         <p>{product.description}</p>
         <p>{product.price}</p>
+        <Rating name="read-only" value={averageRating(reviews)} readOnly precision={0.5} />
       </main>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
 
