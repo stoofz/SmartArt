@@ -32,6 +32,8 @@ const Products = () => {
   const { user, error, isLoading } = useUser();
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(20);
+  const [totalProducts, setTotalProducts] = useState(0);
+
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
@@ -43,7 +45,11 @@ const Products = () => {
       try {
         const response = await fetch('/api/listProducts');
         if (response.ok) {
-          setProducts(await response.json());
+          const productData = await response.json();
+          setProducts(productData);
+          // Find total amount of products
+          setTotalProducts(productData.length);
+
         }
       } catch (error) {
         console.error('Error fetching products', error);
@@ -51,6 +57,13 @@ const Products = () => {
     };
     getProducts();
   }, [currentPage]);
+
+  
+  // Find Products to display per page
+  const lastProductOfPage = currentPage * productsPerPage;
+  const firstProductOfPage = lastProductOfPage- productsPerPage;
+  const pageProducts = products.slice(firstProductOfPage, lastProductOfPage);
+
 
   //add logic to add to wishlist
   const handleHeartClick = (productId) => {
@@ -133,7 +146,7 @@ const Products = () => {
   `;
 
 
-  const productList = () => (products.map((product) =>
+  const productList = () => (pageProducts.map((product) =>
     <Grid item xs={12} sm={6} md={4}>
       <ContainerStyled>
         <Card sx={{ minWidth: 200, boxShadow: 1 }}
@@ -291,11 +304,16 @@ const Products = () => {
         spacing={5}
       >
         {productList()}
-        <Paginate count={10} onChange={(e, value) => setCurrentPage(value)} />
+
+        <Paginate
+          count={Math.ceil(totalProducts / productsPerPage)}
+          page={currentPage}
+          onChange={(e, value) => setCurrentPage(value)}
+        />
+        
       </Grid>
     </ThemeProvider>
   );
-}
+};
 
 export default Products;
-
