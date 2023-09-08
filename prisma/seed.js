@@ -1,5 +1,10 @@
+// Import file system and csv-parser
+const fs = require('fs');
+const csv = require('csv-parser');
+
 // Import the PrismaClient
 const { PrismaClient } = require('@prisma/client');
+const { time } = require('console');
 
 // Instantiate the PrismaClient
 const prisma = new PrismaClient();
@@ -19,6 +24,7 @@ async function main() {
       },
     });
 
+  
     // Insert data into the "customers" table
 
 // CUSTOMERS
@@ -132,9 +138,11 @@ async function main() {
 //CATEGORIES
      //Hold "categories" table data in array
     const categoriesData = [
-      { name: 'Mobility Scooters' },
-      { name: 'Personal Care' },
-      { name: 'Electronics' },
+      { name: 'Acrylic Paintings' },
+      { name: 'Oil Paintings' },
+      { name: 'Watercolor Paintings' },
+      { name: 'Sculptures' },
+      { name: 'Photography' },
      
     ];
     //Insert data into the "categories" table
@@ -143,71 +151,40 @@ async function main() {
     });
     //Get and store in var newly created categories to extract id dinamically
     const categories = await prisma.category.findMany();
-    // console.log("LINE 63: categories:", categories);
 
 
 //PRODUCTS
     //Hold "products" table data in array
-    const productsData = [
-      {
-        categoryId: categories[0].id,
-        name: 'ViveHealth 3 Wheel Mobility Scooter',
-        price: 18490,
-        stock: 10,
-        image: 'Red_3wheel_Basket.PNG',
-        description: 'Top Speed: 3.70 mph',
-      },
-      {
-        categoryId: categories[0].id,
-        name: 'Drive S38601 Bobcat 3 Wheel Scooter',
-        price: 111369,
-        stock: 6,
-        image: 'Drive_S38601_3wheel.PNG',
-        description:
-          'The Bobcat 3 Wheel Compact Scooter by Drive Medical is ideal for indoor and outdoor use and is lightweight and easy to operate. It has a 32.2" turning radius, with a top speed of 4 mph and a cruising range of 7.5 miles. It comes in a convenient, compact 4 piece design allows for easy tool free assembly and disassembly. The comfortable, height adjustable seat comes with flip back adjustable arms and anti-tipples to ensure users comfort and safety. The large carry basket provides a safe storage space for personal items and the tiller folds down for easy storage. If you are looking for added product protection, purchase the additional warranty coverage by adding Drive Medicals Piece of Mind protection to your scooter.',
-      },
-      {
-        categoryId: categories[0].id,
-        name: 'Medline Adult Toothbrush 30 Tuft',
-        price: 1353,
-        stock: 200,
-        image: 'MDS136000.PNG',
-        description: 'Medline Adult Toothbrush 30 Tuft',
-      },
-      {
-        categoryId: categories[0].id,
-        name: 'DenTips Oral Swabsticks 6"',
-        price: 7091,
-        stock: 100,
-        image: 'MDS096202.PNG',
-        description: 'DENTIP ORAL SWAB UNTREATED 6" INDIV WRAP',
-      },
-      {
-        categoryId: categories[0].id,
-        name: 'ENERGIZER L675ZA-8ZM RAYOVAC HEARING AID BATTERIES #675 PK/8',
-        price: 1599,
-        stock: 130,
-        image: 'RAYOVAC_L675ZA-8ZM_BATTERY_675__87636.PNG',
-        description:
-          'Hearing Aid Battery L675ZA-8ZM is a popular battery for behind-the-ear hearing aids. All manufacturers color code this battery blue for easy identification. However this should not be confused with the high power ZA675P cochlear implant batteries that are also colour coded blue.',
-      },
-      {
-        categoryId: categories[0].id,
-        name: 'Revamp Progloss Perfect Blow Dryer Volume & Shine Brush',
-        price: 23999,
-        stock: 440,
-        image: 'dr-2000product1__11588__30040__83552.PNG',
-        description:
-          'Powerful drying and styling combined into one simple hair tool. The Revamp Progloss Perfect Blow Dry Volume and Shine Air Styler dries, detangles, smooths and styles your hair in just one pass. The oval ceramic barrel of the brush works to smooth and style hair, whilst the rounded edges add volume at the root, to help you create a salon-quality blow-dry at home. To ensure frizz-free styling, this multifunctional styler features 4 ionic jet emitters and a ceramic barrel. Customize your styling experience with 3 Heat/Speed Settings, including a cool option to set your hairstyles in place. The lightweight design and 9 foot salon swivel cable allow for quick and easy styling, with additional flexibility. Infused with Progloss super smooth oils for enhanced shine.',
-      },
-    ];
-    //Insert data into the "products" table
-    const createdProducts = await prisma.product.createMany({
+    const productsData = [];
+    const streamData = fs.createReadStream('./prisma/data.csv').pipe(csv({ separator: '|' }));
+
+    for await (const row of streamData) {
+      // Add 00's to the end of the price
+      const priceFormat = (parseFloat(row.price) * 100).toString();
+
+      productsData.push({
+        categoryId: parseInt(row.categoryId),
+        name: row.name,
+        artist: row.artist,
+        country: row.country,
+        dimensions: row.dimensions,
+        price: parseInt(priceFormat),
+        stock: parseInt(row.stock),
+        image: row.image,
+        description: row.description,
+      });
+    }
+
+    // Create products in the database
+    await prisma.product.createMany({
       data: productsData,
     });
-    //get and store in var newly created products to extract id dinamically
-    const products = await prisma.product.findMany();
   
+    //get and store in var newly created products to extract id dinamically
+    const products = await prisma.product.findMany({
+      take: 5, // find only the first 5 records for demo cart
+    });
+
 
 //CARTS
     //Hold "carts" table data in array
