@@ -4,8 +4,7 @@
 import axios from 'axios';
 import Link from 'next/link';
 import prisma from 'utils/prisma';
-import { Button, IconButton, Badge } from "@mui/material";
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { Button } from "@mui/material";
 import React, { useState } from 'react';
 import checkout from './api/checkout';
 
@@ -161,7 +160,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
       console.error('Error updating item quantity in cart:', error);
     }
   };
-console.log("productsDetails", productDetails[0].image)
+// console.log("productsDetails", productDetails[0].image)
 
   //to display on top of cart
   // const getTotalItems = (items) =>

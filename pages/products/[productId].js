@@ -6,6 +6,7 @@ import axios from 'axios';
 import { averageRating } from 'utils/rating';
 // import { getReviews } from 'utils/reviews';
 import { handleAddToCart } from 'utils/cart';
+import { handleAddToWishlist } from 'utils/wishlist';
 import { useSessionId } from '/utils/session';
 import ReviewForm from '../../components/ReviewForm';
 
@@ -22,6 +23,7 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [openForm, setOpenForm] = useState(false);
@@ -134,6 +136,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
         <p>{product.description}</p>
         <p>{product.price}</p>
         <AddShoppingCartIcon onClick={() => handleAddToCart(product.id, userId)} />
+        <FavoriteIcon style={{ margin: '20px' }} onClick={() => handleAddToWishlist(product.id, userId)} />
         <Rating name="read-only" value={averageRating(reviews)} readOnly precision={0.5} />
       </main>
       <div style={{ display: 'flex', justifyContent: 'center' }}>

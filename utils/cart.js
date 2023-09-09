@@ -17,7 +17,7 @@ const handleAddToCart = async (productId, userId) => {
       position: toast.POSITION.TOP_RIGHT,
       autoClose: 3000, // Auto-close the message after 3 seconds
     });
-    // Show a success message ????.
+   
     console.log('Item added to cart:', response.data);
   } catch (error) {
     console.error('Error adding item to cart:', error);
