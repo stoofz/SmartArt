@@ -29,36 +29,39 @@ function ViewOrder({ order }) {
     <>
       <h2>Order Details</h2>
       {orderDetails ? (
-  <>
-    <p>Order ID: {orderDetails.id}</p>
-    <p>Total Price: {orderDetails.totalPrice}</p>
-    <p>Order Date: {orderDetails.orderDate}</p>
-    <p>Customer ID: {orderDetails.customerId}</p>
-    <p>Name: {orderDetails.customer.firstName} {orderDetails.customer.lastName}</p>
-    <p>Email: {orderDetails.customer.email}</p>
-    {orderDetails.customer.address.map((address) => (
-        <div key={address.id}>
-        <p>Street: {address.street}</p>
-        <p>City: {address.city}</p>
-        <p>Province: {address.province}</p>
-        <p>Country: {address.country}</p>
-        <p>Postal Code: {address.postal}</p>
-        <p>Phone: {address.phone}</p>
-        </div>
-        ))}
-    <p>Items:</p>
-    <ul>
-      {orderDetails.orderItem.map((item) => (
-        <li key={item.id}>
-          {item.product.name} - {item.qty} x {item.price} = {item.qty * item.price}
-        </li>
-      ))}
-    </ul>
-  </>
-) : (
-  <p>Loading order details...</p>
-)}
+      <>
+        <p>Order ID: {orderDetails.id}</p>
+        <p>Total Price: {orderDetails.totalPrice}</p>
+        <p>Order Date: {orderDetails.orderDate}</p>
+        <p>Customer ID: {orderDetails.customerId}</p>
+        <p>Name: {orderDetails.customer.firstName} {orderDetails.customer.lastName}</p>
+        <p>Email: {orderDetails.customer.email}</p>
+        {orderDetails.customer.address.map((address) => (
+            <div key={address.id}>
+            <p>Street: {address.street}</p>
+            <p>City: {address.city}</p>
+            <p>Province: {address.province}</p>
+            <p>Country: {address.country}</p>
+            <p>Postal Code: {address.postal}</p>
+            <p>Phone: {address.phone}</p>
+            </div>
+            ))}
+          <p>Items:</p>
+          <div style={{ height: '400px', overflowY: 'auto' }}>
+            <ul>
+              {orderDetails.orderItem.map((item) => (
+                <li key={item.id}>
+                  {item.product.name} - {item.qty} x {item.price} = {item.qty * item.price}
+                </li>
+              ))}
+            </ul>
+          </div>
+      </>
+      ) : (
+        <p>Loading order details...</p>
+      )}
     </>
+
   );
 }
 
