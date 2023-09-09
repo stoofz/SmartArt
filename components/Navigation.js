@@ -80,7 +80,7 @@ export default function Navigation() {
                     textDecoration: 'none',
                     '&:hover': { textDecoration: 'underline' },
                     padding: "1em",
-                    marginLeft: "80em",
+                    // marginLeft: "80em",
                   }}
                 >
                   Welcome, {user.name}!
@@ -118,7 +118,7 @@ export default function Navigation() {
                     textDecoration: 'none',
                     '&:hover': { textDecoration: 'underline' },
                     padding: "1em",
-                    marginLeft: "90em",
+                    // marginLeft: "90em",
                   }}
                 >
                   Sign In
@@ -198,7 +198,9 @@ export default function Navigation() {
               <Search>
                 <TextField
                   placeholder="Search…"
-                  sx={{ backgroundColor: theme.palette.primary.light, color: theme.palette.primary.main, marginLeft: "80em" }}
+                  sx={{ backgroundColor: theme.palette.primary.light, color: theme.palette.primary.main, 
+                    // marginLeft: "80em" 
+                  }}
                   onChange={handleChange}
                   InputProps={{
                     endAdornment: (

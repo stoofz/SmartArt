@@ -177,6 +177,7 @@ const Products = () => {
                   <Button
                     variant="text"
                     onClick={() => setOpen(!open)}
+                    id={product.id}
                   >
                     <CloseIcon />
                   </Button>
