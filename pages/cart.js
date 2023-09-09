@@ -183,7 +183,6 @@ console.log("productsDetails", productDetails[0].image)
             <div key={index} className={`${true ? "flex" : ""} items-center border-b pb-5 pt-5`}
               style={{ borderColor: 'lightblue' }}>
 
-              {/* <img className="w-[109px] h-[134px] " src="https://via.placeholder.com/109x134" /> */}
               <img className="w-[109px] h-[134px]" src={`uploads/${item.image}`}/>
               
               <div className="cart-item-details flex-grow" style={{ marginLeft: '20px' }}>

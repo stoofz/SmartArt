@@ -5,51 +5,65 @@ import { Typography, Container } from '@mui/material';
 import Button from '@mui/material/Button';
 
 const OrderPage = ({ order }) => {
-console.log("ORDER", order)
+//console.log("ORDER", order.orderItem[0].product.image)
   if (!order) {
     return <div>Loading...</div>;
   }
 
   return (
     <Container className="px-32 flex flex-col pt-32">
-      <Typography variant="h4" gutterBottom>
-        Order #{order.id}
-      </Typography>
+      <div className=" flex justify-between">
+        <Typography variant="h4" gutterBottom>
+          Order #{order.id}
+        </Typography>
+        <Link href={`/products/`}>
+          <Button size="small"
+            variant="contained"
+            style={{
+              backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
+              '&:hover': {
+                backgroundColor: 'blue',
+              },
+            }}
+          >
+            Continue shopping
+          </Button>
+        </Link>
+      </div>
+     
       <div className="flex items-center border-b pb-5 pt-5" style={{ borderColor: 'lightblue' }}>
-        <div className="w-[109px] h-[134px]">
+        {/* <div className="w-[109px] h-[134px]">
           <img src="https://via.placeholder.com/109x134" alt={`Order #${order.id}`} />
-        </div>
+        </div> */}
         <div className="flex-grow" style={{ marginLeft: '20px' }}>
           <div className="flex justify-between">
             <Typography variant="h6">{`Order Date: ${formatDate(order.orderDate)}`}</Typography>
             <Typography variant="h6">{`Total: $${(order.totalPrice / 100).toFixed(2)}`}</Typography>
           </div>
-          <Typography variant="body2">{`Order Status: ${order.orderStatus}`}</Typography>
+          <Typography variant="body2">
+            Order Status:{" "}
+            <span style={{ color: order.orderStatus === "Completed" ? "green" : "inherit" }}>
+              {order.orderStatus}
+            </span>
+          </Typography>
           <div>
-            <h4>Order Items:</h4>
+           
             <ul>
               {order.orderItem.map((item, index) => (
-                <li key={index}>
-                  {`${item.qty}x ${item.product.name} - $${(item.price / 100).toFixed(2)}`}
+                <li key={index} className="flex items-center space-x-4 my-4">
+                  <img className="w-[109px] h-[134px]" src={`../uploads/${item.product.image}`} alt={`Order #${order.id}`} />
+                  <div>
+                    <span style={{ fontWeight: 'bold' }}>{`${item.qty}x ${item.product.name}`}</span>
+                    <br />
+                    <span style={{ color: 'gray' }}>{`Price: $${(item.price / 100).toFixed(2)}`}</span>
+                  </div>
                 </li>
               ))}
             </ul>
           </div>
         </div>
       </div>
-      <Link href={`/products/`}>
-        <Button size="small"
-          variant="contained"
-          style={{
-            backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
-            '&:hover': {
-              backgroundColor: 'blue',
-            },
-          }}
-        >
-          Continue shopping
-        </Button>
-      </Link>
+    
      
       
     </Container>

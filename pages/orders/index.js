@@ -5,7 +5,7 @@ import { Typography, Container } from '@mui/material';
 import Button from '@mui/material/Button';
 
 const OrdersHistoryList = ({ userOrders }) => {
-
+  console.log("userOrders", userOrders)
   return (
     <Container className="px-32 flex flex-col pt-32">
       <div className=" flex justify-between">
@@ -26,7 +26,7 @@ const OrdersHistoryList = ({ userOrders }) => {
           </Button>
         </Link>
       </div>
-    
+   
       {userOrders.length === 0 ? (
         <Typography variant="body1">You have no order history.</Typography>
       ) : (
@@ -39,7 +39,7 @@ const OrdersHistoryList = ({ userOrders }) => {
               style={{ borderColor: 'lightblue' }}
             >
               <div className="w-[109px] h-[134px]">
-                <img src="https://via.placeholder.com/109x134" alt={`Order #${order.id}`} />
+               
               </div>
               <div className="flex-grow" style={{ marginLeft: '20px' }}>
                 
@@ -59,14 +59,30 @@ const OrdersHistoryList = ({ userOrders }) => {
                   <ul>
                     {order.orderItem.map((item, index) => (
 
-                      <li key={index}>
-                        {`${item.qty}x ${item.product.name} - $${(item.price / 100).toFixed(2)}`}
+                      <li key={index} className="flex items-center space-x-4">
+                       
+                        {/* <img className="w-[109px] h-[134px]" src={`uploads/${item.product.image}`} alt={`Order #${order.id}`} /> */}
+                        <span>{`${item.qty}x ${item.product.name} - $${(item.price / 100).toFixed(2)}`}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
                 <Link href={`/orders/${order.id}`}>
-                  <h4>View Details</h4>
+                  <Button
+                    variant="contained"
+                    style={{
+                      backgroundColor: 'lightpink',
+                      color: 'white',
+                      transition: 'background-color 0.3s',
+                      '&:hover': {
+                        backgroundColor: 'darkgray',
+                      },
+                    }}
+
+                  >
+                    View Details
+                  </Button>
+                  
                 </Link>
               </div>
              
