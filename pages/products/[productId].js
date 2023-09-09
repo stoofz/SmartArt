@@ -136,7 +136,9 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
         <p>{product.description}</p>
         <p>{product.price}</p>
         <AddShoppingCartIcon onClick={() => handleAddToCart(product.id, userId)} />
+
         <FavoriteIcon style={{ margin: '20px' }} onClick={() => handleAddToWishlist(product.id, userId)} />
+
         <Rating name="read-only" value={averageRating(reviews)} readOnly precision={0.5} />
       </main>
       <div style={{ display: 'flex', justifyContent: 'center' }}>

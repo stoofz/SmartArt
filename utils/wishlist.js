@@ -9,7 +9,7 @@ const handleAddToWishlist = async (productId, customerId) => {
       customerId,
       productId,
     });
-    toast.success('Item added to wishlist', {
+    toast.success('Item added to wishlist successfully', {
       position: toast.POSITION.TOP_RIGHT,
       autoClose: 3000, // Auto-close the message after 3 seconds
     });

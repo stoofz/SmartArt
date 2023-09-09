@@ -184,6 +184,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
 
               <img className="w-[109px] h-[134px]" src={`uploads/${item.image}`}/>
               
+              
               <div className="cart-item-details flex-grow" style={{ marginLeft: '20px' }}>
                 <Typography variant="h6" className="flex-grow-0 flex-shrink-0">{item.name}</Typography>
 
