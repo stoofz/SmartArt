@@ -16,7 +16,7 @@ const WishlistPage = ({ serializedWishlistData: defaultWishlistData }) => {
   const [loading, setLoading] = useState(true);
   // console.log("wishlistData", wishlistData)
   const userId = useSessionId();
-console.log("USER", userId)
+// console.log("USER", userId)
 
   useEffect(() => {
     setWishlistData(defaultWishlistData);
@@ -24,21 +24,22 @@ console.log("USER", userId)
   }, [defaultWishlistData]);
 
 
-  const deleteFromWishlist = async (userId, productId, ) => {
+  const deleteFromWishlist = async (userId, productId ) => {
+    console.log("userId, productId", userId, productId )
     try {
       // Create a payload with the userId and productId
       const payload = {
         userId, 
         productId,
       };
-
+      
       // Make an API request to delete the item from the wishlist
-      const response = await axios.delete('/api/wishlist', { data: payload });
-
+      const response = await axios.delete('/api/wishlist', { data: payload } );
+      console.log("responseA", response)
       if (response.status === 200) {
         // Update the wishlist state by filtering out the deleted item
-        const updatedWishlist = wishlist.filter((item) => item.productId !== productId);
-        setWishlist(updatedWishlist);
+        // const updatedWishlist = wishlist.filter((item) => item.productId !== productId);
+        setWishlistData(response.data);
       }
     } catch (error) {
       console.error('Error deleting item from wishlist:', error);
@@ -66,7 +67,7 @@ console.log("USER", userId)
     
   }
 
-console.log("wishlistdata", wishlistData[0].product)
+// console.log("wishlistdata", wishlistData[0].product)
 
   return (
 
@@ -97,7 +98,7 @@ console.log("wishlistdata", wishlistData[0].product)
                   {item.product.name}
                 </Typography>
                 <div className="flex justify-between w-1/2 pt-5">
-                  <Typography variant="body2">Price: ${item.product.price}</Typography>
+                  <Typography variant="body2">Price: ${(item.product.price / 100).toFixed(2)}</Typography>
                   {/* Add any other details you want to display */}
 
                 </div>

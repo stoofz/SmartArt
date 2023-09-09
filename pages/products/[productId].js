@@ -30,7 +30,8 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [reviews, setReviews] = useState(defaultReviews);
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
-
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  
   const userId = useSessionId();
 
   const handleFormOpen = () => {
@@ -137,7 +138,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
         <p>{product.price}</p>
         <AddShoppingCartIcon onClick={() => handleAddToCart(product.id, userId)} />
 
-        <FavoriteIcon style={{ margin: '20px' }} onClick={() => handleAddToWishlist(product.id, userId)} />
+        <FavoriteIcon style={{ margin: '20px' }} onClick={() => handleAddToWishlist({productId:product.id, userId})} />
 
         <Rating name="read-only" value={averageRating(reviews)} readOnly precision={0.5} />
       </main>
