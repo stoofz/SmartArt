@@ -3,17 +3,15 @@ import { TextField, Button } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import emailjs from '@emailjs/browser';
 
-
-
-
-
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 
 const containerStyle = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  height: '100vh',
+  height: '80vh',
 };
 
 const formStyle = {
@@ -35,7 +33,6 @@ const buttonStyle = {
   marginTop: '16px',
 };
 
-
 const ContactUs = () => {
   const form = useRef();
 
@@ -53,59 +50,66 @@ const ContactUs = () => {
   };
 
   return (
-    <div style={containerStyle}>
-      <form ref={form} onSubmit={sendEmail}  style={formStyle} onSubmit={sendEmail}>
-        <h1>Contact Us</h1>
-        <div>
-          <TextField
-            style={textFieldStyle}
-            label="Name"
-            variant="outlined"
-            size="small"
-            type="text"
-            name="from_name"
-            required
-          />
-          <TextField
-            style={textFieldStyle}
-            label="Email"
-            variant="outlined"
-            size="small"
-            type="email"
-            name="from_email"
-            required
-          />
+    <>
+      {/* Needs state for user */}
+      {/* <Navigation /> */}
+      <main>
+        <div style={containerStyle}>
+          <form ref={form} onSubmit={sendEmail} style={formStyle}>
+            <h1>Contact Us</h1>
+            <div>
+              <TextField
+                style={textFieldStyle}
+                label="Name"
+                variant="outlined"
+                size="small"
+                type="text"
+                name="from_name"
+                required
+              />
+              <TextField
+                style={textFieldStyle}
+                label="Email"
+                variant="outlined"
+                size="small"
+                type="email"
+                name="from_email"
+                required
+              />
+            </div>
+            <TextField
+              style={textFieldStyle}
+              label="Subject"
+              variant="outlined"
+              size="small"
+              type="text"
+              name="subject"
+              required
+            />
+            <TextField
+              style={textFieldStyle}
+              label="Message"
+              variant="outlined"
+              size="small"
+              type="text"
+              name="message"
+              multiline
+              rows={4}
+              required
+            />
+            <Button
+              style={buttonStyle}
+              variant="outlined"
+              endIcon={<SendIcon />}
+              type="submit"
+            >
+              Send
+            </Button>
+          </form>
         </div>
-        <TextField
-          style={textFieldStyle}
-          label="Subject"
-          variant="outlined"
-          size="small"
-          type="text"
-          name="subject"
-          required
-        />
-        <TextField
-          style={textFieldStyle}
-          label="Message"
-          variant="outlined"
-          size="small"
-          type="text"
-          name="message"
-          multiline
-          rows={4}
-          required
-        />
-        <Button
-          style={buttonStyle}
-          variant="outlined"
-          endIcon={<SendIcon />}
-          type="submit"
-        >
-          Send
-        </Button>
-      </form>
-    </div>
+      </main>
+      <Footer />
+    </>
     // <div>
     //   <form ref={form} onSubmit={sendEmail}>
     //     <h1>Contact Us</h1>
