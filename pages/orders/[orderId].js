@@ -5,7 +5,7 @@ import { Typography, Container } from '@mui/material';
 import Button from '@mui/material/Button';
 
 const OrderPage = ({ order }) => {
-//console.log("ORDER", order.orderItem[0].product.image)
+
   if (!order) {
     return <div>Loading...</div>;
   }

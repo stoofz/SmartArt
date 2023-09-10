@@ -126,9 +126,6 @@ export async function getServerSideProps( { req } ) {
 
     return { props: { userOrders: serializedOrders } };
 
-
-
-
   } catch (error) {
     console.error('Error fetching user orders', error);
     return {

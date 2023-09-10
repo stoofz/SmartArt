@@ -25,6 +25,8 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
 const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [openForm, setOpenForm] = useState(false);
@@ -145,7 +147,6 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
 
 
 
-
   if (!product) {
     return <div>Loading...</div>;
   }
@@ -175,16 +176,16 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
         )}
         
 
-
         <Rating name="read-only" value={averageRating(reviews)} readOnly precision={0.5} />
       </main>
+
       <div style={{ display: 'flex', justifyContent: 'center' }}>
 
         <Button
           onClick={handleFormOpen}
           startIcon={<AddIcon />}
           variant="outlined"
-          style={{ backgroundColor: 'lightblue', color: 'white', borderColor: 'transparent' }}
+          style={{ backgroundColor: 'lightblue', color: 'white', borderColor: 'transparent', marginBottom: '40px' }}
 
         >
           Please Rate and Review!
@@ -205,56 +206,71 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
         <Typography variant="h4" gutterBottom>
           Customer Reviews
         </Typography>
-        <Paper elevation={6} >
+        {/* <Paper elevation={6}> */}
           <List>
-            {reviews.length === 0 ? ( // Check if there are no reviews
-              <Typography variant="body1" style={{ paddingLeft: '10px' }}>No reviews available.</Typography>
+            {reviews.length === 0 ? (
+              <Typography variant="body1" style={{ paddingLeft: '10px' }}>
+                No reviews available.
+              </Typography>
             ) : (
-            reviews
-              .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort reviews by date in descending order
-              .map((review, index) => (
-                <div key={index}>
+              reviews
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .map((review, index) => (
+                  // <div key={index} style={{ marginBottom: '10px' }}>
+                  <Paper elevation={6} style={{ marginBottom: '10px' }}>
+                    <Card key={index} style={{ minHeight: '150px' }}>
+                      <CardContent style={{ height: '150px', overflowY: 'auto' }} >
+                        <ListItem alignItems="flex-start">
+                          <Avatar style={{ marginRight: '8px' }}>{review.firstName}</Avatar>
+                          <ListItemText
+                            primary={
+                              <div>
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    marginBottom: '8px',
+                                  }}
+                                >
+                                  <Typography variant="body1" style={{ marginRight: '8px' }}>
+                                    {review.firstName} {review.lastName}
+                                  </Typography>
+                                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    {/* Your rating component */}
+                                  </div>
+                                </div>
+                                <div style={{ fontSize: '14px', color: '#777' }}>
+                                  {new Date(review.date).toLocaleDateString('en-CA')}
+                                </div>
+                                <div style={{ fontSize: '14px', color: '#777', marginTop: '8px' }}>
+                                  {review.comment}
+                                </div>
+                              </div>
+                            }
+                          />
 
-                  <ListItem alignItems="flex-start">
-                    <Avatar style={{ marginRight: '8px' }}>{review.firstName}</Avatar>
-                    <ListItemText
-                      primary={
-                        <div>
-                          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
-                            <Typography variant="body1" style={{ marginRight: '8px' }}>
-                              {review.firstName} {review.lastName}
-                            </Typography>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                              <Rating
-                                name="read-only"
-                                value={review.rating}
-                                precision={0.5}
-                                readOnly
-                                sx={{ fontSize: '18px' }}
-                              />
-                            </div>
-                          </div>
-                          <div style={{ fontSize: '14px', color: '#777' }}>{new Date(review.date).toLocaleDateString("en-CA")}</div>
-                          <div style={{ fontSize: '14px', color: '#777', marginTop: '8px' }}>{review.comment}</div>
-
-                        </div>
-                      }
-                    />
-
-                    {user && user.id === review.customerId && ( // Check if user is logged in and owns this review
-                      <Button
-                        onClick={() => deleteReviewFromDb(review.id)}
-                        style={{ backgroundColor: 'lightpink', color: 'white', borderColor: 'transparent' }}
-                      >
-                        <DeleteIcon /> Delete
-                      </Button>
-                    )}
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                </div>
-              )))}
+                          {user && user.id === review.customerId && (
+                            <Button
+                              sx={{
+                                minWidth: 'unset', // Remove the minimum width
+                                // Add other custom styles here
+                              }}
+                              onClick={() => deleteReviewFromDb(review.id)}
+                              style={{ backgroundColor: 'lightpink', color: 'white', borderColor: 'transparent' }}
+                            >
+                              <DeleteIcon /> Delete
+                            </Button>
+                          )}
+                        </ListItem>
+                      </CardContent>
+                    </Card>
+                  </Paper>
+                  
+                 
+                ))
+            )}
           </List>
-        </Paper>
+        {/* </Paper> */}
       </section>
     </div>
   );
