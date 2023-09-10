@@ -25,11 +25,11 @@ export default function Index() {
 
   if (user) {
 
-    setSession(user);
+    //setSession(user);
 
     return (
       <>
-        <Navigation />
+        <Navigation sessionId={ setSession(user) } />
         <main>
           <Products></Products>
         </main>

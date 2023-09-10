@@ -30,7 +30,7 @@ const Search = styled('div')`
   },
 `;
 
-export default function Navigation() {
+export default function Navigation({ sessionId }) {
   const [searchTerm, setSearchTerm] = useState('');
   const { user, error, isLoading } = useUser();
 
@@ -57,7 +57,8 @@ export default function Navigation() {
       }
     },
   });
-  const userId = useSessionId();
+ // const userId = useSessionId();
+  const userId = sessionId;
 
   return (
     <ThemeProvider theme={theme}>
