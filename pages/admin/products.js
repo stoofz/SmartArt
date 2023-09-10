@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AddCategory from 'components/Admin/AddCategory';
 import AddProduct from 'components/Admin/AddProduct';
-import DelForm from 'components/Admin/DelForm';
+import DeleteForm from 'components/Admin/DeleteForm';
 import Notification from 'components/Notification';
 import { Button, Modal, Box, Typography } from '@mui/material';
 import { isAdmin } from 'utils/session';
@@ -14,11 +14,11 @@ import CreateDiscountForm from 'components/Admin/CreateDiscount';
 const ProductsPage = () => {
   const [modals, setModals] = useState({
     category: false,
-    delCategory: false,
+    deleteCatergory: false,
     product: false,
-    delProduct: false,
+    deleteProduct: false,
     createDiscount: false,
-    delDiscount: false,
+    deleteDiscount: false,
   });
 
   const [success, setSuccess] = useState({
@@ -28,9 +28,9 @@ const ProductsPage = () => {
   });
 
   const [delSuccess, setDelSuccess] = useState({
-    delCategory: false,
-    delProduct: false,
-    delDiscount: false,
+    deleteCatergory: false,
+    deleteProduct: false,
+    deleteDiscount: false,
   });
 
   const handleOpen = (modalKey) => {
@@ -83,17 +83,17 @@ const ProductsPage = () => {
         </div>
 
         <div>
-          <Button onClick={() => handleOpen('delCategory')}>Delete Category</Button>
-          <Modal open={modals.delCategory} onClose={() => handleClose('delCategory')}>
+          <Button onClick={() => handleOpen('deleteCatergory')}>Delete Category</Button>
+          <Modal open={modals.deleteCatergory} onClose={() => handleClose('deleteCatergory')}>
             <Box sx={theme}>
-              <Typography id="delCategory">Delete Category</Typography>
-              <DelForm onSuccess={() => handleDelSuccess('delCategory')} apiListEndpoint="/api/listCategories" apiEndpoint="/api/delCategory?CategoryId=" itemName="Categories" />
+              <Typography id="deleteCatergory">Delete Category</Typography>
+              <DeleteForm onSuccess={() => handleDelSuccess('deleteCatergory')} apiListEndpoint="/api/listCategories" apiEndpoint="/api/deleteCatergory?CategoryId=" itemName="Categories" />
             </Box>
           </Modal>
 
           <Notification
-            open={delSuccess.delCategory}
-            onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, delCategory: false }))}
+            open={delSuccess.deleteCatergory}
+            onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, deleteCatergory: false }))}
             message="Category deleted"
           />
         </div>
@@ -115,17 +115,17 @@ const ProductsPage = () => {
         </div>
 
         <div>
-          <Button onClick={() => handleOpen('delProduct')}>Delete Product</Button>
-          <Modal open={modals.delProduct} onClose={() => handleClose('delProduct')}>
+          <Button onClick={() => handleOpen('deleteProduct')}>Delete Product</Button>
+          <Modal open={modals.deleteProduct} onClose={() => handleClose('deleteProduct')}>
             <Box sx={theme}>
-              <Typography id="delProduct">Delete Product</Typography>
-              <DelForm onSuccess={() => handleDelSuccess('delProduct')} apiListEndpoint="/api/listProducts" apiEndpoint="/api/delProduct?productId=" itemName="Products" />
+              <Typography id="deleteProduct">Delete Product</Typography>
+              <DeleteForm onSuccess={() => handleDelSuccess('deleteProduct')} apiListEndpoint="/api/listProducts" apiEndpoint="/api/deleteProduct?productId=" itemName="Products" />
             </Box>
           </Modal>
 
           <Notification
-            open={delSuccess.delProduct}
-            onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, delProduct: false }))}
+            open={delSuccess.deleteProduct}
+            onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, deleteProduct: false }))}
             message="Product deleted"
           />
           </div>
@@ -150,17 +150,17 @@ const ProductsPage = () => {
 
           
         <div>
-          <Button onClick={() => handleOpen('delDiscount')}>Delete Discount</Button>
-          <Modal open={modals.delDiscount} onClose={() => handleClose('delDiscount')}>
+          <Button onClick={() => handleOpen('deleteDiscount')}>Delete Discount</Button>
+          <Modal open={modals.deleteDiscount} onClose={() => handleClose('deleteDiscount')}>
             <Box sx={theme}>
-              <Typography id="delDiscount">Delete Discount</Typography>
-              <DelForm onSuccess={() => handleDelSuccess('delDiscount')} apiListEndpoint="/api/listDiscount" apiEndpoint="/api/delDiscount?discountId=" itemName="Discount" />
+              <Typography id="deleteDiscount">Delete Discount</Typography>
+              <DeleteForm onSuccess={() => handleDelSuccess('deleteDiscount')} apiListEndpoint="/api/listDiscount" apiEndpoint="/api/deleteDiscount?discountId=" itemName="Discount" />
             </Box>
           </Modal>
 
           <Notification
-            open={delSuccess.delDiscount}
-            onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, delDiscount: false }))}
+            open={delSuccess.deleteDiscount}
+            onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, deleteDiscount: false }))}
             message="Discount deleted"
           />
           </div>

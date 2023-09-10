@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-function DelForm({  onSuccess, apiEndpoint, apiListEndpoint, itemName }) {
+function DeleteForm({  onSuccess, apiEndpoint, apiListEndpoint, itemName }) {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -50,4 +50,4 @@ function DelForm({  onSuccess, apiEndpoint, apiListEndpoint, itemName }) {
   );
 }
 
-export default DelForm;
+export default DeleteForm;
