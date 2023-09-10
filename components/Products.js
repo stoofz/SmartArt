@@ -8,7 +8,6 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
-import Link from '@mui/material/Link';
 import NextLink from 'next/link';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -23,7 +22,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Paginate from './Pagination';
-
+import { averageRating } from 'utils/rating';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -31,7 +30,7 @@ const Products = () => {
   const [clicked, setClicked] = useState(false);
   const { user, error, isLoading } = useUser();
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(20);
+  const [productsPerPage] = useState(21);
   const [totalProducts, setTotalProducts] = useState(0);
 
 
@@ -77,13 +76,13 @@ const Products = () => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: '#495E48'
+        main: '#324E4B'
         // light: will be calculated from palette.primary.main,
         // dark: will be calculated from palette.primary.main,
         // contrastText: will be calculated to contrast with palette.primary.main
       },
       secondary: {
-        main: '#DDB8A6'
+        main: '#F5C9C6'
       },
       warning: {
         main: '#893F04'
@@ -109,7 +108,7 @@ const Products = () => {
   const HeartIconStyled = styled(Button)`
     position: absolute;
     left: 0;
-    right: 0;
+    right: 1;
     top: 0;
     bottom: 1;
     width: fit-content;
@@ -145,9 +144,14 @@ const Products = () => {
     justify-content: space-between;
   `;
 
+  
 
   const productList = () => (pageProducts.map((product) =>
-    <Grid item xs={12} sm={6} md={4}>
+
+    <Grid item="true" xs={12} sm={6} md={4}
+    sx={{ maxWidth: '100%' }}
+    key={product.id}
+    >
       <ContainerStyled>
         <Card sx={{ minWidth: 200, boxShadow: 1 }}
           key={product.id}
@@ -173,6 +177,7 @@ const Products = () => {
                   <Button
                     variant="text"
                     onClick={() => setOpen(!open)}
+                    id={product.id}
                   >
                     <CloseIcon />
                   </Button>
@@ -184,14 +189,10 @@ const Products = () => {
                         query: { productId: product.id },
                       }}
                       passHref
+                      overlay="true"
+                      underline="none"
                     >
-                      <Link
-                        overlay
-                        underline="none"
-                        sx={{ color: theme.palette.primary.main }}
-                      >
                         {product.name}
-                      </Link>
                     </NextLink>
                   </DialogTitle>
                   {product.description}
@@ -235,7 +236,7 @@ const Products = () => {
               {/* // adjust backdrop to be transparent */}
             </CardActions>
 
-            <Grid item p={1} m={0}>
+            <Grid item="true" p={1} m={0}>
               <Grid container style={{ height: '100%' }} justifyContent="center">
                 <Typography gutterBottom variant="h7" text-align="center">
                   <NextLink
@@ -244,43 +245,38 @@ const Products = () => {
                       query: { productId: product.id },
                     }}
                     passHref
+                    overlay="true"
+                    underline="none"
                   >
-                    <Link
-                      overlay
-                      underline="none"
-                    >
                       {product.name}
-                    </Link>
                   </NextLink>
                 </Typography>
               </Grid>
             </Grid>
 
-            <Grid item>
+            <Grid item="true">
               <NextLink
                 href={{
                   pathname: "/products/[productId]",
                   query: { productId: product.id },
                 }}
                 passHref
+                overlay="true"
+                underline="none"
               >
-                <Link
-                  overlay
-                  underline="none"
-                >
                   <Rating
                     id={product.id}
                     name="read-only"
                     readOnly
                     precision={0.1}
-                    value={2.5}
+                    // how to access nested select value and average it?
+                    value={averageRating(product.feedback)}
                   >
                   </Rating>
-                </Link>
               </NextLink>
             </Grid>
 
-            <Grid item>
+            <Grid item="true">
               <Grid container style={{ height: '100%' }} justifyContent="center">
                 <Typography variant="h8" text-align="center">
                   ${(product.price / 100).toFixed(2)}
@@ -300,7 +296,11 @@ const Products = () => {
         align="center"
         justify-content="center"
         maxWidth="75%"
-        paddingLeft="25%"
+        paddingTop="5em"
+        paddingLeft="10em"
+        paddingRight="10em"
+        paddingBottom="1em"
+        margin= "auto"
         spacing={5}
       >
         {productList()}
@@ -309,6 +309,7 @@ const Products = () => {
           count={Math.ceil(totalProducts / productsPerPage)}
           page={currentPage}
           onChange={(e, value) => setCurrentPage(value)}
+          sx={{ shape: "rounded", marginTop: "1.5em" }}
         />
         
       </Grid>

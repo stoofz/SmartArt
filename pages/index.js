@@ -14,7 +14,8 @@ import { setSession, clearSession } from 'utils/session';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 import Footer from '../components/Footer';
-import Products from '../components/Products'
+import Products from '../components/Products';
+import Navigation from '../components/Navigation';
 
 export default function Index() {
   const { user, error, isLoading } = useUser();
@@ -28,10 +29,7 @@ export default function Index() {
 
     return (
       <>
-        <div>
-          Welcome {user.name}! <a href="/api/auth/logout" onClick={clearSession}>Logout</a>
-          <AddShoppingCartIcon />
-        </div>
+        <Navigation />
         <main>
           <Products></Products>
         </main>
@@ -42,9 +40,7 @@ export default function Index() {
 
   return (
     <>
-      <nav>
-        <a href="/api/auth/login">Login</a>
-      </nav>
+      <Navigation />
       <main>
         <Products></Products>
       </main>

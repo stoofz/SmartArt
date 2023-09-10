@@ -2,14 +2,18 @@ import React from 'react';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
-const Paginate = ({ count, page, onChange,}) => {
+
+const Paginate = ({ count, page, onChange, }) => {
   return (
-    <Stack>
+    <Stack 
+    margin= "auto"
+    >
       <Pagination
         count={count}
         page={page}
         onChange={onChange}
-        shape="rounded"
+        size="large"
+        sx={{ color:'#F5C9C6' }}
       />
     </Stack>
   );
