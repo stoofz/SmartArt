@@ -1,19 +1,42 @@
 import prisma from "../../utils/prisma";
 
 export default async function handler(req, res) {
-  
+  //Check if product is in wishlist
+  if (req.method === 'GET') {
+    const { productId, userId } = req.query;
+    // console.log("productId, userId ", productId, userId)
+    try {
+      // Query the database to check if the product with productId exists in the user's wishlist
+      const isInWishlist = await prisma.wishlist.findFirst({
+        where: {
+          customerId: Number(userId),
+          productId: Number(productId),
+        },
+      });
+      // console.log("isInWishlist ", isInWishlist)
+      if (isInWishlist) {
+        res.status(200).json({ isInWishlist: true });
+      } else {
+        res.status(200).json({ isInWishlist: false });
+      }
+    } catch (error) {
+      console.error('Error checking if product is in wishlist:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  } 
+
 
   // Add to Wishlist
   if (req.method === 'POST') {
     // Extract data from the request body
-    const { userId, productId } = req.body;
-    console.log("userId", userId, productId)
+    const { productId, userId } = req.body;
+    // console.log("userId", userId, productId)
     try {
       // Create a new wishlist entry using Prisma
       await prisma.wishlist.create({
         data: {
-          customerId: Number(productId), 
-          productId: Number(userId), 
+          customerId: Number(userId), 
+          productId: Number(productId), 
         },
       });
 
@@ -44,11 +67,8 @@ export default async function handler(req, res) {
         }
       });
 
-      // const recordToDelete = await prisma.wishlist.findFirst({
-      //   where: {
-      //     customerId: 6,
-      //   }
-      // });
+    
+   
       console.log("recordToDelete", recordToDelete )
       if (recordToDelete) {
         await prisma.wishlist.delete({

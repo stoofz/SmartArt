@@ -1,12 +1,13 @@
 /* eslint-disable func-style */
 import prisma from 'utils/prisma';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Link from 'next/link';
 
 import { averageRating } from 'utils/rating';
 // import { getReviews } from 'utils/reviews';
 import { handleAddToCart } from 'utils/cart';
-import { handleAddToWishlist } from 'utils/wishlist';
+import { addToWishlist, deleteFromWishlist } from 'utils/wishlist';
 import { useSessionId } from '/utils/session';
 import ReviewForm from '../../components/ReviewForm';
 
@@ -31,9 +32,12 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
   const [isInWishlist, setIsInWishlist] = useState(false);
-  
+  const [heartColor, setHeartColor] = useState('gray');
+console.log("isInWishlist TOP", isInWishlist)
   const userId = useSessionId();
 
+
+//----------------REVIEW LOGIC-----------------
   const handleFormOpen = () => {
     if (!user) {
       // User is not logged in, show an alert or perform any other action
@@ -69,7 +73,6 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
       console.error('An error occurred while saving the review:', error);
     }
   };
-
 
   // Handle the review submission,
   const handleReviewSubmit = (rating, comment) => {
@@ -126,6 +129,86 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
     }
   };
 
+  //-------------------WISHLIST LOGIC --------------------
+
+  
+
+  // const checkIfProductIsInWishlist = async (productId, userId) => {
+  //   try {
+  //     // Make an API request to fetch the user's wishlist
+  //     const response = await axios.get(`/api/wishlist?productId=${productId}&userId=${userId}`);
+      
+  //     // const wishlist = response.data;
+
+  //     // Check if the product with productId exists in the wishlist
+  //     const isInWishlist = response.data.isInWishlist
+  //     console.log("isInWishlist CHECK ", isInWishlist)
+  //     return isInWishlist;
+  //   } catch (error) {
+  //     // Handle errors, such as network issues or errors in the API response
+  //     console.error('Error checking if product is in wishlist:', error);
+  //     return false; // Return false in case of errors
+  //   }
+  // };
+  const checkIfProductIsInWishlist = async (productId, userId) => {
+    try {
+      // Make an API request to check if the product is in the wishlist
+      const response = await axios.get(`/api/wishlist?productId=${productId}&userId=${userId}`);
+      const isInWishlist = response.data.isInWishlist;
+      setIsInWishlist(isInWishlist);
+      return isInWishlist
+     
+    } catch (error) {
+      console.error('Error checking if product is in wishlist:', error);
+    }
+  };
+
+  useEffect(() => {
+    // Call the function to check if the product is in the wishlist
+    checkIfProductIsInWishlist(product.id, userId);
+  }, [product.id, userId]);
+
+
+
+  const handleAddToWishlist = async(productId, userId) => {
+
+    try {
+      // Check if the product is already in the wishlist
+       const trueList = await checkIfProductIsInWishlist(product.id, userId);
+      console.log("trueList ", trueList)
+      if (trueList) {
+        // Product is already in the wishlist, don't add it again
+        console.log('Product is already in the wishlist.');
+      } else {
+        // Product is not in the wishlist, add it
+        const result = await addToWishlist(productId, userId);
+        console.log("LINE 184", result)
+        if (result.success) {
+          // Product added to wishlist successfully
+          setIsInWishlist(true);
+        }
+      }
+    } catch (error) {
+      console.error('Error adding item to wishlist:', error);
+    }
+  };
+  
+  // const handleRemoveFromWishlist = async () => {
+  //   // Implement the logic to remove the product from the wishlist
+  //   try {
+  //     // Make an API request to remove the product from the wishlist
+  //     const response = await axios.delete(`/api/wishlist/remove/${product.id}`);
+
+  //     if (response.status === 200) {
+  //       // Product removed from wishlist successfully
+  //       setIsInWishlist(false);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error removing item from wishlist:', error);
+  //   }
+  // };
+
+
   if (!product) {
     return <div>Loading...</div>;
   }
@@ -138,7 +221,37 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
         <p>{product.price}</p>
         <AddShoppingCartIcon onClick={() => handleAddToCart(product.id, userId)} />
 
-        <FavoriteIcon style={{ margin: '20px' }} onClick={() => handleAddToWishlist({productId:product.id, userId})} />
+        {/* Conditionally render the heart icon based on isInWishlist */}
+        {/* {userId ? (
+          isInWishlist ? (
+            <FavoriteIcon
+              style={{ margin: '20px', color: 'red' }}
+              onClick={handleRemoveFromWishlist}
+            />
+          ) : (
+            <FavoriteIcon
+              style={{ margin: '20px', color: 'gray' }}
+                onClick={handleAddToWishlist(product.id, userId)}
+            />
+          )
+        ) : (
+          <div>
+            <p>Please log in to add items to your wishlist.</p>
+            <Link href="/login">Log in</Link>
+          </div>
+        )} */}
+        {/* <FavoriteIcon style={{ margin: '20px' }} onClick={() => handleAddToWishlist(product.id, userId)} /> */}
+
+        <FavoriteIcon
+          style={{
+            margin: '20px',
+            color: isInWishlist ? 'red' : 'gray', // Change color based on isInWishlist
+          }}
+          onClick={() => handleAddToWishlist(product.id, userId)}
+        />
+
+
+
 
         <Rating name="read-only" value={averageRating(reviews)} readOnly precision={0.5} />
       </main>

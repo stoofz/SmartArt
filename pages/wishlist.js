@@ -3,7 +3,7 @@ import prisma from 'utils/prisma';
 import axios from 'axios';
 
 import { useSessionId } from '/utils/session';
-
+import { deleteFromWishlist } from 'utils/wishlist';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { Typography, Container, DeleteIcon, Button } from '@mui/material';
@@ -24,27 +24,43 @@ const WishlistPage = ({ serializedWishlistData: defaultWishlistData }) => {
   }, [defaultWishlistData]);
 
 
-  const deleteFromWishlist = async (userId, productId ) => {
-    console.log("userId, productId", userId, productId )
-    try {
-      // Create a payload with the userId and productId
-      const payload = {
-        userId, 
-        productId,
-      };
+
+ // Handle onClisk when deleting from wishlist
+  const handleDeleteFromWishlist = async (userId, productId ) => {
+    const result = await deleteFromWishlist(userId, productId);
+    console.log("result", result)
+    if (result.success) {
+      // Update the wishlist state by filtering out the deleted item
+      // const updatedWishlist = wishlistData.filter((item) => item.productId !== productId);
       
-      // Make an API request to delete the item from the wishlist
-      const response = await axios.delete('/api/wishlist', { data: payload } );
-      console.log("responseA", response)
-      if (response.status === 200) {
-        // Update the wishlist state by filtering out the deleted item
-        // const updatedWishlist = wishlist.filter((item) => item.productId !== productId);
-        setWishlistData(response.data);
-      }
-    } catch (error) {
-      console.error('Error deleting item from wishlist:', error);
+      setWishlistData(result.data.data); // Update wishlistData here
+    } else {
+      console.error('Error deleting item from wishlist:', result.error);
     }
   };
+  
+  // const deleteFromWishlist = async (userId, productId ) => {
+   
+  //   try {
+  //     // Create a payload with the userId and productId
+  //     const payload = {
+  //       userId, 
+  //       productId,
+  //     };
+
+  //     // Make an API request to delete the item from the wishlist
+  //     const response = await axios.delete('/api/wishlist', { data: payload } );
+  //     console.log("responseA", response)
+  //     if (response.status === 200) {
+  //       // Update the wishlist state by filtering out the deleted item
+  //       // const updatedWishlist = wishlist.filter((item) => item.productId !== productId);
+  //       setWishlistData(response.data);
+  //       // setIsInWishlist(false);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error deleting item from wishlist:', error);
+  //   }
+  // };
 
 
  
@@ -105,7 +121,7 @@ const WishlistPage = ({ serializedWishlistData: defaultWishlistData }) => {
                 
               </div>
               <Button
-                  onClick={() => deleteFromWishlist(userId, item.product.id)}
+                onClick={() => handleDeleteFromWishlist(userId, item.product.id)}
                 size="small"
                 variant="contained"
                 style={{
