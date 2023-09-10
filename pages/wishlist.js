@@ -14,9 +14,9 @@ const WishlistPage = ({ serializedWishlistData: defaultWishlistData }) => {
  
   const [wishlistData, setWishlistData] = useState( defaultWishlistData );
   const [loading, setLoading] = useState(true);
-  // console.log("wishlistData", wishlistData)
+
   const userId = useSessionId();
-// console.log("USER", userId)
+
 
   useEffect(() => {
     setWishlistData(defaultWishlistData);
@@ -24,45 +24,18 @@ const WishlistPage = ({ serializedWishlistData: defaultWishlistData }) => {
   }, [defaultWishlistData]);
 
 
-
  // Handle onClisk when deleting from wishlist
   const handleDeleteFromWishlist = async (userId, productId ) => {
     const result = await deleteFromWishlist(userId, productId);
     console.log("result", result)
     if (result.success) {
-      // Update the wishlist state by filtering out the deleted item
-      // const updatedWishlist = wishlistData.filter((item) => item.productId !== productId);
-      
+     
       setWishlistData(result.data.data); // Update wishlistData here
     } else {
       console.error('Error deleting item from wishlist:', result.error);
     }
   };
   
-  // const deleteFromWishlist = async (userId, productId ) => {
-   
-  //   try {
-  //     // Create a payload with the userId and productId
-  //     const payload = {
-  //       userId, 
-  //       productId,
-  //     };
-
-  //     // Make an API request to delete the item from the wishlist
-  //     const response = await axios.delete('/api/wishlist', { data: payload } );
-  //     console.log("responseA", response)
-  //     if (response.status === 200) {
-  //       // Update the wishlist state by filtering out the deleted item
-  //       // const updatedWishlist = wishlist.filter((item) => item.productId !== productId);
-  //       setWishlistData(response.data);
-  //       // setIsInWishlist(false);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error deleting item from wishlist:', error);
-  //   }
-  // };
-
-
  
   // Define the styles for the CircularProgress component
   const circularProgressStyle = {
@@ -83,17 +56,12 @@ const WishlistPage = ({ serializedWishlistData: defaultWishlistData }) => {
     
   }
 
-// console.log("wishlistdata", wishlistData[0].product)
 
   return (
-
-
-    
     <Container className="px-32 flex flex-col pt-32">
       <Typography variant="h4" gutterBottom>
         Your Wishlist
       </Typography>
-
 
       {wishlistData.length === 0 ? (
         <Typography variant="body1">Your wishlist is empty.</Typography>
@@ -117,8 +85,7 @@ const WishlistPage = ({ serializedWishlistData: defaultWishlistData }) => {
                   <Typography variant="body2">Price: ${(item.product.price / 100).toFixed(2)}</Typography>
                   {/* Add any other details you want to display */}
 
-                </div>
-                
+                </div>  
               </div>
               <Button
                 onClick={() => handleDeleteFromWishlist(userId, item.product.id)}
@@ -131,16 +98,12 @@ const WishlistPage = ({ serializedWishlistData: defaultWishlistData }) => {
                   '&:hover': {
                     backgroundColor: 'darkgray',
                   },
-                }}
-                
+                }}  
               >
                 Delete
               </Button>
-              
             </div>
-            
           ))}
-        
         </div>
       )}
     </Container>
@@ -158,7 +121,6 @@ export async function getServerSideProps({ req, params }) {
     },
     include: {
       product: true,
-      // Add any other fields you want to include from the related models.
     },
   });
   try {

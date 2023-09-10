@@ -1,28 +1,25 @@
+//Functions used in pages/wishlist, pages/products/productId,
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const addToWishlist = async( userId, productId ) => {
-  // console.log("userId", userId)
-  // console.log("productId", productId)
+ 
   try {
-
     // Make an API request to add the product to the wishlist
     const response = await axios.post('/api/wishlist', {
       userId,
       productId,
     });
-    // console.log("response", response)
+
     toast.success('Item added to wishlist successfully', {
       position: toast.POSITION.TOP_RIGHT,
-      autoClose: 3000, // Auto-close the message after 3 seconds
+      autoClose: 2000, // Auto-close the message after 3 seconds
     });
     return { success: true };
-    // setIsInWishlist(true);
-    // Handle success, show a success message, etc.
-    console.log('Item added to wishlist:', response.data);
+   
   } catch (error) {
-    // Handle errors, show an error message, etc.
+    // Handle errors, show an error message ..
     console.error('Error adding item to wishlist:', error);
   }
 };
@@ -36,16 +33,15 @@ const deleteFromWishlist = async (userId, productId) => {
       userId,
       productId,
     };
-
     // Make an API request to delete the item from the wishlist
     const response = await axios.delete('/api/wishlist', { data: payload });
     console.log("responseA", response);
     if (response.status === 200) {
-      return { success: true, data: response };
-      // Update the wishlist state by filtering out the deleted item
-      // const updatedWishlist = wishlist.filter((item) => item.productId !== productId);
-      // setWishlistData(response.data);
-      // setIsInWishlist(false);
+      toast.success('Item removed from wishlist', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
+      return { success: true, data: response }; 
     }
     return { success: false, error: 'Failed to delete item from wishlist' };
   } catch (error) {
@@ -53,4 +49,42 @@ const deleteFromWishlist = async (userId, productId) => {
   }
 };
 
-export { addToWishlist, deleteFromWishlist };
+
+const checkIfProductIsInWishlist = async (userId, productId) => {
+  try {
+    // Make an API request to check if the product is in the wishlist
+    const response = await axios.get(`/api/wishlist?userId=${userId}&productId=${productId}`);
+    const isInWishlist = response.data.isInWishlist;
+
+    return isInWishlist;
+
+  } catch (error) {
+    console.error('Error checking if product is in wishlist:', error);
+  }
+};
+// Function to add or remove the product from the wishlist
+const toggleWishlist = async (userId, productId, isInWishlist, setIsInWishlist) => {
+  try {
+    if (isInWishlist) {
+      // If the product is in the wishlist, remove it
+      const result = await deleteFromWishlist(userId, productId);
+      if (result.success) {
+        setIsInWishlist(false);
+
+      } else {
+        console.error('Error removing item from wishlist:', result.error);
+      }
+    } else {
+      // If the product is not in the wishlist, add it
+      const result = await addToWishlist(userId, productId);
+      if (result.success) {
+        setIsInWishlist(true);
+
+      }
+    }
+  } catch (error) {
+    console.error('Error toggling item in the wishlist:', error);
+  }
+};
+
+export { addToWishlist, deleteFromWishlist, checkIfProductIsInWishlist, toggleWishlist };

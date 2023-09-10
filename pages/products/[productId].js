@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { averageRating } from 'utils/rating';
 // import { getReviews } from 'utils/reviews';
 import { handleAddToCart } from 'utils/cart';
-import { addToWishlist, deleteFromWishlist } from 'utils/wishlist';
+import { checkIfProductIsInWishlist, toggleWishlist } from 'utils/wishlist';
 import { useSessionId } from '/utils/session';
 import ReviewForm from '../../components/ReviewForm';
 
@@ -32,12 +32,12 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
   const [isInWishlist, setIsInWishlist] = useState(false);
-  const [heartColor, setHeartColor] = useState('gray');
-console.log("isInWishlist TOP", isInWishlist)
+
   const userId = useSessionId();
 
 
 //----------------REVIEW LOGIC-----------------
+
   const handleFormOpen = () => {
     if (!user) {
       // User is not logged in, show an alert or perform any other action
@@ -133,88 +133,15 @@ console.log("isInWishlist TOP", isInWishlist)
 
   
 
-  const checkIfProductIsInWishlist = async (productId, userId) => {
-    try {
-      // Make an API request to check if the product is in the wishlist
-      const response = await axios.get(`/api/wishlist?productId=${productId}&userId=${userId}`);
-      const isInWishlist = response.data.isInWishlist;
-      setIsInWishlist(isInWishlist);
-      return isInWishlist
-     
-    } catch (error) {
-      console.error('Error checking if product is in wishlist:', error);
-    }
+  const handleToggleWishlist = () => {
+    toggleWishlist(userId, product.id, isInWishlist, setIsInWishlist);
   };
-
-  
-
-
-  const handleAddToWishlist = async( userId, productId) => {
-
-    try {
-      // Check if the product is already in the wishlist
-      const trueList = await checkIfProductIsInWishlist(userId, product.id);
-      console.log("trueList ", trueList)
-      if (trueList) {
-        // Product is already in the wishlist, don't add it again
-        console.log('Product is already in the wishlist.');
-      } else {
-        // Product is not in the wishlist, add it
-        const result = await addToWishlist( userId, productId);
-        console.log("LINE 184", result)
-        if (result.success) {
-          // Product added to wishlist successfully
-          setIsInWishlist(true);
-        }
-      }
-    } catch (error) {
-      console.error('Error adding item to wishlist:', error);
-    }
-  };
-  
-  const handleDeleteFromWishlist = async (userId, productId) => {
-    const result = await deleteFromWishlist(userId, productId);
-    console.log("result", result);
-    if (result.success) {
-      // Update the wishlist state by filtering out the deleted item
-      // const updatedWishlist = wishlistData.filter((item) => item.productId !== productId);
-
-      setWishlistData(result.data.data); // Update wishlistData here
-    } else {
-      console.error('Error deleting item from wishlist:', result.error);
-    }
-  };
-
-  // Function to add or remove the product from the wishlist
-  const handleToggleWishlist = async (productId, userId) => {
-    try {
-      if (isInWishlist) {
-        // If the product is in the wishlist, remove it
-        const result = await deleteFromWishlist(userId, productId);
-        if (result.success) {
-          setIsInWishlist(false);
-          // setHeartColor('gray'); // Change the heart color to gray
-        } else {
-          console.error('Error removing item from wishlist:', result.error);
-        }
-      } else {
-        // If the product is not in the wishlist, add it
-        const result = await addToWishlist(productId, userId);
-        if (result.success) {
-          setWishlistData(result.data.data);
-          // setHeartColor('red'); // Change the heart color to red
-        }
-      }
-    } catch (error) {
-      console.error('Error toggling item in the wishlist:', error);
-    }
-  };
-
 
   useEffect(() => {
     // Call the function to check if the product is in the wishlist
-    checkIfProductIsInWishlist(product.id, userId);
-  }, [product.id, userId]);
+    checkIfProductIsInWishlist(userId, product.id);
+    setIsInWishlist(isInWishlist);
+  }, [ userId, product.id]);
 
 
 
@@ -232,35 +159,21 @@ console.log("isInWishlist TOP", isInWishlist)
         <AddShoppingCartIcon onClick={() => handleAddToCart(product.id, userId)} />
 
         {/* Conditionally render the heart icon based on isInWishlist */}
-        {/* {userId ? (
-          isInWishlist ? (
+        {userId ? (
             <FavoriteIcon
-              style={{ margin: '20px', color: 'red' }}
-              onClick={handleRemoveFromWishlist}
-            />
-          ) : (
-            <FavoriteIcon
-              style={{ margin: '20px', color: 'gray' }}
-                onClick={handleAddToWishlist(product.id, userId)}
-            />
-          )
+          style={{
+            margin: '20px',
+            color: isInWishlist ? 'red' : 'gray', // Change color based on isInWishlist
+          }}
+          onClick={() => handleToggleWishlist()}
+        />
         ) : (
           <div>
             <p>Please log in to add items to your wishlist.</p>
             <Link href="/login">Log in</Link>
           </div>
-        )} */}
-        {/* <FavoriteIcon style={{ margin: '20px' }} onClick={() => handleAddToWishlist(product.id, userId)} /> */}
-
-        <FavoriteIcon
-          style={{
-            margin: '20px',
-            color: isInWishlist ? 'red' : 'gray', // Change color based on isInWishlist
-          }}
-          onClick={() => handleAddToWishlist(userId, product.id)}
-        />
-
-
+        )}
+        
 
 
         <Rating name="read-only" value={averageRating(reviews)} readOnly precision={0.5} />
@@ -354,7 +267,6 @@ export async function getServerSideProps({ req, params }) {
   });
   const serializedProduct = JSON.parse(JSON.stringify(product));
 
-
   const reviews = await prisma.feedback.findMany({
     where: { productId: parseInt(productId) },
     include: { customer: true }
@@ -377,7 +289,6 @@ export async function getServerSideProps({ req, params }) {
 
   const serializedReviews = JSON.parse(JSON.stringify(extractedReviews));
  
-
   const sessionId = req.cookies.sessionId || null;
   const userId = parseInt(sessionId);
   let user = null;
