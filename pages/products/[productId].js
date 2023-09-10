@@ -145,7 +145,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
     setIsInWishlist(isInWishlist);
   }, [ userId, product.id]);
 
-
+//--------------------------------------------------------------
 
   if (!product) {
     return <div>Loading...</div>;

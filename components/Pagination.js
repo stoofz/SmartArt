@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack';
 
 
 const Paginate = ({ count, page, onChange, }) => {
+  
   return (
     <Stack 
     margin= "auto"
