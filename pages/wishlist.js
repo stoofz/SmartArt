@@ -6,7 +6,7 @@ import { useSessionId } from '/utils/session';
 import { deleteFromWishlist } from 'utils/wishlist';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { Typography, Container, DeleteIcon, Button } from '@mui/material';
+import { Typography, Container, DeleteIcon, Button, Paper } from '@mui/material';
 import Link from 'next/link';
 
 
@@ -46,6 +46,21 @@ const WishlistPage = ({ serializedWishlistData: defaultWishlistData }) => {
     color: 'secondary', 
   };
 
+  const containerStyles = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: '20px', // Adjust the margin as needed
+  };
+
+  const paperStyles = {
+    padding: '20px',
+    textAlign: 'center',
+    maxWidth: '400px', // Adjust the width as needed
+    margin: '0 auto',
+    marginBottom:'30px'
+  };
+
   if (loading) {
     return (
       <div style={{ position: 'relative', textAlign: 'center' }}>
@@ -59,15 +74,51 @@ const WishlistPage = ({ serializedWishlistData: defaultWishlistData }) => {
 
   return (
     <Container className="px-32 flex flex-col pt-32">
-      <Typography variant="h4" gutterBottom>
-        Your Wishlist
-      </Typography>
+     
 
       {wishlistData.length === 0 ? (
-        <Typography variant="body1">Your wishlist is empty.</Typography>
+        <Container style={containerStyles}>
+          <Paper elevation={3} style={paperStyles}>
+            
+            <Typography variant="h4">
+              Your wishlist is empty.
+            </Typography>
+          </Paper>
+          <Link href={`/`}>
+            <Button size="small"
+              variant="contained"
+              style={{
+                backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
+                '&:hover': {
+                  backgroundColor: 'blue',
+                },
+              }}
+            >
+              Go to the main page
+            </Button>
+          </Link>
+        </Container>
       ) : (
           <div style={{ width: '80%' }}> 
-        
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Typography variant="h4" gutterBottom>
+                Your Wishlist
+              </Typography>
+              <Link href={`/`}>
+                <Button size="small"
+                  variant="contained"
+                  style={{
+                    backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
+                    '&:hover': {
+                      backgroundColor: 'blue',
+                    },
+                  }}
+                >
+                  Go to the main page
+                </Button>
+              </Link>
+          </div>
+          
           {wishlistData.map((item, index) => (
             <div key={index} className={`${true ? "flex" : ""} items-center border-b pb-5 pt-5`}
               style={{ borderColor: 'lightblue' }}>

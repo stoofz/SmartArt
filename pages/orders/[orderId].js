@@ -16,7 +16,7 @@ const OrderPage = ({ order }) => {
         <Typography variant="h4" gutterBottom>
           Order #{order.id}
         </Typography>
-        <Link href={`/products/`}>
+        <Link href={`/`}>
           <Button size="small"
             variant="contained"
             style={{
@@ -26,7 +26,7 @@ const OrderPage = ({ order }) => {
               },
             }}
           >
-            Continue shopping
+            Go to the main page
           </Button>
         </Link>
       </div>
@@ -62,10 +62,7 @@ const OrderPage = ({ order }) => {
             </ul>
           </div>
         </div>
-      </div>
-    
-     
-      
+      </div>  
     </Container>
   );
 };
