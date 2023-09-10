@@ -14,7 +14,7 @@ import CreateDiscountForm from 'components/Admin/CreateDiscount';
 const ProductsPage = () => {
   const [modals, setModals] = useState({
     category: false,
-    deleteCatergory: false,
+    deleteCategory: false,
     product: false,
     deleteProduct: false,
     createDiscount: false,
@@ -28,7 +28,7 @@ const ProductsPage = () => {
   });
 
   const [delSuccess, setDelSuccess] = useState({
-    deleteCatergory: false,
+    deleteCategory: false,
     deleteProduct: false,
     deleteDiscount: false,
   });
@@ -83,17 +83,17 @@ const ProductsPage = () => {
         </div>
 
         <div>
-          <Button onClick={() => handleOpen('deleteCatergory')}>Delete Category</Button>
-          <Modal open={modals.deleteCatergory} onClose={() => handleClose('deleteCatergory')}>
+          <Button onClick={() => handleOpen('deleteCategory')}>Delete Category</Button>
+          <Modal open={modals.deleteCategory} onClose={() => handleClose('deleteCategory')}>
             <Box sx={theme}>
-              <Typography id="deleteCatergory">Delete Category</Typography>
-              <DeleteForm onSuccess={() => handleDelSuccess('deleteCatergory')} apiListEndpoint="/api/listCategories" apiEndpoint="/api/deleteCatergory?CategoryId=" itemName="Categories" />
+              <Typography id="deleteCategory">Delete Category</Typography>
+              <DeleteForm onSuccess={() => handleDelSuccess('deleteCategory')} apiListEndpoint="/api/listCategories" apiEndpoint="/api/deleteCategory?CategoryId=" itemName="Categories" />
             </Box>
           </Modal>
 
           <Notification
-            open={delSuccess.deleteCatergory}
-            onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, deleteCatergory: false }))}
+            open={delSuccess.deleteCategory}
+            onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, deleteCategory: false }))}
             message="Category deleted"
           />
         </div>
