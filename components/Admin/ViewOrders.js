@@ -44,14 +44,16 @@ const ViewOrders = () => {
   return (
     <div>
       <h1>Orders</h1>
-      <ul>
-        {orders.map((order) => (
-          <li key={order.id}>
-            {order.id} - {' '}
-            <button onClick={() => handleOrderViewOpen(order)}>View</button>
-          </li>
-        ))}
-      </ul>
+      <div style={{ height: '400px', overflowY: 'auto' }}>
+        <ul>
+          {orders.map((order) => (
+            <li key={order.id}>
+              {order.id} - {' '}
+              <button onClick={() => handleOrderViewOpen(order)}>View</button>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       <Modal open={orderViewOpen} onClose={handleOrderViewClose}>
         <Box sx={theme}>

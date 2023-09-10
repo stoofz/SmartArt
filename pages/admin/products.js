@@ -1,149 +1,182 @@
+import React, { useState } from 'react';
 import AddCategory from 'components/Admin/AddCategory';
 import AddProduct from 'components/Admin/AddProduct';
-import DelProduct from 'components/Admin/DelProduct';
-import DelCategory from 'components/Admin/DelCategory';
+import DeleteForm from 'components/Admin/DeleteForm';
 import Notification from 'components/Notification';
 import { Button, Modal, Box, Typography } from '@mui/material';
-import { useState } from 'react';
+import { isAdmin } from 'utils/session';
+import DeniedAccess from 'components/Admin/Denied';
+import Navigation from 'components/Admin/Navigation';
+import Footer from 'components/Admin/Footer';
+import CreateDiscountForm from 'components/Admin/CreateDiscount';
+
 
 const ProductsPage = () => {
-  const [productOpen, setProductOpen] = useState(false);
-  const [delProductOpen, setDelProductOpen] = useState(false);
-  const [productSuccess, setProductSuccess] = useState(false);
-  const [categoryOpen, setCategoryOpen] = useState(false);
-  const [delCategoryOpen, setDelCategoryOpen] = useState(false);
-  const [categorySuccess, setCategorySuccess] = useState(false);
+  const [modals, setModals] = useState({
+    category: false,
+    deleteCategory: false,
+    product: false,
+    deleteProduct: false,
+    createDiscount: false,
+    deleteDiscount: false,
+  });
 
+  const [success, setSuccess] = useState({
+    category: false,
+    product: false,
+    createDiscount: false,
+  });
 
-  const handleDelCategoryOpen = () => {
-    setDelCategoryOpen(true);
+  const [delSuccess, setDelSuccess] = useState({
+    deleteCategory: false,
+    deleteProduct: false,
+    deleteDiscount: false,
+  });
+
+  const handleOpen = (modalKey) => {
+    setModals((prevModals) => ({ ...prevModals, [modalKey]: true }));
   };
 
-  const handleDelCategoryClose = () => {
-    setDelCategoryOpen(false);
+  const handleClose = (modalKey) => {
+    setModals((prevModals) => ({ ...prevModals, [modalKey]: false }));
+    setSuccess((prevSuccess) => ({ ...prevSuccess, [modalKey]: false }));
   };
 
-
-  const handleDelProductOpen = () => {
-    setDelProductOpen(true);
+  const handleSuccess = (modalKey) => {
+    setSuccess((prevSuccess) => ({ ...prevSuccess, [modalKey]: true }));
+    setModals((prevModals) => ({ ...prevModals, [modalKey]: false }));
   };
 
-  const handleDelProductClose = () => {
-    setDelProductOpen(false);
+  const handleDelSuccess = (modalKey) => {
+    setDelSuccess((prevSuccess) => ({ ...prevSuccess, [modalKey]: true }));
   };
-
-
-  const handleProductOpen = () => {
-    setProductOpen(true);
-  };
-
-  const handleProductClose = () => {
-    setProductOpen(false);
-    setProductSuccess(false);
-  };
-
-  const handleProductSuccess = () => {
-    setProductSuccess(true);
-    setProductOpen(false);
-  }
-
-
-  const handleCategoryOpen = () => {
-    setCategoryOpen(true);
-  };
-
-  const handleCategoryClose = () => {
-    setCategoryOpen(false);
-    setCategorySuccess(false);
-  };
-
-  const handleCategorySuccess = () => {
-    setCategorySuccess(true);
-    setCategoryOpen(false);
-  }
-
 
   const theme = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 700,
     bgcolor: '#fff',
   };
 
-  return (
-    <>      
-      <div>
-        <Button onClick={handleCategoryOpen}>Add Category</Button>
-        <Modal open={categoryOpen} onClose={handleCategoryClose} >
-          <Box sx={theme}>
-            <Typography id="addCategory">
-              Add Category
-            </Typography>
-            <AddCategory onSuccess={handleCategorySuccess} />
-          </Box>
-        </Modal>
+  if (isAdmin()) {
 
-        <Notification
-        open={categorySuccess}
-        onClose={() => setCategorySuccess(false)}
-        message="Category created"
-        />
-      </div>
+    return (
+      <>
+        <Navigation />
+        <main>
+        <div>
+          <Button onClick={() => handleOpen('category')}>Add Category</Button>
+          <Modal open={modals.category} onClose={() => handleClose('category')}>
+            <Box sx={theme}>
+              <Typography id="addCategory">Add Category</Typography>
+              <AddCategory onSuccess={() => handleSuccess('category')} />
+            </Box>
+          </Modal>
+
+          <Notification
+            open={success.category}
+            onClose={() => setSuccess((prevSuccess) => ({ ...prevSuccess, category: false }))}
+            message="Category created"
+          />
+        </div>
+
+        <div>
+          <Button onClick={() => handleOpen('deleteCategory')}>Delete Category</Button>
+          <Modal open={modals.deleteCategory} onClose={() => handleClose('deleteCategory')}>
+            <Box sx={theme}>
+              <Typography id="deleteCategory">Delete Category</Typography>
+              <DeleteForm onSuccess={() => handleDelSuccess('deleteCategory')} apiListEndpoint="/api/listCategories" apiEndpoint="/api/deleteCategory?CategoryId=" itemName="Categories" />
+            </Box>
+          </Modal>
+
+          <Notification
+            open={delSuccess.deleteCategory}
+            onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, deleteCategory: false }))}
+            message="Category deleted"
+          />
+        </div>
+
+        <div>
+          <Button onClick={() => handleOpen('product')}>Add Product</Button>
+          <Modal open={modals.product} onClose={() => handleClose('product')}>
+            <Box sx={theme}>
+              <Typography id="addProduct">Add Product</Typography>
+              <AddProduct onSuccess={() => handleSuccess('product')} />
+            </Box>
+          </Modal>
+
+          <Notification
+            open={success.product}
+            onClose={() => setSuccess((prevSuccess) => ({ ...prevSuccess, product: false }))}
+            message="Product created"
+          />
+        </div>
+
+        <div>
+          <Button onClick={() => handleOpen('deleteProduct')}>Delete Product</Button>
+          <Modal open={modals.deleteProduct} onClose={() => handleClose('deleteProduct')}>
+            <Box sx={theme}>
+              <Typography id="deleteProduct">Delete Product</Typography>
+              <DeleteForm onSuccess={() => handleDelSuccess('deleteProduct')} apiListEndpoint="/api/listProducts" apiEndpoint="/api/deleteProduct?productId=" itemName="Products" />
+            </Box>
+          </Modal>
+
+          <Notification
+            open={delSuccess.deleteProduct}
+            onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, deleteProduct: false }))}
+            message="Product deleted"
+          />
+          </div>
 
 
-        
-      <div>
-        <Button onClick={handleDelCategoryOpen}>Delete Category</Button>
-        <Modal open={delCategoryOpen} onClose={handleDelCategoryClose} >
-          <Box sx={theme}>
-            <Typography id="delCategory">
-              Delete Category
-            </Typography>
-            <DelCategory />
-          </Box>
-        </Modal>
-      </div>
+          
+          <div>
+          <Button onClick={() => handleOpen('createDiscount')}>Create Discount</Button>
+          <Modal open={modals.createDiscount} onClose={() => handleClose('createDiscount')}>
+            <Box sx={theme}>
+              <Typography id="createDiscount">Create Discount</Typography>
+              <CreateDiscountForm onSuccess={() => handleSuccess('createDiscount')} />
+            </Box>
+          </Modal>
+
+          <Notification
+            open={success.createDiscount}
+            onClose={() => setSuccess((prevSuccess) => ({ ...prevSuccess, createDisount: false }))}
+            message="Discount created"
+          />
+        </div>
+
+          
+        <div>
+          <Button onClick={() => handleOpen('deleteDiscount')}>Delete Discount</Button>
+          <Modal open={modals.deleteDiscount} onClose={() => handleClose('deleteDiscount')}>
+            <Box sx={theme}>
+              <Typography id="deleteDiscount">Delete Discount</Typography>
+              <DeleteForm onSuccess={() => handleDelSuccess('deleteDiscount')} apiListEndpoint="/api/listDiscount" apiEndpoint="/api/deleteDiscount?discountId=" itemName="Discount" />
+            </Box>
+          </Modal>
+
+          <Notification
+            open={delSuccess.deleteDiscount}
+            onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, deleteDiscount: false }))}
+            message="Discount deleted"
+          />
+          </div>
 
 
+        </main>
+        <Footer />
+      </>
+    );
+  }else
+  {
+    return (
+      <DeniedAccess />
+    );
+  }
 
-      <div>
-        <Button onClick={handleProductOpen}>Add Product</Button>
-        <Modal open={productOpen} onClose={handleProductClose} >
-          <Box sx={theme}>
-            <Typography id="addProduct">
-              Add Product
-            </Typography>
-            <AddProduct onSuccess={ handleProductSuccess} />
-          </Box>
-        </Modal>
-
-        <Notification
-        open={productSuccess}
-        onClose={() => setProductSuccess(false)}
-          message="Product created"
-        />
-      </div>
-      
-
-      <div>
-        <Button onClick={handleDelProductOpen}>Delete Product</Button>
-        <Modal open={delProductOpen} onClose={handleDelProductClose} >
-          <Box sx={theme}>
-            <Typography id="delProduct">
-              Delete Product
-            </Typography>
-            <DelProduct />
-          </Box>
-        </Modal>
-      </div>
-
-
-
-    </>
-  );
 };
 
 export default ProductsPage;
-
