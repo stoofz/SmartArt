@@ -27,7 +27,7 @@ export default async function handler(req, res) {
         }
       });
 
-      console.log(orderDetails)
+     // console.log(orderDetails)
       res.status(200).json(orderDetails);
       await prisma.$disconnect();
       

@@ -27,6 +27,7 @@ const clearSession = () => {
   if (typeof window !== 'undefined') {
    // window.sessionStorage.removeItem('sessionId');
     document.cookie = 'sessionId=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = `${adminCookieKey}=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
   }
 }
 

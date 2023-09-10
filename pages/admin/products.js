@@ -8,6 +8,8 @@ import { isAdmin } from 'utils/session';
 import DeniedAccess from 'components/Admin/Denied';
 import Navigation from 'components/Admin/Navigation';
 import Footer from 'components/Admin/Footer';
+import CreateDiscountForm from 'components/Admin/CreateDiscount';
+
 
 const ProductsPage = () => {
   const [modals, setModals] = useState({
@@ -15,16 +17,20 @@ const ProductsPage = () => {
     delCategory: false,
     product: false,
     delProduct: false,
+    createDiscount: false,
+    delDiscount: false,
   });
 
   const [success, setSuccess] = useState({
     category: false,
     product: false,
+    createDiscount: false,
   });
 
   const [delSuccess, setDelSuccess] = useState({
     delCategory: false,
     delProduct: false,
+    delDiscount: false,
   });
 
   const handleOpen = (modalKey) => {
@@ -122,8 +128,44 @@ const ProductsPage = () => {
             onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, delProduct: false }))}
             message="Product deleted"
           />
-
           </div>
+
+
+          
+          <div>
+          <Button onClick={() => handleOpen('createDiscount')}>Create Discount</Button>
+          <Modal open={modals.createDiscount} onClose={() => handleClose('createDiscount')}>
+            <Box sx={theme}>
+              <Typography id="createDiscount">Create Discount</Typography>
+              <CreateDiscountForm onSuccess={() => handleSuccess('createDiscount')} />
+            </Box>
+          </Modal>
+
+          <Notification
+            open={success.createDiscount}
+            onClose={() => setSuccess((prevSuccess) => ({ ...prevSuccess, createDisount: false }))}
+            message="Discount created"
+          />
+        </div>
+
+          
+        <div>
+          <Button onClick={() => handleOpen('delDiscount')}>Delete Discount</Button>
+          <Modal open={modals.delDiscount} onClose={() => handleClose('delDiscount')}>
+            <Box sx={theme}>
+              <Typography id="delDiscount">Delete Discount</Typography>
+              <DelForm onSuccess={() => handleDelSuccess('delDiscount')} apiListEndpoint="/api/listDiscount" apiEndpoint="/api/delDiscount?discountId=" itemName="Discount" />
+            </Box>
+          </Modal>
+
+          <Notification
+            open={delSuccess.delDiscount}
+            onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, delDiscount: false }))}
+            message="Discount deleted"
+          />
+          </div>
+
+
         </main>
         <Footer />
       </>
