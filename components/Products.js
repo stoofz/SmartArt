@@ -37,7 +37,7 @@ const Products = () => {
   const [totalProducts, setTotalProducts] = useState(0);
 
 
-  //handles scrolling to top in pagination when going to another page
+  //handles scrolling to top when changing pages
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,

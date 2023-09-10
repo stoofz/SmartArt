@@ -217,7 +217,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                 .sort((a, b) => new Date(b.date) - new Date(a.date))
                 .map((review, index) => (
                   // <div key={index} style={{ marginBottom: '10px' }}>
-                  <Paper elevation={6} style={{ marginBottom: '10px' }}>
+                  <Paper key={index} elevation={6} style={{ marginBottom: '10px' }}>
                     <Card key={index} style={{ minHeight: '150px' }}>
                       <CardContent style={{ height: '150px', overflowY: 'auto' }} >
                         <ListItem alignItems="flex-start">
