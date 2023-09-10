@@ -133,23 +133,6 @@ console.log("isInWishlist TOP", isInWishlist)
 
   
 
-  // const checkIfProductIsInWishlist = async (productId, userId) => {
-  //   try {
-  //     // Make an API request to fetch the user's wishlist
-  //     const response = await axios.get(`/api/wishlist?productId=${productId}&userId=${userId}`);
-      
-  //     // const wishlist = response.data;
-
-  //     // Check if the product with productId exists in the wishlist
-  //     const isInWishlist = response.data.isInWishlist
-  //     console.log("isInWishlist CHECK ", isInWishlist)
-  //     return isInWishlist;
-  //   } catch (error) {
-  //     // Handle errors, such as network issues or errors in the API response
-  //     console.error('Error checking if product is in wishlist:', error);
-  //     return false; // Return false in case of errors
-  //   }
-  // };
   const checkIfProductIsInWishlist = async (productId, userId) => {
     try {
       // Make an API request to check if the product is in the wishlist
@@ -163,25 +146,21 @@ console.log("isInWishlist TOP", isInWishlist)
     }
   };
 
-  useEffect(() => {
-    // Call the function to check if the product is in the wishlist
-    checkIfProductIsInWishlist(product.id, userId);
-  }, [product.id, userId]);
+  
 
 
-
-  const handleAddToWishlist = async(productId, userId) => {
+  const handleAddToWishlist = async( userId, productId) => {
 
     try {
       // Check if the product is already in the wishlist
-       const trueList = await checkIfProductIsInWishlist(product.id, userId);
+      const trueList = await checkIfProductIsInWishlist(userId, product.id);
       console.log("trueList ", trueList)
       if (trueList) {
         // Product is already in the wishlist, don't add it again
         console.log('Product is already in the wishlist.');
       } else {
         // Product is not in the wishlist, add it
-        const result = await addToWishlist(productId, userId);
+        const result = await addToWishlist( userId, productId);
         console.log("LINE 184", result)
         if (result.success) {
           // Product added to wishlist successfully
@@ -193,20 +172,51 @@ console.log("isInWishlist TOP", isInWishlist)
     }
   };
   
-  // const handleRemoveFromWishlist = async () => {
-  //   // Implement the logic to remove the product from the wishlist
-  //   try {
-  //     // Make an API request to remove the product from the wishlist
-  //     const response = await axios.delete(`/api/wishlist/remove/${product.id}`);
+  const handleDeleteFromWishlist = async (userId, productId) => {
+    const result = await deleteFromWishlist(userId, productId);
+    console.log("result", result);
+    if (result.success) {
+      // Update the wishlist state by filtering out the deleted item
+      // const updatedWishlist = wishlistData.filter((item) => item.productId !== productId);
 
-  //     if (response.status === 200) {
-  //       // Product removed from wishlist successfully
-  //       setIsInWishlist(false);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error removing item from wishlist:', error);
-  //   }
-  // };
+      setWishlistData(result.data.data); // Update wishlistData here
+    } else {
+      console.error('Error deleting item from wishlist:', result.error);
+    }
+  };
+
+  // Function to add or remove the product from the wishlist
+  const handleToggleWishlist = async (productId, userId) => {
+    try {
+      if (isInWishlist) {
+        // If the product is in the wishlist, remove it
+        const result = await deleteFromWishlist(userId, productId);
+        if (result.success) {
+          setIsInWishlist(false);
+          // setHeartColor('gray'); // Change the heart color to gray
+        } else {
+          console.error('Error removing item from wishlist:', result.error);
+        }
+      } else {
+        // If the product is not in the wishlist, add it
+        const result = await addToWishlist(productId, userId);
+        if (result.success) {
+          setWishlistData(result.data.data);
+          // setHeartColor('red'); // Change the heart color to red
+        }
+      }
+    } catch (error) {
+      console.error('Error toggling item in the wishlist:', error);
+    }
+  };
+
+
+  useEffect(() => {
+    // Call the function to check if the product is in the wishlist
+    checkIfProductIsInWishlist(product.id, userId);
+  }, [product.id, userId]);
+
+
 
 
   if (!product) {
@@ -247,7 +257,7 @@ console.log("isInWishlist TOP", isInWishlist)
             margin: '20px',
             color: isInWishlist ? 'red' : 'gray', // Change color based on isInWishlist
           }}
-          onClick={() => handleAddToWishlist(product.id, userId)}
+          onClick={() => handleAddToWishlist(userId, product.id)}
         />
 
 

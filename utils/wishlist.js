@@ -2,7 +2,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const addToWishlist = async( productId, userId ) => {
+const addToWishlist = async( userId, productId ) => {
   // console.log("userId", userId)
   // console.log("productId", productId)
   try {
