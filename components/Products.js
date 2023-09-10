@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { handleAddToCart } from 'utils/cart';
 import { useSessionId } from '../utils/session';
-import { checkIfProductIsInWishlist, toggleWishlist } from 'utils/wishlist';
-// import SingleProduct from './SingleProduct';
+// import { checkIfProductIsInWishlist, toggleWishlist } from 'utils/wishlist';
+
 
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -36,10 +36,12 @@ const Products = () => {
   const [productsPerPage] = useState(21);
   const [totalProducts, setTotalProducts] = useState(0);
 
-  function scrollToTop() {
+
+  //handles scrolling to top in pagination when going to another page
+  const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth', // For smooth scrolling
+      behavior: 'smooth', 
     });
   }
 

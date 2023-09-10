@@ -125,7 +125,7 @@ export default function Navigation() {
                 </NextLink>}
               <NextLink
                 href={{
-                  pathname: "/cart",
+                  pathname: "/wishlist",
                 }}
                 passHref
                 overlay="true"
