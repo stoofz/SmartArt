@@ -2,6 +2,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Link from 'next/link';
 
 export default function Footer() {
 
@@ -35,13 +36,19 @@ export default function Footer() {
               <h3>We sell you items.</h3>
               <div className="flex justify-around">
                 <div>
-                  <FacebookIcon className="footer-icon" fontSize="large" />
+                  <Link href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+                    <FacebookIcon className="footer-icon" fontSize="large" />
+                  </Link>
                 </div>
                 <div>
-                  <InstagramIcon className="footer-icon " fontSize="large" />
+                  <Link href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                    <InstagramIcon className="footer-icon " fontSize="large" />
+                  </Link>
                 </div>
                 <div>
-                  <TwitterIcon className="footer-icon" fontSize="large" />
+                  <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                    <TwitterIcon className="footer-icon" fontSize="large" />
+                  </Link>
                 </div>
               </div>
             </div>
@@ -63,7 +70,9 @@ export default function Footer() {
                 </ul>
               </div>
               <div className="p-3">
+                <Link href={`/contact`}>
                 <h3 className="font-bold">Contact</h3>
+                </Link>
                 <ul>
                   <li>Getting Started</li>
                   <li>Pricing</li>

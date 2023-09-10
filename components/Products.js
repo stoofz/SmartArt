@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { handleAddToCart } from 'utils/cart';
 import { useSessionId } from '../utils/session';
+// import { checkIfProductIsInWishlist, toggleWishlist } from 'utils/wishlist';
+
+
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -33,6 +36,14 @@ const Products = () => {
   const [productsPerPage] = useState(21);
   const [totalProducts, setTotalProducts] = useState(0);
 
+
+  //handles scrolling to top when changing pages
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', 
+    });
+  }
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
@@ -72,6 +83,8 @@ const Products = () => {
       setClicked(productId)
     }
   };
+
+  
 
   const theme = createTheme({
     palette: {
@@ -292,6 +305,7 @@ const Products = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      
       <Grid container
         align="center"
         justify-content="center"
@@ -308,7 +322,11 @@ const Products = () => {
         <Paginate
           count={Math.ceil(totalProducts / productsPerPage)}
           page={currentPage}
-          onChange={(e, value) => setCurrentPage(value)}
+          onChange={(e, value) => {
+            setCurrentPage(value)
+            scrollToTop();
+
+          }}
           sx={{ shape: "rounded", marginTop: "1.5em" }}
         />
         

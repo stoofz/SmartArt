@@ -4,8 +4,7 @@
 import axios from 'axios';
 import Link from 'next/link';
 import prisma from 'utils/prisma';
-import { Button, IconButton, Badge } from "@mui/material";
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { Button } from "@mui/material";
 import React, { useState } from 'react';
 import checkout from './api/checkout';
 
@@ -40,8 +39,6 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
   const [total, setTotal] = useState(subtotal);
 
   const userId = useSessionId();
-  //console.log('userId from cookie:', userId);
-  //const userId = 3;
 
   const lineItems = productDetails.map((item) => {
     return {
@@ -168,13 +165,6 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
   //   items.reduce((acc, item) => acc + item.amount, 0);
 
   return (
-    // <>
-    //   <IconButton className="fixed z-50 top-20 right-20" onClick={() => setCartOpen(true)}>
-    //     <Badge badgeContent={getTotalItems(cartItems)} color="error">
-    //       <AddShoppingCart />
-    //     </Badge>
-    //   </IconButton>
-    
    
     <Container className="px-32 flex flex-col pt-32">
       <Typography variant="h4" gutterBottom>
@@ -190,7 +180,9 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
             <div key={index} className={`${true ? "flex" : ""} items-center border-b pb-5 pt-5`}
               style={{ borderColor: 'lightblue' }}>
 
-              <img className="w-[109px] h-[134px] " src="https://via.placeholder.com/109x134" />
+              <img className="w-[109px] h-[134px]" src={`uploads/${item.image}`}/>
+              
+              
               <div className="cart-item-details flex-grow" style={{ marginLeft: '20px' }}>
                 <Typography variant="h6" className="flex-grow-0 flex-shrink-0">{item.name}</Typography>
 
@@ -282,15 +274,9 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
 }
 
 export async function getServerSideProps({ req }) {
-  // Get the user ID from auth.
-  // const userId = req.user.id;
-
+ 
   const sessionId = req.cookies.sessionId || null;
   const userId = parseInt(sessionId);
-  //console.log('sessionID from cookie:', sessionId);
-
-  //const userId = 3;
-
 
   try {
     // Query the database to find the user's cart.
