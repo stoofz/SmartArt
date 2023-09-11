@@ -244,8 +244,8 @@ const Products = (searchResults) => {
                       variant="text"
                       className="icon-button"
                       onClick={() =>{
-                        console.log("product.id", product.id )
-                        handleAddToCart(product.id);
+                        
+                        handleAddToCart(product.id, userId);
 
                       }
                       } 
@@ -266,8 +266,8 @@ const Products = (searchResults) => {
                   variant="text"
                   className="icon-button"
                   onClick={() => {
-                    console.log("product.id", product.id);
-                    handleAddToCart(product.id);
+                  
+                    handleAddToCart(product.id, userId);
 
                   }}
                 >
