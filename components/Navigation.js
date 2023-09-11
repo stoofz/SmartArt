@@ -335,7 +335,7 @@ export default function Navigation({ sessionId }) {
                 edge="start"
                 color="inherit"
                 aria-label="open drawer"
-                sx={{ mr: 2 }}
+                sx={{ mr: 2, textTransform: 'none', className: montserrat.className }}
                 onClick={handleClick}
                 endIcon={<ArrowDropDownIcon sx={{ color: theme.palette.info.main}} />}
               >
