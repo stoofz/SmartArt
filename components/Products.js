@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { handleAddToCart } from 'utils/cart';
 import { useSessionId } from '../utils/session';
 // import { checkIfProductIsInWishlist, toggleWishlist } from 'utils/wishlist';
@@ -27,7 +27,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import Paginate from './Pagination';
 import { averageRating } from 'utils/rating';
 
-const Products = () => {
+const Products = (searchResults) => {
   const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -50,6 +50,8 @@ const Products = () => {
 
   const userId = useSessionId();
 
+  
+  // Initial fetch of products from API endpoint
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -57,18 +59,32 @@ const Products = () => {
         if (response.ok) {
           const productData = await response.json();
           setProducts(productData);
-          // Find total amount of products
           setTotalProducts(productData.length);
-
+        } else {
+          console.error('Error');
         }
       } catch (error) {
-        console.error('Error fetching products', error);
+        console.error('Error', error);
       }
     };
     getProducts();
-  }, [currentPage]);
+  }, []); 
 
-  
+
+  // Update products with search results
+  useEffect(() => {
+    if (searchResults.searchResults !== null && searchResults.searchResults.length > 0) {
+      setProducts(searchResults.searchResults);
+      setTotalProducts(searchResults.searchResults.length);
+    }
+    else {
+      // Set products to empty array if no search results
+      setProducts([]);
+      setTotalProducts(0);
+    }
+  }, [searchResults.searchResults]);
+
+
   // Find Products to display per page
   const lastProductOfPage = currentPage * productsPerPage;
   const firstProductOfPage = lastProductOfPage- productsPerPage;
@@ -85,7 +101,6 @@ const Products = () => {
   };
 
   
-
   const theme = createTheme({
     palette: {
       primary: {
@@ -156,8 +171,6 @@ const Products = () => {
     align-items: flex-end;
     justify-content: space-between;
   `;
-
-  
 
   const productList = () => (pageProducts.map((product) =>
 
@@ -241,7 +254,7 @@ const Products = () => {
                 <CartIconStyled
                   variant="text"
                   className="icon-button"
-                  onClick={() => handleAddToCart(product.id)}
+                  onClick={() => handleAddToCart(product.idd)}
                 >
                   <AddShoppingCartIcon />
                 </CartIconStyled>
@@ -305,7 +318,6 @@ const Products = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      
       <Grid container
         align="center"
         justify-content="center"
@@ -317,7 +329,8 @@ const Products = () => {
         margin= "auto"
         spacing={5}
       >
-        {productList()}
+
+        {totalProducts === 0 ? ( <div>No results found </div> ) : ( productList() )}
 
         <Paginate
           count={Math.ceil(totalProducts / productsPerPage)}

@@ -23,6 +23,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import IconButton from '@mui/material/IconButton';
+//import debounce from 'lodash/debounce';
+import { Formik, Form, Field } from "formik";
 
 const montserrat = Montserrat({
   weight: '600',
@@ -34,17 +36,19 @@ const Search = styled('div')`
   },
 `;
 
-export default function Navigation({ sessionId }) {
-  const [searchTerm, setSearchTerm] = useState('');
+export default function Navigation({ sessionId, searchData }) {
+  //const [searchTerm, setSearchTerm] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const { user, error, isLoading } = useUser();
 
   const open = Boolean(anchorEl);
 
-
+  /*
   const handleChange = (event) => {
-    setSearchTerm(event.target.value);
+    //  setSearchTerm(event.target.value);
+    handleSearch(event.target.value)
   };
+  */
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -52,6 +56,27 @@ export default function Navigation({ sessionId }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleSearch = (async (searchQuery) => {
+    //  const handleSearch = debounce(async (searchQuery) => {
+    try {
+      const response = await fetch('api/searchProducts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: searchQuery }),
+      });
+  
+      const results = await response.json();
+      searchData(results);
+    }
+
+    catch (error) {
+      console.error('Error', error);
+    }
+  });
+    // Debounce delay in milliseconds to delay search on input change
+  //, 300);
+  
 
 
   const theme = createTheme({
@@ -321,28 +346,43 @@ export default function Navigation({ sessionId }) {
               >
                 About
               </NextLink>
+
               <Search>
-                <TextField
-                  placeholder="Search…"
-                  sx={{
-                    backgroundColor: theme.palette.primary.light, color: theme.palette.primary.main,
-                    // marginLeft: "80em" 
-                  }}
-                  onChange={handleChange}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <SearchIcon />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Search>
+              <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }}>
+                <Form>
+                  <Field
+                    name="query"
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        placeholder="Search…"
+                        sx={{
+                          backgroundColor: theme.palette.primary.light,
+                          color: theme.palette.primary.main,
+                        }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <button type="submit"><SearchIcon /></button>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    )}
+                  />
+                </Form>
+              </Formik>
+            </Search>
+              
             </Toolbar>
           </AppBar>
         </Stack>
       </Box>
+
+     
+
     </ThemeProvider >
   );
 
 };
+//     onChange={handleChange}
