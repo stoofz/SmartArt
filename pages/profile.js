@@ -1,11 +1,12 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Layout from '../components/Layout';
 import { useSessionId } from '/utils/session';
 
 
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
 
@@ -14,25 +15,43 @@ import { ListItem, List, ListItemText }  from '@mui/material';
 
 
 
-const UserProfile = () => {
+const userProfilePage = () => {
   const userId = useSessionId()
+  const [customer, setCustomer] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+console.log("customer", customer)
+
  
+  useEffect(() => {
+   
+    // Fetch customer data when the session is available or changes
+    if (userId) {
+      
+      axios.get(`/api/profile?userId=${userId}`).then((response) => {
+        console.log("responce.data", response.data)
+        setCustomer(response.data);
+        setIsLoading(false); // Set loading state to false when data is fetched
+      }).catch((error) => {
+        setIsLoading(false); // Set loading state to false in case of an error
+        console.error('Error fetching customer data:', error);
+      });
+    } else {
+      setIsLoading(false); // Set loading state to false if there's no session
+    }
+  }, [userId]);
 
-  // Replace with actual user data
-  const user = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    avatarUrl: '/path-to-avatar.jpg',
+  // Function to handle editing of customer data
+  const handleEdit = () => {
+    // Implement your logic for editing customer data here
   };
-
-
   
 
   return (
     <Layout>
       <div>
-        {/* <Typography variant="h2" sx={{ paddingLeft: '150px' }}>Your profile</Typography> */}
-        {userId ? (
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : customer ? (
           <Container
             maxWidth="sm"
             style={{
@@ -41,7 +60,6 @@ const UserProfile = () => {
               textAlign: 'center',
             }}
           >
-         
             <Typography
               variant="h4"
               style={{
@@ -49,7 +67,7 @@ const UserProfile = () => {
                 fontWeight: 'bold',
               }}
             >
-              {user.name}
+              {customer.firstName} {customer.lastName}
             </Typography>
             <Typography
               variant="subtitle1"
@@ -57,7 +75,7 @@ const UserProfile = () => {
                 color: 'rgba(0, 0, 0, 0.54)',
               }}
             >
-              {user.email}
+              {customer.email}
             </Typography>
 
             <div
@@ -78,10 +96,13 @@ const UserProfile = () => {
                 backgroundColor: 'lightpink',
                 color: 'white',
                 transition: 'background-color 0.3s',
+              }}
+              sx={{
                 '&:hover': {
                   backgroundColor: 'darkgray',
                 },
               }}
+              onClick={handleEdit}
             >
               Edit Profile
             </Button>
@@ -94,4 +115,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default userProfilePage;
