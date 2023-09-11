@@ -27,6 +27,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import Paginate from './Pagination';
 import { averageRating } from 'utils/rating';
 
+
 const Products = (searchResults) => {
   const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(false);
@@ -35,6 +36,7 @@ const Products = (searchResults) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(21);
   const [totalProducts, setTotalProducts] = useState(0);
+  const [loading, setLoading] = useState(true);
 
 
   //handles scrolling to top when changing pages
@@ -65,6 +67,10 @@ const Products = (searchResults) => {
         }
       } catch (error) {
         console.error('Error', error);
+      }
+      finally
+      {
+        setLoading(false);
       }
     };
     getProducts();
@@ -316,6 +322,27 @@ const Products = (searchResults) => {
     </Grid >
   ))
 
+  if (loading) {
+    return (
+      <ThemeProvider theme={theme}>
+      <Grid container
+        align="center"
+        justify-content="center"
+        maxWidth="75%"
+        paddingTop="5em"
+        paddingLeft="10em"
+        paddingRight="10em"
+        paddingBottom="1em"
+        margin= "auto"
+        spacing={5}
+        >
+          <div>Loading...</div>
+
+        </Grid>
+        </ThemeProvider>
+    )
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container
@@ -346,6 +373,7 @@ const Products = (searchResults) => {
       </Grid>
     </ThemeProvider>
   );
+
 };
 
 export default Products;
