@@ -19,6 +19,10 @@ import TextField from '@mui/material/TextField';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import IconButton from '@mui/material/IconButton';
 
 const montserrat = Montserrat({
   weight: '600',
@@ -32,11 +36,23 @@ const Search = styled('div')`
 
 export default function Navigation({ sessionId }) {
   const [searchTerm, setSearchTerm] = useState('');
+  const [anchorEl, setAnchorEl] = useState(null);
   const { user, error, isLoading } = useUser();
+
+  const open = Boolean(anchorEl);
+
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
 
   const theme = createTheme({
     palette: {
@@ -57,8 +73,84 @@ export default function Navigation({ sessionId }) {
       }
     },
   });
- // const userId = useSessionId();
+  // const userId = useSessionId();
   const userId = sessionId;
+
+  const renderMenu = (
+    <Menu
+      id="menu-appbar"
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      anchorEl={anchorEl}
+      open={open}
+      onClose={handleClose}
+    >
+      <MenuItem onClick={handleClose}>
+        <NextLink
+          href={{
+            pathname: "/watercolour",
+          }}
+          passHref
+          overlay="true"
+          underline="none"
+          sx={{
+            color: theme.palette.info.main,
+            textDecoration: 'none',
+            '&:hover': { textDecoration: 'underline' },
+            padding: "1em",
+            // marginLeft: "90em",
+          }}
+        >
+          Watercolour
+        </NextLink>
+      </MenuItem>
+      <MenuItem onClick={handleClose}>
+        <NextLink
+          href={{
+            pathname: "/acrylic",
+          }}
+          passHref
+          overlay="true"
+          underline="none"
+          sx={{
+            color: theme.palette.info.main,
+            textDecoration: 'none',
+            '&:hover': { textDecoration: 'underline' },
+            padding: "1em",
+            // marginLeft: "90em",
+          }}
+        >
+          Acrylic
+        </NextLink>
+      </MenuItem>
+      <MenuItem onClick={handleClose}>
+        <NextLink
+          href={{
+            pathname: "/oil",
+          }}
+          passHref
+          overlay="true"
+          underline="none"
+          sx={{
+            color: theme.palette.info.main,
+            textDecoration: 'none',
+            '&:hover': { textDecoration: 'underline' },
+            padding: "1em",
+            // marginLeft: "90em",
+          }}
+        >
+          Oil
+        </NextLink>
+      </MenuItem>
+    </Menu>
+  );
 
   return (
     <ThemeProvider theme={theme}>
@@ -162,7 +254,6 @@ export default function Navigation({ sessionId }) {
                 }}
                 passHref
                 overlay="true"
-                underline="none"
                 sx={{
                   color: theme.palette.info.main, textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
                   padding: "1em",
@@ -170,11 +261,45 @@ export default function Navigation({ sessionId }) {
                 }}
                 onClick={clearSession}
               >
-                Products
+                Art
               </NextLink>
               <NextLink
                 href={{
-                  pathname: "/promotions",
+                  pathname: "/sculptures",
+                }}
+                passHref
+                overlay="true"
+                sx={{ color: theme.palette.info.main, textDecoration: 'none', '&:hover': { textDecoration: 'underline' }, padding: "1em" }}
+                onClick={clearSession}
+              >
+                Sculptures
+              </NextLink>
+              <NextLink
+                href={{
+                  pathname: "/photography",
+                }}
+                passHref
+                overlay="true"
+                sx={{ color: theme.palette.info.main, textDecoration: 'none', '&:hover': { textDecoration: 'underline' }, padding: "1em" }}
+                onClick={clearSession}
+              >
+                Photography
+              </NextLink>
+              <Button
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="open drawer"
+                sx={{ mr: 2 }}
+                onClick={handleClick}
+                endIcon={<ArrowDropDownIcon sx={{ color: theme.palette.info.main}} />}
+              >
+                Paintings
+              </Button>
+              {renderMenu}
+              <NextLink
+                href={{
+                  pathname: "/sale",
                 }}
                 passHref
                 overlay="true"
@@ -182,7 +307,7 @@ export default function Navigation({ sessionId }) {
                 sx={{ color: theme.palette.info.main, textDecoration: 'none', '&:hover': { textDecoration: 'underline' }, padding: "1em" }}
                 onClick={clearSession}
               >
-                Promotions
+                Sale
               </NextLink>
               <NextLink
                 href={{
@@ -199,7 +324,8 @@ export default function Navigation({ sessionId }) {
               <Search>
                 <TextField
                   placeholder="Search…"
-                  sx={{ backgroundColor: theme.palette.primary.light, color: theme.palette.primary.main, 
+                  sx={{
+                    backgroundColor: theme.palette.primary.light, color: theme.palette.primary.main,
                     // marginLeft: "80em" 
                   }}
                   onChange={handleChange}

@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react';
-import { handleAddToCart } from 'utils/cart';
 import { useSessionId } from '../utils/session';
-// import { checkIfProductIsInWishlist, toggleWishlist } from 'utils/wishlist';
-
 
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -23,15 +20,13 @@ import Rating from '@mui/material/Rating';
 import { styled } from '@mui/system';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
-import { useUser } from '@auth0/nextjs-auth0/client';
 import Paginate from './Pagination';
 import { averageRating } from 'utils/rating';
 
-const Products = () => {
-  const [products, setProducts] = useState([]);
+const WatercolorPaintings = () => {
+  const [watercolorPs, setWatercolorPs] = useState([]);
   const [open, setOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
-  const { user, error, isLoading } = useUser();
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(21);
   const [totalProducts, setTotalProducts] = useState(0);
@@ -41,38 +36,37 @@ const Products = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth', 
+      behavior: 'smooth',
     });
   }
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
 
   const userId = useSessionId();
 
   useEffect(() => {
-    const getProducts = async () => {
+    const getwatercolorPs = async () => {
       try {
-        const response = await fetch('/api/listProducts');
+        const response = await fetch('/api/listWatercolorPaintings');
         if (response.ok) {
-          const productData = await response.json();
-          setProducts(productData);
-          // Find total amount of products
-          setTotalProducts(productData.length);
-
+          const watercolors = await response.json();
+          const watercolorData = () => watercolors.map((watercolor) => {
+            setWatercolorPs(watercolor.products);
+            // Find total amount of products
+            setTotalProducts(watercolor.products.length);
+          })
+          watercolorData();
         }
       } catch (error) {
         console.error('Error fetching products', error);
       }
     };
-    getProducts();
+    getwatercolorPs();
   }, [currentPage]);
 
-  
+
   // Find Products to display per page
   const lastProductOfPage = currentPage * productsPerPage;
-  const firstProductOfPage = lastProductOfPage- productsPerPage;
-  const pageProducts = products.slice(firstProductOfPage, lastProductOfPage);
+  const firstProductOfPage = lastProductOfPage - productsPerPage;
+  const pageWatercolorPs = watercolorPs.slice(firstProductOfPage, lastProductOfPage);
 
 
   //add logic to add to wishlist
@@ -84,7 +78,7 @@ const Products = () => {
     }
   };
 
-  
+
 
   const theme = createTheme({
     palette: {
@@ -157,13 +151,14 @@ const Products = () => {
     justify-content: space-between;
   `;
 
-  
 
-  const productList = () => (pageProducts.map((product) =>
+
+  const watercolorList = () => (pageWatercolorPs.map((product) =>
+
 
     <Grid item="true" xs={12} sm={6} md={4}
-    sx={{ maxWidth: '100%' }}
-    key={product.id}
+      sx={{ maxWidth: '100%' }}
+      key={product.id}
     >
       <ContainerStyled>
         <Card sx={{ minWidth: 200, boxShadow: 1 }}
@@ -205,7 +200,7 @@ const Products = () => {
                       overlay="true"
                       underline="none"
                     >
-                        {product.name}
+                      {product.name}
                     </NextLink>
                   </DialogTitle>
                   {product.description}
@@ -261,7 +256,7 @@ const Products = () => {
                     overlay="true"
                     underline="none"
                   >
-                      {product.name}
+                    {product.name}
                   </NextLink>
                 </Typography>
               </Grid>
@@ -277,15 +272,15 @@ const Products = () => {
                 overlay="true"
                 underline="none"
               >
-                  <Rating
-                    id={product.id}
-                    name="read-only"
-                    readOnly
-                    precision={0.1}
-                    // how to access nested select value and average it?
-                    value={averageRating(product.feedback)}
-                  >
-                  </Rating>
+                <Rating
+                  id={product.id}
+                  name="read-only"
+                  readOnly
+                  precision={0.1}
+                  // how to access nested select value and average it?
+                  value={averageRating(product.feedback)}
+                >
+                </Rating>
               </NextLink>
             </Grid>
 
@@ -305,7 +300,7 @@ const Products = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      
+
       <Grid container
         align="center"
         justify-content="center"
@@ -314,10 +309,10 @@ const Products = () => {
         paddingLeft="10em"
         paddingRight="10em"
         paddingBottom="1em"
-        margin= "auto"
+        margin="auto"
         spacing={5}
       >
-        {productList()}
+        {watercolorList()}
 
         <Paginate
           count={Math.ceil(totalProducts / productsPerPage)}
@@ -329,10 +324,10 @@ const Products = () => {
           }}
           sx={{ shape: "rounded", marginTop: "1.5em" }}
         />
-        
+
       </Grid>
     </ThemeProvider>
   );
 };
 
-export default Products;
+export default WatercolorPaintings;
