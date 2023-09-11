@@ -26,9 +26,9 @@ import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Paginate from './Pagination';
 import { averageRating } from 'utils/rating';
+import { useSearchState } from 'utils/search';
 
-
-const Products = (searchResults) => {
+const Products = () => {
   const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -37,7 +37,7 @@ const Products = (searchResults) => {
   const [productsPerPage] = useState(21);
   const [totalProducts, setTotalProducts] = useState(0);
   const [loading, setLoading] = useState(true);
-
+  const { searchResults, setSearchResults } = useSearchState();
 
   //handles scrolling to top when changing pages
   const scrollToTop = () => {
@@ -79,16 +79,16 @@ const Products = (searchResults) => {
 
   // Update products with search results
   useEffect(() => {
-    if (searchResults.searchResults !== null && searchResults.searchResults.length > 0) {
-      setProducts(searchResults.searchResults);
-      setTotalProducts(searchResults.searchResults.length);
+    if (searchResults !== null && searchResults.length > 0) {
+      setProducts(searchResults);
+      setTotalProducts(searchResults.length);
     }
     else {
       // Set products to empty array if no search results
       setProducts([]);
       setTotalProducts(0);
     }
-  }, [searchResults.searchResults]);
+  }, [searchResults]);
 
 
   // Find Products to display per page
