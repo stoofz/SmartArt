@@ -23,8 +23,8 @@ import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import Paginate from './Pagination';
 import { averageRating } from 'utils/rating';
 
-const WatercolorPaintings = () => {
-  const [watercolorPs, setWatercolorPs] = useState([]);
+const OilPaintings = () => {
+  const [oilPs, setOilPs] = useState([]);
   const [open, setOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -43,30 +43,30 @@ const WatercolorPaintings = () => {
   const userId = useSessionId();
 
   useEffect(() => {
-    const getwatercolorPs = async () => {
+    const getOilPs = async () => {
       try {
-        const response = await fetch('/api/listWatercolorPaintings');
+        const response = await fetch('/api/listOilPaintings');
         if (response.ok) {
-          const watercolors = await response.json();
-          const watercolorData = () => watercolors.map((watercolor) => {
-            setWatercolorPs(watercolor.products);
+          const oils = await response.json();
+          const oilData = () => oils.map((oil) => {
+            setOilPs(oil.products);
             // Find total amount of products
-            setTotalProducts(watercolor.products.length);
+            setTotalProducts(oil.products.length);
           })
-          watercolorData();
+          oilData();
         }
       } catch (error) {
         console.error('Error fetching products', error);
       }
     };
-    getwatercolorPs();
+    getOilPs();
   }, [currentPage]);
 
 
   // Find Products to display per page
   const lastProductOfPage = currentPage * productsPerPage;
   const firstProductOfPage = lastProductOfPage - productsPerPage;
-  const pageWatercolorPs = watercolorPs.slice(firstProductOfPage, lastProductOfPage);
+  const pageOilPs = oilPs.slice(firstProductOfPage, lastProductOfPage);
 
 
   //add logic to add to wishlist
@@ -153,7 +153,7 @@ const WatercolorPaintings = () => {
 
 
 
-  const watercolorList = () => (pageWatercolorPs.map((product) =>
+  const oilList = () => (pageOilPs.map((product) =>
 
 
     <Grid item="true" xs={12} sm={6} md={4}
@@ -312,7 +312,7 @@ const WatercolorPaintings = () => {
         margin="auto"
         spacing={5}
       >
-        {watercolorList()}
+        {oilList()}
 
         <Paginate
           count={Math.ceil(totalProducts / productsPerPage)}
@@ -330,4 +330,4 @@ const WatercolorPaintings = () => {
   );
 };
 
-export default WatercolorPaintings;
+export default OilPaintings;

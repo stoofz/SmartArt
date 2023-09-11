@@ -23,8 +23,8 @@ import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import Paginate from './Pagination';
 import { averageRating } from 'utils/rating';
 
-const WatercolorPaintings = () => {
-  const [watercolorPs, setWatercolorPs] = useState([]);
+const AcrylicPaintings = () => {
+  const [acrylicPs, setAcrylicPs] = useState([]);
   const [open, setOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -43,30 +43,30 @@ const WatercolorPaintings = () => {
   const userId = useSessionId();
 
   useEffect(() => {
-    const getwatercolorPs = async () => {
+    const getAcrylicPs = async () => {
       try {
-        const response = await fetch('/api/listWatercolorPaintings');
+        const response = await fetch('/api/listAcrylicPaintings');
         if (response.ok) {
-          const watercolors = await response.json();
-          const watercolorData = () => watercolors.map((watercolor) => {
-            setWatercolorPs(watercolor.products);
+          const acrylics = await response.json();
+          const acrylicData = () => acrylics.map((acrylic) => {
+            setAcrylicPs(acrylic.products);
             // Find total amount of products
-            setTotalProducts(watercolor.products.length);
+            setTotalProducts(acrylic.products.length);
           })
-          watercolorData();
+          acrylicData();
         }
       } catch (error) {
         console.error('Error fetching products', error);
       }
     };
-    getwatercolorPs();
+    getAcrylicPs();
   }, [currentPage]);
 
 
   // Find Products to display per page
   const lastProductOfPage = currentPage * productsPerPage;
   const firstProductOfPage = lastProductOfPage - productsPerPage;
-  const pageWatercolorPs = watercolorPs.slice(firstProductOfPage, lastProductOfPage);
+  const pageAcrylicPs = acrylicPs.slice(firstProductOfPage, lastProductOfPage);
 
 
   //add logic to add to wishlist
@@ -153,7 +153,7 @@ const WatercolorPaintings = () => {
 
 
 
-  const watercolorList = () => (pageWatercolorPs.map((product) =>
+  const acrylicList = () => (pageAcrylicPs.map((product) =>
 
 
     <Grid item="true" xs={12} sm={6} md={4}
@@ -312,7 +312,7 @@ const WatercolorPaintings = () => {
         margin="auto"
         spacing={5}
       >
-        {watercolorList()}
+        {acrylicList()}
 
         <Paginate
           count={Math.ceil(totalProducts / productsPerPage)}
@@ -330,4 +330,4 @@ const WatercolorPaintings = () => {
   );
 };
 
-export default WatercolorPaintings;
+export default AcrylicPaintings;
