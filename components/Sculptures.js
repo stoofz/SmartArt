@@ -22,6 +22,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import Paginate from './Pagination';
 import { averageRating } from 'utils/rating';
+import { useSearchState } from 'utils/search';
 
 const Sculptures = () => {
   const [sculptures, setSculptures] = useState([]);
@@ -30,6 +31,8 @@ const Sculptures = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(21);
   const [totalProducts, setTotalProducts] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const { searchResults, setSearchResults } = useSearchState();
 
 
   //handles scrolling to top when changing pages
@@ -57,10 +60,26 @@ const Sculptures = () => {
       } catch (error) {
         console.error('Error fetching products', error);
       }
+      finally
+      {
+        setLoading(false);
+      }
     };
     getSculptures();
   }, [currentPage]);
 
+
+  useEffect(() => {
+    if (searchResults !== null && searchResults.length > 0) {
+      setSculptures(searchResults);
+      setTotalProducts(searchResults.length);
+    }
+    else {
+      // Set products to empty array if no search results
+      setSculptures([]);
+      setTotalProducts(0);
+    }
+  }, [searchResults]);
 
   // Find Products to display per page
   const lastProductOfPage = currentPage * productsPerPage;
@@ -297,6 +316,27 @@ const Sculptures = () => {
       </ContainerStyled>
     </Grid >
   ))
+
+  if (loading) {
+    return (
+      <ThemeProvider theme={theme}>
+      <Grid container
+        align="center"
+        justify-content="center"
+        maxWidth="75%"
+        paddingTop="5em"
+        paddingLeft="10em"
+        paddingRight="10em"
+        paddingBottom="1em"
+        margin= "auto"
+        spacing={5}
+        >
+          <div>Loading...</div>
+
+        </Grid>
+        </ThemeProvider>
+    )
+  }
 
   return (
     <ThemeProvider theme={theme}>
