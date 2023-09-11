@@ -243,12 +243,7 @@ const Products = (searchResults) => {
                       sx={{ color: theme.palette.primary.main }}
                       variant="text"
                       className="icon-button"
-                      onClick={() =>{
-                        
-                        handleAddToCart(product.id, userId);
-
-                      }
-                      } 
+                      onClick={() => handleAddToCart(product.id, userId)}
                     >
                       <AddShoppingCartIcon />
                     </Button>
@@ -265,11 +260,7 @@ const Products = (searchResults) => {
                 <CartIconStyled
                   variant="text"
                   className="icon-button"
-                  onClick={() => {
-                  
-                    handleAddToCart(product.id, userId);
-
-                  }}
+                  onClick={() => handleAddToCart(product.id, userId)}
                 >
                   <AddShoppingCartIcon />
                 </CartIconStyled>
