@@ -162,7 +162,6 @@ export default function Navigation({ sessionId }) {
                 }}
                 passHref
                 overlay="true"
-                underline="none"
                 sx={{
                   color: theme.palette.info.main, textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
                   padding: "1em",
@@ -170,7 +169,41 @@ export default function Navigation({ sessionId }) {
                 }}
                 onClick={clearSession}
               >
-                Products
+                Art
+              </NextLink>
+              <NextLink
+                href={{
+                  pathname: "/sculptures",
+                }}
+                passHref
+                overlay="true"
+                sx={{ color: theme.palette.info.main, textDecoration: 'none', '&:hover': { textDecoration: 'underline' }, padding: "1em" }}
+                onClick={clearSession}
+              >
+                Sculptures
+              </NextLink>
+              <NextLink
+                href={{
+                  pathname: "/photography",
+                }}
+                passHref
+                overlay="true"
+                sx={{ color: theme.palette.info.main, textDecoration: 'none', '&:hover': { textDecoration: 'underline' }, padding: "1em" }}
+                onClick={clearSession}
+              >
+                Photography
+              </NextLink>
+              <NextLink
+                href={{
+                  pathname: "/watercolour",
+                }}
+                passHref
+                overlay="true"
+                underline="none"
+                sx={{ color: theme.palette.info.main, textDecoration: 'none', '&:hover': { textDecoration: 'underline' }, padding: "1em" }}
+                onClick={clearSession}
+              >
+                Watercolour
               </NextLink>
               <NextLink
                 href={{
