@@ -12,6 +12,13 @@ export default async function handler(req, res) {
               rating: true,
             },
           },
+          discount: {
+            select: {
+              discount: true,
+              startDate: true,
+              endDate: true,
+            },
+          },
         },
       });
 
