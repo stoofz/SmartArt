@@ -25,6 +25,8 @@ import Menu from '@mui/material/Menu';
 import IconButton from '@mui/material/IconButton';
 //import debounce from 'lodash/debounce';
 import { Formik, Form, Field } from "formik";
+import { useSearchState } from 'utils/search';
+
 
 const montserrat = Montserrat({
   weight: '600',
@@ -36,11 +38,12 @@ const Search = styled('div')`
   },
 `;
 
-export default function Navigation({ sessionId, searchData }) {
+export default function Navigation({ sessionId }) {
   //const [searchTerm, setSearchTerm] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const { user, error, isLoading } = useUser();
 
+  const { searchResults, setSearchResults } = useSearchState();
   const open = Boolean(anchorEl);
 
   /*
@@ -67,7 +70,7 @@ export default function Navigation({ sessionId, searchData }) {
       });
   
       const results = await response.json();
-      searchData(results);
+      setSearchResults(results);
     }
 
     catch (error) {
