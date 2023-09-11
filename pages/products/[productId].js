@@ -206,7 +206,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
         <Typography variant="h4" gutterBottom>
           Customer Reviews
         </Typography>
-        {/* <Paper elevation={6}> */}
+    
           <List>
             {reviews.length === 0 ? (
               <Typography variant="body1" style={{ paddingLeft: '10px' }}>
@@ -253,7 +253,6 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                             <Button
                               sx={{
                                 minWidth: 'unset', // Remove the minimum width
-                                // Add other custom styles here
                               }}
                               onClick={() => deleteReviewFromDb(review.id)}
                               style={{ backgroundColor: 'lightpink', color: 'white', borderColor: 'transparent' }}
@@ -270,7 +269,6 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                 ))
             )}
           </List>
-        {/* </Paper> */}
       </section>
     </div>
   );

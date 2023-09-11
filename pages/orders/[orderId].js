@@ -3,6 +3,7 @@ import formatDate from 'utils/formatDate';
 import Link from 'next/link';
 import { Typography, Container } from '@mui/material';
 import Button from '@mui/material/Button';
+import Layout from '../../components/Layout';
 
 const OrderPage = ({ order }) => {
 
@@ -11,12 +12,13 @@ const OrderPage = ({ order }) => {
   }
 
   return (
-    <Container className="px-32 flex flex-col pt-32">
+    <Layout>
+    <Container className="px-32 flex flex-col pt-4">
       <div className=" flex justify-between">
         <Typography variant="h4" gutterBottom>
           Order #{order.id}
         </Typography>
-        <Link href={`/`}>
+        {/* <Link href={`/`}>
           <Button size="small"
             variant="contained"
             style={{
@@ -28,7 +30,7 @@ const OrderPage = ({ order }) => {
           >
             Go to the main page
           </Button>
-        </Link>
+        </Link> */}
       </div>
      
       <div className="flex items-center border-b pb-5 pt-5" style={{ borderColor: 'lightblue' }}>
@@ -64,6 +66,7 @@ const OrderPage = ({ order }) => {
         </div>
       </div>  
     </Container>
+      </Layout>
   );
 };
 

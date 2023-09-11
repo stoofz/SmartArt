@@ -1,18 +1,22 @@
+import Link from 'next/link';
+
 import prisma from 'utils/prisma';
 import formatDate from 'utils/formatDate';
-import Link from 'next/link';
+import Layout from '../../components/Layout';
+
 import { Typography, Container } from '@mui/material';
 import Button from '@mui/material/Button';
 
 const OrdersHistoryList = ({ userOrders }) => {
-  console.log("userOrders", userOrders)
+  
   return (
-    <Container className="px-32 flex flex-col pt-32">
+    <Layout>
+    <Container className="px-32 flex flex-col pt-4">
       <div className=" flex justify-between">
         <Typography variant="h4" gutterBottom>
           Your Order History
         </Typography>
-        <Link href={`/products/`}>
+        {/* <Link href={`/products/`}>
           <Button size="small"
             variant="contained"
             style={{
@@ -24,7 +28,7 @@ const OrdersHistoryList = ({ userOrders }) => {
           >
             Continue shopping
           </Button>
-        </Link>
+        </Link> */}
       </div>
    
       {userOrders.length === 0 ? (
@@ -93,6 +97,7 @@ const OrdersHistoryList = ({ userOrders }) => {
         </div>
       )}
     </Container>
+    </Layout>
   );
 
 };

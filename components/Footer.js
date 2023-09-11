@@ -71,7 +71,7 @@ export default function Footer() {
               </div>
               <div className="p-3">
                 <Link href={`/contact`}>
-                <h3 className="font-bold">Contact</h3>
+                  <h3 className="font-bold">Contact</h3>
                 </Link>
                 <ul>
                   <li>Getting Started</li>
