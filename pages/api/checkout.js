@@ -18,6 +18,9 @@ export default async function checkout({ lineItems, cartId }) {
 
     })
     console.log('cartId:', cartId);
+    // Call the onSuccess callback if provided
+   
+
     return session;
   } catch (error) {
     console.error('Error reaching checkout', error);

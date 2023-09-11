@@ -243,7 +243,12 @@ const Products = (searchResults) => {
                       sx={{ color: theme.palette.primary.main }}
                       variant="text"
                       className="icon-button"
-                      onClick={() => handleAddToCart(product.id)}
+                      onClick={() =>{
+                        console.log("product.id", product.id )
+                        handleAddToCart(product.id);
+
+                      }
+                      } 
                     >
                       <AddShoppingCartIcon />
                     </Button>
@@ -260,7 +265,11 @@ const Products = (searchResults) => {
                 <CartIconStyled
                   variant="text"
                   className="icon-button"
-                  onClick={() => handleAddToCart(product.idd)}
+                  onClick={() => {
+                    console.log("product.id", product.id);
+                    handleAddToCart(product.id);
+
+                  }}
                 >
                   <AddShoppingCartIcon />
                 </CartIconStyled>

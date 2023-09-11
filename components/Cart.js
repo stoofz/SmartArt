@@ -16,6 +16,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
   const [productDetails, setProductDetails] = useState(defaultProducts);
   const [total, setTotal] = useState(subtotal);
   const [cart, setCart] = useState([]);
+
   const userId = useSessionId();
 
   const lineItems = productDetails.map((item) => {
@@ -62,16 +63,16 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
       const session = await checkout({
         cartId, // Pass the cartId as an argument to checkout
         lineItems, // Your lineItems data
+    
       });
       // Redirect to Stripe checkout
       window.location.href = session.url;
-      setCart([]);
     } catch (error) {
       console.error('Error during checkout:', error);
     }
   };
 
-
+  
   // Function to delete an item from the cart 
   const calculateTotalPrice = (products) => products.reduce((acc, item) => {
     acc += item.qty * item.price;
