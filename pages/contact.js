@@ -3,7 +3,7 @@ import Link from 'next/link';
 // import { TextField, Button } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { Button, TextField, Typography, Container, Grid, Paper } from '@mui/material';
-
+import Layout from '../components/Layout';
 import emailjs from '@emailjs/browser';
 
 
@@ -28,6 +28,7 @@ const ContactUs = () => {
   };
 
   return (
+    <Layout>
     <Container maxWidth="md" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }} >
       <Paper elevation={6} style={{ padding: '16px' }}>
 
@@ -132,21 +133,7 @@ const ContactUs = () => {
       </Paper>
     </Container>
    
-    // <div>
-    //   <form ref={form} onSubmit={sendEmail}>
-    //     <h1>Contact Us</h1>
-    //     <br />
-    //     <div>
-    //       <TextField id="outlined-basic" label="Name" variant="outlined" size="small" type="text" name="from_name" required="required" />
-    //       <TextField id="outlined-basic" label="Email" variant="outlined" size="small" type="email" name="from_email" required="required" />
-    //     </div>
-    //     <TextField id="outlined-basic" label="Subject" variant="outlined" size="small" type="text" name="subject" required="required" />
-    //     <br />
-    //     <TextField id="outlined-basic" label="Message" variant="outlined" size="small" type="text" name="message" required="required" />
-    //     <br />
-    //     <Button variant="outlined" endIcon={<SendIcon />} type="submit">Send</Button>
-    //   </form>
-    // </div>
+    </Layout>
   );
 };
 

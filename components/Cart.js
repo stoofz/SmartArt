@@ -147,7 +147,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
      
 
 
-      <Container className="px-32 flex flex-col pt-32">
+      <Container className="px-32 flex flex-col pt-4">
         <Typography variant="h4" gutterBottom>
           Your Shopping Cart
         </Typography>
@@ -237,7 +237,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
             }}
             type="submit" onClick={handleCheckout}>Checkout
           </Button>
-          <Link href={`/products/`}>
+          {/* <Link href={`/products/`}>
             <Button size="small"
               variant="contained"
               style={{
@@ -249,7 +249,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
             >
               Continue shopping
             </Button>
-          </Link>
+          </Link> */}
         </div>
 
       </Container>

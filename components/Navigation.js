@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import NextLink from 'next/link';
 import { Montserrat } from 'next/font/google';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { handleAddToCart } from 'utils/cart';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
@@ -162,9 +163,14 @@ export default function Navigation({ sessionId }) {
             sx={{ padding: "0 1.5em", borderBottom: `thick double ${theme.palette.secondary.main}` }}
           >
             <Toolbar>
-              <Typography variant="h4" sx={{ color: theme.palette.info.main, padding: "1em" }}>
-                SmartArt
-              </Typography>
+              <NextLink href={{
+                pathname: "/",
+              }}>
+                <Typography variant="h4" sx={{ color: theme.palette.info.main, padding: "1em" }}>
+                  SmartArt
+                </Typography>
+              </NextLink>
+              
               {userId &&
                 <Typography
                   className={montserrat.className}
@@ -237,6 +243,17 @@ export default function Navigation({ sessionId }) {
                 sx={{ color: theme.palette.info.main, marginLeft: "1em" }}
               >
                 <ShoppingCartCheckoutIcon />
+              </NextLink>
+              <NextLink
+                href={{
+                  pathname: "/profile",
+                }}
+                passHref
+                overlay="true"
+                underline="none"
+                sx={{ color: theme.palette.info.main, marginLeft: "1em" }}
+              >
+                <ManageAccountsIcon />
               </NextLink>
             </Toolbar>
           </AppBar>
