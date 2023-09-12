@@ -129,9 +129,11 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
               />
               </Link>
               <div className="cart-item-details flex-grow" style={{ marginLeft: '20px' }}>
+                <Link href={`/products/${item.product.id}`}>
                 <Typography variant="h6" className="flex-grow-0 flex-shrink-0">
                   {item.product.name}
                 </Typography>
+                </Link>
                 <div className="flex justify-between w-1/2 pt-5">
                   <Typography variant="body2">Price: ${(item.product.price / 100).toFixed(2)}</Typography>
                   {/* Add any other details you want to display */}
