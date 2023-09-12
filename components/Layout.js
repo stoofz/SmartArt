@@ -23,13 +23,13 @@ const Layout = ({ children }) => {
     //setSession(user);
 
     return (
-      <>
+      <div style={{minHeight: "100vh", display: "flex", flexDirection:"column"}}>
         <Navigation sessionId={setSession(user)} />
         {/* Render subnav only on the user profile page */}
         {isUserProfilePage || isOrdersPage || isReviewsPage || isCartPage || isWishlistPage ? <Subnav /> : null}
         {children}
-        <Footer />
-      </>
+        <Footer  />
+      </div>
     );
   }
 

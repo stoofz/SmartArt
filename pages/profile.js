@@ -4,13 +4,11 @@ import axios from 'axios';
 import Layout from '../components/Layout';
 import { useSessionId } from '/utils/session';
 
-import { useSearchState } from 'utils/search';
+// import { useSearchState } from 'utils/search';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
-
-import { ListItem, List, ListItemText }  from '@mui/material';
 
 
 
@@ -19,7 +17,7 @@ const userProfilePage = () => {
   const userId = useSessionId()
   const [customer, setCustomer] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { searchResults } = useSearchState();
+  // const { searchResults } = useSearchState();
 // console.log("customer", customer)
 
  
@@ -51,7 +49,7 @@ const userProfilePage = () => {
     <Layout>
       <div>
 
-        {searchResults.length > 0 && (
+        {/* {searchResults.length > 0 && (
           <div>
             <h2>Search Results:</h2>
             <ul>
@@ -60,7 +58,7 @@ const userProfilePage = () => {
               ))}
             </ul>
           </div>
-        )}
+        )} */}
 
 
         {isLoading ? (
