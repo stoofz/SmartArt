@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         res.status(500).json({ error: 'Error uploading image' });
       }
 
-      const { price, name, stock, description, category_id } = fields;
+      const { price, name, stock, description, category_id, artist, country, dimensions } = fields;
       const { image } = files;
 
       try {
@@ -34,6 +34,9 @@ export default async function handler(req, res) {
             description: description[0],
             categoryId: parseInt(category_id),
             price: parseFloat(price),
+            artist: artist[0],
+            country: country[0],
+            dimensions: dimensions[0],
           },
         });
 

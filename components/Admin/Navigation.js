@@ -56,9 +56,11 @@ export default function Navigation() {
             sx={{ padding: "0 1.5em", borderBottom: `thick double ${theme.palette.secondary.main}` }}
           >
             <Toolbar>
+              <NextLink href={{ pathname: "/", }}>
               <Typography variant="h4" sx={{ color: theme.palette.info.main, padding: "1em" }}>
                 SmartArt
               </Typography>
+              </NextLink>
               {userId &&
                 <Typography
                   className={montserrat.className}

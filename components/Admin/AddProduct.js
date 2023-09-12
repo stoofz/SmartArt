@@ -22,7 +22,7 @@ const AddProductForm = ({ onSuccess } ) => {
     <div>
       <h1>Add Product</h1>
       <Formik
-        initialValues={{ category_id: '', name: '', price: '', description: '', stock: '', image: null, }}
+        initialValues={{ category_id: '', name: '', price: '', description: '', stock: '', artist:'', country:'', dimensions:'', image: null,  }}
         onSubmit={async (values, { setSubmitting }) => {
           try {
             const formData = new FormData();
@@ -32,6 +32,9 @@ const AddProductForm = ({ onSuccess } ) => {
             formData.append('description', values.description);
             formData.append('stock', values.stock);
             formData.append('image', values.image);
+            formData.append('artist', values.artist);
+            formData.append('country', values.country);
+            formData.append('dimensions', values.dimensions);
 
             const response = await fetch('/api/addProduct', {
               method: 'POST',
@@ -68,6 +71,16 @@ const AddProductForm = ({ onSuccess } ) => {
             </div>
 
             <div>
+              <label htmlFor="artist">Artist:</label>
+              <Field type="text" name="artist" />
+            </div>
+
+            <div>
+              <label htmlFor="country">Country:</label>
+              <Field type="text" name="country" />
+            </div>
+
+            <div>
               <label htmlFor="price">Price:</label>
               <Field type="text" name="price" />
             </div>
@@ -80,6 +93,11 @@ const AddProductForm = ({ onSuccess } ) => {
             <div>
               <label htmlFor="stock">Stock:</label>
               <Field type="text" name="stock" />
+            </div>
+
+            <div>
+              <label htmlFor="dimensions">Dimensions:</label>
+              <Field type="text" name="dimensions" />
             </div>
 
             <div>
