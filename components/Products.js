@@ -32,6 +32,7 @@ import formatPrice from 'utils/formatPrice';
 import { Montserrat } from 'next/font/google';
 import Image from 'material-ui-image';
 import { useSearchState } from 'utils/search';
+
 const montserrat = Montserrat({
   weight: '600',
   subsets: ['latin']
