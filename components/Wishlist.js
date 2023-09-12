@@ -118,14 +118,16 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
           </div>
 
           {wishlistData.map((item, index) => (
+          
             <div key={index} className={`${true ? "flex" : ""} items-center border-b pb-5 pt-5`}
-              style={{ borderColor: 'lightblue' }}>
-
+                style={{ borderColor: 'lightblue', transition: 'background-color 0.3s', }}>
+              <Link href={`/products/${item.product.id}`}>
               <img
                 className="w-[109px] h-[134px]"
                 src={`/uploads/${item.product.image}`}
                 alt={item.product.name}
               />
+              </Link>
               <div className="cart-item-details flex-grow" style={{ marginLeft: '20px' }}>
                 <Typography variant="h6" className="flex-grow-0 flex-shrink-0">
                   {item.product.name}
@@ -136,6 +138,7 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
 
                 </div>
               </div>
+                
               <Button
                 onClick={() => handleDeleteFromWishlist(userId, item.product.id)}
                 size="small"
@@ -152,6 +155,7 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
                 Delete
               </Button>
             </div>
+          
           ))}
         </div>
       )}

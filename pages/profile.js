@@ -4,7 +4,7 @@ import axios from 'axios';
 import Layout from '../components/Layout';
 import { useSessionId } from '/utils/session';
 
-
+import { useSearchState } from 'utils/search';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -19,7 +19,8 @@ const userProfilePage = () => {
   const userId = useSessionId()
   const [customer, setCustomer] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-console.log("customer", customer)
+  const { searchResults } = useSearchState();
+// console.log("customer", customer)
 
  
   useEffect(() => {
@@ -49,6 +50,19 @@ console.log("customer", customer)
   return (
     <Layout>
       <div>
+
+        {searchResults.length > 0 && (
+          <div>
+            <h2>Search Results:</h2>
+            <ul>
+              {searchResults.map((result) => (
+                <li key={result.id}>{result.name}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+
         {isLoading ? (
           <p>Loading...</p>
         ) : customer ? (
