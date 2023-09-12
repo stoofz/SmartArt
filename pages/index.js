@@ -1,7 +1,6 @@
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 import { setSession, clearSession } from 'utils/session';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 import Footer from '../components/Footer';
 import Products from '../components/Products';

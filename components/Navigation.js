@@ -28,6 +28,7 @@ import IconButton from '@mui/material/IconButton';
 import { Formik, Form, Field } from "formik";
 import { useSearchState } from 'utils/search';
 
+import { useRouter } from 'next/router';
 
 const montserrat = Montserrat({
   weight: '600',
@@ -47,6 +48,13 @@ export default function Navigation({ sessionId }) {
   const { searchResults, setSearchResults } = useSearchState();
   const open = Boolean(anchorEl);
 
+  //to render conditionally second stack on use profule page as we dont have access to search functionality from there
+  const router = useRouter();
+  const isUserProfilePage = router.pathname === '/profile';
+  const isOrdersPage = router.pathname.startsWith('/orders');
+  const isReviewsPage = router.pathname === '/reviews';
+  const isCartPage = router.pathname === '/cart';
+  const isWishlistPage = router.pathname === '/wishlist';
   /*
   const handleChange = (event) => {
     //  setSearchTerm(event.target.value);
@@ -286,6 +294,8 @@ export default function Navigation({ sessionId }) {
             </Toolbar>
           </AppBar>
         </Stack>
+
+        {!isUserProfilePage && !isOrdersPage && !isReviewsPage && !isCartPage && !isWishlistPage && (
         <Stack>
           <AppBar
             position="static"
@@ -397,6 +407,7 @@ export default function Navigation({ sessionId }) {
             </Toolbar>
           </AppBar>
         </Stack>
+        )}
       </Box>
 
      

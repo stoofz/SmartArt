@@ -1,6 +1,6 @@
 import { Stripe } from 'stripe';
 
-import { createOrderAndDetails, fetchCartItems } from 'utils/db';
+import { createOrderAndDetails, fetchCartItems, deleteCart } from 'utils/db';
 
 const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
 
@@ -37,7 +37,10 @@ export default async function handler(req, res) {
       const cartItems = await fetchCartItems(cartId);
       // console.log("cartItems", cartItems)
 
-      const { order, orderDetails, payment } = await createOrderAndDetails(cartItems, userId, orderDetailsSession.totalPrice, stripeChargeId);
+      const { order } = await createOrderAndDetails(cartItems, userId, orderDetailsSession.totalPrice, stripeChargeId);
+      const deleteCartResponse = await deleteCart(cartId);
+      
+
       // Create an object that contains both orderDetailsSession and order
       const responseData = {
         orderDetailsSession: orderDetailsSession,

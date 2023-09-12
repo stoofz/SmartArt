@@ -216,7 +216,7 @@ const Products = () => {
                     <CartIconStyled
                       variant="text"
                       className="icon-button"
-                      onClick={() => handleAddToCart(product.idd)}
+                      onClick={() => handleAddToCart(product.id, userId)}
                     >
                       <AddShoppingCartIcon />
                     </CartIconStyled>
@@ -276,7 +276,7 @@ const Products = () => {
                           sx={{ color: theme.palette.primary.main }}
                           variant="text"
                           className="icon-button"
-                          onClick={() => handleAddToCart(product.id)}
+                          onClick={() => handleAddToCart(product.id, userId)}
                         >
                           <AddShoppingCartIcon />
                         </Button>

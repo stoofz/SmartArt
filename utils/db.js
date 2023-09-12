@@ -310,4 +310,23 @@ const fetchCartItems = async (cartId) => {
 };
 
 
-export { createUser, addToCartApi, deteteFromCartApi, updateCartApi, createOrderAndDetails, fetchCartItems, applyDiscount };
+const deleteCart = async (cartId) => {
+  try {
+    const deletedCart = await prisma.cart.deleteMany({
+      where: {
+        id: parseInt(cartId),
+      },
+    });
+
+    return deletedCart;
+  } catch (error) {
+    console.error('Error deleteing cart:', error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+ 
+} 
+
+
+export { createUser, addToCartApi, deteteFromCartApi, updateCartApi, createOrderAndDetails, fetchCartItems, applyDiscount, deleteCart };

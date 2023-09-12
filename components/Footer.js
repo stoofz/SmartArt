@@ -28,7 +28,7 @@ export default function Footer() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div style={{ backgroundColor: theme.palette.primary.main, color: theme.palette.info.main }}>
+      <div style={{ backgroundColor: theme.palette.primary.main, color: theme.palette.info.main, marginTop:"auto" }}>
         <footer style={{ position: "static" }}>
           <div className="flex justify-around p-3">
             <div className="p-3">
@@ -66,7 +66,9 @@ export default function Footer() {
                 <ul>
                   <li>Community</li>
                   <li>Career</li>
-                  <li>Our Story</li>
+                  <Link href="/admin" target="_blank" rel="noopener noreferrer">
+                  <li>Admin</li>
+                  </Link>
                 </ul>
               </div>
               <div className="p-3">
