@@ -1,46 +1,39 @@
-/* eslint-disable func-style */
-// import Link from 'next/link';
-import prisma from '../../utils/prisma';
-import axios from 'axios';
-import Link from 'next/link';
-import { useSessionId } from 'utils/session';
-import { averageRating } from 'utils/rating';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
-import { handleAddToCart } from 'utils/cart';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import Rating from '@mui/material/Rating';
+import { setSession, clearSession } from 'utils/session';
 
-export default function ProductsPage({ products }) {
+import Footer from '../../components/Footer';
+import Products from '../../components/Products';
+import Navigation from '../../components/Navigation';
 
-  const userId = useSessionId();
+export default function Index() {
+  const { user, error, isLoading } = useUser();
 
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
 
-  const productItems = () => (products.map((product) =>
-    <div key={product.id}>
-      <Link href={`/products/${product.id}`}>
-        <h4>{product.name}</h4>
-      </Link>
-      <p>${(product.price / 100).toFixed(2)}</p>
+  if (user) {
 
-      <AddShoppingCartIcon onClick={() => handleAddToCart(product.id, userId)} />
-      <Rating name="read-only" value={5} readOnly precision={0.5} />
-    </div>
-  ));
+    //setSession(user);
+
+    return (
+      <>
+        <Navigation sessionId={setSession(user)} />
+        <main>
+          <Products />
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
   return (
-    <main>
-      {productItems()}
-    </main>
+    <>
+      <Navigation />
+      <main>
+        <Products />
+      </main>
+      <Footer />
+    </>
   );
 }
-
-export async function getServerSideProps() {
-
-  const products = await prisma.Product.findMany()
-  // const reviews = await getReviews(productId);
-
-  const serializedProduct = JSON.parse(JSON.stringify(products));
-
-  return { props: { products: serializedProduct } };
-}
-
-// export default ProductsPage;
