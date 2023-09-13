@@ -56,8 +56,19 @@ const ProductsPage = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 700,
+    width: 'auto',
     bgcolor: '#fff',
+    padding: '20px',
+    borderRadius: '10px',
+
+    '& .form-input': {
+      marginBottom: '15px',
+    },
+  
+    '& .form-label': {
+      fontSize: '16px',
+      marginBottom: '5px',
+    },
   };
 
   if (isAdmin()) {
@@ -69,9 +80,6 @@ const ProductsPage = () => {
         <>
         <Container maxWidth="sm" style={{ minHeight: "560px", marginTop: '2em' }}>
             
-  
-
-
           <ListItem style={{ cursor: 'pointer' }}>
          
               <Button onClick={() => handleOpen('category') } variant="contained" style={{
@@ -85,7 +93,7 @@ const ProductsPage = () => {
                 }}>Add Category</Button>
               <Modal open={modals.category} onClose={() => handleClose('category')}>
                 <Box sx={theme}>
-                  <Typography id="addCategory">Add Category</Typography>
+                  <Typography id="addCategory" style={{ fontWeight: 'bold' }}>Add Category</Typography>
                   <AddCategory onSuccess={() => handleSuccess('category')} />
                 </Box>
               </Modal>
@@ -99,7 +107,7 @@ const ProductsPage = () => {
                 </ListItem>
 
                 <ListItem style={{ cursor: 'pointer' }}>
-            <Button onClick={() => handleOpen('category') } variant="contained" style={{
+            <Button onClick={() => handleOpen('deleteCategory') } variant="contained" style={{
                   backgroundColor: '#fae4e2',
                   '&:hover': {
                     backgroundColor: '#32434e',
@@ -110,7 +118,7 @@ const ProductsPage = () => {
                 }}>Delete Category</Button>
               <Modal open={modals.deleteCategory} onClose={() => handleClose('deleteCategory')}>
                 <Box sx={theme}>
-                  <Typography id="deleteCategory">Delete Category</Typography>
+                  <Typography id="deleteCategory" style={{ fontWeight: 'bold' }}>Delete Category</Typography>
                   <DeleteForm onSuccess={() => handleDelSuccess('deleteCategory')} apiListEndpoint="/api/listCategories" apiEndpoint="/api/deleteCategory?CategoryId=" itemName="Categories" />
                 </Box>
               </Modal>
@@ -123,7 +131,7 @@ const ProductsPage = () => {
             </ListItem>
 
             <ListItem style={{ cursor: 'pointer' }}>
-            <Button onClick={() => handleOpen('category') } variant="contained" style={{
+            <Button onClick={() => handleOpen('product') } variant="contained" style={{
                   backgroundColor: '#fae4e2',
                   '&:hover': {
                     backgroundColor: '#32434e',
@@ -134,7 +142,7 @@ const ProductsPage = () => {
                 }}>Add Product</Button>
               <Modal open={modals.product} onClose={() => handleClose('product')}>
                 <Box sx={theme}>
-                  <Typography id="addProduct">Add Product</Typography>
+                  <Typography id="addProduct" style={{ fontWeight: 'bold' }}>Add Product</Typography>
                   <AddProduct onSuccess={() => handleSuccess('product')} />
                 </Box>
               </Modal>
@@ -147,7 +155,7 @@ const ProductsPage = () => {
             </ListItem>
 
             <ListItem style={{ cursor: 'pointer' }}>
-            <Button onClick={() => handleOpen('category') } variant="contained" style={{
+            <Button onClick={() => handleOpen('deleteProduct') } variant="contained" style={{
                   backgroundColor: '#fae4e2',
                   '&:hover': {
                     backgroundColor: '#32434e',
@@ -158,7 +166,7 @@ const ProductsPage = () => {
                 }}>Delete Product</Button>
               <Modal open={modals.deleteProduct} onClose={() => handleClose('deleteProduct')}>
                 <Box sx={theme}>
-                  <Typography id="deleteProduct">Delete Product</Typography>
+                  <Typography id="deleteProduct" style={{ fontWeight: 'bold' }}>Delete Product</Typography>
                   <DeleteForm onSuccess={() => handleDelSuccess('deleteProduct')} apiListEndpoint="/api/listProducts" apiEndpoint="/api/deleteProduct?productId=" itemName="Products" />
                 </Box>
               </Modal>
@@ -171,7 +179,7 @@ const ProductsPage = () => {
               </ListItem>
               
               <ListItem style={{ cursor: 'pointer' }}>
-              <Button onClick={() => handleOpen('category') } variant="contained" style={{
+              <Button onClick={() => handleOpen('createDiscount') } variant="contained" style={{
                   backgroundColor: '#fae4e2',
                   '&:hover': {
                     backgroundColor: '#32434e',
@@ -182,7 +190,7 @@ const ProductsPage = () => {
                 }}>Create Discount</Button>
               <Modal open={modals.createDiscount} onClose={() => handleClose('createDiscount')}>
                 <Box sx={theme}>
-                  <Typography id="createDiscount">Create Discount</Typography>
+                  <Typography id="createDiscount" style={{ fontWeight: 'bold' }}>Create Discount</Typography>
                   <CreateDiscountForm onSuccess={() => handleSuccess('createDiscount')} />
                 </Box>
               </Modal>
@@ -195,7 +203,7 @@ const ProductsPage = () => {
             </ListItem>
 
             <ListItem style={{ cursor: 'pointer' }}>
-            <Button onClick={() => handleOpen('category') } variant="contained" style={{
+            <Button onClick={() => handleOpen('deleteDiscount') } variant="contained" style={{
                   backgroundColor: '#fae4e2',
                   '&:hover': {
                     backgroundColor: '#32434e',
@@ -206,7 +214,7 @@ const ProductsPage = () => {
                 }}>Delete Discount</Button>
               <Modal open={modals.deleteDiscount} onClose={() => handleClose('deleteDiscount')}>
                 <Box sx={theme}>
-                  <Typography id="deleteDiscount">Delete Discount</Typography>
+                  <Typography id="deleteDiscount" style={{ fontWeight: 'bold' }}>Delete Discount</Typography>
                   <DeleteForm onSuccess={() => handleDelSuccess('deleteDiscount')} apiListEndpoint="/api/listDiscount" apiEndpoint="/api/deleteDiscount?discountId=" itemName="Discount" />
                 </Box>
               </Modal>

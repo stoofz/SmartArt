@@ -20,7 +20,6 @@ const AddProductForm = ({ onSuccess } ) => {
 
   return (
     <div>
-      <h1>Add Product</h1>
       <Formik
         initialValues={{ category_id: '', name: '', price: '', description: '', stock: '', artist:'', country:'', dimensions:'', image: null,  }}
         onSubmit={async (values, { setSubmitting }) => {
@@ -54,8 +53,9 @@ const AddProductForm = ({ onSuccess } ) => {
       >
         {({ isSubmitting, setFieldValue }) => (
           <Form>
-            <div>
-              <Field as="select" name="category_id">
+            <div className="mb-4">
+              <label htmlFor="category_id" className="block text-gray-700">Category:</label>
+              <Field as="select" name="category_id" className="block w-full p-2 border border-gray-300 rounded">
                 <option value="">Select a category</option>
                 {categories.map((category) => (
                   <option key={category.id} value={category.id}>
@@ -65,54 +65,63 @@ const AddProductForm = ({ onSuccess } ) => {
               </Field>
             </div>
 
-            <div>
-              <label htmlFor="name">Name:</label>
-              <Field type="text" name="name" />
+            <div className="mb-4">
+              <label htmlFor="name" className="block text-gray-700">Name:</label>
+              <Field type="text" name="name" className="block w-full p-2 border border-gray-300 rounded" />
             </div>
 
-            <div>
-              <label htmlFor="artist">Artist:</label>
-              <Field type="text" name="artist" />
+            <div className="mb-4">
+              <label htmlFor="artist" className="block text-gray-700">Artist:</label>
+              <Field type="text" name="artist" className="block w-full p-2 border border-gray-300 rounded" />
             </div>
 
-            <div>
-              <label htmlFor="country">Country:</label>
-              <Field type="text" name="country" />
+            <div className="mb-4">
+              <label htmlFor="country" className="block text-gray-700">Country:</label>
+              <Field type="text" name="country" className="block w-full p-2 border border-gray-300 rounded" />
             </div>
 
-            <div>
-              <label htmlFor="price">Price:</label>
-              <Field type="text" name="price" />
+            <div className="mb-4">
+              <label htmlFor="price" className="block text-gray-700">Price:</label>
+              <Field type="text" name="price" className="block w-full p-2 border border-gray-300 rounded" />
             </div>
 
-            <div>
-              <label htmlFor="description">Description:</label>
-              <Field type="text" name="description" />
+            <div className="mb-4">
+              <label htmlFor="description" className="block text-gray-700">Description:</label>
+              <Field type="text" name="description" className="block w-full p-2 border border-gray-300 rounded" />
             </div>
 
-            <div>
-              <label htmlFor="stock">Stock:</label>
-              <Field type="text" name="stock" />
+            <div className="mb-4">
+              <label htmlFor="stock" className="block text-gray-700">Stock:</label>
+              <Field type="text" name="stock" className="block w-full p-2 border border-gray-300 rounded" />
             </div>
 
-            <div>
-              <label htmlFor="dimensions">Dimensions:</label>
-              <Field type="text" name="dimensions" />
+            <div className="mb-4">
+              <label htmlFor="dimensions" className="block text-gray-700">Dimensions:</label>
+              <Field type="text" name="dimensions" className="block w-full p-2 border border-gray-300 rounded" />
             </div>
 
-            <div>
-              <label htmlFor="image">Image:</label>
+            <div className="mb-4">
+              <label htmlFor="image" className="block text-gray-700">Image:</label>
               <input
                 type="file"
                 name="image"
                 accept="image/*"
-                onChange={(event) => setFieldValue('image', event.currentTarget.files[0])
-                }
+                onChange={(event) => setFieldValue('image', event.currentTarget.files[0])}
+                className="block w-full p-2 border border-gray-300 rounded"
               />
             </div>
 
             <div>
-              <button type="submit" disabled={isSubmitting}>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                style={{
+                  backgroundColor: '#fae4e2',
+                  padding: '10px',
+                  borderRadius: '5px',
+                  color: '#32434E',
+                }}
+              >
                 Submit
               </button>
             </div>

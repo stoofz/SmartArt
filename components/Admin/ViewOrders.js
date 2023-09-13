@@ -1,7 +1,15 @@
 import { useState, useEffect } from 'react';
 import ViewOrder from 'components/Admin/ViewOrder';
 import { Modal, Box, Typography, Button } from '@mui/material';
-import formatPrice from '@/utils/formatPrice';
+
+
+function formatPriceAlt(price) {
+  const numFor = Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  return numFor.format(price);
+}
 
 const ViewOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -37,8 +45,10 @@ const ViewOrders = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 800,
+    width: 'auto',
     bgcolor: '#fff',
+    padding: '20px',
+    borderRadius: '10px',
   };
 
   function formatDate(dateString) {
@@ -47,8 +57,8 @@ const ViewOrders = () => {
   }
 
   return (
-    <div>
-    <div style={{ height: '520px', overflowY: 'auto' }}>
+  
+    <div style={{ height: 'auto', maxHeight:'36em', overflowY: 'auto', padding:'1.25em' }}>
       <table className="w-full border-collapse">
         <thead>
           <tr>
@@ -76,19 +86,13 @@ const ViewOrders = () => {
                 ) : (
                   <span style={{ backgroundColor: 'lightyellow', padding: '10px', borderRadius: '5px' }}>In Process</span>
                 )}</td>
-              <td className="border p-2">${order.totalPrice}</td>
+              <td className="border p-2">${formatPriceAlt(order.totalPrice)}</td>
               <td className="border p-2">
                 <button
                   onClick={() => handleOrderViewOpen(order)} variant="contained" style={{
                     backgroundColor: '#fae4e2',
-                    '&:hover': {
-                      backgroundColor: '#32434e',
-                      color: 'white',
-                    },
-                    width: '60px',
                     padding: '10px',
                     borderRadius: '5px',
-                    color: '#32434E',
                   }}>
                   View
                 </button>
@@ -97,23 +101,16 @@ const ViewOrders = () => {
           ))}
         </tbody>
       </table>
-    </div>
- 
-        
-  <Modal open={orderViewOpen} onClose={handleOrderViewClose}>
-        <Box sx={theme}>
-          <Typography id="viewOrder">
-            {selectOrder && <ViewOrder order={selectOrder} />}
-          </Typography>
-      </Box>
-      </Modal>
+       
+    <Modal open={orderViewOpen} onClose={handleOrderViewClose}>
+          <Box sx={theme}>
+            <Typography id="viewOrder">
+              {selectOrder && <ViewOrder order={selectOrder} />}
+            </Typography>
+        </Box>
+        </Modal>
 
-</div>
-    
-    
-  
-  
-  
+  </div>
   );
 };
 

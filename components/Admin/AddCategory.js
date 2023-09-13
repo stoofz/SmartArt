@@ -4,7 +4,7 @@ const AddCategoryForm = ({ onSuccess } ) => {
 
   return (
     <div>
-      <h1>Add Category</h1>
+  
       <Formik
         initialValues={{ name: '' }}
         onSubmit={async (values, { setSubmitting }) => {
@@ -29,16 +29,26 @@ const AddCategoryForm = ({ onSuccess } ) => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <div>
-              <label htmlFor="name">Name:</label>
-              <Field type="text" name="name" disabled={isSubmitting} />
+    
+            <div className="mb-4">
+              <label htmlFor="name" className="block text-gray-700">Name:</label>
+              <Field type="text" name="name" className="block w-full p-2 border border-gray-300 rounded" disabled={isSubmitting} />
             </div>
-
+            
             <div>
-              <button type="submit" disabled={isSubmitting}>
-                Add Category
+              <button type="submit" disabled={isSubmitting}
+              style={{
+                backgroundColor: '#fae4e2',
+                padding: '10px',
+                borderRadius: '5px',
+                color: '#32434E',
+              }}
+              >
+                Submit
               </button>
             </div>
+
+          
 
           </Form>
         )}

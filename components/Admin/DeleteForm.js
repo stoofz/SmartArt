@@ -33,20 +33,38 @@ function DeleteForm({  onSuccess, apiEndpoint, apiListEndpoint, itemName }) {
       console.error('Error', error);
     }
   };
-
   return (
-    <div>
-      <h1>{itemName}</h1>
-      <div style={{ height: '600px', overflowY: 'auto' }}>
-      <ul>
-        {items.map((item) => (
-          <li key={item.id}>
-            {item.name} - <button onClick={() => deleteItem(item.id)}>Delete</button>
-          </li>
-        ))}
-        </ul>
-      </div>
-    </div>
+  
+<div style={{ height: 'auto', maxHeight:'36em', overflowY: 'auto', padding: '1.25em' }}>
+  <table className="w-full">
+    <thead>
+      <tr className="bg-gray-300">
+      </tr>
+    </thead>
+    <tbody>
+      {items.map((item, index) => (
+        <tr
+          key={item.id}
+          className={`${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} hover:bg-gray-200`}
+        >
+          <td className="border p-2">{item.name}</td>
+          <td className="border p-2 text-center">
+            <button
+              onClick={() => deleteItem(item.id)} variant="contained" style={{
+                backgroundColor: '#fae4e2',
+                padding: '10px',
+                borderRadius: '5px',
+                color: '#32434E',
+              }}>
+              Delete
+            </button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
   );
 }
 
