@@ -16,85 +16,64 @@ const OrdersHistoryList = ({ userOrders }) => {
         <Typography variant="h4" gutterBottom>
           Your Order History
         </Typography>
-        {/* <Link href={`/products/`}>
-          <Button size="small"
-            variant="contained"
-            style={{
-              backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
-              '&:hover': {
-                backgroundColor: 'blue',
-              },
-            }}
-          >
-            Continue shopping
-          </Button>
-        </Link> */}
       </div>
    
       {userOrders.length === 0 ? (
         <Typography variant="body1">You have no order history.</Typography>
       ) : (
-        <div style={{ width: '80%' }}>
-          {userOrders.map((order) => (
-
-            <div
-              key={order.id}
-              className="flex items-center border-b pb-5 pt-5"
-              style={{ borderColor: 'lightblue' }}
-            >
-              <div className="w-[109px] h-[134px]">
-               
-              </div>
-              <div className="flex-grow" style={{ marginLeft: '20px' }}>
-                
-                <div className="flex justify-between">
-                  <Typography variant="h6">{`Order #${order.id}`}</Typography>
-                  <Typography variant="h6">Total: ${(order.totalPrice / 100).toFixed(2)}</Typography>
+            <div >
+              {userOrders.map((order) => (
+                <div
+                  key={order.id}
+                  className="flex items-center border-b pb-5 pt-5"
+                  style={{ borderColor: 'lightblue', paddingLeft: "100px", paddingRight: "100px" }}
+                  onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#EEEEEE')}
+                  onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+                >
+    
+                  <div className="flex-grow" style={{ marginLeft: '20px' }}>
+                    <div className="flex justify-between">
+                      <Typography variant="h6" style={{ fontWeight: 'bold' }}>{`Order #${order.id}`}</Typography>
+                      <Typography variant="h6" style={{ fontWeight: 'bold' }}>Total: ${(order.totalPrice / 100).toFixed(2)}</Typography>
+                    </div>
+                    <div className="flex justify-between w-1/2 pt-5">
+                      <Typography variant="body2">{`Order Date: ${formatDate(order.orderDate)}`}</Typography>
+                      {/* Add more order-related information here */}
+                    </div>
+                    <Typography variant="body2">{`Order Status: ${order.orderStatus}`}</Typography>
+                    <div>
+                      <h4 style={{ fontWeight: 'bold' }}>Order Items:</h4>
+                      <ul>
+                        {order.orderItem.map((item, index) => (
+                          <li key={index} className="flex items-center space-x-4">
+                            {/* You can add an image here if needed */}
+                            <span>{`${item.qty}x ${item.product.name} - $${(item.price / 100).toFixed(2)}`}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <Link href={`/orders/${order.id}`}>
+                      <Button
+                        variant="contained"
+                        style={{
+                          backgroundColor: '#d6dbdb', // Background color
+                          color: '#304659', // Text color
+                          transition: 'background-color 0.3s',
+                          marginTop: '1rem',
+                          '&:hover': {
+                            backgroundColor: '#32434e', // Hover background color
+                            width: '200px',
+                            color: 'white', // Hover text color
+                          },
+                        }}
+                      >
+                       VIEW DETEILS
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
-                <div className="flex justify-between w-1/2 pt-5">
-                  <Typography variant="body2">{`Order Date:  ${formatDate(order.orderDate)} `}</Typography>
-                 
-
-                </div>
-                <Typography variant="body2">{`Order Status: ${order.orderStatus}`}</Typography>
-                <div>
-                  <h4>Order Items:</h4>
-
-                  <ul>
-                    {order.orderItem.map((item, index) => (
-
-                      <li key={index} className="flex items-center space-x-4">
-                       
-                        {/* <img className="w-[109px] h-[134px]" src={`uploads/${item.product.image}`} alt={`Order #${order.id}`} /> */}
-                        <span>{`${item.qty}x ${item.product.name} - $${(item.price / 100).toFixed(2)}`}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <Link href={`/orders/${order.id}`}>
-                  <Button
-                    variant="contained"
-                    style={{
-                      backgroundColor: 'lightpink',
-                      color: 'white',
-                      transition: 'background-color 0.3s',
-                      '&:hover': {
-                        backgroundColor: 'darkgray',
-                      },
-                    }}
-
-                  >
-                    View Details
-                  </Button>
-                  
-                </Link>
-              </div>
-             
+              ))}
             </div>
-            
-            
-          ))}
-        </div>
       )}
     </Container>
     </Layout>
