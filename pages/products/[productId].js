@@ -11,7 +11,6 @@ import ReviewForm from '../../components/ReviewForm';
 
 
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -22,15 +21,29 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { styled } from '@mui/material/styles';
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import CardMedia from '@mui/material/CardMedia';
+import Image from 'material-ui-image';
+import Typography from '@mui/material/Typography';
 import formatPrice from '@/utils/formatPrice';
 import { useWishlist } from '../../utils/wishlistContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+
+import { useUser } from '@auth0/nextjs-auth0/client';
+
+import { setSession, clearSession } from 'utils/session';
+
+import Footer from '../../components/Footer';
+import Products from '../../components/Products';
+import Navigation from '../../components/Navigation';
+
 
 // import { handleAddToWishlist, showLoginToast } from '@/utils/loginToast';
 import { useWishlistFunctions } from '@/utils/loginToast';
@@ -185,8 +198,167 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
     return <div>Loading...</div>;
   }
 
+  if (user) {
+
+    return (
+      <>
+        <Navigation sessionId={setSession(user)} />
+        <main>
+          <h3>{product.name}</h3>
+          <p>{product.description}</p>
+
+          <p> {product.price !== product.originalPrice ? (
+            <span>
+              <span style={{ textDecoration: 'line-through', color: 'red' }}> ${(product.originalPrice / 100).toFixed(2)} </span> {' '} ${(product.price / 100).toFixed(2)}
+            </span>) : (`$${(product.price / 100).toFixed(2)}`)}
+          </p>
+          <AddShoppingCartIcon onClick={() => handleAddToCartToast(product.id, userId, textToastCart)} />
+
+
+          {/* //---------------FAV ICON------------------------------ */}
+          {/* Conditionally render the heart icon based on isInWishlist */}
+          {/* {userId && wishlist ? (
+            <FavoriteIcon
+          style={{
+            margin: '20px',
+              color: isInWishlist( product.id) ? 'red' : 'gray', // Change color based on isInWishlist
+          }}
+          onClick={() => handleToggleWishlist(userId, product.id)}
+        />
+        ) : (
+          <div>
+            <p>Please log in to add items to your wishlist.</p>
+            <Link href="/login">Log in</Link>
+          </div>
+        )} */}
+          <div>
+            {/* Always display the favorite icon */}
+            <Button
+              style={{
+                width: 'fit-content',
+                // visibility: 'hidden',
+                color: '#324E4B' // Set the color here
+              }}
+              variant="text"
+              type="button"
+              className="icon-button"
+              onClick={() => handleAddToWishlist(userId, product, textToastFav)}
+            >
+              {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            </Button>
+            {/* Render the ToastContainer */}
+            <ToastContainer position="top-right" autoClose={2000} />
+          </div>
+
+
+
+
+          <Rating name="read-only" value={averageRating(reviews)} readOnly precision={0.5} />
+        </main>
+
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+
+          <Button
+            onClick={handleFormOpen}
+            startIcon={<AddIcon />}
+            variant="outlined"
+            style={{ backgroundColor: 'lightblue', color: 'white', borderColor: 'transparent', marginBottom: '40px' }}
+
+          >
+            Please Rate and Review!
+          </Button>
+
+        </div>
+        <ReviewForm
+          open={openForm}
+          onClose={handleFormClose}
+          onSubmit={handleReviewSubmit}
+          comment={comment}
+          setComment={setComment}
+          rating={rating}
+          setRating={setRating}
+        />
+
+        <section style={{ maxWidth: '600px', margin: '0 auto' }}>
+          <Typography variant="h4" gutterBottom>
+            Customer Reviews
+          </Typography>
+
+          <List>
+            {reviews.length === 0 ? (
+              <Typography variant="body1" style={{ paddingLeft: '10px' }}>
+                No reviews available.
+              </Typography>
+            ) : (
+              reviews
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .map((review, index) => (
+                  // <div key={index} style={{ marginBottom: '10px' }}>
+                  <Paper key={index} elevation={6} style={{ marginBottom: '10px' }}>
+                    <Card key={index} style={{ minHeight: '150px' }}>
+                      <CardContent style={{ height: '150px', overflowY: 'auto' }} >
+                        <ListItem alignItems="flex-start">
+                          <Avatar style={{ marginRight: '8px' }}>{review.firstName}</Avatar>
+                          <ListItemText
+                            primary={
+                              <div>
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    marginBottom: '8px',
+                                  }}
+                                >
+                                  <Typography variant="body1" style={{ marginRight: '8px' }}>
+                                    {review.firstName} {review.lastName}
+                                  </Typography>
+                                  <div style={{ display: 'flex', alignItems: 'center' }}>
+
+                                  </div>
+                                </div>
+                                <div style={{ fontSize: '14px', color: '#777' }}>
+                                  {new Date(review.date).toLocaleDateString('en-CA')}
+                                </div>
+                                <div style={{ fontSize: '14px', color: '#777', marginTop: '8px' }}>
+                                  {review.comment}
+                                </div>
+                              </div>
+                            }
+                          />
+
+                          {user && user.id === review.customerId && (
+                            <Button
+                              sx={{
+                                minWidth: 'unset', // Remove the minimum width
+                              }}
+                              onClick={() => {
+                                console.log("review.id", review.id);
+                                deleteReviewFromDb(review.id);
+                              }
+                              }
+                              style={{ backgroundColor: 'lightpink', color: 'white', borderColor: 'transparent' }}
+                            >
+                              <DeleteIcon /> Delete
+                            </Button>
+                          )}
+                        </ListItem>
+                      </CardContent>
+                    </Card>
+                  </Paper>
+
+
+                ))
+            )}
+          </List>
+        </section>
+        <Footer />
+      </>
+    );
+  };
+
   return (
-    <div>
+    <>
+      <Navigation />
       <main>
         <h3>{product.name}</h3>
         <p>{product.description}</p>
@@ -202,19 +374,19 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
         {/* //---------------FAV ICON------------------------------ */}
         {/* Conditionally render the heart icon based on isInWishlist */}
         {/* {userId && wishlist ? (
-            <FavoriteIcon
-          style={{
-            margin: '20px',
-              color: isInWishlist( product.id) ? 'red' : 'gray', // Change color based on isInWishlist
-          }}
-          onClick={() => handleToggleWishlist(userId, product.id)}
-        />
-        ) : (
-          <div>
-            <p>Please log in to add items to your wishlist.</p>
-            <Link href="/login">Log in</Link>
-          </div>
-        )} */}
+          <FavoriteIcon
+        style={{
+          margin: '20px',
+            color: isInWishlist( product.id) ? 'red' : 'gray', // Change color based on isInWishlist
+        }}
+        onClick={() => handleToggleWishlist(userId, product.id)}
+      />
+      ) : (
+        <div>
+          <p>Please log in to add items to your wishlist.</p>
+          <Link href="/login">Log in</Link>
+        </div>
+      )} */}
         <div>
           {/* Always display the favorite icon */}
           <Button
@@ -335,9 +507,10 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
           )}
         </List>
       </section>
-    </div>
+      <Footer />
+    </>
   );
-};
+}
 
 export async function getServerSideProps({ req, params }) {
   const productId = params.productId;
