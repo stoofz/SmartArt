@@ -1,6 +1,21 @@
 import { useState, useEffect } from 'react';
 import formatPrice from 'utils/formatPrice';
 
+
+function formatDate(dateString) {
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+}
+
+
+function formatPriceAlt(price) {
+  const numFor = Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  return numFor.format(price);
+}
+
 function ViewOrder({ order }) {
   const [orderDetails, setOrderDetails] = useState(null);
 
@@ -28,35 +43,98 @@ function ViewOrder({ order }) {
 
   return (
     <>
-      <h2>Order Details</h2>
       {orderDetails ? (
       <>
-        <p>Order ID: {orderDetails.id}</p>
-        <p>Total Price: {orderDetails.totalPrice}</p>
-        <p>Order Date: {orderDetails.orderDate}</p>
-        <p>Customer ID: {orderDetails.customerId}</p>
-        <p>Name: {orderDetails.customer.firstName} {orderDetails.customer.lastName}</p>
-        <p>Email: {orderDetails.customer.email}</p>
-        {orderDetails.customer.address.map((address) => (
-            <div key={address.id}>
-            <p>Street: {address.street}</p>
-            <p>City: {address.city}</p>
-            <p>Province: {address.province}</p>
-            <p>Country: {address.country}</p>
-            <p>Postal Code: {address.postal}</p>
-            <p>Phone: {address.phone}</p>
-            </div>
+      <div style={{ height: 'auto', maxHeight:'36em', overflowY: 'auto', padding:'1.25em' }}>
+      <table className="table table-bordered mt-4">
+            <tbody>
+              
+            <tr>
+              <th>Order:</th>
+              <td>#{orderDetails.id}</td>
+              </tr>
+              
+  
+            <tr>
+              <th>Date:</th>
+              <td>{formatDate(orderDetails.orderDate)}</td>
+              </tr>
+              
+            <tr>
+              <th>Name:</th>
+              <td>{orderDetails.customer.firstName} {orderDetails.customer.lastName}</td>
+              </tr>
+              
+            <tr>
+              <th>Email:</th>
+              <td>{orderDetails.customer.email}</td>
+            </tr>
+              
+            {orderDetails.customer.address.map((address) => (
+                <>
+                <tr key={address.id}>
+                  <th>Street:</th>
+                  <td>{address.street}</td>
+                </tr>
+                <tr key={address.id}>
+                  <th>City:</th>
+                  <td>{address.city}</td>
+                </tr>
+                <tr key={address.id}>
+                  <th>Province:</th>
+                  <td>{address.province}</td>
+                </tr>
+                <tr key={address.id}>
+                  <th>Country:</th>
+                  <td>{address.country}</td>
+                </tr>
+                <tr key={address.id}>
+                  <th>Postal:</th>
+                  <td>{address.postal}</td>
+                </tr>
+                <tr key={address.id}>
+                  <th>Phone:</th>
+                  <td>{address.phone}</td>
+                </tr>
+              </>
             ))}
-          <p>Items:</p>
-          <div style={{ height: '400px', overflowY: 'auto' }}>
-            <ul>
-              {orderDetails.orderItem.map((item) => (
-                <li key={item.id}>
-                  {item.product.name} - {item.qty} x {'$' + (formatPrice(item.price))} = {'$' + (formatPrice(item.qty * item.price))}
-                </li>
-              ))}
-            </ul>
-          </div>
+          </tbody>
+          </table>
+          
+          <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orderDetails.orderItem.map((item, index) => (
+              <tr
+                key={item.id}
+                className={`${
+                  index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
+                } hover:bg-gray-200`}
+                style={{ padding: '10px' }}
+              >
+                <td style={{ padding: '10px' }}>{item.product.name}</td>
+                <td style={{ padding: '10px' }}>${formatPrice(item.price)}</td>
+                <td style={{ padding: '10px' }}>{item.qty}</td>
+                <td style={{ padding: '10px' }}>${formatPrice(item.qty * item.price)}</td>
+              </tr>
+            ))}
+          </tbody>
+            </table>
+            
+        <tr>
+          <th>Total:</th>
+          <td>${formatPriceAlt(orderDetails.totalPrice)}</td>
+        </tr>
+          
+            
+    </div>
       </>
       ) : (
         <p>Loading order details...</p>

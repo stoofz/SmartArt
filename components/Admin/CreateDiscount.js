@@ -20,7 +20,6 @@ const CreateDiscountForm = ({ onSuccess } ) => {
 
   return (
     <div>
-      <h1>Create Discount</h1>
       <Formik
         initialValues={{ product_id: '', discount: '', start_date: '', end_date: '', description: ''}}
         onSubmit={async (values, { setSubmitting }) => {
@@ -44,42 +43,53 @@ const CreateDiscountForm = ({ onSuccess } ) => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <div>
-              <Field as="select" name="product_id">
-                <option value="">Select a product</option>
-                {products.map((product) => (
-                  <option key={product.id} value={product.id}>
-                    {product.name}
-                  </option>
-                ))}
-              </Field>
-            </div>
+      <div className="mb-4">
+        <label htmlFor="product_id" className="block text-gray-700">Product:</label>
+        <Field as="select" name="product_id" className="block w-full p-2 border border-gray-300 rounded">
+          <option value="">Select a product</option>
+          {products.map((product) => (
+            <option key={product.id} value={product.id}>
+              {product.name}
+            </option>
+          ))}
+        </Field>
+      </div>
 
-            <div>
-              <label htmlFor="discount">Percentage Off: </label>
-              <Field type="int" name="discount" />
-            </div>
+      <div className="mb-4">
+        <label htmlFor="discount" className="block text-gray-700">Percentage Off:</label>
+        <Field type="number" name="discount" className="block w-full p-2 border border-gray-300 rounded" />
+      </div>
 
-            <div>
-              <label htmlFor="start_date">Start Date: </label>
-              <Field type="date" name="start_date" />
-            </div>
+      <div className="mb-4">
+        <label htmlFor="start_date" className="block text-gray-700">Start Date:</label>
+        <Field type="date" name="start_date" className="block w-full p-2 border border-gray-300 rounded" />
+      </div>
 
-            <div>
-              <label htmlFor="end_date">End Date: </label>
-              <Field type="date" name="end_date" />
-            </div>
+      <div className="mb-4">
+        <label htmlFor="end_date" className="block text-gray-700">End Date:</label>
+        <Field type="date" name="end_date" className="block w-full p-2 border border-gray-300 rounded" />
+      </div>
 
-            <div>
-              <label htmlFor="description">Description: </label>
-              <Field type="text" name="description" />
-            </div>
+      <div className="mb-4">
+        <label htmlFor="description" className="block text-gray-700">Description:</label>
+        <Field type="text" name="description" className="block w-full p-2 border border-gray-300 rounded" />
+      </div>
 
-            <div>
-              <button type="submit" disabled={isSubmitting}>
-                Submit
-              </button>
-            </div>
+      <div>
+        <button type="submit" disabled={isSubmitting}
+        style={{
+          backgroundColor: '#fae4e2',
+          padding: '10px',
+          borderRadius: '5px',
+          color: '#32434E',
+        }}
+        >
+          Submit
+        </button>
+      </div>
+
+
+
           </Form>
         )}
       </Formik>

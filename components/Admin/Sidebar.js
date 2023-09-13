@@ -66,28 +66,9 @@ export default function Sidebar() {
               </Button>
             </Link>
           </ListItem>
-  
-  
-
-
-     
         </List>
-     
+    
       </nav>
     );
   };
   
-/*
-<ul>
-<li>
-  <Link href="/admin/products" className="text-black-500 hover:underline">
-    Products
-  </Link>
-</li>
-<li>
-  <Link href="/admin/orders" className="text-black-500 hover:underline">
-    Orders
-  </Link>
-</li>
-</ul>
-*/
