@@ -167,7 +167,7 @@ const Products = () => {
         main: '#F5C9C6'
       },
       warning: {
-        main: '#893F04'
+        main: '#B3001B'
       },
       info: {
         main: '#fff'
@@ -219,7 +219,7 @@ const Products = () => {
       className={montserrat.className}
     >
       <ContainerStyled>
-        <Card sx={{ minWidth: 200, boxShadow: 1 }}
+        <Card sx={{ boxShadow: 1 }}
           key={product.id}
           variant='outlined'
         >
@@ -227,7 +227,7 @@ const Products = () => {
             component="img"
             image={`./uploads/${product.image}`}
             alt="work portfolio"
-            sx={{ display: 'block' }}
+            sx={{ display: 'block', marginBottom: "-1em", objectFit: "contain", width: 300, height: 300 }}
           />
           <CardContent>
 
@@ -235,22 +235,12 @@ const Products = () => {
               <Grid container style={{ height: '100%' }} justifyContent="center">
                 <CardActions>
                   <DivStyled>
-                    {/* funny behaviour, can't unclick, and then can't click anything on page */}
-
-
-                    {/* <HeartIconStyled
-                      variant="text"
-                      className="icon-button"
-                      onClick={() => handleToggleWishlist(userId, product.id)}
-                    >
-                      {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                    </HeartIconStyled> */}
                     {/* Always display the favorite icon */}
                     <div>
-                      <Button
-                        style={{
+                      <HeartIconStyled
+                        sx={{
                           width: 'fit-content',
-                          // visibility: 'hidden',
+                          visibility: 'hidden',
                           color: '#324E4B' // Set the color here
                         }}
                         variant="text"
@@ -259,10 +249,10 @@ const Products = () => {
                         onClick={() => handleAddToWishlist(userId, product, textToastFav)}
                       >
                         {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                      </Button>
+                      </HeartIconStyled>
 
                       {/* Render the ToastContainer */}
-                        <ToastContainer position="top-right" autoClose={2000} />
+                      <ToastContainer position="top-right" autoClose={2000} />
                     </div>
 
 
@@ -273,7 +263,7 @@ const Products = () => {
                       className="icon-button"
                       onClick={() => handleAddToCartToast(product.id, userId, textToastCart)}
                     >
-                      <AddShoppingCartIcon  />
+                      <AddShoppingCartIcon />
                     </CartIconStyled>
                     <ExpandIconStyled
                       variant="text"
@@ -307,19 +297,22 @@ const Products = () => {
                           overlay="true"
                           underline="none"
                         >
+                          <Typography gutterBottom variant="h7" text-align="center" sx={{ color: theme.palette.primary.dark }}>
                           {product.name}
+                          </Typography>
                         </NextLink>
                       </DialogTitle>
                       <Image src={`./uploads/${product.image}`} />
                       <DialogContentText id="alert-dialog-description">
-                        <Typography variant="h8" text-align="center">
+                        <Typography variant="h8" text-align="center" sx={{ color: theme.palette.primary.dark }}>
                           {product.description}
-
+                          </Typography>
+                          <Typography variant="h6" text-align="center" sx={{ color: theme.palette.primary.dark }}>
                           {product.discount && product.discount.length > 0 &&
                             new Date(product.discount[0].startDate) <= now &&
                             new Date(product.discount[0].endDate) >= now ? (
                             <span>
-                              <span style={{ textDecoration: 'line-through', color: 'red' }}>
+                              <span style={{ textDecoration: 'line-through', color: theme.palette.warning.dark }}>
                                 ${(product.price / 100).toFixed(2)}
                               </span>
                               {' '}
@@ -354,29 +347,20 @@ const Products = () => {
                           <ToastContainer position="top-right" autoClose={2000} />
                         </div>
 
-                        {/* <Button
-                          variant="text"
-                          className="icon-button"
-                          sx={{ color: theme.palette.primary.main }}
-                          // works fine in Dialog
-                          onClick={() => handleHeartClick(product.id)}
-                        >
-                          {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                        </Button> */}
                         <Button
                           sx={{ color: theme.palette.primary.main }}
                           variant="text"
                           className="icon-button"
                           onClick={() => handleAddToCartToast(product.id, userId, textToastCart)}
                         >
-                          <AddShoppingCartIcon  />
+                          <AddShoppingCartIcon />
                         </Button>
                       </DialogActions>
                     </Dialog>
                   </DivStyled>
                   {/* // adjust backdrop to be transparent */}
                 </CardActions>
-                <Typography gutterBottom variant="h7" text-align="center">
+                <Typography gutterBottom variant="h7" text-align="center" sx={{ color: theme.palette.primary.dark }}>
                   <NextLink
                     href={{
                       pathname: "/products/[productId]",
@@ -388,6 +372,9 @@ const Products = () => {
                   >
                     {product.name}
                   </NextLink>
+                </Typography>
+                <Typography variant="h8" text-align="center" sx={{ color: theme.palette.secondary.dark }}>
+                  {product.dimensions}
                 </Typography>
               </Grid>
             </Grid>
@@ -402,30 +389,32 @@ const Products = () => {
                 overlay="true"
                 underline="none"
               >
-                <Rating
-                  sx={{overflow: "hidden"}}
-                  id={product.id}
-                  name="read-only"
-                  readOnly
-                  precision={0.1}
-                  // how to access nested select value and average it?
-                  value={averageRating(product.feedback)}
-                >
-                </Rating>
+                <Typography sx={{ margin: "-1em" }}>
+                  <Rating
+                    id={product.id}
+                    name="read-only"
+                    readOnly
+                    precision={0.1}
+                    // how to access nested select value and average it?
+                    value={averageRating(product.feedback)}
+                  >
+                  </Rating>
+                </Typography>
               </NextLink>
             </Grid>
 
             <Grid item="true">
-              <Grid container style={{ height: '100%' }} justifyContent="center">
-                <Typography variant="h8" text-align="center">
-
-
-
+              <Grid container sx={{ height: '100%' }} justifyContent="center">
+                <Typography
+                  variant="h8"
+                  text-align="center"
+                  sx={{ margin: "-1em", color: theme.palette.primary.dark }}
+                >
                   {product.discount && product.discount.length > 0 &&
                     new Date(product.discount[0].startDate) <= now &&
                     new Date(product.discount[0].endDate) >= now ? (
                     <span>
-                      <span style={{ textDecoration: 'line-through', color: 'red' }}>
+                      <span style={{ textDecoration: 'line-through', color: theme.palette.warning.dark }}>
                         ${(product.price / 100).toFixed(2)}
                       </span>
                       {' '}
@@ -434,8 +423,6 @@ const Products = () => {
                   ) : (
                     `$${(product.price / 100).toFixed(2)}`
                   )}
-
-
                 </Typography>
               </Grid>
             </Grid>
@@ -452,13 +439,13 @@ const Products = () => {
         <Grid container
           align="center"
           justify-content="center"
-          maxWidth="75%"
+          maxWidth="90%"
           paddingTop="5em"
           paddingLeft="10em"
           paddingRight="10em"
           paddingBottom="1em"
           margin="auto"
-          spacing={5}
+          spacing={6}
         >
           <div>Loading...</div>
 
@@ -472,13 +459,13 @@ const Products = () => {
       <Grid container
         align="center"
         justify-content="center"
-        maxWidth="75%"
+        maxWidth="90%"
         paddingTop="5em"
         paddingLeft="10em"
         paddingRight="10em"
         paddingBottom="1em"
         margin="auto"
-        spacing={5}
+        spacing={6}
       >
 
         {totalProducts === 0 ? (<div>No results found </div>) : (productList())}
