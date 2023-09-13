@@ -34,6 +34,10 @@ import Image from 'material-ui-image';
 import { useSearchState } from 'utils/search';
 
 import { useWishlist } from '@/utils/wishlistContext';
+// import { handleAddToWishlist, showLoginToast } from '@/utils/loginToast';
+import { ToastContainer } from 'react-toastify';
+import { useWishlistFunctions } from '@/utils/loginToast';
+
 
 
 const montserrat = Montserrat({
@@ -52,23 +56,26 @@ const Products = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [loading, setLoading] = useState(true);
   const { searchResults, setSearchResults } = useSearchState();
-  
+
 
   const { wishlist, addToWishlist, deleteFromWishlist, isInWishlist } = useWishlist();
 
   const userId = useSessionId();
 
-  const handleToggleWishlist = (userId, productId) => {
+  //-------------------WISHLIST LOGIC --------------------
+  const textToastFav = "Please log in to add items to your wishlist.";
+  const { handleAddToWishlist, showLoginToast } = useWishlistFunctions();
 
-    const test = isInWishlist(productId);
-    console.log("TEST", test);
-    if (isInWishlist(productId)) {
-      deleteFromWishlist(userId, productId);
-      // setIsInWishlistState(false);
+  //---------------------CART LOGIC------------------------
+  //additional fn to check if user is logged in before adding to cart
+  const textToastCart = "Please log in to add items to your cart.";
+
+  const handleAddToCartToast = (productId, userId, textToast) => {
+    if (userId) {
+      handleAddToCart(productId, userId);
     } else {
-
-      addToWishlist(userId, productId);
-
+      // User is not logged in, show a toast notification
+      showLoginToast(textToast);
     }
   };
 
@@ -79,11 +86,10 @@ const Products = () => {
       top: 0,
       behavior: 'smooth',
     });
-  }
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
-
 
 
 
@@ -102,8 +108,7 @@ const Products = () => {
       } catch (error) {
         console.error('Error', error);
       }
-      finally
-      {
+      finally {
         setLoading(false);
       }
     };
@@ -134,9 +139,9 @@ const Products = () => {
   //add logic to add to wishlist
   const handleHeartClick = (productId) => {
     if (clicked === productId) {
-      setClicked(false)
+      setClicked(false);
     } else {
-      setClicked(productId)
+      setClicked(productId);
     }
   };
 
@@ -153,7 +158,7 @@ const Products = () => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: '#324E4B'
+        main: '#324E4B'  //green
         // light: will be calculated from palette.primary.main,
         // dark: will be calculated from palette.primary.main,
         // contrastText: will be calculated to contrast with palette.primary.main
@@ -206,7 +211,7 @@ const Products = () => {
   `;
 
   const now = new Date();
-  
+
   const productList = () => (pageProducts.map((product) =>
 
     <Grid item="true" xs={12} sm={6} md={4}
@@ -232,25 +237,44 @@ const Products = () => {
                 <CardActions>
                   <DivStyled>
                     {/* funny behaviour, can't unclick, and then can't click anything on page */}
-                    
-                    
-                    <HeartIconStyled
+
+
+                    {/* <HeartIconStyled
                       variant="text"
                       className="icon-button"
-                     onClick={() => handleToggleWishlist(userId, product.id)}
+                      onClick={() => handleToggleWishlist(userId, product.id)}
                     >
                       {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                    </HeartIconStyled>
-                   
+                    </HeartIconStyled> */}
+                    {/* Always display the favorite icon */}
+                    <div>
+                      <Button
+                        style={{
+                          width: 'fit-content',
+                          // visibility: 'hidden',
+                          color: '#324E4B' // Set the color here
+                        }}
+                        variant="text"
+                        type="button"
+                        className="icon-button"
+                        onClick={() => handleAddToWishlist(userId, product, textToastFav)}
+                      >
+                        {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                      </Button>
+
+                      {/* Render the ToastContainer */}
+                        <ToastContainer position="top-right" autoClose={2000} />
+                    </div>
+
 
 
 
                     <CartIconStyled
                       variant="text"
                       className="icon-button"
-                      onClick={() => handleAddToCart(product.id, userId)}
+                      onClick={() => handleAddToCartToast(product.id, userId, textToastCart)}
                     >
-                      <AddShoppingCartIcon />
+                      <AddShoppingCartIcon  />
                     </CartIconStyled>
                     <ExpandIconStyled
                       variant="text"
@@ -302,15 +326,36 @@ const Products = () => {
                               {' '}
                               ${(product.price / 100 * (1 - product.discount[0].discount / 100)).toFixed(2)}
                             </span>
-                            ) : (
-                              `$${(product.price / 100).toFixed(2)}`
-                            )}
-                      
-                      
+                          ) : (
+                            `$${(product.price / 100).toFixed(2)}`
+                          )}
+
+
                         </Typography>
                       </DialogContentText>
                       <DialogActions>
-                        <Button
+
+                        {/* Always display the favorite icon */}
+                        <div>
+                          <Button
+                            style={{
+                              width: 'fit-content',
+                              // visibility: 'hidden',
+                              color: '#324E4B' // Set the color here
+                            }}
+                            variant="text"
+                            type="button"
+                            className="icon-button"
+                            onClick={() => handleAddToWishlist(userId, product, textToastFav)}
+                          >
+                            {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                          </Button>
+
+                          {/* Render the ToastContainer */}
+                          <ToastContainer position="top-right" autoClose={2000} />
+                        </div>
+
+                        {/* <Button
                           variant="text"
                           className="icon-button"
                           sx={{ color: theme.palette.primary.main }}
@@ -318,14 +363,14 @@ const Products = () => {
                           onClick={() => handleHeartClick(product.id)}
                         >
                           {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                        </Button>
+                        </Button> */}
                         <Button
                           sx={{ color: theme.palette.primary.main }}
                           variant="text"
                           className="icon-button"
-                          onClick={() => handleAddToCart(product.id, userId)}
+                          onClick={() => handleAddToCartToast(product.id, userId, textToastCart)}
                         >
-                          <AddShoppingCartIcon />
+                          <AddShoppingCartIcon  />
                         </Button>
                       </DialogActions>
                     </Dialog>
@@ -373,7 +418,7 @@ const Products = () => {
             <Grid item="true">
               <Grid container style={{ height: '100%' }} justifyContent="center">
                 <Typography variant="h8" text-align="center">
- 
+
 
 
                   {product.discount && product.discount.length > 0 &&
@@ -386,10 +431,10 @@ const Products = () => {
                       {' '}
                       ${(product.price / 100 * (1 - product.discount[0].discount / 100)).toFixed(2)}
                     </span>
-                    ) : (
-                      `$${(product.price / 100).toFixed(2)}`
-                    )}
-                      
+                  ) : (
+                    `$${(product.price / 100).toFixed(2)}`
+                  )}
+
 
                 </Typography>
               </Grid>
@@ -399,27 +444,27 @@ const Products = () => {
         </Card >
       </ContainerStyled>
     </Grid >
-  ))
+  ));
 
   if (loading) {
     return (
       <ThemeProvider theme={theme}>
-      <Grid container
-        align="center"
-        justify-content="center"
-        maxWidth="75%"
-        paddingTop="5em"
-        paddingLeft="10em"
-        paddingRight="10em"
-        paddingBottom="1em"
-        margin= "auto"
-        spacing={5}
+        <Grid container
+          align="center"
+          justify-content="center"
+          maxWidth="75%"
+          paddingTop="5em"
+          paddingLeft="10em"
+          paddingRight="10em"
+          paddingBottom="1em"
+          margin="auto"
+          spacing={5}
         >
           <div>Loading...</div>
 
         </Grid>
-        </ThemeProvider>
-    )
+      </ThemeProvider>
+    );
   }
 
   return (
@@ -442,7 +487,7 @@ const Products = () => {
           count={Math.ceil(totalProducts / productsPerPage)}
           page={currentPage}
           onChange={(e, value) => {
-            setCurrentPage(value)
+            setCurrentPage(value);
             scrollToTop();
 
           }}
