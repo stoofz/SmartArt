@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSessionId } from '/utils/session';
+// import { useMemo } from 'react';
 // Create a context
 const WishlistContext = createContext();
 
@@ -15,7 +16,9 @@ export function WishlistProvider({ children }) {
   const userId = useSessionId();
   // State to hold the list of products in the wishlist
   const [wishlist, setWishlist] = useState(null);
- 
+
+  //return it instead of wishlist
+  // const memoizedWishlist = useMemo(() => wishlist, [wishlist]);
 
   // Function to add a product to the wishlist
   const addToWishlist = async (userId, productId) => {
@@ -33,8 +36,10 @@ export function WishlistProvider({ children }) {
       });
       if (response.status === 200) {
       // Handle success and update the local wishlist state
-      setWishlist((prevWishlist) => [...prevWishlist, { userId, productId, ...response.data.wishlistItem }]);
-      // return { success: true };
+      //RERENDER ISSUE on HEART CLICK IN DIALOG COMES FROM HERE
+     
+        setWishlist((prevWishlist) => [...prevWishlist, {...response.data.wishlistItem }]);
+     
       return { success: true };
       }
     } catch (error) {
@@ -93,7 +98,7 @@ export function WishlistProvider({ children }) {
       setWishlist(response.data);
     }
   }
-  // Use useEffect to persist the wishlist in localStorage, so it's not lost on page refresh
+  
   useEffect(() => {
     if(userId) {
       
@@ -106,6 +111,7 @@ export function WishlistProvider({ children }) {
   // Value to provide in the context
   const contextValue = {
     wishlist,
+    getWishlist,
     isInWishlist,
     addToWishlist,
     deleteFromWishlist,
