@@ -30,6 +30,7 @@ import { useSearchState } from 'utils/search';
 
 import { useRouter } from 'next/router';
 import { showLoginToast } from "@/utils/loginToast";
+import { ca } from "date-fns/locale";
 
 const montserrat = Montserrat({
   weight: '600',
@@ -71,6 +72,29 @@ export default function Navigation({ sessionId }) {
   };
 
   //Profile menu open/close
+
+
+
+  const handleCategorySearch = (async (categoryQuery) => {
+    try {
+      const response = await fetch('api/searchCategory', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: categoryQuery }),
+      });
+      const results = await response.json();
+      setSearchResults(results[0].products);
+    }
+    catch (error) {
+      console.error('Error', error);
+    }
+  });
+
+  const handleClick = (value) => {
+    handleCategorySearch(value);
+  };
+
+
 
 
   const handleSearch = (async (searchQuery) => {
@@ -144,59 +168,60 @@ export default function Navigation({ sessionId }) {
       onClose={() => setAnchorEl(null)}
     >
       <MenuItem onClick={handleClose}>
-        <NextLink
-          href={{
-            pathname: "/watercolour",
-          }}
-          passHref
-          overlay="true"
-          underline="none"
-          sx={{
-            color: theme.palette.info.main,
-            textDecoration: 'none',
-            '&:hover': { textDecoration: 'underline' },
-            padding: "1em",
-          }}
-        >
-          Watercolour
-        </NextLink>
+      <button
+                  onClick={() => {
+                    handleClick('Watercolor');
+                  }}
+                  sx={{
+                    color: theme.palette.info.main,
+                    textDecoration: 'none',
+                    '&:hover': { textDecoration: 'underline' },
+                    cursor: 'pointer', // Optional: Change cursor on hover
+                    background: 'none', // Optional: Make the button transparent
+                    border: 'none', // Optional: Remove the default button border
+                  }}
+                >
+                  Watercolour
+                </button>
       </MenuItem>
       <MenuItem onClick={handleClose}>
-        <NextLink
-          href={{
-            pathname: "/acrylic",
-          }}
-          passHref
-          overlay="true"
-          underline="none"
-          sx={{
-            color: theme.palette.info.main,
-            textDecoration: 'none',
-            '&:hover': { textDecoration: 'underline' },
-            padding: "1em",
-          }}
-        >
-          Acrylic
-        </NextLink>
+
+      <button
+                  onClick={() => {
+                    handleClick('Acrylic');
+                  }}
+                  sx={{
+                    color: theme.palette.info.main,
+                    textDecoration: 'none',
+                    '&:hover': { textDecoration: 'underline' },
+                    cursor: 'pointer', // Optional: Change cursor on hover
+                    background: 'none', // Optional: Make the button transparent
+                    border: 'none', // Optional: Remove the default button border
+                  }}
+                >
+                  Acrylic
+                </button>
+
       </MenuItem>
+
       <MenuItem onClick={handleClose}>
-        <NextLink
-          href={{
-            pathname: "/oil",
-          }}
-          passHref
-          overlay="true"
-          underline="none"
-          sx={{
-            color: theme.palette.info.main,
-            textDecoration: 'none',
-            '&:hover': { textDecoration: 'underline' },
-            padding: "1em",
-          }}
-        >
-          Oil
-        </NextLink>
+      <button
+        onClick={() => {
+          handleClick('Oil');
+        }}
+        sx={{
+          color: theme.palette.info.main,
+          textDecoration: 'none',
+          '&:hover': { textDecoration: 'underline' },
+          cursor: 'pointer', // Optional: Change cursor on hover
+          background: 'none', // Optional: Make the button transparent
+          border: 'none', // Optional: Remove the default button border
+        }}
+      >
+        Oil
+      </button>
       </MenuItem>
+
     </Menu>
   );
 
@@ -307,7 +332,7 @@ export default function Navigation({ sessionId }) {
                 pathname: "/",
               }}>
                 <img
-                  src='./uploads/smartartlogo.png'
+                  src='../uploads/smartartlogo.png'
                   style={{ height: "6em" }}
                 />
               </NextLink>
@@ -483,44 +508,39 @@ export default function Navigation({ sessionId }) {
                     The Collection
                   </Typography>
                 </NextLink>
-                <NextLink
-                  href={{
-                    pathname: "/photography",
+
+                <button
+                  onClick={() => {
+                    handleClick('Photography');
                   }}
-                  passHref
-                  overlay="true"
                   sx={{
                     color: theme.palette.info.main,
+                    textDecoration: 'none',
+                    '&:hover': { textDecoration: 'underline' },
+                    cursor: 'pointer', // Optional: Change cursor on hover
+                    background: 'none', // Optional: Make the button transparent
+                    border: 'none', // Optional: Remove the default button border
                   }}
-                  onClick={clearSession}
                 >
-                  <Typography
-                    sx={{
-                      color: theme.palette.info.main,
-                      textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
-                    }}
-                  >
-                    Photography
-                  </Typography>
-                </NextLink>
-                <NextLink
-                  href={{
-                    pathname: "/sculptures",
+                  Photography
+                </button>
+
+                <button
+                  onClick={() => {
+                    handleClick('Sculptures');
                   }}
-                  passHref
-                  overlay="true"
-                  sx={{ color: theme.palette.info.main }}
-                  onClick={clearSession}
+                  sx={{
+                    color: theme.palette.info.main,
+                    textDecoration: 'none',
+                    '&:hover': { textDecoration: 'underline' },
+                    cursor: 'pointer', // Optional: Change cursor on hover
+                    background: 'none', // Optional: Make the button transparent
+                    border: 'none', // Optional: Remove the default button border
+                  }}
                 >
-                  <Typography
-                    sx={{
-                      color: theme.palette.info.main,
-                      textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
-                    }}
-                  >
-                    Sculptures
-                  </Typography>
-                </NextLink>
+                  Sculptures
+                </button>
+
                 <Button
                   size="large"
                   edge="start"
@@ -536,7 +556,9 @@ export default function Navigation({ sessionId }) {
                 >
                   Paintings
                 </Button>
+
                 {renderPaintingsMenu}
+
                 <NextLink
                   href={{
                     pathname: "/sale",
@@ -615,3 +637,10 @@ export default function Navigation({ sessionId }) {
   );
 
 };
+/*
+<button onClick={() => handleClick('Acrylic')}>Acrylic</button>
+<button onClick={() => handleClick('Sculptures')}>Sculptures</button>
+<button onClick={() => handleClick('Photography')}>Photography</button>
+<button onClick={() => handleClick('Oil')}>Oil</button>
+<button onClick={() => handleClick('Watercolour')}>Watercolour</button>
+*/

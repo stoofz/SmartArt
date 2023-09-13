@@ -5,25 +5,28 @@ export default async function handler(req, res) {
     const { query } = req.body;
   
     try {
-      const products = await prisma.product.findMany({
+      const products = await prisma.category.findMany({
         where: {
           name: {
             mode: 'insensitive',
             contains: query,
-          },
+          }
         },
         include: {
-          // Include feedback rating for each product
-          feedback: {
-            select: {
-              rating: true,
-            },
-          },
-          discount: {
-            select: {
-              discount: true,
-              startDate: true,
-              endDate: true,
+          products: {
+            include: {
+              feedback: {
+                select: {
+                  rating: true,
+                },
+              },
+              discount: {
+                select: {
+                  discount: true,
+                  startDate: true,
+                  endDate: true,
+                },
+              },
             },
           },
         },

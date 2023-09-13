@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import prisma from 'utils/prisma';
 import formatDate from 'utils/formatDate';
+import formatPriceAlt from 'utils/formatPriceAlt';
 import Layout from '../../components/Layout';
 
 import { Typography, Container } from '@mui/material';
@@ -34,7 +35,7 @@ const OrdersHistoryList = ({ userOrders }) => {
                   <div className="flex-grow" style={{ marginLeft: '20px' }}>
                     <div className="flex justify-between">
                       <Typography variant="h6" style={{ fontWeight: 'bold' }}>{`Order #${order.id}`}</Typography>
-                      <Typography variant="h6" style={{ fontWeight: 'bold' }}>Total: ${(order.totalPrice / 100).toFixed(2)}</Typography>
+                      <Typography variant="h6" style={{ fontWeight: 'bold' }}>Total: ${formatPriceAlt(order.totalPrice)}</Typography>
                     </div>
                     <div className="flex justify-between w-1/2 pt-5">
                       <Typography variant="body2">{`Order Date: ${formatDate(order.orderDate)}`}</Typography>
