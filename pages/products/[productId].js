@@ -41,6 +41,17 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
 
  
 
+  const handleAddToWishlist = () => {
+    if (userId) {
+      // User is logged in, so add to wishlist
+      handleToggleWishlist(userId, product.id);
+    } else {
+      // User is not logged in, show a toast notification
+      toast.error('Please log in to add items to your wishlist.');
+    }
+  };
+
+  
   const handleToggleWishlist = (userId, productId) => {
 
     const test = isInWishlist( productId)
@@ -256,7 +267,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                                     {review.firstName} {review.lastName}
                                   </Typography>
                                   <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    {/* Your rating component */}
+                                    
                                   </div>
                                 </div>
                                 <div style={{ fontSize: '14px', color: '#777' }}>

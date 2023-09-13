@@ -230,6 +230,8 @@ const Products = () => {
                 <CardActions>
                   <DivStyled>
                     {/* funny behaviour, can't unclick, and then can't click anything on page */}
+                    
+                    
                     <HeartIconStyled
                       variant="text"
                       className="icon-button"
