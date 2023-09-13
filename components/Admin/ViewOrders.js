@@ -1,15 +1,8 @@
 import { useState, useEffect } from 'react';
 import ViewOrder from 'components/Admin/ViewOrder';
 import { Modal, Box, Typography, Button } from '@mui/material';
+import formatPriceAlt from 'utils/formatPriceAlt';
 
-
-function formatPriceAlt(price) {
-  const numFor = Intl.NumberFormat('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return numFor.format(price);
-}
 
 const ViewOrders = () => {
   const [orders, setOrders] = useState([]);

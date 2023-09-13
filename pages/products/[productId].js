@@ -532,7 +532,7 @@ export async function getServerSideProps({ req, params }) {
     };
 
   }
-  console.log('Product:', product);
+  //console.log('Product:', product);
 
 
   const serializedProduct = JSON.parse(JSON.stringify(product));

@@ -1,19 +1,10 @@
 import { useState, useEffect } from 'react';
 import formatPrice from 'utils/formatPrice';
-
+import formatPriceAlt from 'utils/formatPriceAlt';
 
 function formatDate(dateString) {
   const options = { year: 'numeric', month: 'short', day: 'numeric' };
   return new Date(dateString).toLocaleDateString(undefined, options);
-}
-
-
-function formatPriceAlt(price) {
-  const numFor = Intl.NumberFormat('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return numFor.format(price);
 }
 
 function ViewOrder({ order }) {

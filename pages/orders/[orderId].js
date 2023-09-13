@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { Typography, Container } from '@mui/material';
 import Button from '@mui/material/Button';
 import Layout from '../../components/Layout';
+import formatPriceAlt from '@/utils/formatPriceAlt';
+
 
 const OrderPage = ({ order }) => {
 
@@ -40,7 +42,7 @@ const OrderPage = ({ order }) => {
         <div className="flex-grow" style={{ marginLeft: '20px' }}>
           <div className="flex justify-between">
             <Typography variant="h6">{`Order Date: ${formatDate(order.orderDate)}`}</Typography>
-            <Typography variant="h6">{`Total: $${(order.totalPrice / 100).toFixed(2)}`}</Typography>
+            <Typography variant="h6">{`Total: $${formatPriceAlt(order.totalPrice)}`}</Typography>
           </div>
           <Typography variant="body2">
             Order Status:{" "}
