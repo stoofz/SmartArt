@@ -176,9 +176,9 @@ export default function Navigation({ sessionId }) {
                     color: theme.palette.info.main,
                     textDecoration: 'none',
                     '&:hover': { textDecoration: 'underline' },
-                    cursor: 'pointer', // Optional: Change cursor on hover
-                    background: 'none', // Optional: Make the button transparent
-                    border: 'none', // Optional: Remove the default button border
+                    cursor: 'pointer',
+                    background: 'none',
+                    border: 'none',
                   }}
                 >
                   Watercolour
@@ -187,20 +187,20 @@ export default function Navigation({ sessionId }) {
       <MenuItem onClick={handleClose}>
 
       <button
-                  onClick={() => {
-                    handleClick('Acrylic');
-                  }}
-                  sx={{
-                    color: theme.palette.info.main,
-                    textDecoration: 'none',
-                    '&:hover': { textDecoration: 'underline' },
-                    cursor: 'pointer', // Optional: Change cursor on hover
-                    background: 'none', // Optional: Make the button transparent
-                    border: 'none', // Optional: Remove the default button border
-                  }}
-                >
-                  Acrylic
-                </button>
+        onClick={() => {
+          handleClick('Acrylic');
+        }}
+        sx={{
+          color: theme.palette.info.main,
+          textDecoration: 'none',
+          '&:hover': { textDecoration: 'underline' },
+          cursor: 'pointer',
+          background: 'none',
+          border: 'none',
+        }}
+      >
+        Acrylic
+      </button>
 
       </MenuItem>
 
@@ -213,9 +213,9 @@ export default function Navigation({ sessionId }) {
           color: theme.palette.info.main,
           textDecoration: 'none',
           '&:hover': { textDecoration: 'underline' },
-          cursor: 'pointer', // Optional: Change cursor on hover
-          background: 'none', // Optional: Make the button transparent
-          border: 'none', // Optional: Remove the default button border
+          cursor: 'pointer',
+          background: 'none',
+          border: 'none',
         }}
       >
         Oil
@@ -517,11 +517,10 @@ export default function Navigation({ sessionId }) {
                     color: theme.palette.info.main,
                     textDecoration: 'none',
                     '&:hover': { textDecoration: 'underline' },
-                    cursor: 'pointer', // Optional: Change cursor on hover
-                    background: 'none', // Optional: Make the button transparent
-                    border: 'none', // Optional: Remove the default button border
-                  }}
-                >
+                    cursor: 'pointer',
+                    background: 'none',
+                    border: 'none',
+                  }}>
                   Photography
                 </button>
 
@@ -533,11 +532,10 @@ export default function Navigation({ sessionId }) {
                     color: theme.palette.info.main,
                     textDecoration: 'none',
                     '&:hover': { textDecoration: 'underline' },
-                    cursor: 'pointer', // Optional: Change cursor on hover
-                    background: 'none', // Optional: Make the button transparent
-                    border: 'none', // Optional: Remove the default button border
-                  }}
-                >
+                    cursor: 'pointer',
+                    background: 'none',
+                    border: 'none',
+                  }}>
                   Sculptures
                 </button>
 
@@ -637,10 +635,3 @@ export default function Navigation({ sessionId }) {
   );
 
 };
-/*
-<button onClick={() => handleClick('Acrylic')}>Acrylic</button>
-<button onClick={() => handleClick('Sculptures')}>Sculptures</button>
-<button onClick={() => handleClick('Photography')}>Photography</button>
-<button onClick={() => handleClick('Oil')}>Oil</button>
-<button onClick={() => handleClick('Watercolour')}>Watercolour</button>
-*/
