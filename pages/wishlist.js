@@ -29,7 +29,7 @@ export async function getServerSideProps({ req }) {
   });
   try {
     const serializedWishlistData = JSON.parse(JSON.stringify(wishlistData));
-
+    console.log("serializedWishlistData", serializedWishlistData )
     return {
       props: {
         serializedWishlistData

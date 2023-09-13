@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { averageRating } from 'utils/rating';
 // import { getReviews } from 'utils/reviews';
 import { handleAddToCart } from 'utils/cart';
-import { checkIfProductIsInWishlist, toggleWishlist } from 'utils/wishlist';
+// import { checkIfProductIsInWishlist, toggleWishlist } from 'utils/wishlist';
 import { useSessionId } from '/utils/session';
 import ReviewForm from '../../components/ReviewForm';
 
@@ -28,14 +28,43 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 
+import { useWishlist } from '../../utils/wishlistContext';
+
 const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [openForm, setOpenForm] = useState(false);
   const [reviews, setReviews] = useState(defaultReviews);
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
-  const [isInWishlist, setIsInWishlist] = useState(false);
+  const { wishlist, isInWishlist, addToWishlist, deleteFromWishlist } = useWishlist();
 
   const userId = useSessionId();
+
+ 
+
+  const handleAddToWishlist = () => {
+    if (userId) {
+      // User is logged in, so add to wishlist
+      handleToggleWishlist(userId, product.id);
+    } else {
+      // User is not logged in, show a toast notification
+      toast.error('Please log in to add items to your wishlist.');
+    }
+  };
+
+  
+  const handleToggleWishlist = (userId, productId) => {
+
+    const test = isInWishlist( productId)
+    console.log("TEST", test)
+    if (isInWishlist( productId)) {
+      deleteFromWishlist(userId, productId);
+      // setIsInWishlistState(false);
+    } else {
+
+      addToWishlist(userId, productId);
+     
+    }
+  };
 
 
 //----------------REVIEW LOGIC-----------------
@@ -135,15 +164,15 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
 
   
 
-  const handleToggleWishlist = () => {
-    toggleWishlist(userId, product.id, isInWishlist, setIsInWishlist);
-  };
+  // const handleToggleWishlist = () => {
+  //   toggleWishlist(userId, product.id, isInWishlist, setIsInWishlist);
+  // };
 
-  useEffect(() => {
-    // Call the function to check if the product is in the wishlist
-    checkIfProductIsInWishlist(userId, product.id);
-    setIsInWishlist(isInWishlist);
-  }, [ userId, product.id]);
+  // useEffect(() => {
+  //   // Call the function to check if the product is in the wishlist
+  //   checkIfProductIsInWishlist(userId, product.id);
+  //   setIsInWishlist(isInWishlist);
+  // }, [ userId, product.id]);
 
 //--------------------------------------------------------------
 
@@ -159,14 +188,16 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
         <p>{product.price}</p>
         <AddShoppingCartIcon onClick={() => handleAddToCart(product.id, userId)} />
 
+
+{/* //--------------------------------------------- */}
         {/* Conditionally render the heart icon based on isInWishlist */}
-        {userId ? (
+        {userId && wishlist ? (
             <FavoriteIcon
           style={{
             margin: '20px',
-            color: isInWishlist ? 'red' : 'gray', // Change color based on isInWishlist
+              color: isInWishlist( product.id) ? 'red' : 'gray', // Change color based on isInWishlist
           }}
-          onClick={() => handleToggleWishlist()}
+          onClick={() => handleToggleWishlist(userId, product.id)}
         />
         ) : (
           <div>
@@ -236,7 +267,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                                     {review.firstName} {review.lastName}
                                   </Typography>
                                   <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    {/* Your rating component */}
+                                    
                                   </div>
                                 </div>
                                 <div style={{ fontSize: '14px', color: '#777' }}>

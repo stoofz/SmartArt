@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   //Check if product is in wishlist
   if (req.method === 'GET') {
     const { productId, userId } = req.query;
-    // console.log("productId, userId ", productId, userId)
+    
     try {
       // Query the database to check if the product with productId exists in the user's wishlist
       const isInWishlist = await prisma.wishlist.findFirst({
@@ -32,8 +32,24 @@ export default async function handler(req, res) {
     const { productId, userId } = req.body;
     // console.log("userId", userId, productId)
     try {
+      //search for wishlist item before creating it
+      const wishlistItemExists = await prisma.wishlist.findFirst({
+        where: {
+          
+            customerId: userId,
+            productId: productId, 
+          
+        },
+        include: {
+          product: true,
+        },
+      });
+       
+      if(wishlistItemExists) {
+        return res.status(200).json({ message: 'Item exixts in the wishlist', wishlistItem: wishlistItemExists });
+      }
       // Create a new wishlist entry using Prisma
-      await prisma.wishlist.create({
+      const createdWishlistItem = await prisma.wishlist.create({
         data: {
           customerId: Number(userId), 
           productId: Number(productId), 
@@ -41,7 +57,7 @@ export default async function handler(req, res) {
       });
 
       // Respond with a success message or status
-      res.status(200).json({ message: 'Item added to the wishlist' });
+      res.status(200).json({ message: 'Item added to the wishlist', wishlistItem: createdWishlistItem });
     } catch (error) {
       console.error('Error adding item to wishlist:', error);
       res

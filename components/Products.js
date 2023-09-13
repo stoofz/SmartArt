@@ -33,6 +33,9 @@ import { Montserrat } from 'next/font/google';
 import Image from 'material-ui-image';
 import { useSearchState } from 'utils/search';
 
+import { useWishlist } from '@/utils/wishlistContext';
+
+
 const montserrat = Montserrat({
   weight: '600',
   subsets: ['latin']
@@ -49,6 +52,26 @@ const Products = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [loading, setLoading] = useState(true);
   const { searchResults, setSearchResults } = useSearchState();
+  
+
+  const { wishlist, addToWishlist, deleteFromWishlist, isInWishlist } = useWishlist();
+
+  const userId = useSessionId();
+
+  const handleToggleWishlist = (userId, productId) => {
+
+    const test = isInWishlist(productId);
+    console.log("TEST", test);
+    if (isInWishlist(productId)) {
+      deleteFromWishlist(userId, productId);
+      // setIsInWishlistState(false);
+    } else {
+
+      addToWishlist(userId, productId);
+
+    }
+  };
+
 
   //handles scrolling to top when changing pages
   const scrollToTop = () => {
@@ -61,7 +84,7 @@ const Products = () => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
-  const userId = useSessionId();
+
 
 
   // Initial fetch of products from API endpoint
@@ -207,13 +230,19 @@ const Products = () => {
                 <CardActions>
                   <DivStyled>
                     {/* funny behaviour, can't unclick, and then can't click anything on page */}
+                    
+                    
                     <HeartIconStyled
                       variant="text"
                       className="icon-button"
-                      onClick={() => handleHeartClick(product.id)}
+                     onClick={() => handleToggleWishlist(userId, product.id)}
                     >
-                      {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                      {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                     </HeartIconStyled>
+                   
+
+
+
                     <CartIconStyled
                       variant="text"
                       className="icon-button"
