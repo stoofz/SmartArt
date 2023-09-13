@@ -278,7 +278,7 @@ const Products = () => {
                       onClose={handleClose}
                       aria-labelledby="alert-dialog-title"
                       aria-describedby="alert-dialog-description"
-                      sx={{ }}
+                      sx={{}}
                     >
                       <Button
                         variant="text"
@@ -299,7 +299,7 @@ const Products = () => {
                           underline="none"
                         >
                           <Typography gutterBottom variant="h7" text-align="center" sx={{ color: theme.palette.primary.dark }}>
-                          {product.name}
+                            {product.name}
                           </Typography>
                         </NextLink>
                       </DialogTitle>
@@ -307,14 +307,14 @@ const Products = () => {
                       <DialogContentText id="alert-dialog-description">
                         <Typography variant="h8" text-align="center" sx={{ color: theme.palette.primary.dark }}>
                           {product.description}
-                          </Typography>
-                          <Typography variant="h6" text-align="center" sx={{ color: theme.palette.primary.dark }}>
+                        </Typography>
+                        <Typography variant="h6" text-align="center" sx={{ color: theme.palette.primary.dark }}>
                           {product.discount && product.discount.length > 0 &&
                             new Date(product.discount[0].startDate) <= now &&
                             new Date(product.discount[0].endDate) >= now ? (
                             <span>
                               <span style={{ textDecoration: 'line-through', color: theme.palette.warning.dark }}>
-                              ${formatPrice(product.price)}
+                                ${formatPrice(product.price)}
                               </span>
                               {' '}
                               ${formatPrice(product.price - (product.price * (product.discount[0].discount / 100)))}
@@ -416,14 +416,14 @@ const Products = () => {
                     new Date(product.discount[0].endDate) >= now ? (
                     <span>
                       <span style={{ textDecoration: 'line-through', color: theme.palette.warning.dark }}>
-                      ${formatPrice(product.price)}
-                              </span>
-                              {' '}
-                              ${formatPrice(product.price - (product.price * (product.discount[0].discount / 100)))}
-                            </span>
-                          ) : (
-                            `$${formatPrice(product.price)}`
-                          )}
+                        ${formatPrice(product.price)}
+                      </span>
+                      {' '}
+                      ${formatPrice(product.price - (product.price * (product.discount[0].discount / 100)))}
+                    </span>
+                  ) : (
+                    `$${formatPrice(product.price)}`
+                  )}
                 </Typography>
               </Grid>
             </Grid>
