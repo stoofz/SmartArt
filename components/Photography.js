@@ -16,6 +16,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
+import DialogContentText from '@mui/material/DialogContentText';
 import Rating from '@mui/material/Rating';
 import { styled } from '@mui/system';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -24,9 +25,18 @@ import Paginate from './Pagination';
 import { averageRating } from 'utils/rating';
 import { useSearchState } from 'utils/search';
 
+import formatPrice from 'utils/formatPrice';
+import { Montserrat } from 'next/font/google';
+import Image from 'material-ui-image';
+
+const montserrat = Montserrat({
+  weight: '600',
+  subsets: ['latin']
+});
+
 const Photography = () => {
   const [photography, setPhotography] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [openId, setOpenId] = useState(null);
   const [clicked, setClicked] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(21);
@@ -60,8 +70,7 @@ const Photography = () => {
       } catch (error) {
         console.error('Error fetching products', error);
       }
-      finally
-      {
+      finally {
         setLoading(false);
       }
     };
@@ -96,7 +105,14 @@ const Photography = () => {
     }
   };
 
+  //Dialog fns
+  const handleClickOpen = (productId) => {
+    setOpenId(productId);
+  };
 
+  const handleClose = () => {
+    setOpenId(null);
+  };
 
   const theme = createTheme({
     palette: {
@@ -119,63 +135,46 @@ const Photography = () => {
   });
 
   const ExpandIconStyled = styled(Button)`
-    position: absolute;
-    left: 1;
-    right: 0;
-    top: 0;
-    bottom: 1;
-    width: fit-content;
-    height: 40px;
-    visibility: hidden;
-    color: ${theme.palette.info.main}
-  `;
+  width: fit-content;
+  height: 40px;
+  visibility: hidden;
+  color: ${theme.palette.primary.main}
+`;
 
   const HeartIconStyled = styled(Button)`
-    position: absolute;
-    left: 0;
-    right: 1;
-    top: 0;
-    bottom: 1;
-    width: fit-content;
-    visibility: hidden;
-    color: ${theme.palette.info.main}
-    `;
-
-  const CartIconStyled = styled(Button)`
-    position: absolute;
-    left: 1;
-    right: 1;
-    top: 0;
-    bottom: 1;
-    width: fit-content;
-    height: 40px;
-    visibility: hidden;
-    color: ${theme.palette.info.main}
-    `;
-
-  const ContainerStyled = styled("div")`
-    position: relative;
-    &:hover {
-      .icon-button {
-        visibility: visible;
-      }
-    }  
-   }
-   `;
-
-  const DivStyled = styled("div")`
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
+  width: fit-content;
+  visibility: hidden;
+  color: ${theme.palette.primary.main}
   `;
 
+  const CartIconStyled = styled(Button)`
+  width: fit-content;
+  height: 40px;
+  visibility: hidden;
+  color: ${theme.palette.primary.main}
+  `;
 
+  const ContainerStyled = styled("div")`
+  position: relative;
+  &:hover {
+    .icon-button {
+      visibility: visible;
+    }
+  }  
+ }
+ `;
+
+  const DivStyled = styled("div")`
+  display: flex;
+  justify-content: space-evenly;
+`;
 
   const photographyList = () => (pagePhotography.map((product) =>
 
     <Grid item="true" xs={12} sm={6} md={4}
-      sx={{ maxWidth: '100%' }}
+      sx={{ maxWidth: '100%', margin: 'auto', color: theme.palette.primary.main }}
       key={product.id}
+      className={montserrat.className}
     >
       <ContainerStyled>
         <Card sx={{ minWidth: 200, boxShadow: 1 }}
@@ -189,80 +188,91 @@ const Photography = () => {
             sx={{ display: 'block' }}
           />
           <CardContent>
-            <CardActions>
-              <DivStyled>
-                <ExpandIconStyled
-                  variant="text"
-                  className="icon-button"
-                  onClick={() => setOpen(!open)}
-                >
-                  <OpenInFullIcon />
-                </ExpandIconStyled>
-                <Dialog open={open}>
-                  <Button
-                    variant="text"
-                    onClick={() => setOpen(!open)}
-                    id={product.id}
-                  >
-                    <CloseIcon />
-                  </Button>
-                  <DialogTitle>
-                    <NextLink
-                      sx={{ color: theme.palette.primary.main }}
-                      href={{
-                        pathname: "/products/[productId]",
-                        query: { productId: product.id },
-                      }}
-                      passHref
-                      overlay="true"
-                      underline="none"
-                    >
-                      {product.name}
-                    </NextLink>
-                  </DialogTitle>
-                  {product.description}
-                  ${(product.price / 100).toFixed(2)}
-                  <DialogActions>
-                    <Button
-                      variant="text"
-                      className="icon-button"
-                      sx={{ color: theme.palette.primary.main }}
-                      // works fine in Dialog
-                      onClick={() => handleHeartClick(product.id)}
-                    >
-                      {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                    </Button>
-                    <Button
-                      sx={{ color: theme.palette.primary.main }}
-                      variant="text"
-                      className="icon-button"
-                      onClick={() => handleAddToCart(product.id)}
-                    >
-                      <AddShoppingCartIcon />
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-                {/* funny behaviour, can't unclick, and then can't click anything on page */}
-                <HeartIconStyled
-                  variant="text"
-                  className="icon-button"
-                  onClick={() => handleHeartClick(product.id)}
-                >
-                  {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                </HeartIconStyled>
-                <CartIconStyled
-                  variant="text"
-                  className="icon-button"
-                  onClick={() => handleAddToCart(product.id)}
-                >
-                  <AddShoppingCartIcon />
-                </CartIconStyled>
-              </DivStyled>
-              {/* // adjust backdrop to be transparent */}
-            </CardActions>
 
             <Grid item="true" p={1} m={0}>
               <Grid container style={{ height: '100%' }} justifyContent="center">
+                <CardActions>
+                  <DivStyled>
+                    {/* funny behaviour, can't unclick, and then can't click anything on page */}
+                    <HeartIconStyled
+                      variant="text"
+                      className="icon-button"
+                      onClick={() => handleHeartClick(product.id)}
+                    >
+                      {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                    </HeartIconStyled>
+                    <CartIconStyled
+                      variant="text"
+                      className="icon-button"
+                      onClick={() => handleAddToCart(product.id, userId)}
+                    >
+                      <AddShoppingCartIcon />
+                    </CartIconStyled>
+                    <ExpandIconStyled
+                      variant="text"
+                      className="icon-button"
+                      onClick={() => handleClickOpen(product.id)}
+                    >
+                      <OpenInFullIcon />
+                    </ExpandIconStyled>
+                    <Dialog
+                      className={montserrat.className}
+                      open={openId === product.id}
+                      onClose={handleClose}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <Button
+                        variant="text"
+                        onClick={handleClose}
+                        id={product.id}
+                      >
+                        <CloseIcon />
+                      </Button>
+                      <DialogTitle id="alert-dialog-title">
+                        <NextLink
+                          sx={{ color: theme.palette.primary.main }}
+                          href={{
+                            pathname: "/products/[productId]",
+                            query: { productId: product.id },
+                          }}
+                          passHref
+                          overlay="true"
+                          underline="none"
+                        >
+                          {product.name}
+                        </NextLink>
+                      </DialogTitle>
+                      <Image src={`./uploads/${product.image}`} />
+                      <DialogContentText id="alert-dialog-description">
+                        <Typography variant="h8" text-align="center">
+                          {product.description}
+                          ${formatPrice(product.price)}
+                        </Typography>
+                      </DialogContentText>
+                      <DialogActions>
+                        <Button
+                          variant="text"
+                          className="icon-button"
+                          sx={{ color: theme.palette.primary.main }}
+                          // works fine in Dialog
+                          onClick={() => handleHeartClick(product.id)}
+                        >
+                          {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                        </Button>
+                        <Button
+                          sx={{ color: theme.palette.primary.main }}
+                          variant="text"
+                          className="icon-button"
+                          onClick={() => handleAddToCart(product.id, userId)}
+                        >
+                          <AddShoppingCartIcon />
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </DivStyled>
+                  {/* // adjust backdrop to be transparent */}
+                </CardActions>
                 <Typography gutterBottom variant="h7" text-align="center">
                   <NextLink
                     href={{
@@ -304,7 +314,7 @@ const Photography = () => {
             <Grid item="true">
               <Grid container style={{ height: '100%' }} justifyContent="center">
                 <Typography variant="h8" text-align="center">
-                  ${(product.price / 100).toFixed(2)}
+                  ${formatPrice(product.price)}
                 </Typography>
               </Grid>
             </Grid>
@@ -314,30 +324,30 @@ const Photography = () => {
       </ContainerStyled>
     </Grid >
   ))
+
   if (loading) {
     return (
       <ThemeProvider theme={theme}>
-      <Grid container
-        align="center"
-        justify-content="center"
-        maxWidth="75%"
-        paddingTop="5em"
-        paddingLeft="10em"
-        paddingRight="10em"
-        paddingBottom="1em"
-        margin= "auto"
-        spacing={5}
+        <Grid container
+          align="center"
+          justify-content="center"
+          maxWidth="75%"
+          paddingTop="5em"
+          paddingLeft="10em"
+          paddingRight="10em"
+          paddingBottom="1em"
+          margin="auto"
+          spacing={5}
         >
           <div>Loading...</div>
 
         </Grid>
-        </ThemeProvider>
+      </ThemeProvider>
     )
   }
 
   return (
     <ThemeProvider theme={theme}>
-
       <Grid container
         align="center"
         justify-content="center"
@@ -349,7 +359,8 @@ const Photography = () => {
         margin="auto"
         spacing={5}
       >
-        {photographyList()}
+
+        {totalProducts === 0 ? (<div>No results found </div>) : (photographyList())}
 
         <Paginate
           count={Math.ceil(totalProducts / productsPerPage)}
