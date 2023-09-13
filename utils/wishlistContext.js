@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { useSessionId } from '/utils/session';
 // Create a context
 const WishlistContext = createContext();
 
@@ -12,8 +12,10 @@ export function useWishlist() {
 }
 
 export function WishlistProvider({ children }) {
+  const userId = useSessionId();
   // State to hold the list of products in the wishlist
-  const [wishlist, setWishlist] = useState([]);
+  const [wishlist, setWishlist] = useState(null);
+ 
 
   // Function to add a product to the wishlist
   const addToWishlist = async (userId, productId) => {
@@ -29,11 +31,12 @@ export function WishlistProvider({ children }) {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 2000, // Auto-close the message after 3 seconds
       });
-      
+      if (response.status === 200) {
       // Handle success and update the local wishlist state
-      setWishlist([...wishlist, { userId, productId, ...response.data }]);
+      setWishlist((prevWishlist) => [...prevWishlist, { userId, productId, ...response.data.wishlistItem }]);
       // return { success: true };
       return { success: true };
+      }
     } catch (error) {
       // Handle errors, show an error message ..
       console.error('Error adding item to wishlist:', error);
@@ -55,7 +58,7 @@ export function WishlistProvider({ children }) {
       // console.log("responseA", response);
       if (response.status === 200) {
         // Handle success and update the local wishlist state
-        setWishlist(wishlist.filter((item) => item.productId !== productId));
+        setWishlist((prevWishlist) => prevWishlist.filter((item) => item.productId !== productId));
         toast.success('Item removed from wishlist', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 2000,
@@ -71,43 +74,38 @@ export function WishlistProvider({ children }) {
     }
   };
 
-  
 
-  const checkIfProductIsInWishlist = async (userId, productId) => {
-    try {
-      // Make an API request to check if the product is in the wishlist
-      const response = await axios.get(`/api/wishlist?userId=${userId}&productId=${productId}`);
-      const isInWishlist = response.data.isInWishlist;
-
-      return isInWishlist;
-
-    } catch (error) {
-      console.error('Error checking if product is in wishlist:', error);
-    }
-  };
 
   // // Function to check if a product is in the wishlist
-  // const isInWishlist = (productId) => {
-  //   return wishlist.includes(productId);
-  // };
+  const isInWishlist = ( productId) => {
+    console.log("userId, productId",  productId )
+    return wishlist && wishlist.some((item) => item.productId === productId);
+  };
 
-  // // Use useEffect to persist the wishlist in localStorage, so it's not lost on page refresh
-  // useEffect(() => {
-  //   const storedWishlist = localStorage.getItem('wishlist');
-  //   if (storedWishlist) {
-  //     setWishlist(JSON.parse(storedWishlist));
-  //   }
-  // }, []);
 
-  // useEffect(() => {
-  //   localStorage.setItem('wishlist', JSON.stringify(wishlist));
-  // }, [wishlist]);
+  const getWishlist = async (userId) => {
+    const response = await axios.get(`/api/getUserWishlist?userId=${userId}`);
+  
+    if (response.status === 200) {
+      setWishlist(response.data);
+    }
+  }
+  // Use useEffect to persist the wishlist in localStorage, so it's not lost on page refresh
+  useEffect(() => {
+    if(userId) {
+      
+      getWishlist(userId)
+    }
+    
+  }, [userId]);
+
+  
   // Value to provide in the context
   const contextValue = {
     wishlist,
+    isInWishlist,
     addToWishlist,
     deleteFromWishlist,
-    checkIfProductIsInWishlist
   };
 
   return (

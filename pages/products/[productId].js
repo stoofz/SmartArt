@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { averageRating } from 'utils/rating';
 // import { getReviews } from 'utils/reviews';
 import { handleAddToCart } from 'utils/cart';
-import { checkIfProductIsInWishlist, toggleWishlist } from 'utils/wishlist';
+// import { checkIfProductIsInWishlist, toggleWishlist } from 'utils/wishlist';
 import { useSessionId } from '/utils/session';
 import ReviewForm from '../../components/ReviewForm';
 
@@ -35,36 +35,26 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [reviews, setReviews] = useState(defaultReviews);
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
-  // const [isInWishlist, setIsInWishlist] = useState(false);
+  const { wishlist, isInWishlist, addToWishlist, deleteFromWishlist } = useWishlist();
+
   const userId = useSessionId();
 
-  const { wishlist, addToWishlist, deleteFromWishlist, checkIfProductIsInWishlist } = useWishlist();
-  const [isInWishlistState, setIsInWishlistState] = useState(false);
-  // Function to check if a product is in the wishlist
-  // Function to check if a product is in the wishlist
-  const isInWishlist = (userId, productId) => {
-    return wishlist.some((item) => item.userId === userId && item.productId === productId);
-  };
+ 
 
-  // Function to handle adding/removing a product to/from the wishlist
   const handleToggleWishlist = (userId, productId) => {
-    if (isInWishlist(userId, productId)) {
+
+    const test = isInWishlist( productId)
+    console.log("TEST", test)
+    if (isInWishlist( productId)) {
       deleteFromWishlist(userId, productId);
-      setIsInWishlistState(false);
+      // setIsInWishlistState(false);
     } else {
+
       addToWishlist(userId, productId);
-      setIsInWishlistState(true);
+     
     }
   };
 
-  useEffect(() => {
-    // Check if the product is in the wishlist when the component initially loads
-    if (userId) {
-      const productIsInWishlist = checkIfProductIsInWishlist(userId, product.id);
-      console.log("productIsInWishlist", productIsInWishlist )
-      setIsInWishlistState(productIsInWishlist); // Set initial state based on product's wishlist status
-    }
-  }, [userId, product.id]);
 
 //----------------REVIEW LOGIC-----------------
 
@@ -190,11 +180,11 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
 
 {/* //--------------------------------------------- */}
         {/* Conditionally render the heart icon based on isInWishlist */}
-        {userId ? (
+        {userId && wishlist ? (
             <FavoriteIcon
           style={{
             margin: '20px',
-              color: isInWishlistState ? 'red' : 'gray', // Change color based on isInWishlist
+              color: isInWishlist( product.id) ? 'red' : 'gray', // Change color based on isInWishlist
           }}
           onClick={() => handleToggleWishlist(userId, product.id)}
         />
