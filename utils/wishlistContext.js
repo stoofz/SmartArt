@@ -78,8 +78,11 @@ export function WishlistProvider({ children }) {
 
   // // Function to check if a product is in the wishlist
   const isInWishlist = ( productId) => {
-    console.log("userId, productId",  productId )
-    return wishlist && wishlist.some((item) => item.productId === productId);
+    // console.log("userId, productId",  productId )
+    const itemFound = wishlist && wishlist.find((item) => item.productId === productId);
+    // console.log("itemFound ", itemFound)
+    // return true
+    return wishlist && itemFound;
   };
 
 

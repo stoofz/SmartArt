@@ -28,13 +28,20 @@ const Layout = ({ children }) => {
           <Navigation sessionId={setSession(user)} />
         </div>
         {/* Render subnav only on the user profile page */}
-        <div style={{justifyContent:"space-between", display: "flex", flexDirection: "row", backgroundColor: "#F5C9C6" }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "row", backgroundColor: "#F5C9C6" }}>
           {isUserProfilePage || isOrdersPage || isReviewsPage || isCartPage || isWishlistPage ? (
             <div>
               <Subnav />
             </div>
           ) : null}
-          <div style={{ width: "1000px"}}>
+          <div style={{
+            borderRadius: '16px',
+            width: '76%',
+            backgroundColor: 'white',
+            marginTop: '38px',
+            marginLeft: '40px',
+            marginBottom: '40px'
+          }}>
             {children}
           </div>
         </div>
