@@ -320,13 +320,13 @@ const Products = () => {
                             new Date(product.discount[0].endDate) >= now ? (
                             <span>
                               <span style={{ textDecoration: 'line-through', color: 'red' }}>
-                                ${(product.price / 100).toFixed(2)}
+                                ${formatPrice(product.price)}
                               </span>
                               {' '}
-                              ${(product.price / 100 * (1 - product.discount[0].discount / 100)).toFixed(2)}
+                              ${formatPrice(product.price - (product.price * (product.discount[0].discount / 100)))}
                             </span>
                           ) : (
-                            `$${(product.price / 100).toFixed(2)}`
+                            `$${formatPrice(product.price)}`
                           )}
 
 
@@ -426,15 +426,14 @@ const Products = () => {
                     new Date(product.discount[0].endDate) >= now ? (
                     <span>
                       <span style={{ textDecoration: 'line-through', color: 'red' }}>
-                        ${(product.price / 100).toFixed(2)}
+                        ${formatPrice(product.price)}
                       </span>
                       {' '}
-                      ${(product.price / 100 * (1 - product.discount[0].discount / 100)).toFixed(2)}
+                      ${formatPrice(product.price - (product.price * (product.discount[0].discount / 100)))}
                     </span>
                   ) : (
-                    `$${(product.price / 100).toFixed(2)}`
+                    `$${formatPrice(product.price)}`
                   )}
-
 
                 </Typography>
               </Grid>
