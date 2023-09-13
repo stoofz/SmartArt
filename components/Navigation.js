@@ -29,6 +29,7 @@ import { Formik, Form, Field } from "formik";
 import { useSearchState } from 'utils/search';
 
 import { useRouter } from 'next/router';
+import { showLoginToast } from "@/utils/loginToast";
 
 const montserrat = Montserrat({
   weight: '600',
@@ -88,7 +89,12 @@ export default function Navigation({ sessionId }) {
   });
     // Debounce delay in milliseconds to delay search on input change
   //, 300);
-  
+
+  //-------------------WISHLIST, Cart, Profile LOGIC --------------------
+   //pass this text to show in toaster
+  const textToastFav = "Please log in to see your wishlist.";
+  const textToastCart = "Please log in to see your cart.";
+  const textToastProfile = "Please log in to see your profile.";
 
 
   const theme = createTheme({
@@ -258,6 +264,8 @@ export default function Navigation({ sessionId }) {
                 >
                   Sign In
                 </NextLink>}
+              {/* Check if userId is available, otherwise show the login toast */}
+              {userId ? (
               <NextLink
                 href={{
                   pathname: "/wishlist",
@@ -269,6 +277,13 @@ export default function Navigation({ sessionId }) {
               >
                 <FavoriteBorderIcon />
               </NextLink>
+              ) : (
+                <div onClick={() => showLoginToast(textToastFav)}>
+                    <FavoriteBorderIcon />
+                </div>
+              )}
+              {/* Check if userId is available, otherwise show the login toast */}
+              {userId ? (
               <NextLink
                 href={{
                   pathname: "/cart",
@@ -280,6 +295,13 @@ export default function Navigation({ sessionId }) {
               >
                 <ShoppingCartCheckoutIcon />
               </NextLink>
+              ) : (
+                <div onClick={() => showLoginToast(textToastCart)}>
+                  <ShoppingCartCheckoutIcon />
+                </div>
+              )}
+              {/* Check if userId is available, otherwise show the login toast */}
+              {userId ? (
               <NextLink
                 href={{
                   pathname: "/profile",
@@ -291,6 +313,11 @@ export default function Navigation({ sessionId }) {
               >
                 <ManageAccountsIcon />
               </NextLink>
+              ) : (
+                <div onClick={() => showLoginToast(textToastProfile)}>
+                    <ManageAccountsIcon />
+                </div>
+              )}
             </Toolbar>
           </AppBar>
         </Stack>

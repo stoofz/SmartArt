@@ -1,60 +1,134 @@
 import Link from 'next/link';
 import { List, ListItem, ListItemText, Button, Typography } from '@mui/material';
 
+
 const Subnav = () => {
   return (
-    <nav style={{ padding: '20px' }}>
-      <Typography variant="h4" sx={{ textAlign: 'center' }}>Your profile</Typography>
-      <List style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+    <nav style={{ padding: '20px', display: 'flex', flexDirection: 'column' }}>
+      
+      <List style={{ marginBottom: '1rem' }}>
         {/* My Info */}
         <ListItem style={{ cursor: 'pointer' }}>
           <Link href="/profile">
-            <ListItemText primary="My Info" />
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: '#fae4e2', // Background color
+                '&:hover': {
+                  backgroundColor: '#32434e', // Background color on hover
+                  color: 'white', // Text color on hover
+                },
+                width: '200px', // Set the width
+                color: '#32434E', // Text color
+              }}
+            >
+              My Info
+            </Button>
           </Link>
         </ListItem>
         {/* My Orders */}
         <ListItem style={{ cursor: 'pointer' }}>
           <Link href="/orders">
-            <ListItemText primary="My Orders" />
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: '#fae4e2', // Background color
+                '&:hover': {
+                  backgroundColor: '#32434e', // Background color on hover
+                  color: 'white', // Text color on hover
+                },
+                width: '200px', // Set the width
+                color: '#32434E', // Text color
+              }}
+            >
+              My Orders
+            </Button>
           </Link>
         </ListItem>
 
         {/* My Wishlist */}
         <ListItem style={{ cursor: 'pointer' }}>
           <Link href="/wishlist">
-            <ListItemText primary="My Wishlist" />
-          </Link>
-        </ListItem>
-
-        {/* My Reviews */}
-        <ListItem style={{ cursor: 'pointer' }}>
-          <Link href="/reviews">
-            <ListItemText primary="My Reviews" />
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: '#fae4e2', // Background color
+                '&:hover': {
+                  backgroundColor: '#32434e', // Background color on hover
+                  color: 'white', // Text color on hover
+                },
+                width: '200px', // Set the width
+                color: '#32434E', // Text color
+              }}
+            >
+              My Wishlist
+            </Button>
           </Link>
         </ListItem>
 
         {/* My Cart */}
         <ListItem style={{ cursor: 'pointer' }}>
           <Link href="/cart">
-            <ListItemText primary="My Cart" />
-          </Link>
-        </ListItem>
-        <Link href={`/`}>
-          <ListItem style={{ cursor: 'pointer' }}>
-            <Button size="small"
+            <Button
               variant="contained"
               style={{
-                backgroundColor: 'lightblue', color: 'white', width: "200px", transition: 'background-color 0.3s',
+                backgroundColor: '#fae4e2', // Background color
                 '&:hover': {
-                  backgroundColor: 'blue',
+                  backgroundColor: '#32434e', // Background color on hover
+                  color: 'white', // Text color on hover
+                },
+                width: '200px', // Set the width
+                color: '#32434E', // Text color
+              }}
+            >
+              My Cart
+            </Button>
+          </Link>
+        </ListItem>
+
+        {/* My Reviews */}
+        <ListItem style={{ cursor: 'pointer' }}>
+          <Link href="/reviews">
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: '#fae4e2', // Background color
+                '&:hover': {
+                  backgroundColor: '#32434e', // Background color on hover
+                  color: 'white', // Text color on hover
+                },
+                width: '200px', // Set the width
+                color: '#32434E', // Text color
+              }}
+            >
+              My Reviews
+            </Button>
+          </Link>
+        </ListItem>
+
+        <ListItem style={{ cursor: 'pointer' }}>
+          <Link href={`/`}>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: '#304659', // Background color
+                color: '#F5C9C6', // Text color
+                transition: 'background-color 0.3s',
+                marginTop: '1rem',
+                '&:hover': {
+                  backgroundColor: '#32434e', // Hover background color
+                  width: '200px',
+                  color: 'white', // Hover text color
                 },
               }}
             >
               Continue shopping
             </Button>
-          </ListItem>
-        </Link>
+          </Link>
+        </ListItem>
+
       </List>
+   
     </nav>
   );
 };

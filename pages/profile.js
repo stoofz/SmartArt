@@ -6,7 +6,7 @@ import { useSessionId } from '/utils/session';
 
 // import { useSearchState } from 'utils/search';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import { Typography, Card, Paper } from '@mui/material';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
 
@@ -44,85 +44,64 @@ const userProfilePage = () => {
     // Implement your logic for editing customer data here
   };
   
-
   return (
     <Layout>
-      <div>
+      
+      <Container maxWidth="sm" style={{ color: "#F5C9C6", minHeight: "700px", }}>
+        <Card elevation={3} component={Paper} style={{ padding: '1rem' }}>
+          <div style={{ textAlign: 'center' }}>
+            {isLoading ? (
+              <p>Loading...</p>
+            ) : customer ? (
+              <>
+                <Typography variant="h4" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
+                  Hello, {customer.firstName} {customer.lastName}
+                </Typography>
 
-        {/* {searchResults.length > 0 && (
-          <div>
-            <h2>Search Results:</h2>
-            <ul>
-              {searchResults.map((result) => (
-                <li key={result.id}>{result.name}</li>
-              ))}
-            </ul>
-          </div>
-        )} */}
+                <div style={{ marginTop: '2rem', textAlign: 'left' }}>
+                  <Typography variant="body1">Email: {customer.email}</Typography>
+                  <Typography variant="body1">Phone: (123) 456-7890</Typography>
+                  <Typography variant="body1">
+                    Location: New York, NY, USA
+                  </Typography>
+                  <Typography variant="body1">Member Since: January 1, 2022</Typography>
+                </div>
 
+                
+              </>
+            ) : (
+              <p>Please log in to view your profile.</p>
+            )}
 
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : customer ? (
-          <Container
-            maxWidth="sm"
-            style={{
-              paddingTop: '1.5rem',
-              paddingBottom: '1.5rem',
-              textAlign: 'center',
-            }}
-          >
-            <Typography
-              variant="h4"
-              style={{
-                fontSize: '1.5rem',
-                fontWeight: 'bold',
-              }}
-            >
-              {customer.firstName} {customer.lastName}
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              style={{
-                color: 'rgba(0, 0, 0, 0.54)',
-              }}
-            >
-              {customer.email}
+            {/* Hardcoded Address Card */}
+            <Typography variant="h5" style={{ marginTop: '2rem' }}>
+              Address
             </Typography>
 
-            <div
-              style={{
-                marginTop: '2rem',
-                textAlign: 'left',
-              }}
-            >
-              {/* Add more user details here */}
+            <div style={{ textAlign: 'left' }}>
+              <Typography variant="body1">Street: 123 Main St</Typography>
+              <Typography variant="body1">City: New York</Typography>
+              <Typography variant="body1">Province: NY</Typography>
+              <Typography variant="body1">Country: USA</Typography>
+              <Typography variant="body1">Postal: 12345</Typography>
               <Typography variant="body1">Phone: (123) 456-7890</Typography>
-              <Typography variant="body1">Location: New York, USA</Typography>
-              <Typography variant="body1">Member Since: January 1, 2022</Typography>
             </div>
 
             <Button
               variant="contained"
               style={{
-                backgroundColor: 'lightpink',
-                color: 'white',
+                backgroundColor: '#304659', // Background color
+                color: '#F5C9C6', // Text color
                 transition: 'background-color 0.3s',
-              }}
-              sx={{
-                '&:hover': {
-                  backgroundColor: 'darkgray',
-                },
+                marginTop: '1rem',
               }}
               onClick={handleEdit}
             >
               Edit Profile
             </Button>
-          </Container>
-        ) : (
-          <p>Please log in to view your profile.</p>
-        )}
-      </div>
+          </div>
+        </Card>
+      </Container>
     </Layout>
   );
 };

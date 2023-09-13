@@ -5,9 +5,7 @@ import axios from 'axios';
 import Link from 'next/link';
 
 import { averageRating } from 'utils/rating';
-// import { getReviews } from 'utils/reviews';
 import { handleAddToCart } from 'utils/cart';
-// import { checkIfProductIsInWishlist, toggleWishlist } from 'utils/wishlist';
 import { useSessionId } from '/utils/session';
 import ReviewForm from '../../components/ReviewForm';
 
@@ -24,12 +22,18 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import formatPrice from '@/utils/formatPrice';
+import { useWishlist } from '../../utils/wishlistContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
-
+// import { handleAddToWishlist, showLoginToast } from '@/utils/loginToast';
+import { useWishlistFunctions } from '@/utils/loginToast';
 
 const applyDiscountToProduct = async (productId, productPrice) => {
   try {
@@ -50,7 +54,6 @@ const applyDiscountToProduct = async (productId, productPrice) => {
   }
 };
 
-import { useWishlist } from '../../utils/wishlistContext';
 
 const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [openForm, setOpenForm] = useState(false);
@@ -60,43 +63,32 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const { wishlist, isInWishlist, addToWishlist, deleteFromWishlist } = useWishlist();
 
   const userId = useSessionId();
+  const { handleAddToWishlist, showLoginToast } = useWishlistFunctions();
+  //-------------------WISHLIST LOGIC --------------------
+  const textToastFav = "Please log in to add items to your wishlist.";
 
- 
 
-  const handleAddToWishlist = () => {
+  //---------------------CART LOGIC------------------------
+  //additional fn to check if user is logged in before adding to cart
+  const textToastCart = "Please log in to add items to your cart.";
+
+  const handleAddToCartToast = (productId, userId, textToast) => {
     if (userId) {
-      // User is logged in, so add to wishlist
-      handleToggleWishlist(userId, product.id);
+      handleAddToCart(productId, userId);
     } else {
       // User is not logged in, show a toast notification
-      toast.error('Please log in to add items to your wishlist.');
-    }
-  };
-
-  
-  const handleToggleWishlist = (userId, productId) => {
-
-    const test = isInWishlist( productId)
-    console.log("TEST", test)
-    if (isInWishlist( productId)) {
-      deleteFromWishlist(userId, productId);
-      // setIsInWishlistState(false);
-    } else {
-
-      addToWishlist(userId, productId);
-     
+      showLoginToast(textToast);
     }
   };
 
 
-
-    //----------------REVIEW LOGIC-----------------
-
+  //----------------REVIEW LOGIC-----------------
 
   const handleFormOpen = () => {
     if (!user) {
       // User is not logged in, show an alert or perform any other action
-      alert('Please log in to leave a review.');
+      showLoginToast('Please log in to leave a review.');
+
     } else {
       setOpenForm(true);
     }
@@ -116,13 +108,13 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
           'Content-Type': 'application/json',
         },
       });
- 
+
 
       if (response.status === 201) {
-       
+
         // Review saved successfully, you can update the UI or take other actions.
         console.log('Review saved successfully');
-        return response.data
+        return response.data;
       } else {
         // Handle errors, e.g., show an error message to the user.
         console.error('Failed to save the review');
@@ -141,7 +133,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
       alert('Please provide a rating and comment before submitting.');
       return; // Prevent further execution of the function
     }
-    
+
     const newReview = {
       date: new Date(),
       rating: rating,
@@ -159,7 +151,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
     handleFormClose(); // Close the form after submission
     setComment();
     setRating(0);
-   
+
   };
 
   // Function to handle review deletion from db and update UI
@@ -167,7 +159,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
     try {
       // Show an alert to confirm before deleting
       const confirmDelete = window.confirm('Are you sure you want to delete this review?');
-     
+
       if (confirmDelete) {
         // Send a DELETE request to the API route
         const response = await axios.delete('/api/deleteReview', { data: { id } });
@@ -188,21 +180,6 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
     }
   };
 
-  //-------------------WISHLIST LOGIC --------------------
-
-  
-
-  // const handleToggleWishlist = () => {
-  //   toggleWishlist(userId, product.id, isInWishlist, setIsInWishlist);
-  // };
-
-  // useEffect(() => {
-  //   // Call the function to check if the product is in the wishlist
-  //   checkIfProductIsInWishlist(userId, product.id);
-  //   setIsInWishlist(isInWishlist);
-  // }, [ userId, product.id]);
-
-//--------------------------------------------------------------
 
   if (!product) {
     return <div>Loading...</div>;
@@ -214,17 +191,17 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
         <h3>{product.name}</h3>
         <p>{product.description}</p>
 
-       <p> {product.price !== product.originalPrice ? (
-                        <span>
-                          <span style={{ textDecoration: 'line-through', color: 'red' }}> ${(product.originalPrice / 100).toFixed(2)} </span> {' '} ${(product.price / 100).toFixed(2)}
-                        </span>) : (`$${(product.price / 100).toFixed(2)}`)}
-       </p>
-        <AddShoppingCartIcon onClick={() => handleAddToCart(product.id, userId)} />
+        <p> {product.price !== product.originalPrice ? (
+          <span>
+            <span style={{ textDecoration: 'line-through', color: 'red' }}> ${(product.originalPrice / 100).toFixed(2)} </span> {' '} ${(product.price / 100).toFixed(2)}
+          </span>) : (`$${(product.price / 100).toFixed(2)}`)}
+        </p>
+        <AddShoppingCartIcon onClick={() => handleAddToCartToast(product.id, userId, textToastCart)} />
 
 
-{/* //--------------------------------------------- */}
+        {/* //---------------FAV ICON------------------------------ */}
         {/* Conditionally render the heart icon based on isInWishlist */}
-        {userId && wishlist ? (
+        {/* {userId && wishlist ? (
             <FavoriteIcon
           style={{
             margin: '20px',
@@ -237,8 +214,28 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
             <p>Please log in to add items to your wishlist.</p>
             <Link href="/login">Log in</Link>
           </div>
-        )}
-        
+        )} */}
+        <div>
+          {/* Always display the favorite icon */}
+          <Button
+            style={{
+              width: 'fit-content',
+              // visibility: 'hidden',
+              color: '#324E4B' // Set the color here
+            }}
+            variant="text"
+            type="button"
+            className="icon-button"
+            onClick={() => handleAddToWishlist(userId, product, textToastFav)}
+          >
+            {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </Button>
+          {/* Render the ToastContainer */}
+          <ToastContainer position="top-right" autoClose={2000} />
+        </div>
+
+
+
 
         <Rating name="read-only" value={averageRating(reviews)} readOnly precision={0.5} />
       </main>
@@ -270,72 +267,73 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
         <Typography variant="h4" gutterBottom>
           Customer Reviews
         </Typography>
-    
-          <List>
-            {reviews.length === 0 ? (
-              <Typography variant="body1" style={{ paddingLeft: '10px' }}>
-                No reviews available.
-              </Typography>
-            ) : (
-              reviews
-                .sort((a, b) => new Date(b.date) - new Date(a.date))
-                .map((review, index) => (
-                  // <div key={index} style={{ marginBottom: '10px' }}>
-                  <Paper key={index} elevation={6} style={{ marginBottom: '10px' }}>
-                    <Card key={index} style={{ minHeight: '150px' }}>
-                      <CardContent style={{ height: '150px', overflowY: 'auto' }} >
-                        <ListItem alignItems="flex-start">
-                          <Avatar style={{ marginRight: '8px' }}>{review.firstName}</Avatar>
-                          <ListItemText
-                            primary={
-                              <div>
-                                <div
-                                  style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    marginBottom: '8px',
-                                  }}
-                                >
-                                  <Typography variant="body1" style={{ marginRight: '8px' }}>
-                                    {review.firstName} {review.lastName}
-                                  </Typography>
-                                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    
-                                  </div>
-                                </div>
-                                <div style={{ fontSize: '14px', color: '#777' }}>
-                                  {new Date(review.date).toLocaleDateString('en-CA')}
-                                </div>
-                                <div style={{ fontSize: '14px', color: '#777', marginTop: '8px' }}>
-                                  {review.comment}
+
+        <List>
+          {reviews.length === 0 ? (
+            <Typography variant="body1" style={{ paddingLeft: '10px' }}>
+              No reviews available.
+            </Typography>
+          ) : (
+            reviews
+              .sort((a, b) => new Date(b.date) - new Date(a.date))
+              .map((review, index) => (
+                // <div key={index} style={{ marginBottom: '10px' }}>
+                <Paper key={index} elevation={6} style={{ marginBottom: '10px' }}>
+                  <Card key={index} style={{ minHeight: '150px' }}>
+                    <CardContent style={{ height: '150px', overflowY: 'auto' }} >
+                      <ListItem alignItems="flex-start">
+                        <Avatar style={{ marginRight: '8px' }}>{review.firstName}</Avatar>
+                        <ListItemText
+                          primary={
+                            <div>
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  marginBottom: '8px',
+                                }}
+                              >
+                                <Typography variant="body1" style={{ marginRight: '8px' }}>
+                                  {review.firstName} {review.lastName}
+                                </Typography>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+
                                 </div>
                               </div>
-                            }
-                          />
+                              <div style={{ fontSize: '14px', color: '#777' }}>
+                                {new Date(review.date).toLocaleDateString('en-CA')}
+                              </div>
+                              <div style={{ fontSize: '14px', color: '#777', marginTop: '8px' }}>
+                                {review.comment}
+                              </div>
+                            </div>
+                          }
+                        />
 
-                          {user && user.id === review.customerId && (
-                            <Button
-                              sx={{
-                                minWidth: 'unset', // Remove the minimum width
-                              }}
-                              onClick={() => {
-                                console.log("review.id",review.id)
-                                deleteReviewFromDb(review.id)}
-                              }
-                              style={{ backgroundColor: 'lightpink', color: 'white', borderColor: 'transparent' }}
-                            >
-                              <DeleteIcon /> Delete
-                            </Button>
-                          )}
-                        </ListItem>
-                      </CardContent>
-                    </Card>
-                  </Paper>
-                  
-                 
-                ))
-            )}
-          </List>
+                        {user && user.id === review.customerId && (
+                          <Button
+                            sx={{
+                              minWidth: 'unset', // Remove the minimum width
+                            }}
+                            onClick={() => {
+                              console.log("review.id", review.id);
+                              deleteReviewFromDb(review.id);
+                            }
+                            }
+                            style={{ backgroundColor: 'lightpink', color: 'white', borderColor: 'transparent' }}
+                          >
+                            <DeleteIcon /> Delete
+                          </Button>
+                        )}
+                      </ListItem>
+                    </CardContent>
+                  </Card>
+                </Paper>
+
+
+              ))
+          )}
+        </List>
       </section>
     </div>
   );
@@ -351,7 +349,7 @@ export async function getServerSideProps({ req, params }) {
   let product = {};
 
   if (productItem) {
-    const price = Number(await applyDiscountToProduct(productItem.id, productItem.price))
+    const price = Number(await applyDiscountToProduct(productItem.id, productItem.price));
     const originalPrice = Number(productItem.price);
 
     product = {
@@ -387,7 +385,7 @@ export async function getServerSideProps({ req, params }) {
   });
 
   const serializedReviews = JSON.parse(JSON.stringify(extractedReviews));
- 
+
   const sessionId = req.cookies.sessionId || null;
   const userId = parseInt(sessionId);
   let user = null;
