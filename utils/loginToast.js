@@ -10,10 +10,12 @@ import { useWishlist } from './wishlistContext';
 export const useWishlistFunctions = () => {
   const { isInWishlist, addToWishlist, deleteFromWishlist } = useWishlist();
 const handleToggleWishlist = (userId, productId, textToast) => {
-  
+
   if (isInWishlist(productId)) {
+    console.log("15handleToggleWishlist")
     deleteFromWishlist(userId, productId);
   } else {
+    console.log("18handleToggleWishlist")
     addToWishlist(userId, productId);
   }
 };
@@ -34,14 +36,14 @@ const showLoginToast = (textToast) => {
   toast.success(<LoginToast text={textToast} />, {
     progressStyle: {
       backgroundColor: '#b1889d', // Set the progress bar color
-      // Add any other styles as needed
+     
     },
     position: 'top-right',
     autoClose: 2000,
     style: {
       backgroundColor: '#F5C9C6', // Background color
       color: 'black', // Text color
-      // Add any other styles as needed
+      
     },
     icon: () => null,
   });
@@ -49,4 +51,3 @@ const showLoginToast = (textToast) => {
   return { handleToggleWishlist, handleAddToWishlist, showLoginToast };
 }
 
-// export { handleToggleWishlist, handleAddToWishlist, showLoginToast }
