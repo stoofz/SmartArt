@@ -451,7 +451,7 @@ export default function Navigation({ sessionId }) {
                 </Tooltip>
               ) : (
                 <div onClick={() => showLoginToast(textToastProfile)}>
-                  <ManageAccountsIcon sx={{ margin: "0.5em", fontSize: "5em" }} />
+                  <ManageAccountsIcon sx={{ margin: "0.5em", fontSize: "2em" }} />
                 </div>
               )}
             </Toolbar>
