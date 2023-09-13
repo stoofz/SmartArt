@@ -157,7 +157,6 @@ color: ${theme.palette.primary.main}
 `;
 
   const ContainerStyled = styled("div")`
-position: relative;
 &:hover {
   .icon-button {
     visibility: visible;

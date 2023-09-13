@@ -155,7 +155,6 @@ const Photography = () => {
   `;
 
   const ContainerStyled = styled("div")`
-  position: relative;
   &:hover {
     .icon-button {
       visibility: visible;

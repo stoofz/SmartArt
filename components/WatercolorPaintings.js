@@ -158,7 +158,6 @@ const WatercolorPaintings = () => {
   `;
 
   const ContainerStyled = styled("div")`
-  position: relative;
   &:hover {
     .icon-button {
       visibility: visible;
