@@ -162,13 +162,14 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
 
               <div key={index} className={`${true ? "flex" : ""} items-center border-b pb-5 pt-5`}
                 style={{ borderColor: 'lightblue' }}>
-
+                <Link href={`/products/${item.productId}`}>
                 <img className="w-[109px] h-[134px]" src={`uploads/${item.image}`} />
-
+                </Link>
 
                 <div className="cart-item-details flex-grow" style={{ marginLeft: '20px' }}>
+                  <Link href={`/products/${item.productId}`}>
                   <Typography variant="h6" className="flex-grow-0 flex-shrink-0">{item.name}</Typography>
-
+                  </Link>
                   <div className="flex justify-between w-1/2 pt-5">
 
                     <Typography variant="body2">

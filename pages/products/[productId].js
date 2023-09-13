@@ -116,10 +116,13 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
           'Content-Type': 'application/json',
         },
       });
+ 
 
       if (response.status === 201) {
+       
         // Review saved successfully, you can update the UI or take other actions.
         console.log('Review saved successfully');
+        return response.data
       } else {
         // Handle errors, e.g., show an error message to the user.
         console.error('Failed to save the review');
@@ -130,7 +133,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   };
 
   // Handle the review submission,
-  const handleReviewSubmit = (rating, comment) => {
+  const handleReviewSubmit = async (rating, comment) => {
 
     // Check if rating is 0 or comment is empty
     if (!comment || comment.trim() === '') {
@@ -138,7 +141,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
       alert('Please provide a rating and comment before submitting.');
       return; // Prevent further execution of the function
     }
-
+    
     const newReview = {
       date: new Date(),
       rating: rating,
@@ -151,11 +154,12 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
     };
 
     //Update reviews object, add new review
-    setReviews([...reviews, newReview]);
+    const returnedReveiew = await saveReviewToDb(newReview);
+    setReviews([...reviews, returnedReveiew]);
     handleFormClose(); // Close the form after submission
     setComment();
     setRating(0);
-    saveReviewToDb(newReview);
+   
   };
 
   // Function to handle review deletion from db and update UI
@@ -163,7 +167,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
     try {
       // Show an alert to confirm before deleting
       const confirmDelete = window.confirm('Are you sure you want to delete this review?');
-
+     
       if (confirmDelete) {
         // Send a DELETE request to the API route
         const response = await axios.delete('/api/deleteReview', { data: { id } });
@@ -314,7 +318,10 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                               sx={{
                                 minWidth: 'unset', // Remove the minimum width
                               }}
-                              onClick={() => deleteReviewFromDb(review.id)}
+                              onClick={() => {
+                                console.log("review.id",review.id)
+                                deleteReviewFromDb(review.id)}
+                              }
                               style={{ backgroundColor: 'lightpink', color: 'white', borderColor: 'transparent' }}
                             >
                               <DeleteIcon /> Delete
