@@ -21,7 +21,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContentText from '@mui/material/DialogContentText';
 import Dialog from '@mui/material/Dialog';
 import Rating from '@mui/material/Rating';
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import { useUser } from '@auth0/nextjs-auth0/client';
@@ -196,7 +196,6 @@ const Products = () => {
     `;
 
   const ContainerStyled = styled("div")`
-    position: relative;
     &:hover {
       .icon-button {
         visibility: visible;
@@ -404,6 +403,7 @@ const Products = () => {
                 underline="none"
               >
                 <Rating
+                  sx={{overflow: "hidden"}}
                   id={product.id}
                   name="read-only"
                   readOnly
