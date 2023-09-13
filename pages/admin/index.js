@@ -1,13 +1,11 @@
 import { isAdmin } from 'utils/session';
 import DeniedAccess from 'components/Admin/Denied';
-import Navigation from 'components/Admin/Navigation';
-import Footer from 'components/Admin/Footer';
-import Sidebar from 'components/Admin/Sidebar';
 import DisplayStatBox from 'components/Admin/DisplayStatBox';
 import { Grid } from '@mui/material';
 import formatPrice from '@/utils/formatPrice';
 import Container from '@mui/material/Container';
-import prisma from '@/utils/prisma';
+import prisma from 'utils/prisma';
+import Layout from 'components/Admin/Layout';
 
 export async function getServerSideProps() {
 
@@ -101,59 +99,47 @@ export default function AdminDash({ adminDashStats }) {
   if (isAdmin()) {
     return (
       <>
-        <Navigation />
+       <Layout>
 
 
-        <div className="flex">
-          <Sidebar />
-
-          <Container 
-            style={{
-              paddingTop: '1.5rem',
-              paddingBottom: '1.5rem',
-            }}
-
-            >
-                
-          <main className="w-3/4 p-4" >
+          <Container maxWidth="sm" style={{ minHeight: "560px", marginTop: '2em' }}>
     
-            <Grid container spacing={4}>
+            <Grid container spacing={12}>
 
-              <Grid item>
+            <Grid item xs={12} sm={4}>
                 <DisplayStatBox data={{ stat: adminDashStats.revenue, name: 'Revenue - Total' }} />
               </Grid>
-              <Grid item>
+              <Grid item xs={12} sm={4}>
                 <DisplayStatBox data={{ stat: adminDashStats.revenueWeek, name: 'Revenue - Week' }} />
               </Grid>
-              <Grid item>
+              <Grid item xs={12} sm={4}>
                 <DisplayStatBox data={{ stat: adminDashStats.revenueToday, name: 'Revenue - Today' }} />
               </Grid>
     
-              <Grid item>
+              <Grid item xs={12} sm={4}>
                 <DisplayStatBox data={{ stat: adminDashStats.totalOrders, name: 'Orders - Total' }} />
               </Grid>
-              <Grid item>
+              <Grid item xs={12} sm={4}>
                 <DisplayStatBox data={{ stat: adminDashStats.totalOrdersWeek, name: 'Orders - Week' }} />
               </Grid>
-              <Grid item>
+              <Grid item xs={12} sm={4}>
                 <DisplayStatBox data={{ stat: adminDashStats.totalOrdersToday, name: 'Orders - Today' }} />
               </Grid>
     
-              <Grid item>
+              <Grid item xs={12} sm={4}>
                 <DisplayStatBox data={{ stat: adminDashStats.customers, name: 'Customers' }} />
               </Grid>
-              <Grid item>
+              <Grid item xs={12} sm={4}>
                 <DisplayStatBox data={{ stat: adminDashStats.products, name: 'Products' }} />
               </Grid>
-              <Grid item>
+              <Grid item xs={12} sm={4}>
                 <DisplayStatBox data={{ stat: adminDashStats.categories, name: 'Categories' }} />
               </Grid>
             </Grid>
 
-            </main>
+       
             </Container>
-        </div>
-        <Footer />
+            </Layout>
       </>
     );
     

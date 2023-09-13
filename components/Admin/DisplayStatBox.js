@@ -9,11 +9,17 @@ export default function BoxSx({data = data}) {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
+    
     padding: '10px',
-    border: '1px solid #ccc',
     borderRadius: '5px',
+    
+    backgroundColor: '#fae4e2',
+    '&:hover': {
+      backgroundColor: '#32434e',
+      color: 'white',
+    },
     width: '200px',
+    color: '#32434E',
   }}
 >
 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>{data.name}</Typography>

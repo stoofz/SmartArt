@@ -1,25 +1,19 @@
 import ViewOrders from 'components/Admin/ViewOrders';
 import { isAdmin } from 'utils/session';
 import DeniedAccess from 'components/Admin/Denied';
-import Navigation from 'components/Admin/Navigation';
-import Footer from 'components/Admin/Footer';
-import Sidebar from 'components/Admin/Sidebar';
+import Layout from 'components/Admin/Layout';
+import Container from '@mui/material/Container';
 
 const OrdersPage = () => {
   if (isAdmin()) {
     return (
-      <>
-        <Navigation />
-        <div className="flex">
-            <Sidebar />
-          <main>
-            <div>
+        <Layout>
+          <>
+            <Container maxWidth="sm" style={{ color: "#000000", minHeight: "560px", marginTop: '2em' }}>
               <ViewOrders />
-            </div>
-          </main>
-          </div>  
-        <Footer />
-      </>
+            </Container>
+          </>   
+        </Layout>
     );
   }
   else

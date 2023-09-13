@@ -4,7 +4,11 @@ export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
 
-      const orders = await prisma.order.findMany();
+      const orders = await prisma.order.findMany({
+        include: {
+          customer: true
+          },
+      });
 
       res.status(200).json(orders);
       await prisma.$disconnect();

@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import AddCategory from 'components/Admin/AddCategory';
 import AddProduct from 'components/Admin/AddProduct';
 import DeleteForm from 'components/Admin/DeleteForm';
-import Sidebar from 'components/Admin/Sidebar';
 import CreateDiscountForm from 'components/Admin/CreateDiscount';
 import DeniedAccess from 'components/Admin/Denied';
-import Navigation from 'components/Admin/Navigation';
-import Footer from 'components/Admin/Footer';
+import Layout from 'components/Admin/Layout';
 import Notification from 'components/Notification';
-import { Button, Modal, Box, Typography } from '@mui/material';
+import { List, ListItem, ListItemText, Button, Modal, Box, Typography } from '@mui/material';
 import { isAdmin } from 'utils/session';
+import Container from '@mui/material/Container';
+
 
 const ProductsPage = () => {
   const [modals, setModals] = useState({
@@ -63,13 +63,26 @@ const ProductsPage = () => {
   if (isAdmin()) {
 
     return (
-      <>
-        <Navigation />
-        <div className="flex">
-          <Sidebar />
-          <main>
-            <div>
-              <Button onClick={() => handleOpen('category')}>Add Category</Button>
+    
+       <Layout>
+         
+        <>
+        <Container maxWidth="sm" style={{ minHeight: "560px", marginTop: '2em' }}>
+            
+  
+
+
+          <ListItem style={{ cursor: 'pointer' }}>
+         
+              <Button onClick={() => handleOpen('category') } variant="contained" style={{
+                  backgroundColor: '#fae4e2',
+                  '&:hover': {
+                    backgroundColor: '#32434e',
+                    color: 'white',
+                  },
+                  width: '200px',
+                  color: '#32434E',
+                }}>Add Category</Button>
               <Modal open={modals.category} onClose={() => handleClose('category')}>
                 <Box sx={theme}>
                   <Typography id="addCategory">Add Category</Typography>
@@ -82,10 +95,19 @@ const ProductsPage = () => {
                 onClose={() => setSuccess((prevSuccess) => ({ ...prevSuccess, category: false }))}
                 message="Category created"
               />
-            </div>
+            
+                </ListItem>
 
-            <div>
-              <Button onClick={() => handleOpen('deleteCategory')}>Delete Category</Button>
+                <ListItem style={{ cursor: 'pointer' }}>
+            <Button onClick={() => handleOpen('category') } variant="contained" style={{
+                  backgroundColor: '#fae4e2',
+                  '&:hover': {
+                    backgroundColor: '#32434e',
+                    color: 'white',
+                  },
+                  width: '200px',
+                  color: '#32434E',
+                }}>Delete Category</Button>
               <Modal open={modals.deleteCategory} onClose={() => handleClose('deleteCategory')}>
                 <Box sx={theme}>
                   <Typography id="deleteCategory">Delete Category</Typography>
@@ -98,10 +120,18 @@ const ProductsPage = () => {
                 onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, deleteCategory: false }))}
                 message="Category deleted"
               />
-            </div>
+            </ListItem>
 
-            <div>
-              <Button onClick={() => handleOpen('product')}>Add Product</Button>
+            <ListItem style={{ cursor: 'pointer' }}>
+            <Button onClick={() => handleOpen('category') } variant="contained" style={{
+                  backgroundColor: '#fae4e2',
+                  '&:hover': {
+                    backgroundColor: '#32434e',
+                    color: 'white',
+                  },
+                  width: '200px',
+                  color: '#32434E',
+                }}>Add Product</Button>
               <Modal open={modals.product} onClose={() => handleClose('product')}>
                 <Box sx={theme}>
                   <Typography id="addProduct">Add Product</Typography>
@@ -114,10 +144,18 @@ const ProductsPage = () => {
                 onClose={() => setSuccess((prevSuccess) => ({ ...prevSuccess, product: false }))}
                 message="Product created"
               />
-            </div>
+            </ListItem>
 
-            <div>
-              <Button onClick={() => handleOpen('deleteProduct')}>Delete Product</Button>
+            <ListItem style={{ cursor: 'pointer' }}>
+            <Button onClick={() => handleOpen('category') } variant="contained" style={{
+                  backgroundColor: '#fae4e2',
+                  '&:hover': {
+                    backgroundColor: '#32434e',
+                    color: 'white',
+                  },
+                  width: '200px',
+                  color: '#32434E',
+                }}>Delete Product</Button>
               <Modal open={modals.deleteProduct} onClose={() => handleClose('deleteProduct')}>
                 <Box sx={theme}>
                   <Typography id="deleteProduct">Delete Product</Typography>
@@ -130,10 +168,18 @@ const ProductsPage = () => {
                 onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, deleteProduct: false }))}
                 message="Product deleted"
               />
-              </div>
+              </ListItem>
               
-              <div>
-              <Button onClick={() => handleOpen('createDiscount')}>Create Discount</Button>
+              <ListItem style={{ cursor: 'pointer' }}>
+              <Button onClick={() => handleOpen('category') } variant="contained" style={{
+                  backgroundColor: '#fae4e2',
+                  '&:hover': {
+                    backgroundColor: '#32434e',
+                    color: 'white',
+                  },
+                  width: '200px',
+                  color: '#32434E',
+                }}>Create Discount</Button>
               <Modal open={modals.createDiscount} onClose={() => handleClose('createDiscount')}>
                 <Box sx={theme}>
                   <Typography id="createDiscount">Create Discount</Typography>
@@ -146,16 +192,18 @@ const ProductsPage = () => {
                 onClose={() => setSuccess((prevSuccess) => ({ ...prevSuccess, createDisount: false }))}
                 message="Discount created"
               />
-            </div>
+            </ListItem>
 
-            <div>
-              <Button onClick={() => handleOpen('deleteDiscount')}
-                sx={{
-                  backgroundColor: '#f0f0f0',
-                  color: '#fff',
-                  borderRadius: '1px solid #ccc',
-                  
-                }}><Typography variant="body1" sx={{ fontWeight: 'bold',color: 'black' }}>Delete Discount</Typography></Button>
+            <ListItem style={{ cursor: 'pointer' }}>
+            <Button onClick={() => handleOpen('category') } variant="contained" style={{
+                  backgroundColor: '#fae4e2',
+                  '&:hover': {
+                    backgroundColor: '#32434e',
+                    color: 'white',
+                  },
+                  width: '200px',
+                  color: '#32434E',
+                }}>Delete Discount</Button>
               <Modal open={modals.deleteDiscount} onClose={() => handleClose('deleteDiscount')}>
                 <Box sx={theme}>
                   <Typography id="deleteDiscount">Delete Discount</Typography>
@@ -168,12 +216,13 @@ const ProductsPage = () => {
                 onClose={() => setDelSuccess((prevSuccess) => ({ ...prevSuccess, deleteDiscount: false }))}
                 message="Discount deleted"
               />
-            </div>
+            </ListItem>
 
-          </main>
-        </div>
-        <Footer />
-      </>
+
+</Container>
+         </>
+        </Layout>
+     
     );
   }else
   {
