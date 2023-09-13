@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import formatPrice from 'utils/formatPrice';
 
 function ViewOrder({ order }) {
   const [orderDetails, setOrderDetails] = useState(null);
@@ -51,7 +52,7 @@ function ViewOrder({ order }) {
             <ul>
               {orderDetails.orderItem.map((item) => (
                 <li key={item.id}>
-                  {item.product.name} - {item.qty} x {item.price} = {item.qty * item.price}
+                  {item.product.name} - {item.qty} x {'$' + (formatPrice(item.price))} = {'$' + (formatPrice(item.qty * item.price))}
                 </li>
               ))}
             </ul>

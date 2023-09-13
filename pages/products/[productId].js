@@ -27,6 +27,28 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import formatPrice from '@/utils/formatPrice';
+
+
+
+const applyDiscountToProduct = async (productId, productPrice) => {
+  try {
+    const payload = {
+      productId,
+      productPrice,
+    };
+
+    // only full path works with port 3000, works on 127.0.0.1:80 by default
+    const response = await axios.post('http://127.0.0.1:3000/api/applyDiscount', payload);
+
+    if (response.status === 200) {
+      const data = await response.data;
+      return data.discountedPrice;
+    }
+  } catch (error) {
+    console.error('Error applying discount:', error);
+  }
+};
 
 const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const [openForm, setOpenForm] = useState(false);
@@ -38,7 +60,9 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const userId = useSessionId();
 
 
-//----------------REVIEW LOGIC-----------------
+
+    //----------------REVIEW LOGIC-----------------
+
 
   const handleFormOpen = () => {
     if (!user) {
@@ -156,7 +180,12 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
       <main>
         <h3>{product.name}</h3>
         <p>{product.description}</p>
-        <p>{product.price}</p>
+
+       <p> {product.price !== product.originalPrice ? (
+                        <span>
+                          <span style={{ textDecoration: 'line-through', color: 'red' }}> ${(product.originalPrice / 100).toFixed(2)} </span> {' '} ${(product.price / 100).toFixed(2)}
+                        </span>) : (`$${(product.price / 100).toFixed(2)}`)}
+       </p>
         <AddShoppingCartIcon onClick={() => handleAddToCart(product.id, userId)} />
 
         {/* Conditionally render the heart icon based on isInWishlist */}
@@ -276,9 +305,27 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
 
 export async function getServerSideProps({ req, params }) {
   const productId = params.productId;
-  const product = await prisma.product.findUnique({
+  const productItem = await prisma.product.findUnique({
     where: { id: parseInt(productId) }
   });
+
+
+  let product = {};
+
+  if (productItem) {
+    const price = Number(await applyDiscountToProduct(productItem.id, productItem.price))
+    const originalPrice = Number(productItem.price);
+
+    product = {
+      ...productItem,
+      price,
+      originalPrice
+    };
+
+  }
+  console.log('Product:', product);
+
+
   const serializedProduct = JSON.parse(JSON.stringify(product));
 
   const reviews = await prisma.feedback.findMany({
