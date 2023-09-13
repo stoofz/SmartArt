@@ -149,7 +149,13 @@ const ProductsPage = () => {
             </div>
 
             <div>
-              <Button onClick={() => handleOpen('deleteDiscount')}>Delete Discount</Button>
+              <Button onClick={() => handleOpen('deleteDiscount')}
+                sx={{
+                  backgroundColor: '#f0f0f0',
+                  color: '#fff',
+                  borderRadius: '1px solid #ccc',
+                  
+                }}><Typography variant="body1" sx={{ fontWeight: 'bold',color: 'black' }}>Delete Discount</Typography></Button>
               <Modal open={modals.deleteDiscount} onClose={() => handleClose('deleteDiscount')}>
                 <Box sx={theme}>
                   <Typography id="deleteDiscount">Delete Discount</Typography>

@@ -1,11 +1,13 @@
 import prisma from 'utils/prisma';
 
+
+
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { query } = req.body;
-
+  
     try {
-      const productResults = await prisma.product.findMany({
+      const products = await prisma.product.findMany({
         where: {
           name: {
             mode: 'insensitive',
@@ -19,14 +21,19 @@ export default async function handler(req, res) {
               rating: true,
             },
           },
+          discount: {
+            select: {
+              discount: true,
+              startDate: true,
+              endDate: true,
+            },
+          },
         },
       });
-
-      // Return the search results as JSON
-      res.status(200).json(productResults);
-      await prisma.$disconnect();
+  
+      res.status(200).json(products);
     } catch (error) {
-      console.error(error);
+      console.error('Error:', error);
       res.status(500).json({ error: 'Error' });
     }
   } else {

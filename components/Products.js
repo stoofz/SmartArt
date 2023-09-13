@@ -205,6 +205,8 @@ const Products = () => {
     justify-content: space-evenly;
   `;
 
+  const now = new Date();
+  
   const productList = () => (pageProducts.map((product) =>
 
     <Grid item="true" xs={12} sm={6} md={4}
@@ -289,7 +291,22 @@ const Products = () => {
                       <DialogContentText id="alert-dialog-description">
                         <Typography variant="h8" text-align="center">
                           {product.description}
-                          ${formatPrice(product.price)}
+
+                          {product.discount && product.discount.length > 0 &&
+                            new Date(product.discount[0].startDate) <= now &&
+                            new Date(product.discount[0].endDate) >= now ? (
+                            <span>
+                              <span style={{ textDecoration: 'line-through', color: 'red' }}>
+                                ${(product.price / 100).toFixed(2)}
+                              </span>
+                              {' '}
+                              ${(product.price / 100 * (1 - product.discount[0].discount / 100)).toFixed(2)}
+                            </span>
+                            ) : (
+                              `$${(product.price / 100).toFixed(2)}`
+                            )}
+                      
+                      
                         </Typography>
                       </DialogContentText>
                       <DialogActions>
@@ -356,7 +373,24 @@ const Products = () => {
             <Grid item="true">
               <Grid container style={{ height: '100%' }} justifyContent="center">
                 <Typography variant="h8" text-align="center">
-                  ${formatPrice(product.price)}
+ 
+
+
+                  {product.discount && product.discount.length > 0 &&
+                    new Date(product.discount[0].startDate) <= now &&
+                    new Date(product.discount[0].endDate) >= now ? (
+                    <span>
+                      <span style={{ textDecoration: 'line-through', color: 'red' }}>
+                        ${(product.price / 100).toFixed(2)}
+                      </span>
+                      {' '}
+                      ${(product.price / 100 * (1 - product.discount[0].discount / 100)).toFixed(2)}
+                    </span>
+                    ) : (
+                      `$${(product.price / 100).toFixed(2)}`
+                    )}
+                      
+
                 </Typography>
               </Grid>
             </Grid>
