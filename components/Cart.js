@@ -163,9 +163,6 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
   return (
     <>
       <Container className="px-32 flex flex-col pt-4">
-        {/* <Typography variant="h4" gutterBottom>
-          <AddShoppingCartIcon style={{ fontSize: '3rem', color: "#5a716e", paddingRight: "10px" }} /> Your Shopping Cart
-        </Typography> */}
         {productDetails.length === 0 ? (
           <Container style={containerStyles}>
             <Paper elevation={3} style={paperStyles}>
@@ -176,18 +173,6 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
               </Typography>
             </Paper>
             <Link href={`/`}>
-              {/* <Button size="small"
-                variant="contained"
-                style={{
-                  backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
-                  '&:hover': {
-                    backgroundColor: 'blue',
-                  },
-                }}
-              >
-                Go to the main page
-              </Button> */}
-
               <Button
                 variant="contained"
                 style={{
@@ -206,114 +191,98 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
             </Link>
           </Container>
         ) : (
-          <div style={{ width: '80%' }}>
-              <Typography variant="h4" gutterBottom>
+            <div style={{ paddingRight: "150px", paddingLeft: "150px" }}
+              >
+              <Typography variant="h4" gutterBottom style={{ paddingTop: "30px", paddingBottom: "30px" }}>
                 <AddShoppingCartIcon style={{ fontSize: '3rem', color: "#5a716e", paddingRight: "10px" }} /> Your Shopping Cart
               </Typography>
-            {productDetails.map((item, index) => (
-              // <div className="cart-item" key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-
-              <div key={index} className={`${true ? "flex" : ""} items-center border-b pb-5 pt-5`}
-                style={{ borderColor: 'lightblue' }}>
-                <Link href={`/products/${item.productId}`}>
-                <img className="w-[109px] h-[134px]" src={`uploads/${item.image}`} />
-                </Link>
-
-                <div className="cart-item-details flex-grow" style={{ marginLeft: '20px' }}>
-                  <Link href={`/products/${item.productId}`}>
-                  <Typography variant="h6" className="flex-grow-0 flex-shrink-0">{item.name}</Typography>
-                  </Link>
-                  <div className="flex justify-between w-1/2 pt-5">
-
-                    <Typography variant="body2">
-                      {item.price !== item.originalPrice ? (
-                        <span>
-                          <span style={{ textDecoration: 'line-through', color: 'red' }}> ${(item.originalPrice / 100).toFixed(2)} </span> {' '} ${(item.price / 100).toFixed(2)}
-                        </span>) : (`$${(item.price / 100).toFixed(2)}`)}
-                    </Typography>
-
-                    <Typography variant="body2">Total: ${(item.qty * item.price / 100).toFixed(2)}</Typography>
-                  </div>
-
-
-                  <div className="flex justify-between w-1/2 pt-5 ">
-                    <Button
-                      size="small"
-                      variant="contained"
-                      style={{
-                        backgroundColor: 'lightpink',
-                        color: 'white',
-                        transition: 'background-color 0.3s',
-                        '&:hover': {
-                          backgroundColor: 'darkgray',
-                        },
-                      }}
-                      onClick={() => deleteFromCart(item.productId)}
-                    >
-                      -
-                    </Button>
-                    <p>{item.qty}</p>
-                    <Button
-                      size="small"
-                      variant="contained"
-                      style={{
-                        backgroundColor: 'lightgreen',
-                        color: 'white',
-                        transition: 'background-color 0.3s',
-                        '&:hover': {
-                          backgroundColor: 'darkgray',
-                        },
-                      }}
-                      onClick={() => updateCartItemQuantity(item.productId, item.qty + 1)}
-                    >
-                      +
-                    </Button>
-                  </div>
-                </div>
-                
-              </div>
-              
-            ))}
-              <div className="cart-total">
-                <Typography variant="h6">Total: ${(total / 100).toFixed(2)}</Typography>
-              </div>
-
-              <div className="inline-block pb-20 flex justify-between">
-                <Button size="small"
-                  variant="contained"
+              {productDetails.map((item, index) => (
+                <div
+                  key={index}
+                  className="cart-item"
                   style={{
-                    backgroundColor: 'lightblue',
-                    color: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: '20px',
+                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
                     transition: 'background-color 0.3s',
                     '&:hover': {
-                      backgroundColor: 'blue',
+                      backgroundColor: 'lightgray', // Change the background color on hover
                     },
                   }}
-                  type="submit" onClick={handleCheckout}>Checkout
+                  onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#EEEEEE')}
+                  onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+                >
+                  <Link href={`/products/${item.productId}`}>
+                    <img className="w-[109px] h-[134px]" src={`uploads/${item.image}`} />
+                  </Link>
+                  <div className="cart-item-details" style={{ marginLeft: '20px', flex: '1' }}>
+                    <Link href={`/products/${item.productId}`}>
+                      <Typography variant="h6">{item.name}</Typography>
+                    </Link>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '50%', paddingTop: '10px' }}>
+                      <Typography variant="body2">
+                        {item.price !== item.originalPrice ? (
+                          <span>
+                            <span style={{ textDecoration: 'line-through', color: '#7D0012', paddingRight:"10px" }}> ${(item.originalPrice / 100).toFixed(2)} </span> {' '} ${(item.price / 100).toFixed(2)}
+                          </span>
+                        ) : (`$${(item.price / 100).toFixed(2)}`)}
+                      </Typography>
+                      <Typography variant="body2">Total: ${(item.qty * item.price / 100).toFixed(2)}</Typography>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '50%', paddingTop: '10px' }}>
+                      <Button
+                        size="small"
+                        variant="contained"
+                        style={{
+                          backgroundColor: '#ea8b85',
+                          color: 'white',
+                          transition: 'background-color 0.3s',
+                          fontSize: "15px", 
+                        }}
+                        onClick={() => deleteFromCart(item.productId)}
+                      >
+                        -
+                      </Button>
+                      <p>{item.qty}</p>
+                      <Button
+                        size="small"
+                        variant="contained"
+                        style={{
+                          backgroundColor: '#324e4b',
+                          color: 'white',
+                          transition: 'background-color 0.3s',
+                          fontSize:"15px", 
+                          
+                        }}
+                        onClick={() => updateCartItemQuantity(item.productId, item.qty + 1)}
+                      >
+                        +
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <div className="cart-total" style={{ textAlign: 'right', paddingTop: '20px' }}>
+                <Typography variant="h6">Total: ${(total / 100).toFixed(2)}</Typography>
+              </div>
+              <div className="inline-block pb-20 flex justify-end">
+                <Button
+                  
+                  variant="contained"
+                  style={{
+                    backgroundColor: '#283e3c',
+                    color: 'white',
+                    transition: 'background-color 0.3s',
+                  }}
+                  type="submit"
+                  onClick={handleCheckout}
+                >
+                  Checkout
                 </Button>
               </div>
-          </div>
+            </div>
         )}
-
-
-        {/* <div className="cart-total">
-          <Typography variant="h6">Total: ${(total / 100).toFixed(2)}</Typography>
-        </div>
-
-        <div className="inline-block pb-20 flex justify-between">
-          <Button size="small"
-            variant="contained"
-            style={{
-              backgroundColor: 'lightblue',
-              color: 'white',
-              transition: 'background-color 0.3s',
-              '&:hover': {
-                backgroundColor: 'blue',
-              },
-            }}
-            type="submit" onClick={handleCheckout}>Checkout
-          </Button>
-        </div> */}
 
       </Container>
       

@@ -15,59 +15,62 @@ const OrderPage = ({ order }) => {
 
   return (
     <Layout>
-    <Container className="px-32 flex flex-col pt-4">
-      <div className=" flex justify-between">
-        <Typography variant="h4" gutterBottom>
-          Order #{order.id}
-        </Typography>
-        {/* <Link href={`/`}>
-          <Button size="small"
-            variant="contained"
-            style={{
-              backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
-              '&:hover': {
-                backgroundColor: 'blue',
-              },
-            }}
-          >
-            Go to the main page
-          </Button>
-        </Link> */}
-      </div>
-     
-      <div className="flex items-center border-b pb-5 pt-5" style={{ borderColor: 'lightblue' }}>
-        {/* <div className="w-[109px] h-[134px]">
-          <img src="https://via.placeholder.com/109x134" alt={`Order #${order.id}`} />
-        </div> */}
-        <div className="flex-grow" style={{ marginLeft: '20px' }}>
-          <div className="flex justify-between">
-            <Typography variant="h6">{`Order Date: ${formatDate(order.orderDate)}`}</Typography>
-            <Typography variant="h6">{`Total: $${formatPriceAlt(order.totalPrice)}`}</Typography>
-          </div>
-          <Typography variant="body2">
-            Order Status:{" "}
-            <span style={{ color: order.orderStatus === "Completed" ? "green" : "inherit" }}>
-              {order.orderStatus}
-            </span>
+      <Container className="px-32 flex flex-col pt-4" style={{ paddingRight: "150px", paddingLeft: "150px" }}>
+        <div className="flex justify-between" style={{ paddingLeft: '15px' }}>
+          <Typography variant="h4" gutterBottom>
+            Order #{order.id}
           </Typography>
-          <div>
-           
-            <ul>
-              {order.orderItem.map((item, index) => (
-                <li key={index} className="flex items-center space-x-4 my-4">
-                  <img className="w-[109px] h-[134px]" src={`../uploads/${item.product.image}`} alt={`Order #${order.id}`} />
-                  <div>
-                    <span style={{ fontWeight: 'bold' }}>{`${item.qty}x ${item.product.name}`}</span>
-                    <br />
-                    <span style={{ color: 'gray' }}>{`Price: $${(item.price / 100).toFixed(2)}`}</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
+        </div>
+
+        <div className="flex items-center pb-5 pt-5">
+          <div className="flex-grow" style={{ marginLeft: '20px' }}>
+            <div className="flex justify-between" style={{ marginBottom: '10px' }}>
+              <Typography variant="h6">{`Order Date: ${formatDate(order.orderDate)}`}</Typography>
+              <Typography variant="h6">{`Total: $${formatPriceAlt(order.totalPrice)}`}</Typography>
+            </div>
+            <Typography variant="body2" style={{ marginBottom: '20px' }}>
+              Order Status:{" "}
+              <span style={{ color: order.orderStatus === "Completed" ? "green" : "inherit" }}>
+                {order.orderStatus}
+              </span>
+            </Typography>
+            <div>
+              <ul>
+                {order.orderItem.map((item, index) => (
+                  <li
+                    key={index}
+                    className="cart-item" // Use the same cart-item class
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginBottom: '20px',
+                      boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+                      transition: 'background-color 0.3s',
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#EEEEEE')}
+                    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+                  >
+                    <Link href={`/products/${item.product.id}`}>
+                      <img className="w-[109px] h-[134px]" src={`../uploads/${item.product.image}`} alt={`Order #${order.id}`} />
+                    </Link>
+                    <div className="cart-item-details" style={{ marginLeft: '20px', flex: '1' }}>
+                      <Link href={`/products/${item.product.id}`}>
+                        <Typography variant="h6">{item.product.name}</Typography>
+                      </Link>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '50%', paddingTop: '10px' }}>
+                        <Typography variant="body2">
+                          {`Price: $${(item.price / 100).toFixed(2)}`}
+                        </Typography>
+                        <Typography variant="body2">Total: ${(item.qty * item.price / 100).toFixed(2)}</Typography>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
-      </div>  
-    </Container>
+      </Container>
       </Layout>
   );
 };

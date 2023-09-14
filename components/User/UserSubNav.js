@@ -1,19 +1,30 @@
 import Link from 'next/link';
 import { List, ListItem, ListItemText, Button, Typography } from '@mui/material';
-
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 const Subnav = () => {
+  const { user, error, isLoading } = useUser();
   return (
     <nav style={{ padding: '20px', display: 'flex', flexDirection: 'column' }}>
-      
+     
       <List style={{ marginBottom: '1rem' }}>
+        <Typography variant="h4" 
+        style={{ 
+          fontSize: '2rem', 
+          paddingLeft:'15px', 
+          fontWeight: 'bold', 
+          marginBottom: '1rem',
+          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)' }}>
+          Hi, {user.first_name} {user.last_name}!
+          {/* Hello, Kate Spade! */}
+        </Typography>
         {/* My Info */}
         <ListItem style={{ cursor: 'pointer' }}>
           <Link href="/profile">
             <Button
               variant="contained"
               style={{
-                backgroundColor: '#fae4e2', // Background color
+                backgroundColor: '#F5C9C6', // Background color
                 '&:hover': {
                   backgroundColor: '#32434e', // Background color on hover
                   color: 'white', // Text color on hover
@@ -32,7 +43,7 @@ const Subnav = () => {
             <Button
               variant="contained"
               style={{
-                backgroundColor: '#fae4e2', // Background color
+                backgroundColor: '#F5C9C6', // Background color
                 '&:hover': {
                   backgroundColor: '#32434e', // Background color on hover
                   color: 'white', // Text color on hover
@@ -52,7 +63,7 @@ const Subnav = () => {
             <Button
               variant="contained"
               style={{
-                backgroundColor: '#fae4e2', // Background color
+                backgroundColor: '#F5C9C6', // Background color
                 '&:hover': {
                   backgroundColor: '#32434e', // Background color on hover
                   color: 'white', // Text color on hover
@@ -72,7 +83,7 @@ const Subnav = () => {
             <Button
               variant="contained"
               style={{
-                backgroundColor: '#fae4e2', // Background color
+                backgroundColor: '#F5C9C6', // Background color
                 '&:hover': {
                   backgroundColor: '#32434e', // Background color on hover
                   color: 'white', // Text color on hover
@@ -92,7 +103,7 @@ const Subnav = () => {
             <Button
               variant="contained"
               style={{
-                backgroundColor: '#fae4e2', // Background color
+                backgroundColor: '#F5C9C6', // Background color
                 '&:hover': {
                   backgroundColor: '#32434e', // Background color on hover
                   color: 'white', // Text color on hover
@@ -111,8 +122,8 @@ const Subnav = () => {
             <Button
               variant="contained"
               style={{
-                backgroundColor: '#304659', // Background color
-                color: '#F5C9C6', // Text color
+                backgroundColor: '#937876', // Background color
+                color: 'white', // Text color
                 transition: 'background-color 0.3s',
                 marginTop: '1rem',
                 '&:hover': {
