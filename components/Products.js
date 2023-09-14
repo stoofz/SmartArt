@@ -281,7 +281,13 @@ const Products = () => {
                       onClose={handleClose}
                       aria-labelledby="alert-dialog-title"
                       aria-describedby="alert-dialog-description"
-                      sx={{}}
+                      align="center"
+                      PaperProps={{
+                        sx: {
+                          maxWidth: "md",
+                          minHeight: 200
+                        }
+                      }}
                     >
                       <Button
                         variant="text"
@@ -290,7 +296,7 @@ const Products = () => {
                       >
                         <CloseIcon />
                       </Button>
-                      <DialogTitle id="alert-dialog-title">
+                      <DialogTitle id="alert-dialog-title" sx={{ textAlign: "center" }}>
                         <NextLink
                           sx={{ color: theme.palette.primary.main }}
                           href={{
@@ -301,55 +307,60 @@ const Products = () => {
                           overlay="true"
                           underline="none"
                         >
-                          <Typography gutterBottom variant="h7" text-align="center" sx={{ color: theme.palette.primary.dark }}>
+                          <Typography gutterBottom variant="h7" align="center" sx={{ color: theme.palette.primary.dark }}>
                             {product.name}
                           </Typography>
                         </NextLink>
                       </DialogTitle>
-                      <Image src={`./uploads/${product.image}`} />
-                      <DialogContentText id="alert-dialog-description">
-                        <Typography variant="h8" text-align="center" sx={{ color: theme.palette.primary.dark }}>
-                          {product.description}
-                        </Typography>
-                        <Typography variant="h6" text-align="center" sx={{ color: theme.palette.primary.dark }}>
-                          {product.discount && product.discount.length > 0 &&
-                            new Date(product.discount[0].startDate) <= now &&
-                            new Date(product.discount[0].endDate) >= now ? (
-                            <span>
-                              <span style={{ textDecoration: 'line-through', color: theme.palette.warning.dark }}>
-                                ${formatPrice(product.price)}
-                              </span>
-                              {' '}
-                              ${formatPrice(product.price - (product.price * (product.discount[0].discount / 100)))}
+                      <Typography variant="h7" sx={{ color: theme.palette.secondary.dark }}>
+                        {product.dimensions}
+                      </Typography>
+
+                      <Typography variant="h7" sx={{ color: theme.palette.primary.dark, padding: "0.5em" }}>
+                        {product.discount && product.discount.length > 0 &&
+                          new Date(product.discount[0].startDate) <= now &&
+                          new Date(product.discount[0].endDate) >= now ? (
+                          <span>
+                            <span style={{ textDecoration: 'line-through', color: theme.palette.warning.dark }}>
+                              ${formatPrice(product.price)}
                             </span>
-                          ) : (
-                            `$${formatPrice(product.price)}`
-                          )}
-
-
-                        </Typography>
-                      </DialogContentText>
+                            {' '}
+                            ${formatPrice(product.price - (product.price * (product.discount[0].discount / 100)))}
+                          </span>
+                        ) : (
+                          `$${formatPrice(product.price)}`
+                        )}
+                      </Typography>
+                      <div style={{ display: "flex", padding: "1.5em" }}>
+                        <CardMedia
+                          component="img"
+                          image={`./uploads/${product.image}`}
+                          alt="work portfolio"
+                          sx={{ display: 'block', marginBottom: "-1em", objectFit: "contain", width: 300, height: 300, paddingRight: "1em" }}
+                        />
+                        <DialogContentText id="alert-dialog-description" sx={{ display: "flex", height: 300, alignItems: "center" }}>
+                          <Typography variant="h7" sx={{ color: theme.palette.primary.dark }}>
+                            {product.description}
+                          </Typography>
+                        </DialogContentText>
+                      </div>
                       <DialogActions>
+                        <Button
+                          style={{
+                            width: 'fit-content',
+                            // visibility: 'hidden',
+                            color: '#324E4B' // Set the color here
+                          }}
+                          variant="text"
+                          type="button"
+                          className="icon-button"
+                          onClick={() => handleAddToWishlist(userId, product, textToastFav)}
+                        >
+                          {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                        </Button>
 
-                        {/* Always display the favorite icon */}
-                        <div>
-                          <Button
-                            style={{
-                              width: 'fit-content',
-                              // visibility: 'hidden',
-                              color: '#324E4B' // Set the color here
-                            }}
-                            variant="text"
-                            type="button"
-                            className="icon-button"
-                            onClick={() => handleAddToWishlist(userId, product, textToastFav)}
-                          >
-                            {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                          </Button>
-
-                          {/* Render the ToastContainer */}
-                          <ToastContainer position="top-right" autoClose={2000} />
-                        </div>
+                        {/* Render the ToastContainer */}
+                        <ToastContainer position="top-right" autoClose={2000} />
 
                         <Button
                           sx={{ color: theme.palette.primary.main }}
@@ -360,11 +371,12 @@ const Products = () => {
                           <AddShoppingCartIcon />
                         </Button>
                       </DialogActions>
+
                     </Dialog>
                   </DivStyled>
                   {/* // adjust backdrop to be transparent */}
                 </CardActions>
-                <Typography gutterBottom variant="h7" text-align="center" sx={{ color: theme.palette.primary.dark }}>
+                <Typography gutterBottom variant="h7" align="center" sx={{ color: theme.palette.primary.dark }}>
                   <NextLink
                     href={{
                       pathname: "/products/[productId]",
@@ -377,7 +389,7 @@ const Products = () => {
                     {product.name}
                   </NextLink>
                 </Typography>
-                <Typography variant="h8" text-align="center" sx={{ color: theme.palette.secondary.dark }}>
+                <Typography variant="h8" align="center" sx={{ color: theme.palette.secondary.dark }}>
                   {product.dimensions}
                 </Typography>
               </Grid>
@@ -393,7 +405,7 @@ const Products = () => {
                 overlay="true"
                 underline="none"
               >
-                <Typography sx={{ margin: "-1em" }}>
+                <Typography sx={{ margin: "-1em", overflow: "hidden" }}>
                   <Rating
                     id={product.id}
                     name="read-only"
@@ -411,7 +423,7 @@ const Products = () => {
               <Grid container sx={{ height: '100%' }} justifyContent="center">
                 <Typography
                   variant="h8"
-                  text-align="center"
+                  align="center"
                   sx={{ margin: "-1em", color: theme.palette.primary.dark }}
                 >
                   {product.discount && product.discount.length > 0 &&
