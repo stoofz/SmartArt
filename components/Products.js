@@ -102,6 +102,7 @@ const Products = () => {
           const productData = await response.json();
           setProducts(productData);
           setTotalProducts(productData.length);
+          setCurrentPage(1);
         } else {
           console.error('Error');
         }
@@ -121,11 +122,13 @@ const Products = () => {
     if (searchResults !== null && searchResults.length > 0) {
       setProducts(searchResults);
       setTotalProducts(searchResults.length);
+      setCurrentPage(1);
     }
     else {
       // Set products to empty array if no search results
       setProducts([]);
       setTotalProducts(0);
+      setCurrentPage(1);
     }
   }, [searchResults]);
 

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -498,7 +498,7 @@ export default function Navigation({ sessionId }) {
                   passHref
                   overlay="true"
                   sx={{ color: theme.palette.info.main }}
-                  onClick={clearSession}
+          //        onClick={clearSession}
                 >
                   <Typography
                     sx={{
@@ -566,7 +566,7 @@ export default function Navigation({ sessionId }) {
                   overlay="true"
                   underline="none"
                   sx={{ color: theme.palette.info.main }}
-                  onClick={clearSession}
+            //      onClick={clearSession}
                 >
                     <Typography
                       sx={{ 
@@ -586,7 +586,7 @@ export default function Navigation({ sessionId }) {
                   overlay="true"
                   underline="none"
                   sx={{ color: theme.palette.info.main }}
-                  onClick={clearSession}
+          //        onClick={clearSession}
                 >
                   <Typography
                     sx={{
