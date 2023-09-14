@@ -7,12 +7,17 @@ import Sidebar from 'components/Admin/Sidebar';
 import { useRouter } from 'next/router';
 import { isAdmin } from '@/utils/session';
 
+import { useSearchState } from '@/utils/search';
+
+import Products from 'components/Products';
 
 const Layout = ({ children }) => {
   const router = useRouter();
   const { user, error, isLoading } = useUser();
+  
   const isAdminPage = router.pathname.startsWith('/admin');
 
+  const { searchResults, setSearchResults } = useSearchState();
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
@@ -26,18 +31,21 @@ const Layout = ({ children }) => {
   <div>
           <Navigation sessionId={setSession(user)} />
         </div>
-        <div style={{flex: 1,  display: "flex", flexDirection: "row", backgroundColor: "#F5C9C6" }}>
-          {isAdminPage} 
-            <div>
+
+        {searchResults.length !== 0 ? (
+          <Products />
+        ) : (
+            <div style={{ flex: 1, display: "flex", flexDirection: "row", backgroundColor: "#eaeded" }}>
+            {isAdminPage}
             <Sidebar />
-          </div>           
-          <div style={{ width: "1000px"}}>
-            {children}
+            <div style={{ width: "1000px" }}>
+              {children}
+            </div>
           </div>
-          </div>
-          
-        <Footer />
-      </div >
+        )}
+      
+      <Footer />
+    </div>
     );
  }
 

@@ -167,68 +167,63 @@ export default function Navigation({ sessionId }) {
       open={Boolean(anchorEl)}
       onClose={() => setAnchorEl(null)}
     >
-      <MenuItem onClick={handleClose}>
-        <Button
-          onClick={() => {
-            handleClick('Watercolor');
-          }}
-          sx={{
-            color: theme.palette.primary.main,
-            textDecoration: 'none',
-            textTransform: "none",
-            display: "flex",
-            justifyContent: "flex-start",
-            '&:hover': { textDecoration: 'underline' },
-            cursor: 'pointer',
-            background: 'none',
-            border: 'none',
-          }}
-        >
-          Watercolour
-        </Button>
-      </MenuItem>
-      <MenuItem onClick={handleClose}>
 
-        <Button
-          onClick={() => {
+      <MenuItem>
+      <button
+        onClick={() => {
+          handleClick('Watercolor');
+          handleClose();
+        }}
+        sx={{
+          color: theme.palette.info.main,
+          textDecoration: 'none',
+          '&:hover': { textDecoration: 'underline' },
+          cursor: 'pointer',
+          background: 'none',
+          border: 'none',
+        }}
+      >
+        Watercolour
+      </button>
+      </MenuItem>
+
+      <MenuItem>
+      <button
+        onClick={() => {
             handleClick('Acrylic');
-          }}
-          sx={{
-            color: theme.palette.primary.main,
-            textDecoration: 'none',
-            textTransform: "none",
-            display: "flex",
-            justifyContent: "flex-start",
-            '&:hover': { textDecoration: 'underline' },
-            cursor: 'pointer',
-            background: 'none',
-            border: 'none',
-          }}
-        >
-          Acrylic
-        </Button>
+            handleClose();
+        }}
+        sx={{
+          color: theme.palette.info.main,
+          textDecoration: 'none',
+          '&:hover': { textDecoration: 'underline' },
+          cursor: 'pointer',
+          background: 'none',
+          border: 'none',
+        }}
+      >
+        Acrylic
+      </button>
 
       </MenuItem>
 
-      <MenuItem onClick={handleClose}>
-        <Button
-          onClick={() => {
+      <MenuItem>
+      <button
+        onClick={() => {
             handleClick('Oil');
-          }}
-          sx={{
-            color: theme.palette.primary.main,
-            textDecoration: 'none',
-            textTransform: "none",
-            display: "flex",
-            justifyContent: "flex-start",
-            '&:hover': { textDecoration: 'underline' },
-            cursor: 'pointer',
-            background: 'none',
-            border: 'none',
-          }}
-        >
-          Oil
-        </Button>
+            handleClose();
+        }}
+        sx={{
+          color: theme.palette.info.main,
+          textDecoration: 'none',
+          '&:hover': { textDecoration: 'underline' },
+          cursor: 'pointer',
+          background: 'none',
+          border: 'none',
+        }}
+      >
+        Oil
+      </button>
       </MenuItem>
 
     </Menu>
@@ -252,6 +247,7 @@ export default function Navigation({ sessionId }) {
       open={Boolean(anchorEl2)}
       onClose={() => setAnchorEl2(null)}
     >
+    
       <MenuItem>
         {userId &&
           <Typography>
@@ -296,7 +292,7 @@ export default function Navigation({ sessionId }) {
           <Typography
             sx={{ color: theme.palette.primary.dark }}
           >
-            Orders 
+            Your Orders
           </Typography>
         </NextLink>
       </MenuItem>
@@ -327,7 +323,7 @@ export default function Navigation({ sessionId }) {
       <Box
         position="sticky"
         top={0}
-        sx={{ width: '100%', zIndex: "1000" }}
+        sx={{ width: '100%' }}
       >
         <Stack>
           <AppBar
@@ -387,19 +383,17 @@ export default function Navigation({ sessionId }) {
                   }}
                   arrow
                 >
-                  <>
-                    <NextLink
-                      href={{
-                        pathname: "/wishlist",
-                      }}
-                      passHref
-                      overlay="true"
-                      underline="none"
-                      sx={{ color: theme.palette.info.main }}
-                    >
-                      <FavoriteBorderIcon sx={{ fontSize: "2em", marginRight: "1em" }} />
-                    </NextLink>
-                  </>
+                  <NextLink
+                    href={{
+                      pathname: "/wishlist",
+                    }}
+                    passHref
+                    overlay="true"
+                    underline="none"
+                    sx={{ color: theme.palette.info.main }}
+                  >
+                    <FavoriteBorderIcon sx={{ fontSize: "2em", marginRight: "1em" }} />
+                  </NextLink>
                 </Tooltip>
               ) : (
                 <div onClick={() => showLoginToast(textToastFav)}>
@@ -422,19 +416,17 @@ export default function Navigation({ sessionId }) {
                   }}
                   arrow
                 >
-                  <>
-                    <NextLink
-                      href={{
-                        pathname: "/cart",
-                      }}
-                      passHref
-                      overlay="true"
-                      underline="none"
-                      sx={{ color: theme.palette.info.main }}
-                    >
-                      <ShoppingCartCheckoutIcon sx={{ fontSize: "2em", marginLeft: "0.5em", marginRight: "0.5em" }} />
-                    </NextLink>
-                  </>
+                  <NextLink
+                    href={{
+                      pathname: "/cart",
+                    }}
+                    passHref
+                    overlay="true"
+                    underline="none"
+                    sx={{ color: theme.palette.info.main }}
+                  >
+                    <ShoppingCartCheckoutIcon sx={{ fontSize: "2em", marginLeft: "0.5em", marginRight: "0.5em" }} />
+                  </NextLink>
                 </Tooltip>
               ) : (
                 <Tooltip
@@ -451,11 +443,9 @@ export default function Navigation({ sessionId }) {
                   }}
                   arrow
                 >
-                  <>
-                    <div onClick={() => showLoginToast(textToastCart)}>
-                      <ShoppingCartCheckoutIcon sx={{ margin: "0.5em", fontSize: "2em" }} />
-                    </div>
-                  </>
+                  <div onClick={() => showLoginToast(textToastCart)}>
+                    <ShoppingCartCheckoutIcon sx={{ margin: "0.5em", fontSize: "2em" }} />
+                  </div>
                 </Tooltip>
               )}
               {/* Check if userId is available, otherwise show the login toast */}
@@ -474,28 +464,25 @@ export default function Navigation({ sessionId }) {
                   }}
                   arrow
                 >
-                  <>
-                    <Button
-                      edge="start"
-                      color="inherit"
-                      aria-label="open drawer"
-                      fontSize="10em"
-                      sx={{ mr: 2, className: montserrat.className, textTransform: "none" }}
-                      onClick={e => setAnchorEl2(e.currentTarget)}
-                      endIcon={<ManageAccountsIcon
-                        sx={{
-                          color: theme.palette.info.main,
-                          textTransform: "none",
-                          fontSize: "2.5em !important",
-                        }}
-                      />}
-                    >
-                    </Button>{renderUserMenu}
-                  </>
+                  <Button
+                    edge="start"
+                    color="inherit"
+                    aria-label="open drawer"
+                    fontSize="10em"
+                    sx={{ mr: 2, className: montserrat.className, textTransform: "none" }}
+                    onClick={e => setAnchorEl2(e.currentTarget)}
+                    endIcon={<ManageAccountsIcon
+                      sx={{
+                        color: theme.palette.info.main,
+                        textTransform: "none",
+                      }}
+                    />}
+                  >
+                  </Button>{renderUserMenu}
                 </Tooltip>
               ) : (
                 <div onClick={() => showLoginToast(textToastProfile)}>
-                  <ManageAccountsIcon sx={{ margin: "0.5em", fontSize: "2em" }} />
+                  <ManageAccountsIcon sx={{ margin: "0.5em", fontSize: "5em" }} />
                 </div>
               )}
             </Toolbar>
@@ -516,7 +503,7 @@ export default function Navigation({ sessionId }) {
                   passHref
                   overlay="true"
                   sx={{ color: theme.palette.info.main }}
-                //        onClick={clearSession}
+          //        onClick={clearSession}
                 >
                   <Typography
                     sx={{
@@ -528,51 +515,35 @@ export default function Navigation({ sessionId }) {
                   </Typography>
                 </NextLink>
 
-                <Button
+                <button
                   onClick={() => {
                     handleClick('Photography');
                   }}
                   sx={{
                     color: theme.palette.info.main,
-                    textTransform: "none",
                     textDecoration: 'none',
                     '&:hover': { textDecoration: 'underline' },
                     cursor: 'pointer',
                     background: 'none',
                     border: 'none',
                   }}>
-                  <Typography
-                    sx={{
-                      color: theme.palette.info.main,
-                      textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
-                    }}
-                  >
-                    Photography
-                  </Typography>
-                </Button>
+                  Photography
+                </button>
 
-                <Button
+                <button
                   onClick={() => {
                     handleClick('Sculptures');
                   }}
                   sx={{
                     color: theme.palette.info.main,
-                    textTransform: "none",
                     textDecoration: 'none',
                     '&:hover': { textDecoration: 'underline' },
                     cursor: 'pointer',
                     background: 'none',
                     border: 'none',
                   }}>
-                  <Typography
-                    sx={{
-                      color: theme.palette.info.main,
-                      textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
-                    }}
-                  >
-                    Sculptures
-                  </Typography>
-                </Button>
+                  Sculptures
+                </button>
 
                 <Button
                   size="large"
@@ -600,18 +571,18 @@ export default function Navigation({ sessionId }) {
                   overlay="true"
                   underline="none"
                   sx={{ color: theme.palette.info.main }}
-                //      onClick={clearSession}
+            //      onClick={clearSession}
                 >
-                  <Typography
-                    sx={{
-                      color: theme.palette.info.main,
-                      textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
-                      marginLeft: "-1em"
+                    <Typography
+                      sx={{ 
+                        color: theme.palette.info.main, 
+                        textDecoration: 'none', '&:hover': { textDecoration: 'underline' }, 
+                        marginLeft: "-1em"
                     }}
-                  >
-                    Sale
-                  </Typography>
-                </NextLink>
+                    >
+                      Sale
+                    </Typography>
+                  </NextLink>
                 <NextLink
                   href={{
                     pathname: "/about",
@@ -620,7 +591,7 @@ export default function Navigation({ sessionId }) {
                   overlay="true"
                   underline="none"
                   sx={{ color: theme.palette.info.main }}
-                //        onClick={clearSession}
+          //        onClick={clearSession}
                 >
                   <Typography
                     sx={{
