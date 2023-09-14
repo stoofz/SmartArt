@@ -238,7 +238,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
                           backgroundColor: '#ea8b85',
                           color: 'white',
                           transition: 'background-color 0.3s',
-                          fontSize: "20px", 
+                          fontSize: "15px", 
                         }}
                         onClick={() => deleteFromCart(item.productId)}
                       >
@@ -252,7 +252,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
                           backgroundColor: '#324e4b',
                           color: 'white',
                           transition: 'background-color 0.3s',
-                          fontSize:"20px", 
+                          fontSize:"15px", 
                           
                         }}
                         onClick={() => updateCartItemQuantity(item.productId, item.qty + 1)}

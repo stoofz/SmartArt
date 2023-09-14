@@ -103,71 +103,66 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
           </Link>
         </Container>
       ) : (
-        <div style={{ width: '80%' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div style={{ paddingRight: "150px", paddingLeft: "150px" }}>
             <Typography variant="h4" gutterBottom>
-                <FavoriteIcon style={{ fontSize: '3rem', color:"#5a716e", paddingRight:"10px" }} />
+              <FavoriteIcon style={{ fontSize: '3rem', color: '#5a716e', paddingRight: '10px' }} />
               Your Wishlist
-               
             </Typography>
-            {/* <Link href={`/`}>
-              <Button size="small"
-                variant="contained"
-                style={{
-                  backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
-                  '&:hover': {
-                    backgroundColor: 'blue',
-                  },
-                }}
-              >
-                Go to the main page
-              </Button>
-            </Link> */}
-          </div>
 
-          {wishlistData.map((item, index) => (
-          
-            <div key={index} className={`${true ? "flex" : ""} items-center border-b pb-5 pt-5`}
-                style={{ borderColor: 'lightblue', transition: 'background-color 0.3s', }}>
-              <Link href={`/products/${item.product.id}`}>
-              <img
-                className="w-[109px] h-[134px]"
-                src={`/uploads/${item.product.image}`}
-                alt={item.product.name}
-              />
-              </Link>
-              <div className="cart-item-details flex-grow" style={{ marginLeft: '20px' }}>
-                <Link href={`/products/${item.product.id}`}>
-                <Typography variant="h6" className="flex-grow-0 flex-shrink-0">
-                  {item.product.name}
-                </Typography>
-                </Link>
-                <div className="flex justify-between w-1/2 pt-5">
-                  <Typography variant="body2">Price: ${(item.product.price / 100).toFixed(2)}</Typography>
-                  {/* Add any other details you want to display */}
-
-                </div>
-              </div>
-                
-              <Button
-                onClick={() => handleDeleteFromWishlist(userId, item.product.id)}
-                size="small"
-                variant="contained"
+            {wishlistData.map((item, index) => (
+              <div
+                key={index}
+                className="cart-item"
                 style={{
-                  backgroundColor: 'lightpink',
-                  color: 'white',
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginBottom: '20px',
+                  boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
                   transition: 'background-color 0.3s',
-                  '&:hover': {
-                    backgroundColor: 'darkgray',
-                  },
                 }}
+                onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#EEEEEE')}
+                onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
               >
-                Delete
-              </Button>
-            </div>
-          
-          ))}
-        </div>
+                <Link href={`/products/${item.product.id}`}>
+                  <img className="w-[109px] h-[134px]" src={`/uploads/${item.product.image}`} alt={item.product.name} />
+                </Link>
+                <div className="cart-item-details" style={{ marginLeft: '20px', flex: '1' }}>
+                  <Link href={`/products/${item.product.id}`}>
+                    <Typography variant="h6">{item.product.name}</Typography>
+                  </Link>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      width: '50%',
+                      paddingTop: '10px',
+                    }}
+                  >
+                    <Typography variant="body2">Price: ${(item.product.price / 100).toFixed(2)}</Typography>
+                    {/* Add any other details you want to display */}
+                  </div>
+                </div>
+
+                <Button
+                  onClick={() => handleDeleteFromWishlist(userId, item.product.id)}
+                  size="small"
+                  variant="contained"
+                  style={{
+                    backgroundColor: '#465f5d',
+                    marginRight:'50px',
+                    color: 'white',
+                    transition: 'background-color 0.3s',
+                    '&:hover': {
+                      backgroundColor: 'darkgray',
+                    },
+                  }}
+                >
+                  Delete
+                </Button>
+              </div>
+            ))}
+          </div>
       )}
     </Container>
   );
