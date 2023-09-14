@@ -36,11 +36,11 @@ const Layout = ({ children }) => {
           ) : null}
           <div style={{
             borderRadius: '16px',
-            width: '76%',
+            width: '80%',
             backgroundColor: 'white',
-            marginTop: '38px',
-            marginLeft: '40px',
-            marginBottom: '40px'
+            marginTop: '15px',
+            // marginLeft: '15px',
+            marginBottom: '15px'
           }}>
             {children}
           </div>

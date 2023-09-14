@@ -65,14 +65,14 @@ const userProfilePage = () => {
         flexDirection: 'column',
         justifyContent: 'space-between',
       }}>
-        <Box textAlign='center'>
+        <Box textAlign='center' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           {isLoading ? (
             <p>Loading...</p>
           ) : customer ? (
             <>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
-                  <Typography variant="h5" style={{ fontSize: '1.5rem', marginTop: '2rem', textAlign: 'left' }}>
+                <Grid container spacing={2} style={{ width: '100%', justifyContent: 'space-between', paddingLeft: '40px' }}>
+                <Grid item xs={12} sm={4} style={{ textAlign: 'left', padding: '32px' }}>
+                  <Typography variant="h5" style={{ fontSize: '2rem', marginTop: '2rem', marginBottom: '2.5rem' }}>
                     General Info
                   </Typography>
                   <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Email: {customer.email}</Typography>
@@ -80,27 +80,27 @@ const userProfilePage = () => {
                   <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Location: New York, NY, USA</Typography>
                   <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Member Since: January 1, 2022</Typography>
                 </Grid>
-                <Grid item xs={12} sm={4} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <Typography variant="h5" style={{ fontSize: '1.5rem', marginTop: '2rem' }}>
+                <Grid item xs={12} sm={4} style={{ textAlign: 'left', padding: '32px' }}>
+                  <Typography variant="h5" style={{ fontSize: '2rem', marginTop: '2rem', marginBottom: '2.5rem' }}>
                     Shipping Address
                   </Typography>
-                  <Typography variant="body1" style={{ fontSize: '1.2rem' }}>Street: 534 Main St</Typography>
-                  <Typography variant="body1" style={{ fontSize: '1.2rem' }}>City: Vancouver</Typography>
-                  <Typography variant="body1" style={{ fontSize: '1.2rem' }}>Province: BC</Typography>
-                  <Typography variant="body1" style={{ fontSize: '1.2rem' }}>Country: Canada</Typography>
-                  <Typography variant="body1" style={{ fontSize: '1.2rem' }}>Postal: V8D 6K3</Typography>
-                  <Typography variant="body1" style={{ fontSize: '1.2rem' }}>Phone: (680) 456-7890</Typography>
+                  <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Street: 8714 Main St</Typography>
+                  <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>City: Vancouver</Typography>
+                  <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Province: BC</Typography>
+                  <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Country: Canada</Typography>
+                  <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Postal: V8D 6K3</Typography>
+                  <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Phone: (680) 666-7230</Typography>
                 </Grid>
-                <Grid item xs={12} sm={4} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <Typography variant="h5" style={{ fontSize: '1.5rem', marginTop: '2rem' }}>
+                <Grid item xs={12} sm={4} style={{ textAlign: 'left', padding: '32px' }}>
+                  <Typography variant="h5" style={{ fontSize: '2rem', marginTop: '2rem', marginBottom: '2.5rem' }}>
                     Billing Address
                   </Typography>
-                  <Typography variant="body1" style={{ fontSize: '1.2rem' }}>Street: 123 Billing St</Typography>
-                  <Typography variant="body1" style={{ fontSize: '1.2rem' }}>City: Billing City</Typography>
-                  <Typography variant="body1" style={{ fontSize: '1.2rem' }}>Province: Billing Province</Typography>
-                  <Typography variant="body1" style={{ fontSize: '1.2rem' }}>Country: Billing Country</Typography>
-                  <Typography variant="body1" style={{ fontSize: '1.2rem' }}>Postal: 12345</Typography>
-                  <Typography variant="body1" style={{ fontSize: '1.2rem' }}>Phone: (123) 456-7890</Typography>
+                    <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Street: 839 Pender St</Typography>
+                    <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>City: Vancouver</Typography>
+                    <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Province: BC</Typography>
+                    <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Country: Canada</Typography>
+                    <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Postal: V6D 3K6</Typography>
+                    <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Phone: (680) 951-7490</Typography>
                 </Grid>
               </Grid>
             </>
@@ -112,8 +112,8 @@ const userProfilePage = () => {
         <Button
           variant="contained"
           style={{
-            backgroundColor: '#c1c9c9',
-            color: 'black',
+            backgroundColor: '#849493',
+            color: 'white',
             fontSize: '1.2rem',
             marginTop: '1rem',
             alignSelf: 'center',

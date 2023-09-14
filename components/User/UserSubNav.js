@@ -122,8 +122,8 @@ const Subnav = () => {
             <Button
               variant="contained"
               style={{
-                backgroundColor: '#304659', // Background color
-                color: '#F5C9C6', // Text color
+                backgroundColor: '#937876', // Background color
+                color: 'white', // Text color
                 transition: 'background-color 0.3s',
                 marginTop: '1rem',
                 '&:hover': {
