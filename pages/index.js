@@ -41,6 +41,10 @@ export default function Index() {
     <>
       <Navigation  />
       <main>
+      <StyledEngineProvider injectFirst>
+            <MyCarousel />
+          </StyledEngineProvider>
+
         <Products />
       </main>
       <Footer />
