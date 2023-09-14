@@ -3,6 +3,19 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Link from 'next/link';
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Toolbar from "@mui/material/Toolbar";
+import AppBar from "@mui/material/AppBar";
+import Stack from '@mui/material/Stack';
+import { Montserrat } from 'next/font/google';
+import NextLink from 'next/link';
+
+const montserrat = Montserrat({
+  weight: '600',
+  subsets: ['latin']
+});
 
 export default function Footer() {
 
@@ -28,31 +41,30 @@ export default function Footer() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div style={{ backgroundColor: theme.palette.primary.main, color: theme.palette.info.main, marginTop:"auto" }}>
-        <footer style={{ position: "static" }}>
-          <div className="flex justify-around p-3">
-            <div className="p-3">
-              <h1 className="font-bold">Online Store</h1>
-              <h3>We sell you items.</h3>
-              <div className="flex justify-around">
-                <div>
-                  <Link href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                    <FacebookIcon className="footer-icon" fontSize="large" />
-                  </Link>
-                </div>
-                <div>
-                  <Link href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-                    <InstagramIcon className="footer-icon " fontSize="large" />
-                  </Link>
-                </div>
-                <div>
-                  <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                    <TwitterIcon className="footer-icon" fontSize="large" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="flex space-between">
+      <Box
+        position="sticky"
+        top={0}
+        sx={{ width: '100%', zIndex: "1000" }}
+      >
+        <Stack direction="row">
+          <AppBar
+            position="static"
+            className={montserrat.className}
+            sx={{ padding: "0 1.5em" }}
+          >
+            <Toolbar
+              sx={{ display: "flex", justifyContent: "flex-start", paddingTop: "5em", marginBottom: "-3em" }}
+            >
+              <NextLink href={{
+                pathname: "/",
+              }}>
+                <img
+                  src='../uploads/smartartlogo.png'
+                  style={{ height: "4em" }}
+                />
+              </NextLink>
+            </Toolbar>
+            <Toolbar sx={{ display: "flex", justifyContent: "center", paddingBottom: "2em", marginTop: "-3em" }}>
               <div className="p-3">
                 <h3 className="font-bold">Information</h3>
                 <ul>
@@ -67,7 +79,7 @@ export default function Footer() {
                   <li>Community</li>
                   <li>Career</li>
                   <Link href="/admin" target="_blank" rel="noopener noreferrer">
-                  <li>Admin</li>
+                    <li>Admin</li>
                   </Link>
                 </ul>
               </div>
@@ -81,13 +93,24 @@ export default function Footer() {
                   <li>Resources</li>
                 </ul>
               </div>
-            </div>
-          </div>
-          <div className="flex justify-center p-3">
-            <h3>2023 all rights reserved Online Store</h3>
-          </div>
-        </footer>
-      </div>
+            </Toolbar>
+            <Typography sx={{ display: "flex", justifyContent: "center", paddingBottom: "1em", paddingRight: "2em" }}>
+              2023 All Rights Reserved SmartArt
+            </Typography>
+            <Toolbar sx={{ display: "flex", justifyContent: "flex-end", marginRight: "5em", paddingBottom: "5em", marginTop: "-8em" }}>
+              <Link href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+                <FacebookIcon className="footer-icon" fontSize="large" sx={{ margin: "0.5em" }} />
+              </Link>
+              <Link href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                <InstagramIcon className="footer-icon " fontSize="large" sx={{ margin: "0.5em" }} />
+              </Link>
+              <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                <TwitterIcon className="footer-icon" fontSize="large" sx={{ margin: "0.5em" }} />
+              </Link>
+            </Toolbar>
+          </AppBar>
+        </Stack>
+      </Box>
     </ThemeProvider>
   );
 }
