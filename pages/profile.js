@@ -5,11 +5,17 @@ import Layout from '../components/Layout';
 import { useSessionId } from '/utils/session';
 
 // import { useSearchState } from 'utils/search';
-import Container from '@mui/material/Container';
-import { Typography, Card, Paper } from '@mui/material';
-import Button from '@mui/material/Button';
-import Link from 'next/link';
 
+
+import Link from 'next/link';
+import {
+  Container,
+  Typography,
+  Button,
+  Paper,
+  Grid,
+  Box,
+} from '@mui/material';
 
 
 
@@ -40,68 +46,81 @@ const userProfilePage = () => {
   }, [userId]);
 
   // Function to handle editing of customer data
-  const handleEdit = () => {
-    // Implement your logic for editing customer data here
-  };
+  // const handleEdit = () => {
+  //   // Implement your logic for editing customer data here
+  // };
   
   return (
     <Layout>
-      
-      <Container maxWidth="sm" style={{ color: "#F5C9C6", minHeight: "700px", }}>
-        <Card elevation={3} component={Paper} style={{ padding: '1rem' }}>
-          <div style={{ textAlign: 'center' }}>
-            {isLoading ? (
-              <p>Loading...</p>
-            ) : customer ? (
-              <>
-                <Typography variant="h4" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
-                  Hello, {customer.firstName} {customer.lastName}
-                </Typography>
+      <Paper elevation={10} style={{
+        padding: '1rem',
+        borderRadius: '16px',
+        height: '90%',
+        backgroundColor: 'white',
+        marginTop: '20px',
+        marginLeft: '20px',
+        marginRight: '20px',
+        marginBottom: '20px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}>
+        <Box textAlign='center'>
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : customer ? (
+            <>
+              <Typography variant="h4" style={{ fontSize: '2rem',paddingBottom:'50px', fontWeight: 'bold', marginBottom: '1rem', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)' }}>
+                Hello, {customer.firstName} {customer.lastName}
+              </Typography>
 
-                <div style={{ marginTop: '2rem', textAlign: 'left' }}>
-                  <Typography variant="body1">Email: {customer.email}</Typography>
-                  <Typography variant="body1">Phone: (123) 456-7890</Typography>
-                  <Typography variant="body1">
-                    Location: New York, NY, USA
-                  </Typography>
-                  <Typography variant="body1">Member Since: January 1, 2022</Typography>
-                </div>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Typography variant="body1" style={{ fontSize: '1.2rem', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)' }}>Email: {customer.email}</Typography>
+                  <Typography variant="body1" style={{ fontSize: '1.2rem', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)' }}>Phone: (123) 456-7890</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body1" style={{ fontSize: '1.2rem', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)' }}>Location: New York, NY, USA</Typography>
+                  <Typography variant="body1" style={{ fontSize: '1.2rem', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)' }}>Member Since: January 1, 2022</Typography>
+                </Grid>
+              </Grid>
+            </>
+          ) : (
+            <p>Please log in to view your profile.</p>
+          )}
 
-                
-              </>
-            ) : (
-              <p>Please log in to view your profile.</p>
-            )}
+          <Typography variant="h5" style={{ fontSize: '1.5rem', marginTop: '2rem' }}>
+            Address
+          </Typography>
 
-            {/* Hardcoded Address Card */}
-            <Typography variant="h5" style={{ marginTop: '2rem' }}>
-              Address
-            </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Typography variant="body1" style={{ fontSize: '1.2rem', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)' }}>Street: 534 Main St</Typography>
+              <Typography variant="body1" style={{ fontSize: '1.2rem', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)' }}>City: Vancouver</Typography>
+              <Typography variant="body1" style={{ fontSize: '1.2rem', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)' }}>Province: BC</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1" style={{ fontSize: '1.2rem', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)' }}>Country: Canada</Typography>
+              <Typography variant="body1" style={{ fontSize: '1.2rem', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)' }}>Postal: V8D 6K3</Typography>
+              <Typography variant="body1" style={{ fontSize: '1.2rem', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)' }}>Phone: (680) 456-7890</Typography>
+            </Grid>
+          </Grid>
+        </Box>
 
-            <div style={{ textAlign: 'left' }}>
-              <Typography variant="body1">Street: 123 Main St</Typography>
-              <Typography variant="body1">City: New York</Typography>
-              <Typography variant="body1">Province: NY</Typography>
-              <Typography variant="body1">Country: USA</Typography>
-              <Typography variant="body1">Postal: 12345</Typography>
-              <Typography variant="body1">Phone: (123) 456-7890</Typography>
-            </div>
-
-            <Button
-              variant="contained"
-              style={{
-                backgroundColor: '#304659', // Background color
-                color: '#F5C9C6', // Text color
-                transition: 'background-color 0.3s',
-                marginTop: '1rem',
-              }}
-              onClick={handleEdit}
-            >
-              Edit Profile
-            </Button>
-          </div>
-        </Card>
-      </Container>
+        <Button
+          variant="contained"
+          style={{
+            backgroundColor: '#c1c9c9',
+            color: 'black',
+            fontSize: '1.2rem',
+            marginTop: '1rem',
+            alignSelf: 'center',
+            width: '30%',
+          }}
+        >
+          Edit Profile
+        </Button>
+      </Paper>
     </Layout>
   );
 };

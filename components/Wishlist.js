@@ -5,6 +5,8 @@ import { deleteFromWishlist } from 'utils/wishlist';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { Typography, Container, Button, Paper } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+
 import Link from 'next/link';
 
 
@@ -52,11 +54,12 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
   };
 
   const paperStyles = {
-    padding: '20px',
+    padding: '60px',
     textAlign: 'center',
     maxWidth: '400px', // Adjust the width as needed
     margin: '0 auto',
-    marginBottom: '30px'
+    marginBottom: '30px', 
+    marginTop: '60px'
   };
 
   if (loading) {
@@ -79,17 +82,20 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
           <Paper elevation={3} style={paperStyles}>
 
             <Typography variant="h4">
+              <FavoriteIcon style={{ fontSize: '3rem', color: "#5a716e", paddingRight: "10px" }} />
               Your wishlist is empty.
             </Typography>
           </Paper>
           <Link href={`/`}>
-            <Button size="small"
+            <Button
               variant="contained"
               style={{
-                backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
-                '&:hover': {
-                  backgroundColor: 'blue',
-                },
+                backgroundColor: '#c1c9c9',
+                color: 'black',
+                fontSize: '1.2rem',
+                marginTop: '1rem',
+                alignSelf: 'center',
+                // width: '30%',
               }}
             >
               Go to the main page
@@ -100,7 +106,9 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
         <div style={{ width: '80%' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="h4" gutterBottom>
+                <FavoriteIcon style={{ fontSize: '3rem', color:"#5a716e", paddingRight:"10px" }} />
               Your Wishlist
+               
             </Typography>
             {/* <Link href={`/`}>
               <Button size="small"

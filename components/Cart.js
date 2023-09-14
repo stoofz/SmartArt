@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { useSessionId } from 'utils/session';
 import checkout from '../pages/api/checkout';
 
-import { Button } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import { Typography, Container } from '@mui/material';
-
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 
 
@@ -140,23 +140,76 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
   };
 
 
+  const containerStyles = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: '20px', // Adjust the margin as needed
+  };
+
+  const paperStyles = {
+    padding: '60px',
+    textAlign: 'center',
+    maxWidth: '400px', // Adjust the width as needed
+    margin: '0 auto',
+    marginBottom: '30px',
+    marginTop: '60px'
+  };
+
   //to display on top of cart
   // const getTotalItems = (items) =>
   //   items.reduce((acc, item) => acc + item.amount, 0);
 
   return (
     <>
-     
-
-
       <Container className="px-32 flex flex-col pt-4">
-        <Typography variant="h4" gutterBottom>
-          Your Shopping Cart
-        </Typography>
+        {/* <Typography variant="h4" gutterBottom>
+          <AddShoppingCartIcon style={{ fontSize: '3rem', color: "#5a716e", paddingRight: "10px" }} /> Your Shopping Cart
+        </Typography> */}
         {productDetails.length === 0 ? (
-          <Typography variant="body1">Your cart is empty.</Typography>
+          <Container style={containerStyles}>
+            <Paper elevation={3} style={paperStyles}>
+
+              <Typography variant="h4">
+                <AddShoppingCartIcon style={{ fontSize: '3rem', color: "#5a716e", paddingRight: "10px" }} /> 
+                Your cart is empty.
+              </Typography>
+            </Paper>
+            <Link href={`/`}>
+              {/* <Button size="small"
+                variant="contained"
+                style={{
+                  backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
+                  '&:hover': {
+                    backgroundColor: 'blue',
+                  },
+                }}
+              >
+                Go to the main page
+              </Button> */}
+
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: '#c1c9c9',
+                  color: 'black',
+                  fontSize: '1.2rem',
+                  marginTop: '1rem',
+                  alignSelf: 'center',
+                  // width: '30%',
+                }}
+              >
+                Go to the main page
+              </Button>
+
+
+            </Link>
+          </Container>
         ) : (
           <div style={{ width: '80%' }}>
+              <Typography variant="h4" gutterBottom>
+                <AddShoppingCartIcon style={{ fontSize: '3rem', color: "#5a716e", paddingRight: "10px" }} /> Your Shopping Cart
+              </Typography>
             {productDetails.map((item, index) => (
               // <div className="cart-item" key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
 
@@ -217,13 +270,33 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
                     </Button>
                   </div>
                 </div>
+                
               </div>
+              
             ))}
+              <div className="cart-total">
+                <Typography variant="h6">Total: ${(total / 100).toFixed(2)}</Typography>
+              </div>
+
+              <div className="inline-block pb-20 flex justify-between">
+                <Button size="small"
+                  variant="contained"
+                  style={{
+                    backgroundColor: 'lightblue',
+                    color: 'white',
+                    transition: 'background-color 0.3s',
+                    '&:hover': {
+                      backgroundColor: 'blue',
+                    },
+                  }}
+                  type="submit" onClick={handleCheckout}>Checkout
+                </Button>
+              </div>
           </div>
         )}
 
 
-        <div className="cart-total">
+        {/* <div className="cart-total">
           <Typography variant="h6">Total: ${(total / 100).toFixed(2)}</Typography>
         </div>
 
@@ -240,20 +313,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
             }}
             type="submit" onClick={handleCheckout}>Checkout
           </Button>
-          {/* <Link href={`/products/`}>
-            <Button size="small"
-              variant="contained"
-              style={{
-                backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
-                '&:hover': {
-                  backgroundColor: 'blue',
-                },
-              }}
-            >
-              Continue shopping
-            </Button>
-          </Link> */}
-        </div>
+        </div> */}
 
       </Container>
       
