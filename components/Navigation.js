@@ -318,7 +318,7 @@ export default function Navigation({ sessionId }) {
       <Box
         position="sticky"
         top={0}
-        sx={{ width: '100%' }}
+        sx={{ width: '100%', zIndex: "1000" }}
       >
         <Stack>
           <AppBar
@@ -470,6 +470,7 @@ export default function Navigation({ sessionId }) {
                       sx={{
                         color: theme.palette.info.main,
                         textTransform: "none",
+                        fontSize: "2.5em !important",
                       }}
                     />}
                   >
