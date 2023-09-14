@@ -24,7 +24,7 @@ const Layout = ({ children }) => {
 
     return (
       <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-        <div>
+        <div  >
           <Navigation sessionId={setSession(user)} />
         </div>
         {/* Render subnav only on the user profile page */}

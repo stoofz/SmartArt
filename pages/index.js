@@ -6,6 +6,12 @@ import Footer from '../components/Footer';
 import Products from '../components/Products';
 import Navigation from '../components/Navigation';
 
+import MyCarousel from '@/components/MyCarousel';
+import { StyledEngineProvider } from '@mui/material/styles';
+
+
+
+
 export default function Index() {
   const { user, error, isLoading } = useUser();
 
@@ -20,6 +26,10 @@ export default function Index() {
       <>
         <Navigation sessionId={ setSession(user) }/>
         <main>
+          <StyledEngineProvider injectFirst>
+            <MyCarousel />
+          </StyledEngineProvider>
+       
           <Products />
         </main>
         <Footer />

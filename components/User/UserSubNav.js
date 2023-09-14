@@ -5,8 +5,16 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 const Subnav = () => {
   const { user, error, isLoading } = useUser();
   return (
-    <nav style={{ padding: '20px', display: 'flex', flexDirection: 'column' }}>
+    <nav style={{ 
+      position: "sticky",
+      top: "7rem",
+      zIndex: 1000,
      
+      padding: '20px', 
+      display: 'flex', 
+      flexDirection: 'column' 
+      }}>
+    
       <List style={{ marginBottom: '1rem' }}>
         <Typography variant="h4" 
         style={{ 
