@@ -224,7 +224,7 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
                       <Typography variant="body2">
                         {item.price !== item.originalPrice ? (
                           <span>
-                            <span style={{ textDecoration: 'line-through', color: 'red' }}> ${(item.originalPrice / 100).toFixed(2)} </span> {' '} ${(item.price / 100).toFixed(2)}
+                            <span style={{ textDecoration: 'line-through', color: '#7D0012', paddingRight:"10px" }}> ${(item.originalPrice / 100).toFixed(2)} </span> {' '} ${(item.price / 100).toFixed(2)}
                           </span>
                         ) : (`$${(item.price / 100).toFixed(2)}`)}
                       </Typography>

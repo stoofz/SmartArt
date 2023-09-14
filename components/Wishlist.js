@@ -104,7 +104,7 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
         </Container>
       ) : (
           <div style={{ paddingRight: "150px", paddingLeft: "150px" }}>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" gutterBottom style={{ paddingTop: "30px", paddingBottom: "30px" }}>
               <FavoriteIcon style={{ fontSize: '3rem', color: '#5a716e', paddingRight: '10px' }} />
               Your Wishlist
             </Typography>
