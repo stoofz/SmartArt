@@ -173,125 +173,167 @@ const WatercolorPaintings = () => {
 
   const watercolorList = () => (pageWatercolorPs.map((product) =>
 
-    <Grid item="true" xs={12} sm={6} md={4}
-      sx={{ maxWidth: '100%', margin: 'auto', color: theme.palette.primary.main }}
+  <Grid item="true" xs={12} sm={6} md={4}
+  sx={{ maxWidth: '100%', margin: 'auto', color: theme.palette.primary.main }}
+  key={product.id}
+  className={montserrat.className}
+>
+  <ContainerStyled>
+    <Card sx={{ boxShadow: 1 }}
       key={product.id}
-      className={montserrat.className}
+      variant='outlined'
     >
-      <ContainerStyled>
-        <Card sx={{ minWidth: 200, boxShadow: 1 }}
-          key={product.id}
-          variant='outlined'
-        >
-          <CardMedia
-            component="img"
-            image={`./uploads/${product.image}`}
-            alt="work portfolio"
-            sx={{ display: 'block' }}
-          />
-          <CardContent>
+      <CardMedia
+        component="img"
+        image={`./uploads/${product.image}`}
+        alt="work portfolio"
+        sx={{ display: 'block', marginBottom: "-1em", objectFit: "contain", width: 300, height: 300 }}
+      />
+      <CardContent>
 
-            <Grid item="true" p={1} m={0}>
-              <Grid container style={{ height: '100%' }} justifyContent="center">
-                <CardActions>
-                  <DivStyled>
-                    {/* funny behaviour, can't unclick, and then can't click anything on page */}
-                    <HeartIconStyled
-                      variant="text"
-                      className="icon-button"
-                      onClick={() => handleHeartClick(product.id)}
+        <Grid item="true" p={1} m={0}>
+          <Grid container style={{ height: '100%' }} justifyContent="center">
+            <CardActions>
+              <DivStyled>
+                {/* Always display the favorite icon */}
+                <div>
+                  <HeartIconStyled
+                    sx={{
+                      width: 'fit-content',
+                      visibility: 'hidden',
+                      color: '#324E4B' // Set the color here
+                    }}
+                    variant="text"
+                    type="button"
+                    className="icon-button"
+                    onClick={() => handleAddToWishlist(userId, product, textToastFav)}
+                  >
+                    {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                  </HeartIconStyled>
+
+                  {/* Render the ToastContainer */}
+                  <ToastContainer position="top-right" autoClose={2000} />
+                </div>
+
+
+
+
+                <CartIconStyled
+                  variant="text"
+                  className="icon-button"
+                  onClick={() => handleAddToCartToast(product.id, userId, textToastCart)}
+                >
+                  <AddShoppingCartIcon />
+                </CartIconStyled>
+                <ExpandIconStyled
+                  variant="text"
+                  className="icon-button"
+                  onClick={() => handleClickOpen(product.id)}
+                >
+                  <OpenInFullIcon />
+                </ExpandIconStyled>
+                <Dialog
+                  className={montserrat.className}
+                  open={openId === product.id}
+                  onClose={handleClose}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                  align="center"
+                  PaperProps={{
+                    sx: {
+                      maxWidth: "md",
+                      minHeight: 200
+                    }
+                  }}
+                >
+                  <Button
+                    variant="text"
+                    onClick={handleClose}
+                    id={product.id}
+                  >
+                    <CloseIcon />
+                  </Button>
+                  <DialogTitle id="alert-dialog-title" sx={{ textAlign: "center" }}>
+                    <NextLink
+                      sx={{ color: theme.palette.primary.main }}
+                      href={{
+                        pathname: "/products/[productId]",
+                        query: { productId: product.id },
+                      }}
+                      passHref
+                      overlay="true"
+                      underline="none"
                     >
-                      {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                    </HeartIconStyled>
-                    <CartIconStyled
+                      <Typography gutterBottom variant="h7" align="center" sx={{ color: theme.palette.primary.dark }}>
+                        {product.name}
+                      </Typography>
+                    </NextLink>
+                  </DialogTitle>
+                  <Typography variant="h7" sx={{ color: theme.palette.secondary.dark }}>
+                    {product.dimensions}
+                  </Typography>
+
+                  <Typography variant="h7" sx={{ color: theme.palette.primary.dark, padding: "0.5em" }}>
+                    {product.discount && product.discount.length > 0 &&
+                      new Date(product.discount[0].startDate) <= now &&
+                      new Date(product.discount[0].endDate) >= now ? (
+                      <span>
+                        <span style={{ textDecoration: 'line-through', color: theme.palette.warning.dark }}>
+                          ${formatPrice(product.price)}
+                        </span>
+                        {' '}
+                        ${formatPrice(product.price - (product.price * (product.discount[0].discount / 100)))}
+                      </span>
+                    ) : (
+                      `$${formatPrice(product.price)}`
+                    )}
+                  </Typography>
+                  <div style={{ display: "flex", padding: "1.5em" }}>
+                    <CardMedia
+                      component="img"
+                      image={`./uploads/${product.image}`}
+                      alt="work portfolio"
+                      sx={{ display: 'block', marginBottom: "-1em", objectFit: "contain", width: 300, height: 300, paddingRight: "1em" }}
+                    />
+                    <DialogContentText id="alert-dialog-description" sx={{ display: "flex", height: 300, alignItems: "center" }}>
+                      <Typography variant="h7" sx={{ color: theme.palette.primary.dark }}>
+                        {product.description}
+                      </Typography>
+                    </DialogContentText>
+                  </div>
+                  <DialogActions>
+                    <Button
+                      style={{
+                        width: 'fit-content',
+                        // visibility: 'hidden',
+                        color: '#324E4B' // Set the color here
+                      }}
+                      variant="text"
+                      type="button"
+                      className="icon-button"
+                      onClick={() => handleAddToWishlist(userId, product, textToastFav)}
+                    >
+                      {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                    </Button>
+
+                    {/* Render the ToastContainer */}
+                    <ToastContainer position="top-right" autoClose={2000} />
+
+                    <Button
+                      sx={{ color: theme.palette.primary.main }}
                       variant="text"
                       className="icon-button"
-                      onClick={() => handleAddToCart(product.id, userId)}
+                      onClick={() => handleAddToCartToast(product.id, userId, textToastCart)}
                     >
                       <AddShoppingCartIcon />
-                    </CartIconStyled>
-                    <ExpandIconStyled
-                      variant="text"
-                      className="icon-button"
-                      onClick={() => handleClickOpen(product.id)}
-                    >
-                      <OpenInFullIcon />
-                    </ExpandIconStyled>
-                    <Dialog
-                      className={montserrat.className}
-                      open={openId === product.id}
-                      onClose={handleClose}
-                      aria-labelledby="alert-dialog-title"
-                      aria-describedby="alert-dialog-description"
-                    >
-                      <Button
-                        variant="text"
-                        onClick={handleClose}
-                        id={product.id}
-                      >
-                        <CloseIcon />
-                      </Button>
-                      <DialogTitle id="alert-dialog-title">
-                        <NextLink
-                          sx={{ color: theme.palette.primary.main }}
-                          href={{
-                            pathname: "/products/[productId]",
-                            query: { productId: product.id },
-                          }}
-                          passHref
-                          overlay="true"
-                          underline="none"
-                        >
-                          {product.name}
-                        </NextLink>
-                      </DialogTitle>
-                      <Image src={`./uploads/${product.image}`} />
-                      <DialogContentText id="alert-dialog-description">
-                        <Typography variant="h8" text-align="center">
-                          {product.description}
-                          ${formatPrice(product.price)}
-                        </Typography>
-                      </DialogContentText>
-                      <DialogActions>
-                        <Button
-                          variant="text"
-                          className="icon-button"
-                          sx={{ color: theme.palette.primary.main }}
-                          // works fine in Dialog
-                          onClick={() => handleHeartClick(product.id)}
-                        >
-                          {clicked === product.id ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                        </Button>
-                        <Button
-                          sx={{ color: theme.palette.primary.main }}
-                          variant="text"
-                          className="icon-button"
-                          onClick={() => handleAddToCart(product.id, userId)}
-                        >
-                          <AddShoppingCartIcon />
-                        </Button>
-                      </DialogActions>
-                    </Dialog>
-                  </DivStyled>
-                  {/* // adjust backdrop to be transparent */}
-                </CardActions>
-                <Typography gutterBottom variant="h7" text-align="center">
-                  <NextLink
-                    href={{
-                      pathname: "/products/[productId]",
-                      query: { productId: product.id },
-                    }}
-                    passHref
-                    overlay="true"
-                    underline="none"
-                  >
-                    {product.name}
-                  </NextLink>
-                </Typography>
-              </Grid>
-            </Grid>
+                    </Button>
+                  </DialogActions>
 
-            <Grid item="true">
+                </Dialog>
+              </DivStyled>
+              {/* // adjust backdrop to be transparent */}
+            </CardActions>
+            <Typography gutterBottom variant="h7" align="center" sx={{ color: theme.palette.primary.dark }}>
               <NextLink
                 href={{
                   pathname: "/products/[productId]",
@@ -301,83 +343,120 @@ const WatercolorPaintings = () => {
                 overlay="true"
                 underline="none"
               >
-                <Rating
-                  id={product.id}
-                  name="read-only"
-                  readOnly
-                  precision={0.1}
-                  // how to access nested select value and average it?
-                  value={averageRating(product.feedback)}
-                >
-                </Rating>
+                {product.name}
               </NextLink>
-            </Grid>
-
-            <Grid item="true">
-              <Grid container style={{ height: '100%' }} justifyContent="center">
-                <Typography variant="h8" text-align="center">
-                  ${formatPrice(product.price)}
-                </Typography>
-              </Grid>
-            </Grid>
-
-          </CardContent>
-        </Card >
-      </ContainerStyled>
-    </Grid >
-  ))
-
-  if (loading) {
-    return (
-      <ThemeProvider theme={theme}>
-        <Grid container
-          align="center"
-          justify-content="center"
-          maxWidth="75%"
-          paddingTop="5em"
-          paddingLeft="10em"
-          paddingRight="10em"
-          paddingBottom="1em"
-          margin="auto"
-          spacing={5}
-        >
-          <div>Loading...</div>
-
+            </Typography>
+            <Typography variant="h8" align="center" sx={{ color: theme.palette.secondary.dark }}>
+              {product.dimensions}
+            </Typography>
+          </Grid>
         </Grid>
-      </ThemeProvider>
-    )
-  }
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Grid container
-        align="center"
-        justify-content="center"
-        maxWidth="75%"
-        paddingTop="5em"
-        paddingLeft="10em"
-        paddingRight="10em"
-        paddingBottom="1em"
-        margin="auto"
-        spacing={5}
-      >
+        <Grid item="true">
+          <NextLink
+            href={{
+              pathname: "/products/[productId]",
+              query: { productId: product.id },
+            }}
+            passHref
+            overlay="true"
+            underline="none"
+          >
+            <Typography sx={{ margin: "-1em", overflow: "hidden" }}>
+              <Rating
+                id={product.id}
+                name="read-only"
+                readOnly
+                precision={0.1}
+                // how to access nested select value and average it?
+                value={averageRating(product.feedback)}
+              >
+              </Rating>
+            </Typography>
+          </NextLink>
+        </Grid>
 
-        {totalProducts === 0 ? (<div>No results found </div>) : (watercolorList())}
+        <Grid item="true">
+          <Grid container sx={{ height: '100%' }} justifyContent="center">
+            <Typography
+              variant="h8"
+              align="center"
+              sx={{ margin: "-1em", color: theme.palette.primary.dark }}
+            >
+              {product.discount && product.discount.length > 0 &&
+                new Date(product.discount[0].startDate) <= now &&
+                new Date(product.discount[0].endDate) >= now ? (
+                <span>
+                  <span style={{ textDecoration: 'line-through', color: theme.palette.warning.dark }}>
+                    ${formatPrice(product.price)}
+                  </span>
+                  {' '}
+                  ${formatPrice(product.price - (product.price * (product.discount[0].discount / 100)))}
+                </span>
+              ) : (
+                `$${formatPrice(product.price)}`
+              )}
+            </Typography>
+          </Grid>
+        </Grid>
 
-        <Paginate
-          count={Math.ceil(totalProducts / productsPerPage)}
-          page={currentPage}
-          onChange={(e, value) => {
-            setCurrentPage(value)
-            scrollToTop();
+      </CardContent>
+    </Card >
+  </ContainerStyled>
+</Grid >
+));
 
-          }}
-          sx={{ shape: "rounded", marginTop: "1.5em" }}
-        />
+if (loading) {
+return (
+  <ThemeProvider theme={theme}>
+    <Grid container
+      align="center"
+      justify-content="center"
+      maxWidth="90%"
+      paddingTop="5em"
+      paddingLeft="10em"
+      paddingRight="10em"
+      paddingBottom="1em"
+      margin="auto"
+      spacing={6}
+    >
+      <div>Loading...</div>
 
-      </Grid>
-    </ThemeProvider>
-  );
+    </Grid>
+  </ThemeProvider>
+);
+}
+
+return (
+<ThemeProvider theme={theme}>
+  <Grid container
+    align="center"
+    justify-content="center"
+    maxWidth="90%"
+    paddingTop="5em"
+    paddingLeft="10em"
+    paddingRight="10em"
+    paddingBottom="1em"
+    margin="auto"
+    spacing={6}
+  >
+
+    {totalProducts === 0 ? (<div>No results found </div>) : (watercolorList())}
+
+    <Paginate
+      count={Math.ceil(totalProducts / productsPerPage)}
+      page={currentPage}
+      onChange={(e, value) => {
+        setCurrentPage(value);
+        scrollToTop();
+
+      }}
+      sx={{ shape: "rounded", marginTop: "1.5em" }}
+    />
+
+  </Grid>
+</ThemeProvider>
+);
 };
 
 export default WatercolorPaintings;
