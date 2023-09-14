@@ -167,10 +167,11 @@ export default function Navigation({ sessionId }) {
       open={Boolean(anchorEl)}
       onClose={() => setAnchorEl(null)}
     >
-      <MenuItem onClick={handleClose}>
+      <MenuItem>
         <Button
           onClick={() => {
             handleClick('Watercolor');
+            handleClose();
           }}
           sx={{
             color: theme.palette.primary.main,
@@ -187,11 +188,12 @@ export default function Navigation({ sessionId }) {
           Watercolour
         </Button>
       </MenuItem>
-      <MenuItem onClick={handleClose}>
+      <MenuItem>
 
         <Button
           onClick={() => {
             handleClick('Acrylic');
+            handleClose();
           }}
           sx={{
             color: theme.palette.primary.main,
@@ -210,10 +212,11 @@ export default function Navigation({ sessionId }) {
 
       </MenuItem>
 
-      <MenuItem onClick={handleClose}>
+      <MenuItem>
         <Button
           onClick={() => {
             handleClick('Oil');
+            handleClose();
           }}
           sx={{
             color: theme.palette.primary.main,
