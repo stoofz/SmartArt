@@ -75,17 +75,21 @@ export default function Footer() {
               <div className="p-3">
                 <h3 className="font-bold">Company</h3>
                 <ul>
-                  <Link href={`/admin`}>
-                    <h3 className="font-bold">Admin</h3>
-                  </Link>
-                  <Link href={`/contact`}>
-                    <h3 className="font-bold">Contact</h3>
-                  </Link>
+                  <li>
+                    <Link href={`/admin`}>
+                      <h3 className="font-bold">Admin</h3>
+                    </Link>
+                  </li>
+                  <li>Getting Started</li>
                 </ul>
               </div>
               <div className="p-3">
                 <ul>
-                  <li>Getting Started</li>
+                  <li>                  
+                    <Link href={`/contact`}>
+                    <h3 className="font-bold">Contact</h3>
+                  </Link>
+                  </li>
                   <li>Pricing</li>
                   <li>Resources</li>
                 </ul>
