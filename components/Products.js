@@ -229,7 +229,6 @@ const Products = () => {
           <CardMedia
             component="img"
             image={`./uploads/${product.image}`}
-            alt="work portfolio"
             sx={{ display: 'block', marginBottom: "-1em", objectFit: "contain", width: 300, height: 300 }}
           />
           <CardContent>
@@ -344,12 +343,10 @@ const Products = () => {
                           </Typography>
                         </DialogContentText>
                       </div>
-                      <DialogActions>
+                      <DialogActions sx={{ padding: "1.5em" }}>
                         <Button
-                          style={{
-                            width: 'fit-content',
-                            // visibility: 'hidden',
-                            color: '#324E4B' // Set the color here
+                          sx={{
+                            color: theme.palette.primary.main,
                           }}
                           variant="text"
                           type="button"

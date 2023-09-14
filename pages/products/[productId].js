@@ -21,7 +21,9 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
+import Stack from '@mui/material/Stack';
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -29,12 +31,20 @@ import CardActions from '@mui/material/CardActions';
 import CardMedia from '@mui/material/CardMedia';
 import Image from 'material-ui-image';
 import Typography from '@mui/material/Typography';
-import formatPrice from '@/utils/formatPrice';
 import { useWishlist } from '../../utils/wishlistContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Montserrat } from 'next/font/google';
+import Tooltip from '@mui/material/Tooltip';
+import Fade from '@mui/material/Fade';
+
+import formatPrice from 'utils/formatPrice';
 
 import { useUser } from '@auth0/nextjs-auth0/client';
 
@@ -66,6 +76,32 @@ const applyDiscountToProduct = async (productId, productPrice) => {
     console.error('Error applying discount:', error);
   }
 };
+
+const montserrat = Montserrat({
+  weight: '600',
+  subsets: ['latin']
+});
+
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#324E4B'  //green
+      // light: will be calculated from palette.primary.main,
+      // dark: will be calculated from palette.primary.main,
+      // contrastText: will be calculated to contrast with palette.primary.main
+    },
+    secondary: {
+      main: '#F5C9C6'
+    },
+    warning: {
+      main: '#B3001B'
+    },
+    info: {
+      main: '#fff'
+    }
+  },
+});
 
 
 const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
@@ -193,7 +229,6 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
     }
   };
 
-
   if (!product) {
     return <div>Loading...</div>;
   }
@@ -201,216 +236,493 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   if (user) {
 
     return (
-      <>
+      <ThemeProvider theme={theme}>
         <Navigation sessionId={setSession(user)} />
         <main>
-          <h3>{product.name}</h3>
-          <p>{product.description}</p>
-
-          <p> {product.price !== product.originalPrice ? (
-            <span>
-              <span style={{ textDecoration: 'line-through', color: 'red' }}> ${(product.originalPrice / 100).toFixed(2)} </span> {' '} ${(product.price / 100).toFixed(2)}
-            </span>) : (`$${(product.price / 100).toFixed(2)}`)}
-          </p>
-          <AddShoppingCartIcon onClick={() => handleAddToCartToast(product.id, userId, textToastCart)} />
-
-
-          {/* //---------------FAV ICON------------------------------ */}
-          {/* Conditionally render the heart icon based on isInWishlist */}
-          {/* {userId && wishlist ? (
-            <FavoriteIcon
-          style={{
-            margin: '20px',
-              color: isInWishlist( product.id) ? 'red' : 'gray', // Change color based on isInWishlist
-          }}
-          onClick={() => handleToggleWishlist(userId, product.id)}
-        />
-        ) : (
-          <div>
-            <p>Please log in to add items to your wishlist.</p>
-            <Link href="/login">Log in</Link>
-          </div>
-        )} */}
-          <div>
-            {/* Always display the favorite icon */}
-            <Button
-              style={{
-                width: 'fit-content',
-                // visibility: 'hidden',
-                color: '#324E4B' // Set the color here
-              }}
-              variant="text"
-              type="button"
-              className="icon-button"
-              onClick={() => handleAddToWishlist(userId, product, textToastFav)}
-            >
-              {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-            </Button>
-            {/* Render the ToastContainer */}
-            <ToastContainer position="top-right" autoClose={2000} />
-          </div>
-
-
-
-
-          <Rating name="read-only" value={averageRating(reviews)} readOnly precision={0.5} />
-        </main>
-
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-
-          <Button
-            onClick={handleFormOpen}
-            startIcon={<AddIcon />}
-            variant="outlined"
-            style={{ backgroundColor: 'lightblue', color: 'white', borderColor: 'transparent', marginBottom: '40px' }}
-
-          >
-            Please Rate and Review!
-          </Button>
-
-        </div>
-        <ReviewForm
-          open={openForm}
-          onClose={handleFormClose}
-          onSubmit={handleReviewSubmit}
-          comment={comment}
-          setComment={setComment}
-          rating={rating}
-          setRating={setRating}
-        />
-
-        <section style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <Typography variant="h4" gutterBottom>
-            Customer Reviews
-          </Typography>
-
-          <List>
-            {reviews.length === 0 ? (
-              <Typography variant="body1" style={{ paddingLeft: '10px' }}>
-                No reviews available.
+          <Stack direction="row" sx={{ padding: "4em", display: "flex", justifyContent: "space-evenly" }}>
+            <CardMedia
+              component="img"
+              image={`../uploads/${product.image}`}
+              sx={{ display: 'block', marginBottom: "-1em", objectFit: "contain", width: 600, height: 600, padding: "2em" }}
+            />
+            <Card elevation={4} sx={{ maxWidth: "md" }}>
+              <Typography variant="h4" align="center" sx={{ paddingTop: "1em", paddingRight: "1em", paddingLeft: "1em", color: theme.palette.primary.main }}>
+                {product.name}
               </Typography>
-            ) : (
-              reviews
-                .sort((a, b) => new Date(b.date) - new Date(a.date))
-                .map((review, index) => (
-                  // <div key={index} style={{ marginBottom: '10px' }}>
-                  <Paper key={index} elevation={6} style={{ marginBottom: '10px' }}>
-                    <Card key={index} style={{ minHeight: '150px' }}>
-                      <CardContent style={{ height: '150px', overflowY: 'auto' }} >
-                        <ListItem alignItems="flex-start">
-                          <Avatar style={{ marginRight: '8px' }}>{review.firstName}</Avatar>
-                          <ListItemText
-                            primary={
-                              <div>
-                                <div
-                                  style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    marginBottom: '8px',
-                                  }}
-                                >
-                                  <Typography variant="body1" style={{ marginRight: '8px' }}>
-                                    {review.firstName} {review.lastName}
-                                  </Typography>
-                                  <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="h6" align="center" sx={{ color: theme.palette.primary.dark, paddingTop: "1.5em" }}>
+                {product.price !== product.originalPrice ? (
+                  <span>
+                    <span style={{ textDecoration: 'line-through', color: theme.palette.warning.dark }}> ${formatPrice(product.originalPrice)} </span> {' '} ${formatPrice(product.price)}
+                  </span>) : (`$${formatPrice(product.price)}`
+                )}
+              </Typography>
+              <Typography align="center" sx={{ paddingTop: "1.5em" }}>
+                <Tooltip
+                  title="Review Product"
+                  placement="right"
+                  TransitionComponent={Fade}
+                  TransitionProps={{ timeout: 600 }}
+                  componentsProps={{
+                    tooltip: {
+                      sx: {
+                        fontSize: "large",
+                        marginRight: "1.75em"
+                      },
+                    },
+                  }}
+                  arrow
+                >
+                  <Rating
+                    name="simple-controlled"
+                    value={averageRating(reviews)}
+                    precision={0.5}
+                    onChange={handleFormOpen}
+                  />
+                </Tooltip>
+              </Typography>
 
+              <div style={{ display: "flex", justifyContent: "center", paddingTop: "1.5em" }}>
+                <Button
+                  style={{
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.info.main,
+                    textTransform: "none",
+                    paddingRight: "5em",
+                    paddingLeft: "5em",
+                    marginRight: "2em",
+                    ":hover": {
+                      backgroundColor: theme.palette.secondary.main
+                    }
+                  }}
+                  onClick={() => handleAddToCartToast(product.id, userId, textToastCart)}
+                >
+                  <Typography variant="h6">
+                    Add To Cart
+                  </Typography>
+                </Button>
+                {isInWishlist(product.id) ? (
+                  <>
+                    <Tooltip
+                      title="Remove from Wishlist"
+                      placement="right"
+                      TransitionComponent={Fade}
+                      TransitionProps={{ timeout: 600 }}
+                      componentsProps={{
+                        tooltip: {
+                          sx: {
+                            fontSize: "large"
+                          },
+                        },
+                      }}
+                      arrow
+                    >
+                      <Button
+                        type="button"
+                        className="icon-button"
+                        onClick={() => handleAddToWishlist(userId, product, textToastFav)}
+                      >
+                        <FavoriteIcon sx={{ fontSize: "2.5em" }} />
+                      </Button>
+                    </Tooltip>
+                  </>
+                ) : (
+                  <>
+                    <Tooltip
+                      title="Add to Wishlist"
+                      placement="right"
+                      TransitionComponent={Fade}
+                      TransitionProps={{ timeout: 600 }}
+                      componentsProps={{
+                        tooltip: {
+                          sx: {
+                            fontSize: "large"
+                          },
+                        },
+                      }}
+                      arrow
+                    >
+                      <Button
+                        type="button"
+                        className="icon-button"
+                        onClick={() => handleAddToWishlist(userId, product, textToastFav)}
+                      >
+                        <FavoriteBorderIcon sx={{ fontSize: "2.5em" }} />
+                      </Button>
+                    </Tooltip>
+                  </>
+                )}
+              </div>
+
+              {/* Render the ToastContainer */}
+              <ToastContainer position="top-right" autoClose={2000} />
+
+              <div style={{ color: theme.palette.primary.main, paddingTop: "6em" }}>
+                <Accordion disableGutters={true} width="100%">
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
+                      Artist
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }} autoFocus={true}>
+                    <Typography variant="h6">
+                      {product.artist}
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion disableGutters={true}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
+                      Country
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }}>
+                    <Typography variant="h6">
+                      {product.country}
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion disableGutters={true}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
+                      Details</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }}>
+                    <Typography variant="h6">
+                      {product.description}
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion disableGutters={true}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel2a-content"
+                    id="panel2a-header"
+                  >
+                    <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
+                      Dimensions</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }}>
+                    <Typography variant="h6">
+                      {product.dimensions}
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+              </div>
+            </Card>
+          </Stack>
+
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+
+            <Button
+              onClick={handleFormOpen}
+              startIcon={<AddIcon />}
+              variant="outlined"
+              style={{
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.info.main,
+                borderColor: 'transparent',
+                textTransform: "none",
+                display: "flex",
+                justifyContent: "center",
+                margin: "2em",
+                paddingRight: "2em",
+                paddingLeft: "2em"
+              }}
+
+            >
+              <Typography variant="h6">
+                Leave Your Review!
+              </Typography>
+            </Button>
+
+          </div>
+          <ReviewForm
+            open={openForm}
+            onClose={handleFormClose}
+            onSubmit={handleReviewSubmit}
+            comment={comment}
+            setComment={setComment}
+            rating={rating}
+            setRating={setRating}
+          />
+
+          <section style={{ maxWidth: '600px', margin: '0 auto' }}>
+            <Typography variant="h4" gutterBottom align="center" sx={{ color: theme.palette.primary.main }}>
+              Customer Reviews
+            </Typography>
+
+            <List>
+              {reviews.length === 0 ? (
+                <Typography variant="body1" align="center" sx={{ color: theme.palette.primary.main }}>
+                  No reviews available
+                </Typography>
+              ) : (
+                reviews
+                  .sort((a, b) => new Date(b.date) - new Date(a.date))
+                  .map((review, index) => (
+                    // <div key={index} style={{ marginBottom: '10px' }}>
+                    <Paper key={index} elevation={4} style={{ marginBottom: '10px' }}>
+                      <Card key={index} style={{ minHeight: '150px' }}>
+                        <CardContent style={{ height: '150px', overflowY: 'auto', color: theme.palette.primary.main }} >
+                          <ListItem alignItems="flex-start">
+                            <Avatar style={{ marginRight: '8px', color: theme.palette.info.main, backgroundColor: theme.palette.primary.main }}>
+                              {review.firstName}
+                            </Avatar>
+                            <ListItemText
+                              primary={
+                                <div>
+                                  <div
+                                    style={{
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      marginBottom: '8px',
+                                    }}
+                                  >
+                                    <Typography variant="body1" style={{ marginRight: '8px' }}>
+                                      {review.firstName} {review.lastName}
+                                    </Typography>
+                                    <Rating name="read-only" readOnly value={review.rating} sx={{ display: 'flex', alignItems: 'center' }} />
+                                  </div>
+                                  <div style={{ fontSize: '14px', color: '#777' }}>
+                                    {new Date(review.date).toLocaleDateString('en-CA')}
+                                  </div>
+                                  <div style={{ fontSize: '14px', color: '#777', marginTop: '8px' }}>
+                                    {review.comment}
                                   </div>
                                 </div>
-                                <div style={{ fontSize: '14px', color: '#777' }}>
-                                  {new Date(review.date).toLocaleDateString('en-CA')}
-                                </div>
-                                <div style={{ fontSize: '14px', color: '#777', marginTop: '8px' }}>
-                                  {review.comment}
-                                </div>
-                              </div>
-                            }
-                          />
-
-                          {user && user.id === review.customerId && (
-                            <Button
-                              sx={{
-                                minWidth: 'unset', // Remove the minimum width
-                              }}
-                              onClick={() => {
-                                console.log("review.id", review.id);
-                                deleteReviewFromDb(review.id);
                               }
-                              }
-                              style={{ backgroundColor: 'lightpink', color: 'white', borderColor: 'transparent' }}
-                            >
-                              <DeleteIcon /> Delete
-                            </Button>
-                          )}
-                        </ListItem>
-                      </CardContent>
-                    </Card>
-                  </Paper>
+                            />
+
+                            {user && user.id === review.customerId && (
+                              <Button
+                                sx={{
+                                  minWidth: 'unset', // Remove the minimum width
+                                }}
+                                onClick={() => {
+                                  console.log("review.id", review.id);
+                                  deleteReviewFromDb(review.id);
+                                }
+                                }
+                                style={{ backgroundColor: 'lightpink', color: 'white', borderColor: 'transparent' }}
+                              >
+                                <DeleteIcon /> Delete
+                              </Button>
+                            )}
+                          </ListItem>
+                        </CardContent>
+                      </Card>
+                    </Paper>
 
 
-                ))
-            )}
-          </List>
-        </section>
+                  ))
+              )}
+            </List>
+          </section>
+        </main>
         <Footer />
-      </>
+      </ThemeProvider >
     );
   };
 
   return (
-    <>
-      <Navigation />
-      <main>
-        <h3>{product.name}</h3>
-        <p>{product.description}</p>
+    <ThemeProvider theme={theme}>
+    <Navigation />
+    <main>
+      <Stack direction="row" sx={{ padding: "4em", display: "flex", justifyContent: "space-evenly" }}>
+        <CardMedia
+          component="img"
+          image={`../uploads/${product.image}`}
+          sx={{ display: 'block', marginBottom: "-1em", objectFit: "contain", width: 600, height: 600, padding: "2em" }}
+        />
+        <Card elevation={4} sx={{ maxWidth: "md" }}>
+          <Typography variant="h4" align="center" sx={{ paddingTop: "1em", paddingRight: "1em", paddingLeft: "1em", color: theme.palette.primary.main }}>
+            {product.name}
+          </Typography>
+          <Typography variant="h6" align="center" sx={{ color: theme.palette.primary.dark, paddingTop: "1.5em" }}>
+            {product.price !== product.originalPrice ? (
+              <span>
+                <span style={{ textDecoration: 'line-through', color: theme.palette.warning.dark }}> ${formatPrice(product.originalPrice)} </span> {' '} ${formatPrice(product.price)}
+              </span>) : (`$${formatPrice(product.price)}`
+            )}
+          </Typography>
+          <Typography align="center" sx={{ paddingTop: "1.5em" }}>
+            <Tooltip
+              title="Review Product"
+              placement="right"
+              TransitionComponent={Fade}
+              TransitionProps={{ timeout: 600 }}
+              componentsProps={{
+                tooltip: {
+                  sx: {
+                    fontSize: "large",
+                    marginRight: "1.75em"
+                  },
+                },
+              }}
+              arrow
+            >
+              <Rating
+                name="simple-controlled"
+                value={averageRating(reviews)}
+                precision={0.5}
+                onChange={handleFormOpen}
+              />
+            </Tooltip>
+          </Typography>
 
-        <p> {product.price !== product.originalPrice ? (
-          <span>
-            <span style={{ textDecoration: 'line-through', color: 'red' }}> ${(product.originalPrice / 100).toFixed(2)} </span> {' '} ${(product.price / 100).toFixed(2)}
-          </span>) : (`$${(product.price / 100).toFixed(2)}`)}
-        </p>
-        <AddShoppingCartIcon onClick={() => handleAddToCartToast(product.id, userId, textToastCart)} />
+          <div style={{ display: "flex", justifyContent: "center", paddingTop: "1.5em" }}>
+            <Button
+              style={{
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.info.main,
+                textTransform: "none",
+                paddingRight: "5em",
+                paddingLeft: "5em",
+                marginRight: "2em",
+                ":hover": {
+                  backgroundColor: theme.palette.secondary.main
+                }
+              }}
+              onClick={() => handleAddToCartToast(product.id, userId, textToastCart)}
+            >
+              <Typography variant="h6">
+                Add To Cart
+              </Typography>
+            </Button>
+            {isInWishlist(product.id) ? (
+              <>
+                <Tooltip
+                  title="Remove from Wishlist"
+                  placement="right"
+                  TransitionComponent={Fade}
+                  TransitionProps={{ timeout: 600 }}
+                  componentsProps={{
+                    tooltip: {
+                      sx: {
+                        fontSize: "large"
+                      },
+                    },
+                  }}
+                  arrow
+                >
+                  <Button
+                    type="button"
+                    className="icon-button"
+                    onClick={() => handleAddToWishlist(userId, product, textToastFav)}
+                  >
+                    <FavoriteIcon sx={{ fontSize: "2.5em" }} />
+                  </Button>
+                </Tooltip>
+              </>
+            ) : (
+              <>
+                <Tooltip
+                  title="Add to Wishlist"
+                  placement="right"
+                  TransitionComponent={Fade}
+                  TransitionProps={{ timeout: 600 }}
+                  componentsProps={{
+                    tooltip: {
+                      sx: {
+                        fontSize: "large"
+                      },
+                    },
+                  }}
+                  arrow
+                >
+                  <Button
+                    type="button"
+                    className="icon-button"
+                    onClick={() => handleAddToWishlist(userId, product, textToastFav)}
+                  >
+                    <FavoriteBorderIcon sx={{ fontSize: "2.5em" }} />
+                  </Button>
+                </Tooltip>
+              </>
+            )}
+          </div>
 
-
-        {/* //---------------FAV ICON------------------------------ */}
-        {/* Conditionally render the heart icon based on isInWishlist */}
-        {/* {userId && wishlist ? (
-          <FavoriteIcon
-        style={{
-          margin: '20px',
-            color: isInWishlist( product.id) ? 'red' : 'gray', // Change color based on isInWishlist
-        }}
-        onClick={() => handleToggleWishlist(userId, product.id)}
-      />
-      ) : (
-        <div>
-          <p>Please log in to add items to your wishlist.</p>
-          <Link href="/login">Log in</Link>
-        </div>
-      )} */}
-        <div>
-          {/* Always display the favorite icon */}
-          <Button
-            style={{
-              width: 'fit-content',
-              // visibility: 'hidden',
-              color: '#324E4B' // Set the color here
-            }}
-            variant="text"
-            type="button"
-            className="icon-button"
-            onClick={() => handleAddToWishlist(userId, product, textToastFav)}
-          >
-            {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </Button>
           {/* Render the ToastContainer */}
           <ToastContainer position="top-right" autoClose={2000} />
-        </div>
 
-
-
-
-        <Rating name="read-only" value={averageRating(reviews)} readOnly precision={0.5} />
-      </main>
+          <div style={{ color: theme.palette.primary.main, paddingTop: "6em" }}>
+            <Accordion disableGutters={true} width="100%">
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
+                  Artist
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }} autoFocus={true}>
+                <Typography variant="h6">
+                  {product.artist}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion disableGutters={true}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
+                  Country
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }}>
+                <Typography variant="h6">
+                  {product.country}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion disableGutters={true}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
+                  Details</Typography>
+              </AccordionSummary>
+              <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }}>
+                <Typography variant="h6">
+                  {product.description}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion disableGutters={true}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
+                  Dimensions</Typography>
+              </AccordionSummary>
+              <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }}>
+                <Typography variant="h6">
+                  {product.dimensions}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          </div>
+        </Card>
+      </Stack>
 
       <div style={{ display: 'flex', justifyContent: 'center' }}>
 
@@ -418,10 +730,22 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
           onClick={handleFormOpen}
           startIcon={<AddIcon />}
           variant="outlined"
-          style={{ backgroundColor: 'lightblue', color: 'white', borderColor: 'transparent', marginBottom: '40px' }}
+          style={{
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.info.main,
+            borderColor: 'transparent',
+            textTransform: "none",
+            display: "flex",
+            justifyContent: "center",
+            margin: "2em",
+            paddingRight: "2em",
+            paddingLeft: "2em"
+          }}
 
         >
-          Please Rate and Review!
+          <Typography variant="h6">
+            Leave Your Review!
+          </Typography>
         </Button>
 
       </div>
@@ -436,25 +760,27 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
       />
 
       <section style={{ maxWidth: '600px', margin: '0 auto' }}>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom align="center" sx={{ color: theme.palette.primary.main }}>
           Customer Reviews
         </Typography>
 
         <List>
           {reviews.length === 0 ? (
-            <Typography variant="body1" style={{ paddingLeft: '10px' }}>
-              No reviews available.
+            <Typography variant="body1" align="center" sx={{ color: theme.palette.primary.main }}>
+              No reviews available
             </Typography>
           ) : (
             reviews
               .sort((a, b) => new Date(b.date) - new Date(a.date))
               .map((review, index) => (
                 // <div key={index} style={{ marginBottom: '10px' }}>
-                <Paper key={index} elevation={6} style={{ marginBottom: '10px' }}>
+                <Paper key={index} elevation={4} style={{ marginBottom: '10px' }}>
                   <Card key={index} style={{ minHeight: '150px' }}>
-                    <CardContent style={{ height: '150px', overflowY: 'auto' }} >
+                    <CardContent style={{ height: '150px', overflowY: 'auto', color: theme.palette.primary.main }} >
                       <ListItem alignItems="flex-start">
-                        <Avatar style={{ marginRight: '8px' }}>{review.firstName}</Avatar>
+                        <Avatar style={{ marginRight: '8px', color: theme.palette.info.main, backgroundColor: theme.palette.primary.main }}>
+                          {review.firstName}
+                        </Avatar>
                         <ListItemText
                           primary={
                             <div>
@@ -468,9 +794,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                                 <Typography variant="body1" style={{ marginRight: '8px' }}>
                                   {review.firstName} {review.lastName}
                                 </Typography>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-
-                                </div>
+                                <Rating name="read-only" readOnly value={review.rating} sx={{ display: 'flex', alignItems: 'center' }} />
                               </div>
                               <div style={{ fontSize: '14px', color: '#777' }}>
                                 {new Date(review.date).toLocaleDateString('en-CA')}
@@ -507,10 +831,11 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
           )}
         </List>
       </section>
-      <Footer />
-    </>
-  );
-}
+    </main>
+    <Footer />
+  </ThemeProvider >
+);
+};
 
 export async function getServerSideProps({ req, params }) {
   const productId = params.productId;

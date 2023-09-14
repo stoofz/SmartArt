@@ -6,41 +6,75 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Rating from '@mui/material/Rating';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
+import { styled } from '@mui/system';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Montserrat } from 'next/font/google';
+
+const montserrat = Montserrat({
+  weight: '600',
+  subsets: ['latin']
+});
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#324E4B'
+      // light: will be calculated from palette.primary.main,
+      // dark: will be calculated from palette.primary.main,
+      // contrastText: will be calculated to contrast with palette.primary.main
+    },
+    secondary: {
+      main: '#F5C9C6'
+    },
+    warning: {
+      main: '#893F04'
+    },
+    info: {
+      main: '#fff'
+    }
+  },
+});
 
 const ReviewForm = ({ open, onClose, onSubmit, comment, setComment, rating, setRating }) => {
- 
+
   return (
     <Dialog open={open} onClose={onClose} >
-      <DialogTitle>Write a Review:</DialogTitle>
+      <DialogTitle sx={{ color: theme.palette.primary.main }}>Write a Review:</DialogTitle>
       <DialogContent>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Rating
-          name="simple-controlled"
-          value={rating}
-          onChange={(event, newValue) => {
-            setRating(newValue);
-          }}
-        />
-        <TextareaAutosize
-          placeholder="   Write your review here..."
-          minRows={3}
-            style={{ width: "500px", border: "1px solid lightblue", borderRadius: "8px", marginTop: "15px" }}
-          value={comment}
-          onChange={(event) => {
-            setComment(event.target.value);
-          }}
-        />
+          <Rating
+            name="simple-controlled"
+            value={rating}
+            onChange={(event, newValue) => {
+              setRating(newValue);
+            }}
+          />
+          <TextareaAutosize
+            placeholder="   Write your review here..."
+            minRows={3}
+            style={{ width: "500px", border: `1px solid ${theme.palette.primary.main}`, borderRadius: "8px", marginTop: "15px" }}
+            value={comment}
+            onChange={(event) => {
+              setComment(event.target.value);
+            }}
+          />
         </div>
       </DialogContent>
       <DialogActions>
-        <Button 
-        onClick={onClose} 
-        style={{ backgroundColor: 'lightblue', color: 'white', borderColor: 'transparent' }}>
+        <Button
+          onClick={onClose}
+          sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main, borderColor: 'transparent',
+          "&:hover": { backgroundColor: theme.palette.primary.main
+          },
+          }}>
           Cancel
         </Button>
-        <Button 
+        <Button
           onClick={() => onSubmit(rating, comment)}
-        style={{ backgroundColor: 'lightblue', color: 'white', borderColor: 'transparent' }}>
+          sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main, borderColor: 'transparent', 
+          "&:hover": { backgroundColor: theme.palette.primary.main
+          },
+          }}>
           Submit Review
         </Button>
       </DialogActions>
