@@ -258,7 +258,7 @@ export default function Navigation({ sessionId }) {
       <MenuItem>
         {userId &&
           <Typography>
-            Hi, {user.first_name}!
+            {/* Hi, {user.first_name}! */}
           </Typography>
         }
       </MenuItem>
