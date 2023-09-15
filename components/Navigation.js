@@ -29,7 +29,7 @@ import { Formik, Form, Field } from "formik";
 import { useSearchState } from 'utils/search';
 
 import { useRouter } from 'next/router';
-import { showLoginToast } from "@/utils/loginToast";
+import { useWishlistFunctions } from '@/utils/loginToast';
 import { ca } from "date-fns/locale";
 
 const montserrat = Montserrat({
@@ -119,6 +119,7 @@ export default function Navigation({ sessionId }) {
 
   //-------------------WISHLIST, Cart, Profile LOGIC --------------------
   //pass this text to show in toaster
+  const { showLoginToast } = useWishlistFunctions();
   const textToastFav = "Please log in to see your wishlist.";
   const textToastCart = "Please log in to see your cart.";
   const textToastProfile = "Please log in to access your account.";
