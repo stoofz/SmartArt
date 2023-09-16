@@ -1,13 +1,12 @@
-DROP TABLE IF EXISTS addresses CASCADE;
-
-CREATE TABLE addresses (
-  id SERIAL PRIMARY KEY NOT NULL,
-  customer_id INTEGER NOT NULL REFERENCES customers (id) ON DELETE CASCADE,
-  street VARCHAR(255) NOT NULL,
-  city VARCHAR(255) NOT NULL,
-  province VARCHAR(255) NOT NULL,
-  country VARCHAR(255) NOT NULL,
-  postal VARCHAR(255) NOT NULL,
-  phone VARCHAR(255) NOT NULL,
-  billing BOOLEAN NOT NULL
+CREATE TABLE "addresses" (
+  "id" SERIAL PRIMARY KEY,
+  "customerId" INT,
+  "street" VARCHAR(255),
+  "city" VARCHAR(255),
+  "province" VARCHAR(255),
+  "country" VARCHAR(255),
+  "postal" VARCHAR(255),
+  "phone" VARCHAR(255),
+  "billing" BOOLEAN,
+  FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE CASCADE
 );

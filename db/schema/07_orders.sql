@@ -1,9 +1,10 @@
-DROP TABLE IF EXISTS orders CASCADE;
-
-CREATE TABLE orders (
-  id SERIAL PRIMARY KEY NOT NULL,
-  customer_id INTEGER NOT NULL REFERENCES customers (id) ON DELETE CASCADE,
-  payment_id INTEGER NOT NULL REFERENCES payments (id) ON DELETE CASCADE,
-  order_date TIMESTAMP NOT NULL,
-  total_price DECIMAL NOT NULL
+CREATE TABLE "orders" (
+  "id" SERIAL PRIMARY KEY,
+  "customerId" INT,
+  "paymentId" INT,
+  "orderDate" TIMESTAMP,
+  "totalPrice" DECIMAL(10, 2),
+  "orderStatus" VARCHAR(255),
+  FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE CASCADE,
+  FOREIGN KEY ("paymentId") REFERENCES "payments"("id") ON DELETE CASCADE
 );
