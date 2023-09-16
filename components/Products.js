@@ -217,7 +217,7 @@ const Products = () => {
   const productList = () => (pageProducts.map((product) =>
 
     <Grid item="true" xs={12} sm={6} md={4}
-      sx={{ maxWidth: '100%', margin: 'auto', color: theme.palette.primary.main }}
+      sx={{ maxWidth: '100%', margin: 'auto', color: theme.palette.primary.main, height: "100vh" }}
       key={product.id}
       className={montserrat.className}
     >
