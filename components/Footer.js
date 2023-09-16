@@ -11,6 +11,7 @@ import AppBar from "@mui/material/AppBar";
 import Stack from '@mui/material/Stack';
 import { Montserrat } from 'next/font/google';
 import NextLink from 'next/link';
+import Divider from '@mui/material/Divider';
 
 const montserrat = Montserrat({
   weight: '600',
@@ -46,69 +47,77 @@ export default function Footer() {
         top={0}
         sx={{ width: '100%', zIndex: "1000" }}
       >
-        <Stack direction="row">
+        <Stack>
           <AppBar
             position="static"
             className={montserrat.className}
-            sx={{ padding: "0 1.5em" }}
+            sx={{ padding: "5em" }}
           >
             <Toolbar
-              sx={{ display: "flex", justifyContent: "flex-start", paddingTop: "5em", marginBottom: "-3em" }}
+              sx={{ display: "flex", alignSelf: "flex-start", marginBottom: "-11em" }}
             >
               <NextLink href={{
                 pathname: "/",
               }}>
                 <img
                   src='../uploads/smartartlogo.png'
-                  style={{ height: "4em" }}
+                  style={{ height: "4.5em" }}
                 />
               </NextLink>
             </Toolbar>
-            <Toolbar sx={{ display: "flex", justifyContent: "center", paddingBottom: "2em", marginTop: "-3em" }}>
-              <div className="p-3">
-                <h3 className="font-bold">Information</h3>
-                <ul>
-                  <li>About</li>
-                  <li>Product</li>
-                </ul>
-              </div>
-              <div className="p-3">
-                <h3 className="font-bold">Company</h3>
-                <ul>
-                  <li>
-                    <Link href={`/admin`}>
-                      <h3 className="font-bold">Admin</h3>
-                    </Link>
-                  </li>
-                  <li>Getting Started</li>
-                </ul>
-              </div>
-              <div className="p-3">
-                <ul>
-                  <li>                  
-                    <Link href={`/contact`}>
-                    <h3 className="font-bold">Contact</h3>
-                  </Link>
-                  </li>
-                  <li>Pricing</li>
-                  <li>Resources</li>
-                </ul>
-              </div>
-            </Toolbar>
-            <Typography sx={{ display: "flex", justifyContent: "center", paddingBottom: "1em", paddingRight: "2em" }}>
+            <Stack sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", paddingTop: "4em" }}>
+              <Stack spacing={1.5} sx={{ padding: "1.5em" }}>
+                <Link href={'/admin'}>
+                  Admin
+                </Link>
+                <Link href={'/about'}>
+                  About Us
+                </Link>
+                <Link href={'/sale'} passHref>
+                  Sale
+                </Link>
+              </Stack>
+              <Stack spacing={1.5} sx={{ padding: "1.5em" }}>
+                <Link href={'/terms'}>
+                  Terms and Conditions
+                </Link>
+                <Link href={'/customercare'}>
+                  User-Submitted Content
+                </Link>
+                <Link href={'/privacy'}>
+                  Privacy Policy
+                </Link>
+              </Stack>
+              <Stack spacing={1.5} sx={{ padding: "1.5em" }}>
+                <Link href={'/contact'}>
+                  Contact
+                </Link>
+                <Link href={'/warranty'}>
+                  Warranty
+                </Link>
+                <Link href={'/faq'}>
+                  FAQ
+                </Link>
+              </Stack>
+            </Stack>
+            <Typography sx={{ display: "flex", justifyContent: "center", paddingTop: "1em" }}>
               2023 All Rights Reserved SmartArt
             </Typography>
-            <Toolbar sx={{ display: "flex", justifyContent: "flex-end", marginRight: "5em", paddingBottom: "5em", marginTop: "-8em" }}>
-              <Link href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                <FacebookIcon className="footer-icon" fontSize="large" sx={{ margin: "0.5em" }} />
+            <Stack
+              direction="row"
+              spacing={5}
+              divider={<Divider orientation="vertical" flexItem sx={{ backgroundColor: theme.palette.secondary.dark, borderRightWidth: 3 }} />}
+              sx={{ display: "flex", justifyContent: "flex-end", marginTop: "-8em", marginRight: "4em", padding: "2em" }}>
+              <Link href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" passHref>
+                <FacebookIcon fontSize="large" />
               </Link>
-              <Link href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-                <InstagramIcon className="footer-icon " fontSize="large" sx={{ margin: "0.5em" }} />
+              <Link href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" passHref>
+                <InstagramIcon fontSize="large" />
               </Link>
-              <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                <TwitterIcon className="footer-icon" fontSize="large" sx={{ margin: "0.5em" }} />
+              <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer" passHref>
+                <TwitterIcon fontSize="large" />
               </Link>
-            </Toolbar>
+            </Stack>
           </AppBar>
         </Stack>
       </Box>
