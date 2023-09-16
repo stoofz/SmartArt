@@ -1,9 +1,9 @@
-DROP TABLE IF EXISTS order_items CASCADE;
-
-CREATE TABLE order_items (
-  id SERIAL PRIMARY KEY NOT NULL,
-  order_id INTEGER NOT NULL REFERENCES orders (id) ON DELETE CASCADE,
-  product_id INTEGER NOT NULL REFERENCES products (id) ON DELETE CASCADE,
-  qty INTEGER NOT NULL,
-  price DECIMAL NOT NULL
+CREATE TABLE "order_items" (
+  "id" SERIAL PRIMARY KEY,
+  "orderId" INT,
+  "productId" INT,
+  "qty" INT,
+  "price" DECIMAL(10, 2),
+  FOREIGN KEY ("orderId") REFERENCES "orders"("id") ON DELETE CASCADE,
+  FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE CASCADE
 );

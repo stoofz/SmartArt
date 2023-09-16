@@ -1,9 +1,8 @@
-DROP TABLE IF EXISTS customers CASCADE;
-
-CREATE TABLE customers (
-  id SERIAL PRIMARY KEY NOT NULL,
-  first_name VARCHAR(255) NOT NULL,
-  last_name VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL,
-  sub_id VARCHAR(255) NOT NULL
+CREATE TABLE "customers" (
+  "id" SERIAL PRIMARY KEY,
+  "firstName" VARCHAR(255),
+  "lastName" VARCHAR(255),
+  "email" VARCHAR(255) UNIQUE,
+  "subId" VARCHAR(255),
+  "stripeId" VARCHAR(255) UNIQUE
 );
