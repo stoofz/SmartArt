@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
+import Link from 'next/link';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -180,7 +181,7 @@ export default function Navigation({ sessionId }) {
             textTransform: "none",
             display: "flex",
             justifyContent: "flex-start",
-            '&:hover': { textDecoration: 'underline' },
+            '&:hover': { textDecoration: 'underline', color: theme.palette.secondary.dark },
             cursor: 'pointer',
             background: 'none',
             border: 'none',
@@ -202,7 +203,7 @@ export default function Navigation({ sessionId }) {
             textTransform: "none",
             display: "flex",
             justifyContent: "flex-start",
-            '&:hover': { textDecoration: 'underline' },
+            '&:hover': { textDecoration: 'underline', color: theme.palette.secondary.dark },
             cursor: 'pointer',
             background: 'none',
             border: 'none',
@@ -225,7 +226,7 @@ export default function Navigation({ sessionId }) {
             textTransform: "none",
             display: "flex",
             justifyContent: "flex-start",
-            '&:hover': { textDecoration: 'underline' },
+            '&:hover': { textDecoration: 'underline', color: theme.palette.secondary.dark },
             cursor: 'pointer',
             background: 'none',
             border: 'none',
@@ -299,7 +300,7 @@ export default function Navigation({ sessionId }) {
           <Typography
             sx={{ color: theme.palette.primary.dark }}
           >
-            Orders 
+            Orders
           </Typography>
         </NextLink>
       </MenuItem>
@@ -336,22 +337,23 @@ export default function Navigation({ sessionId }) {
           <AppBar
             position="static"
             className={montserrat.className}
-            sx={{ padding: "0 1.5em", borderBottom: `thick double ${theme.palette.secondary.main}` }}
+            sx={{ padding: "0.5em 1.5em", borderBottom: `thick double ${theme.palette.secondary.main}` }}
           >
             <Toolbar
               sx={{ display: "flex", justifyContent: "flex-start", paddingTop: "1.5em" }}
             >
-              <NextLink href={{
-                pathname: "/",
-              }}>
+              <Link href={'/'}>
                 <img
                   src='../uploads/smartartlogo.png'
-                  style={{ height: "6em" }}
+                  style={{
+                    height: "6em", 
+                    width: "100%",
+                  }}
                 />
-              </NextLink>
+              </Link>
             </Toolbar>
             <Toolbar
-              sx={{ display: "flex", justifyContent: "flex-end", marginTop: "-4em", marginBottom: "0.5em", marginRight: "5em" }}
+              sx={{ display: "flex", justifyContent: "flex-end", marginLeft: "auto", marginRight: 0, marginTop: '-4em' }}
             >
               {!userId &&
                 <NextLink
@@ -368,7 +370,16 @@ export default function Navigation({ sessionId }) {
                   <Typography sx={{
                     marginRight: "1.5em",
                     textDecoration: 'none',
-                    '&:hover': { textDecoration: 'underline' }
+                    '&:hover': { textDecoration: 'underline', color: theme.palette.secondary.dark },
+                    [theme.breakpoints.down("lg")]: {
+                      fontSize: "0.8em",
+                    },
+                    [theme.breakpoints.down("md")]: {
+                      fontSize: "0.65em",
+                    },
+                    [theme.breakpoints.down("sm")]: {
+                      fontSize: "0.5em",
+                    },
                   }}>
                     Sign In
                   </Typography>
@@ -384,7 +395,16 @@ export default function Navigation({ sessionId }) {
                     tooltip: {
                       sx: {
                         fontSize: "large",
-                        marginRight: "1.75em"
+                        marginRight: "1.75em",
+                        [theme.breakpoints.down("lg")]: {
+                          fontSize: "0.8em",
+                        },
+                        [theme.breakpoints.down("md")]: {
+                          fontSize: "0.65em",
+                        },
+                        [theme.breakpoints.down("sm")]: {
+                          fontSize: "0.5em",
+                        },
                       },
                     },
                   }}
@@ -400,13 +420,67 @@ export default function Navigation({ sessionId }) {
                       underline="none"
                       sx={{ color: theme.palette.info.main }}
                     >
-                      <FavoriteBorderIcon sx={{ fontSize: "2em", marginRight: "1em" }} />
+                      <FavoriteBorderIcon sx={{
+                        fontSize: "2em",
+                        marginRight: "1em",
+                        textDecoration: 'none',
+                        '&:hover': { color: theme.palette.secondary.dark },
+                        [theme.breakpoints.down("lg")]: {
+                          fontSize: "1.5em",
+                        },
+                        [theme.breakpoints.down("md")]: {
+                          fontSize: "1em",
+                        },
+                        [theme.breakpoints.down("sm")]: {
+                          fontSize: "0.75em",
+                        },
+                      }}
+                      />
                     </NextLink>
                   </>
                 </Tooltip>
               ) : (
                 <div onClick={() => showLoginToast(textToastFav)}>
-                  <FavoriteBorderIcon sx={{ marginRight: "0.5em", fontSize: "2em" }} />
+                  <Tooltip
+                    title="Wishlist"
+                    placement="top"
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                    componentsProps={{
+                      tooltip: {
+                        sx: {
+                          fontSize: "large",
+                          [theme.breakpoints.down("lg")]: {
+                            fontSize: "0.8em",
+                          },
+                          [theme.breakpoints.down("md")]: {
+                            fontSize: "0.65em",
+                          },
+                          [theme.breakpoints.down("sm")]: {
+                            fontSize: "0.5em",
+                          },
+                        },
+                      },
+                    }}
+                    arrow
+                  >
+                    <FavoriteBorderIcon sx={{
+                      marginRight: "0.5em",
+                      fontSize: "2em",
+                      textDecoration: 'none',
+                      '&:hover': { color: theme.palette.secondary.dark },
+                      [theme.breakpoints.down("lg")]: {
+                        fontSize: "1.5em",
+                      },
+                      [theme.breakpoints.down("md")]: {
+                        fontSize: "1em",
+                      },
+                      [theme.breakpoints.down("sm")]: {
+                        fontSize: "0.75em",
+                      },
+                    }}
+                    />
+                  </Tooltip>
                 </div>
               )}
               {/* Check if userId is available, otherwise show the login toast */}
@@ -419,7 +493,16 @@ export default function Navigation({ sessionId }) {
                   componentsProps={{
                     tooltip: {
                       sx: {
-                        fontSize: "large"
+                        fontSize: "large",
+                        [theme.breakpoints.down("lg")]: {
+                          fontSize: "0.8em",
+                        },
+                        [theme.breakpoints.down("md")]: {
+                          fontSize: "0.65em",
+                        },
+                        [theme.breakpoints.down("sm")]: {
+                          fontSize: "0.5em",
+                        },
                       },
                     },
                   }}
@@ -435,31 +518,71 @@ export default function Navigation({ sessionId }) {
                       underline="none"
                       sx={{ color: theme.palette.info.main }}
                     >
-                      <ShoppingCartCheckoutIcon sx={{ fontSize: "2em", marginLeft: "0.5em", marginRight: "0.5em" }} />
+                      <ShoppingCartCheckoutIcon sx={{
+                        fontSize: "2em",
+                        marginLeft: "0.5em",
+                        marginRight: "0.5em",
+                        textDecoration: 'none',
+                        '&:hover': { color: theme.palette.secondary.dark },
+                        [theme.breakpoints.down("lg")]: {
+                          fontSize: "1.5em",
+                        },
+                        [theme.breakpoints.down("md")]: {
+                          fontSize: "1em",
+                        },
+                        [theme.breakpoints.down("sm")]: {
+                          fontSize: "0.75em",
+                        },
+                      }}
+                      />
                     </NextLink>
                   </>
                 </Tooltip>
               ) : (
-                <Tooltip
-                  title="Cart"
-                  placement="top"
-                  TransitionComponent={Fade}
-                  TransitionProps={{ timeout: 600 }}
-                  componentsProps={{
-                    tooltip: {
-                      sx: {
-                        fontSize: "large"
-                      },
-                    },
-                  }}
-                  arrow
-                >
-                  <>
-                    <div onClick={() => showLoginToast(textToastCart)}>
-                      <ShoppingCartCheckoutIcon sx={{ margin: "0.5em", fontSize: "2em" }} />
-                    </div>
-                  </>
-                </Tooltip>
+                <>
+                  <div onClick={() => showLoginToast(textToastCart)}>
+                    <Tooltip
+                      title="Cart"
+                      placement="top"
+                      TransitionComponent={Fade}
+                      TransitionProps={{ timeout: 600 }}
+                      componentsProps={{
+                        tooltip: {
+                          sx: {
+                            fontSize: "large",
+                            [theme.breakpoints.down("lg")]: {
+                              fontSize: "0.8em",
+                            },
+                            [theme.breakpoints.down("md")]: {
+                              fontSize: "0.65em",
+                            },
+                            [theme.breakpoints.down("sm")]: {
+                              fontSize: "0.5em",
+                            },
+                          },
+                        },
+                      }}
+                      arrow
+                    >
+                      <ShoppingCartCheckoutIcon sx={{
+                        margin: "0.5em",
+                        fontSize: "2em",
+                        textDecoration: 'none',
+                        '&:hover': { color: theme.palette.secondary.dark },
+                        [theme.breakpoints.down("lg")]: {
+                          fontSize: "1.5em",
+                        },
+                        [theme.breakpoints.down("md")]: {
+                          fontSize: "1em",
+                        },
+                        [theme.breakpoints.down("sm")]: {
+                          fontSize: "0.75em",
+                        },
+                      }}
+                      />
+                    </Tooltip>
+                  </div>
+                </>
               )}
               {/* Check if userId is available, otherwise show the login toast */}
               {userId ? (
@@ -471,7 +594,16 @@ export default function Navigation({ sessionId }) {
                   componentsProps={{
                     tooltip: {
                       sx: {
-                        fontSize: "large"
+                        fontSize: "large",
+                        [theme.breakpoints.down("lg")]: {
+                          fontSize: "0.8em",
+                        },
+                        [theme.breakpoints.down("md")]: {
+                          fontSize: "0.65em",
+                        },
+                        [theme.breakpoints.down("sm")]: {
+                          fontSize: "0.5em",
+                        },
                       },
                     },
                   }}
@@ -490,6 +622,17 @@ export default function Navigation({ sessionId }) {
                           color: theme.palette.info.main,
                           textTransform: "none",
                           fontSize: "2.5em !important",
+                          textDecoration: 'none',
+                          '&:hover': { color: theme.palette.secondary.dark },
+                          [theme.breakpoints.down("lg")]: {
+                            fontSize: "1.5em",
+                          },
+                          [theme.breakpoints.down("md")]: {
+                            fontSize: "1em",
+                          },
+                          [theme.breakpoints.down("sm")]: {
+                            fontSize: "0.75em",
+                          },
                         }}
                       />}
                     >
@@ -498,7 +641,46 @@ export default function Navigation({ sessionId }) {
                 </Tooltip>
               ) : (
                 <div onClick={() => showLoginToast(textToastProfile)}>
-                  <ManageAccountsIcon sx={{ margin: "0.5em", fontSize: "2em" }} />
+                  <Tooltip
+                    title="Account"
+                    placement="top"
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                    componentsProps={{
+                      tooltip: {
+                        sx: {
+                          fontSize: "large",
+                          [theme.breakpoints.down("lg")]: {
+                            fontSize: "0.8em",
+                          },
+                          [theme.breakpoints.down("md")]: {
+                            fontSize: "0.65em",
+                          },
+                          [theme.breakpoints.down("sm")]: {
+                            fontSize: "0.5em",
+                          },
+                        },
+                      },
+                    }}
+                    arrow
+                  >
+                    <ManageAccountsIcon sx={{
+                      margin: "0.5em",
+                      fontSize: "2em",
+                      textDecoration: 'none',
+                      '&:hover': { color: theme.palette.secondary.dark },
+                      [theme.breakpoints.down("lg")]: {
+                        fontSize: "1.5em",
+                      },
+                      [theme.breakpoints.down("md")]: {
+                        fontSize: "1em",
+                      },
+                      [theme.breakpoints.down("sm")]: {
+                        fontSize: "0.75em",
+                      },
+                    }}
+                    />
+                  </Tooltip>
                 </div>
               )}
             </Toolbar>
@@ -511,7 +693,17 @@ export default function Navigation({ sessionId }) {
               position="static"
               className={montserrat.className}
             >
-              <Toolbar sx={{ display: "flex", justifyContent: "space-evenly" }}>
+              <Toolbar sx={{ 
+                display: "flex", 
+                justifyContent: "space-between", 
+                padding: "0.5em 0",
+                [theme.breakpoints.down("md")]: {
+                  justifyContent: "space-around"
+                },
+                [theme.breakpoints.down("sm")]: {
+                  justifyContent: "space-around"
+                },
+                }}>
                 <NextLink
                   href={{
                     pathname: "/products",
@@ -524,7 +716,20 @@ export default function Navigation({ sessionId }) {
                   <Typography
                     sx={{
                       color: theme.palette.info.main,
-                      textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
+                      paddingLeft: "3em",
+                      paddingRight: "1em",
+                      textDecoration: 'none', '&:hover': { textDecoration: 'underline', color: theme.palette.secondary.light },
+                      [theme.breakpoints.down("lg")]: {
+                        fontSize: "0.8em",
+                      },
+                      [theme.breakpoints.down("md")]: {
+                        fontSize: "0.65em",
+                        paddingLeft: "1em"
+                      },
+                      [theme.breakpoints.down("sm")]: {
+                        fontSize: "0.5em",
+                        paddingLeft: "1em"
+                      },
                     }}
                   >
                     The Collection
@@ -547,7 +752,17 @@ export default function Navigation({ sessionId }) {
                   <Typography
                     sx={{
                       color: theme.palette.info.main,
-                      textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
+                      paddingRight: "1em",
+                      textDecoration: 'none', '&:hover': { textDecoration: 'underline', color: theme.palette.secondary.light },
+                      [theme.breakpoints.down("lg")]: {
+                        fontSize: "0.8em",
+                      },
+                      [theme.breakpoints.down("md")]: {
+                        fontSize: "0.65em",
+                      },
+                      [theme.breakpoints.down("sm")]: {
+                        fontSize: "0.5em",
+                      },
                     }}
                   >
                     Photography
@@ -570,7 +785,17 @@ export default function Navigation({ sessionId }) {
                   <Typography
                     sx={{
                       color: theme.palette.info.main,
-                      textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
+                      paddingRight: "1em",
+                      textDecoration: 'none', '&:hover': { textDecoration: 'underline', color: theme.palette.secondary.light },
+                      [theme.breakpoints.down("lg")]: {
+                        fontSize: "0.8em",
+                      },
+                      [theme.breakpoints.down("md")]: {
+                        fontSize: "0.65em",
+                      },
+                      [theme.breakpoints.down("sm")]: {
+                        fontSize: "0.5em",
+                      },
                     }}
                   >
                     Sculptures
@@ -585,7 +810,17 @@ export default function Navigation({ sessionId }) {
                   sx={{
                     mr: 2,
                     textTransform: 'none',
+                    '&hover': { color: theme.palette.secondary.light },
                     fontFamily: theme.typography.fontFamily,
+                    [theme.breakpoints.down("lg")]: {
+                      fontSize: "0.8em",
+                    },
+                    [theme.breakpoints.down("md")]: {
+                      fontSize: "0.65em",
+                    },
+                    [theme.breakpoints.down("sm")]: {
+                      fontSize: "0.5em",
+                    },
                   }}
                   onClick={e => setAnchorEl(e.currentTarget)}
                   endIcon={<ArrowDropDownIcon sx={{ color: theme.palette.info }} />}
@@ -608,8 +843,18 @@ export default function Navigation({ sessionId }) {
                   <Typography
                     sx={{
                       color: theme.palette.info.main,
-                      textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
-                      marginLeft: "-1em"
+                      textDecoration: 'none', '&:hover': { textDecoration: 'underline', color: theme.palette.secondary.light },
+                      marginLeft: "-1em",
+                      paddingRight: "1em",
+                      [theme.breakpoints.down("lg")]: {
+                        fontSize: "0.8em",
+                      },
+                      [theme.breakpoints.down("md")]: {
+                        fontSize: "0.65em",
+                      },
+                      [theme.breakpoints.down("sm")]: {
+                        fontSize: "0.5em",
+                      },
                     }}
                   >
                     Sale
@@ -628,7 +873,17 @@ export default function Navigation({ sessionId }) {
                   <Typography
                     sx={{
                       color: theme.palette.info.main,
-                      textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
+                      paddingRight: "1em",
+                      textDecoration: 'none', '&:hover': { textDecoration: 'underline', color: theme.palette.secondary.light },
+                      [theme.breakpoints.down("lg")]: {
+                        fontSize: "0.8em",
+                      },
+                      [theme.breakpoints.down("md")]: {
+                        fontSize: "0.65em",
+                      },
+                      [theme.breakpoints.down("sm")]: {
+                        fontSize: "0.5em",
+                      },
                     }}
                   >
                     About
@@ -645,15 +900,34 @@ export default function Navigation({ sessionId }) {
                             placeholder="Search…"
                             sx={{
                               backgroundColor: theme.palette.primary.light,
-                              color: theme.palette.primary.main,
-                              marginTop: "0.5em",
-                              marginBottom: "0.5em",
-                              marginRight: "-5em",
+                              marginLeft: "auto", 
+                              marginRight: 0,
+                              [theme.breakpoints.down("lg")]: {
+                                width: "90%"
+                              },
+                              [theme.breakpoints.down("md")]: {
+                                width: "75%"
+                              },
+                              [theme.breakpoints.down("sm")]: {
+                                width: "60%"
+                              },
                             }}
                             InputProps={{
+                              style: { 
+                                color: theme.palette.secondary.main,
+                                [theme.breakpoints.down("lg")]: {
+                                  fontSize: "0.8em",
+                                },
+                                [theme.breakpoints.down("md")]: {
+                                  fontSize: "0.65em",
+                                },
+                                [theme.breakpoints.down("sm")]: {
+                                  fontSize: "0.5em",
+                                }, 
+                              },
                               endAdornment: (
                                 <InputAdornment position="end">
-                                  <button type="submit"><SearchIcon sx={{ margin: "0.5em", fontSize: "2em" }} /></button>
+                                  <button type="submit"><SearchIcon sx={{ margin: "0.5em", fontSize: "2em", color: theme.palette.primary.main }} /></button>
                                 </InputAdornment>
                               ),
                             }}
