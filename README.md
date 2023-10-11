@@ -16,9 +16,9 @@ I focused on and contributed to specific project components, including cart, wis
 ## Tech Stack
 - [Next.js](https://nextjs.org/) Framework: The backbone of SmartArt, providing a robust foundation for the eCommerce platform.
 - [Prisma.io](https://www.prisma.io/docs) and [PostgreSQL](https://www.postgresql.org/) : Leveraged Prisma.io with a PostgreSQL database on the server-side to handle data storage and management effectively.
--[Auth0](https://auth0.com/) Authentication: Integrated the Auth0 Authentication Platform to ensure secure login, registration, and password storage.
+- [Auth0](https://auth0.com/) Authentication: Integrated the Auth0 Authentication Platform to ensure secure login, registration, and password storage.
 - [Stripe API](https://stripe.com/): Seamlessly integrated the Stripe API for checkout and payment processing, guaranteeing a smooth shopping experience.
--[Material UI](https://mui.com/material-ui/)  and [Tailwind CSS](https://tailwindcss.com/) : Crafted the front-end design using the Material UI React component library and Tailwind CSS for a visually appealing and responsive user interface.
+- [Material UI](https://mui.com/material-ui/)  and [Tailwind CSS](https://tailwindcss.com/) : Crafted the front-end design using the Material UI React component library and Tailwind CSS for a visually appealing and responsive user interface.
 
 ## Features
 
