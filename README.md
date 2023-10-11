@@ -8,7 +8,7 @@ I focused on and contributed to specific project components, including cart, wis
 
 
 ## Final Product
-![website demonstration](./docs/sma1.png)
+![website demonstration](https://github.com/anaProdigy/SmartArt/blob/main/public/docs/sma1.png)
 
 
 ## Tech Stack
