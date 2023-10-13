@@ -8,6 +8,7 @@ I focused on and contributed to specific project components, including cart, wis
 
 
 ## Final Product
+### Deployed website can be found [here](https://smart-art-ca3d.vercel.app/)
 ![website demonstration](https://github.com/anaProdigy/SmartArt/blob/main/public/docs/sma1.png)
 ![website demonstration](https://github.com/anaProdigy/SmartArt/blob/main/public/docs/sma2.png)
 ![website demonstration](https://github.com/anaProdigy/SmartArt/blob/main/public/docs/sma3.png)
