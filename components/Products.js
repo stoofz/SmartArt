@@ -34,9 +34,11 @@ import Image from 'material-ui-image';
 import { useSearchState } from 'utils/search';
 
 import { useWishlist } from '@/utils/wishlistContext';
-// import { handleAddToWishlist, showLoginToast } from '@/utils/loginToast';
+// import { handleAddToWishlist, showLoginToast } from '@/utils/wishlistFnWithContext';
 import { ToastContainer } from 'react-toastify';
-import { useWishlistFunctions } from '@/utils/loginToast';
+import { useWishlistFunctions } from '@/utils/wishlistFnWithContext';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -75,7 +77,19 @@ const Products = () => {
       handleAddToCart(productId, userId);
     } else {
       // User is not logged in, show a toast notification
-      showLoginToast(textToast);
+      // showLoginToast(textToast);
+      toast.success(textToast, {
+        progressStyle: {
+          backgroundColor: '#b1889d', // Set the progress bar color
+        },
+        position: 'top-right',
+        autoClose: 2000,
+        style: {
+          backgroundColor: '#F5C9C6', // Background color
+          color: 'black', // Text color
+        },
+        icon: () => null,
+      });
     }
   };
 
@@ -254,7 +268,7 @@ const Products = () => {
                       </HeartIconStyled>
 
                       {/* Render the ToastContainer */}
-                      <ToastContainer position="top-right" autoClose={2000} />
+                      {/* <ToastContainer position="top-right" autoClose={2000} /> */}
                     </div>
 
 
@@ -357,7 +371,7 @@ const Products = () => {
                         </Button>
 
                         {/* Render the ToastContainer */}
-                        <ToastContainer position="top-right" autoClose={2000} />
+                        {/* <ToastContainer position="top-right" autoClose={2000} /> */}
 
                         <Button
                           sx={{ color: theme.palette.primary.main }}

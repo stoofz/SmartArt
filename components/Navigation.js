@@ -29,7 +29,7 @@ import { Formik, Form, Field } from "formik";
 import { useSearchState } from 'utils/search';
 
 import { useRouter } from 'next/router';
-import { useWishlistFunctions } from '@/utils/loginToast';
+import { useWishlistFunctions } from '@/utils/wishlistFnWithContext';
 import { ca } from "date-fns/locale";
 
 const montserrat = Montserrat({
@@ -299,7 +299,7 @@ export default function Navigation({ sessionId }) {
           <Typography
             sx={{ color: theme.palette.primary.dark }}
           >
-            Orders 
+            Orders
           </Typography>
         </NextLink>
       </MenuItem>

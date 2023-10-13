@@ -56,7 +56,7 @@ import Navigation from '../../components/Navigation';
 
 
 // import { handleAddToWishlist, showLoginToast } from '@/utils/loginToast';
-import { useWishlistFunctions } from '@/utils/loginToast';
+import { useWishlistFunctions } from '@/utils/wishlistFnWithContext';
 
 const applyDiscountToProduct = async (productId, productPrice) => {
   try {
@@ -538,303 +538,303 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
 
   return (
     <ThemeProvider theme={theme}>
-    <Navigation />
-    <main>
-      <Stack direction="row" sx={{ padding: "4em", display: "flex", justifyContent: "space-evenly" }}>
-        <CardMedia
-          component="img"
-          image={`../uploads/${product.image}`}
-          sx={{ display: 'block', marginBottom: "-1em", objectFit: "contain", width: 600, height: 600, padding: "2em" }}
-        />
-        <Card elevation={4} sx={{ maxWidth: "md" }}>
-          <Typography variant="h4" align="center" sx={{ paddingTop: "1em", paddingRight: "1em", paddingLeft: "1em", color: theme.palette.primary.main }}>
-            {product.name}
-          </Typography>
-          <Typography variant="h6" align="center" sx={{ color: theme.palette.primary.dark, paddingTop: "1.5em" }}>
-            {product.price !== product.originalPrice ? (
-              <span>
-                <span style={{ textDecoration: 'line-through', color: theme.palette.warning.dark }}> ${formatPrice(product.originalPrice)} </span> {' '} ${formatPrice(product.price)}
-              </span>) : (`$${formatPrice(product.price)}`
-            )}
-          </Typography>
-          <Typography align="center" sx={{ paddingTop: "1.5em" }}>
-            <Tooltip
-              title="Review Product"
-              placement="right"
-              TransitionComponent={Fade}
-              TransitionProps={{ timeout: 600 }}
-              componentsProps={{
-                tooltip: {
-                  sx: {
-                    fontSize: "large",
-                    marginRight: "1.75em"
-                  },
-                },
-              }}
-              arrow
-            >
-              <Rating
-                name="simple-controlled"
-                value={averageRating(reviews)}
-                precision={0.5}
-                onChange={handleFormOpen}
-              />
-            </Tooltip>
-          </Typography>
-
-          <div style={{ display: "flex", justifyContent: "center", paddingTop: "1.5em" }}>
-            <Button
-              style={{
-                backgroundColor: theme.palette.primary.main,
-                color: theme.palette.info.main,
-                textTransform: "none",
-                paddingRight: "5em",
-                paddingLeft: "5em",
-                marginRight: "2em",
-                ":hover": {
-                  backgroundColor: theme.palette.secondary.main
-                }
-              }}
-              onClick={() => handleAddToCartToast(product.id, userId, textToastCart)}
-            >
-              <Typography variant="h6">
-                Add To Cart
-              </Typography>
-            </Button>
-            {isInWishlist(product.id) ? (
-              <>
-                <Tooltip
-                  title="Remove from Wishlist"
-                  placement="right"
-                  TransitionComponent={Fade}
-                  TransitionProps={{ timeout: 600 }}
-                  componentsProps={{
-                    tooltip: {
-                      sx: {
-                        fontSize: "large"
-                      },
-                    },
-                  }}
-                  arrow
-                >
-                  <Button
-                    type="button"
-                    className="icon-button"
-                    onClick={() => handleAddToWishlist(userId, product, textToastFav)}
-                  >
-                    <FavoriteIcon sx={{ fontSize: "2.5em" }} />
-                  </Button>
-                </Tooltip>
-              </>
-            ) : (
-              <>
-                <Tooltip
-                  title="Add to Wishlist"
-                  placement="right"
-                  TransitionComponent={Fade}
-                  TransitionProps={{ timeout: 600 }}
-                  componentsProps={{
-                    tooltip: {
-                      sx: {
-                        fontSize: "large"
-                      },
-                    },
-                  }}
-                  arrow
-                >
-                  <Button
-                    type="button"
-                    className="icon-button"
-                    onClick={() => handleAddToWishlist(userId, product, textToastFav)}
-                  >
-                    <FavoriteBorderIcon sx={{ fontSize: "2.5em" }} />
-                  </Button>
-                </Tooltip>
-              </>
-            )}
-          </div>
-
-          {/* Render the ToastContainer */}
-          <ToastContainer position="top-right" autoClose={2000} />
-
-          <div style={{ color: theme.palette.primary.main, paddingTop: "6em" }}>
-            <Accordion disableGutters={true} width="100%">
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
-                  Artist
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }} autoFocus={true}>
-                <Typography variant="h6">
-                  {product.artist}
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion disableGutters={true}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
-                  Country
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }}>
-                <Typography variant="h6">
-                  {product.country}
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion disableGutters={true}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
-                  Details</Typography>
-              </AccordionSummary>
-              <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }}>
-                <Typography variant="h6">
-                  {product.description}
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion disableGutters={true}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel2a-content"
-                id="panel2a-header"
-              >
-                <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
-                  Dimensions</Typography>
-              </AccordionSummary>
-              <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }}>
-                <Typography variant="h6">
-                  {product.dimensions}
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-          </div>
-        </Card>
-      </Stack>
-
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-
-        <Button
-          onClick={handleFormOpen}
-          startIcon={<AddIcon />}
-          variant="outlined"
-          style={{
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.info.main,
-            borderColor: 'transparent',
-            textTransform: "none",
-            display: "flex",
-            justifyContent: "center",
-            margin: "2em",
-            paddingRight: "2em",
-            paddingLeft: "2em"
-          }}
-
-        >
-          <Typography variant="h6">
-            Leave Your Review!
-          </Typography>
-        </Button>
-
-      </div>
-      <ReviewForm
-        open={openForm}
-        onClose={handleFormClose}
-        onSubmit={handleReviewSubmit}
-        comment={comment}
-        setComment={setComment}
-        rating={rating}
-        setRating={setRating}
-      />
-
-      <section style={{ maxWidth: '600px', margin: '0 auto' }}>
-        <Typography variant="h4" gutterBottom align="center" sx={{ color: theme.palette.primary.main }}>
-          Customer Reviews
-        </Typography>
-
-        <List>
-          {reviews.length === 0 ? (
-            <Typography variant="body1" align="center" sx={{ color: theme.palette.primary.main }}>
-              No reviews available
+      <Navigation />
+      <main>
+        <Stack direction="row" sx={{ padding: "4em", display: "flex", justifyContent: "space-evenly" }}>
+          <CardMedia
+            component="img"
+            image={`../uploads/${product.image}`}
+            sx={{ display: 'block', marginBottom: "-1em", objectFit: "contain", width: 600, height: 600, padding: "2em" }}
+          />
+          <Card elevation={4} sx={{ maxWidth: "md" }}>
+            <Typography variant="h4" align="center" sx={{ paddingTop: "1em", paddingRight: "1em", paddingLeft: "1em", color: theme.palette.primary.main }}>
+              {product.name}
             </Typography>
-          ) : (
-            reviews
-              .sort((a, b) => new Date(b.date) - new Date(a.date))
-              .map((review, index) => (
-                // <div key={index} style={{ marginBottom: '10px' }}>
-                <Paper key={index} elevation={4} style={{ marginBottom: '10px' }}>
-                  <Card key={index} style={{ minHeight: '150px' }}>
-                    <CardContent style={{ height: '150px', overflowY: 'auto', color: theme.palette.primary.main }} >
-                      <ListItem alignItems="flex-start">
-                        <Avatar style={{ marginRight: '8px', color: theme.palette.info.main, backgroundColor: theme.palette.primary.main }}>
-                          {review.firstName}
-                        </Avatar>
-                        <ListItemText
-                          primary={
-                            <div>
-                              <div
-                                style={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  marginBottom: '8px',
-                                }}
-                              >
-                                <Typography variant="body1" style={{ marginRight: '8px' }}>
-                                  {review.firstName} {review.lastName}
-                                </Typography>
-                                <Rating name="read-only" readOnly value={review.rating} sx={{ display: 'flex', alignItems: 'center' }} />
-                              </div>
-                              <div style={{ fontSize: '14px', color: '#777' }}>
-                                {new Date(review.date).toLocaleDateString('en-CA')}
-                              </div>
-                              <div style={{ fontSize: '14px', color: '#777', marginTop: '8px' }}>
-                                {review.comment}
-                              </div>
-                            </div>
-                          }
-                        />
+            <Typography variant="h6" align="center" sx={{ color: theme.palette.primary.dark, paddingTop: "1.5em" }}>
+              {product.price !== product.originalPrice ? (
+                <span>
+                  <span style={{ textDecoration: 'line-through', color: theme.palette.warning.dark }}> ${formatPrice(product.originalPrice)} </span> {' '} ${formatPrice(product.price)}
+                </span>) : (`$${formatPrice(product.price)}`
+              )}
+            </Typography>
+            <Typography align="center" sx={{ paddingTop: "1.5em" }}>
+              <Tooltip
+                title="Review Product"
+                placement="right"
+                TransitionComponent={Fade}
+                TransitionProps={{ timeout: 600 }}
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      fontSize: "large",
+                      marginRight: "1.75em"
+                    },
+                  },
+                }}
+                arrow
+              >
+                <Rating
+                  name="simple-controlled"
+                  value={averageRating(reviews)}
+                  precision={0.5}
+                  onChange={handleFormOpen}
+                />
+              </Tooltip>
+            </Typography>
 
-                        {user && user.id === review.customerId && (
-                          <Button
-                            sx={{
-                              minWidth: 'unset', // Remove the minimum width
-                            }}
-                            onClick={() => {
-                              console.log("review.id", review.id);
-                              deleteReviewFromDb(review.id);
+            <div style={{ display: "flex", justifyContent: "center", paddingTop: "1.5em" }}>
+              <Button
+                style={{
+                  backgroundColor: theme.palette.primary.main,
+                  color: theme.palette.info.main,
+                  textTransform: "none",
+                  paddingRight: "5em",
+                  paddingLeft: "5em",
+                  marginRight: "2em",
+                  ":hover": {
+                    backgroundColor: theme.palette.secondary.main
+                  }
+                }}
+                onClick={() => handleAddToCartToast(product.id, userId, textToastCart)}
+              >
+                <Typography variant="h6">
+                  Add To Cart
+                </Typography>
+              </Button>
+              {isInWishlist(product.id) ? (
+                <>
+                  <Tooltip
+                    title="Remove from Wishlist"
+                    placement="right"
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                    componentsProps={{
+                      tooltip: {
+                        sx: {
+                          fontSize: "large"
+                        },
+                      },
+                    }}
+                    arrow
+                  >
+                    <Button
+                      type="button"
+                      className="icon-button"
+                      onClick={() => handleAddToWishlist(userId, product, textToastFav)}
+                    >
+                      <FavoriteIcon sx={{ fontSize: "2.5em" }} />
+                    </Button>
+                  </Tooltip>
+                </>
+              ) : (
+                <>
+                  <Tooltip
+                    title="Add to Wishlist"
+                    placement="right"
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 600 }}
+                    componentsProps={{
+                      tooltip: {
+                        sx: {
+                          fontSize: "large"
+                        },
+                      },
+                    }}
+                    arrow
+                  >
+                    <Button
+                      type="button"
+                      className="icon-button"
+                      onClick={() => handleAddToWishlist(userId, product, textToastFav)}
+                    >
+                      <FavoriteBorderIcon sx={{ fontSize: "2.5em" }} />
+                    </Button>
+                  </Tooltip>
+                </>
+              )}
+            </div>
+
+            {/* Render the ToastContainer */}
+            <ToastContainer position="top-right" autoClose={2000} />
+
+            <div style={{ color: theme.palette.primary.main, paddingTop: "6em" }}>
+              <Accordion disableGutters={true} width="100%">
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
+                    Artist
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }} autoFocus={true}>
+                  <Typography variant="h6">
+                    {product.artist}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion disableGutters={true}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
+                    Country
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }}>
+                  <Typography variant="h6">
+                    {product.country}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion disableGutters={true}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
+                    Details</Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }}>
+                  <Typography variant="h6">
+                    {product.description}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion disableGutters={true}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel2a-content"
+                  id="panel2a-header"
+                >
+                  <Typography variant="h6" sx={{ color: theme.palette.primary.dark }}>
+                    Dimensions</Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main }}>
+                  <Typography variant="h6">
+                    {product.dimensions}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+            </div>
+          </Card>
+        </Stack>
+
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+
+          <Button
+            onClick={handleFormOpen}
+            startIcon={<AddIcon />}
+            variant="outlined"
+            style={{
+              backgroundColor: theme.palette.primary.main,
+              color: theme.palette.info.main,
+              borderColor: 'transparent',
+              textTransform: "none",
+              display: "flex",
+              justifyContent: "center",
+              margin: "2em",
+              paddingRight: "2em",
+              paddingLeft: "2em"
+            }}
+
+          >
+            <Typography variant="h6">
+              Leave Your Review!
+            </Typography>
+          </Button>
+
+        </div>
+        <ReviewForm
+          open={openForm}
+          onClose={handleFormClose}
+          onSubmit={handleReviewSubmit}
+          comment={comment}
+          setComment={setComment}
+          rating={rating}
+          setRating={setRating}
+        />
+
+        <section style={{ maxWidth: '600px', margin: '0 auto' }}>
+          <Typography variant="h4" gutterBottom align="center" sx={{ color: theme.palette.primary.main }}>
+            Customer Reviews
+          </Typography>
+
+          <List>
+            {reviews.length === 0 ? (
+              <Typography variant="body1" align="center" sx={{ color: theme.palette.primary.main }}>
+                No reviews available
+              </Typography>
+            ) : (
+              reviews
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .map((review, index) => (
+                  // <div key={index} style={{ marginBottom: '10px' }}>
+                  <Paper key={index} elevation={4} style={{ marginBottom: '10px' }}>
+                    <Card key={index} style={{ minHeight: '150px' }}>
+                      <CardContent style={{ height: '150px', overflowY: 'auto', color: theme.palette.primary.main }} >
+                        <ListItem alignItems="flex-start">
+                          <Avatar style={{ marginRight: '8px', color: theme.palette.info.main, backgroundColor: theme.palette.primary.main }}>
+                            {review.firstName}
+                          </Avatar>
+                          <ListItemText
+                            primary={
+                              <div>
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    marginBottom: '8px',
+                                  }}
+                                >
+                                  <Typography variant="body1" style={{ marginRight: '8px' }}>
+                                    {review.firstName} {review.lastName}
+                                  </Typography>
+                                  <Rating name="read-only" readOnly value={review.rating} sx={{ display: 'flex', alignItems: 'center' }} />
+                                </div>
+                                <div style={{ fontSize: '14px', color: '#777' }}>
+                                  {new Date(review.date).toLocaleDateString('en-CA')}
+                                </div>
+                                <div style={{ fontSize: '14px', color: '#777', marginTop: '8px' }}>
+                                  {review.comment}
+                                </div>
+                              </div>
                             }
-                            }
-                            style={{ backgroundColor: 'lightpink', color: 'white', borderColor: 'transparent' }}
-                          >
-                            <DeleteIcon /> Delete
-                          </Button>
-                        )}
-                      </ListItem>
-                    </CardContent>
-                  </Card>
-                </Paper>
+                          />
+
+                          {user && user.id === review.customerId && (
+                            <Button
+                              sx={{
+                                minWidth: 'unset', // Remove the minimum width
+                              }}
+                              onClick={() => {
+                                console.log("review.id", review.id);
+                                deleteReviewFromDb(review.id);
+                              }
+                              }
+                              style={{ backgroundColor: 'lightpink', color: 'white', borderColor: 'transparent' }}
+                            >
+                              <DeleteIcon /> Delete
+                            </Button>
+                          )}
+                        </ListItem>
+                      </CardContent>
+                    </Card>
+                  </Paper>
 
 
-              ))
-          )}
-        </List>
-      </section>
-    </main>
-    <Footer />
-  </ThemeProvider >
-);
+                ))
+            )}
+          </List>
+        </section>
+      </main>
+      <Footer />
+    </ThemeProvider >
+  );
 };
 
 export async function getServerSideProps({ req, params }) {
