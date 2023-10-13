@@ -29,8 +29,8 @@ import { Formik, Form, Field } from "formik";
 import { useSearchState } from 'utils/search';
 
 import { useRouter } from 'next/router';
-import { useWishlistFunctions } from '@/utils/wishlistFnWithContext';
 import { ca } from "date-fns/locale";
+import { showLoginToast } from "@/utils/loginToast";
 
 const montserrat = Montserrat({
   weight: '600',
@@ -119,7 +119,6 @@ export default function Navigation({ sessionId }) {
 
   //-------------------WISHLIST, Cart, Profile LOGIC --------------------
   //pass this text to show in toaster
-  const { showLoginToast } = useWishlistFunctions();
   const textToastFav = "Please log in to see your wishlist.";
   const textToastCart = "Please log in to see your cart.";
   const textToastProfile = "Please log in to access your account.";

@@ -1,6 +1,10 @@
-const showLoginToast = (textToast) => {
-  toast.success(textToast, {
-    // toast.success(<LoginToast text={textToast} />, {
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import LoginToast from '@/components/LoginToast';
+
+export const showLoginToast = (textToast) => {
+  // toast.success(textToast, {
+    toast.success(<LoginToast text={textToast} />, {
     progressStyle: {
       backgroundColor: '#b1889d', // Set the progress bar color
 
@@ -15,5 +19,3 @@ const showLoginToast = (textToast) => {
     icon: () => null,
   });
 };
-
-export { showLoginToast };
