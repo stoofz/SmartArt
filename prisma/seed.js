@@ -15,14 +15,14 @@ async function main() {
   try {
  
     // Insert data into the "admins" table
-    await prisma.admin.create({
-      data: {
-        email: 'test@test6.com',
-        subId: '1ffe23f',
-        firstName: 'tester',
-        lastName: 'test',
-      },
-    });
+    // await prisma.admin.create({
+    //   data: {
+    //     email: 'test@test6.com',
+    //     subId: '1ffe23f',
+    //     firstName: 'tester',
+    //     lastName: 'test',
+    //   },
+    // });
 
   
     // Insert data into the "customers" table
@@ -63,9 +63,9 @@ async function main() {
     ];
 
     //  //Insert data into the "customers" table
-    const createdCustomers = await prisma.customer.createMany({
-      data: customersData,
-    });
+    // const createdCustomers = await prisma.customer.createMany({
+    //   data: customersData,
+    // });
     //Get and store in var newly created customers to extract id dinamically
     const customers = await prisma.customer.findMany();
     // console.log("LINE 63: Customers:", customers);
@@ -127,9 +127,9 @@ async function main() {
       },
     ]
     // Insert data into the "addresses" table
-    const createdAddresses = await prisma.address.createMany({
-      data: addressesData,
-    });
+    // const createdAddresses = await prisma.address.createMany({
+    //   data: addressesData,
+    // });
 
     //Get and store in var newly created addresses to extract id dinamically
     const addresses = await prisma.category.findMany();
