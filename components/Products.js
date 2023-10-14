@@ -37,6 +37,7 @@ import { useWishlist } from '@/utils/wishlistContext';
 // import { handleAddToWishlist, showLoginToast } from '@/utils/wishlistFnWithContext';
 import { ToastContainer } from 'react-toastify';
 import { useWishlistFunctions } from '@/utils/wishlistFnWithContext';
+import { showLoginToast } from '@/utils/loginToast';
 
 
 
@@ -65,7 +66,7 @@ const Products = () => {
 
   //-------------------WISHLIST LOGIC --------------------
   const textToastFav = "Please log in to add items to your wishlist.";
-  const { handleAddToWishlist, showLoginToast } = useWishlistFunctions();
+  const { handleAddToWishlist } = useWishlistFunctions();
 
   //---------------------CART LOGIC------------------------
   //additional fn to check if user is logged in before adding to cart
