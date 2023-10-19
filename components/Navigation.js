@@ -74,6 +74,7 @@ export default function Navigation({ sessionId }) {
   //Profile menu open/close
 
 
+  //---------------- HANDLE CATEGORY SEARCH ------------------------------//
 
   const handleCategorySearch = (async (categoryQuery) => {
     try {
@@ -148,6 +149,7 @@ export default function Navigation({ sessionId }) {
       }
     },
   });
+  
   // const userId = useSessionId();
   const userId = sessionId;
 
