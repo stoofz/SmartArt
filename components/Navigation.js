@@ -387,34 +387,53 @@ export default function Navigation({ sessionId }) {
                     </svg>
                   </button>
                   {renderPaintingsMenu}
+
+                  
                 </div>
 
+                <Link href="/sale" className={`hover:underline ${montserrat.className}`}>
+                  <div>
+                   Sale
+                  </div>
+                </Link>
+                <Link href="/about" className={`hover:underline ${montserrat.className}`}>
+                  <div>
+                    About
+                  </div>
+                </Link>
+
                 {/* Search Bar */}
-                <Formik initialValues={{ query: '' }} onSubmit={(values) => handleSearch(values.query)}>
-                  <Form className="ml-4">
-                    <Field
-                      type="text"
-                      name="query"
-                      placeholder="Search..."
-                      className="bg-primary text-primary-light px-4 py-2 rounded-l-lg"
-                    />
-                    <button type="submit" className="bg-primary text-primary-light px-4 py-2 rounded-r-lg hover:bg-green-500">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="w-6 h-6"
-                      >
-                        <line x1="21" y1="21" x2="15" y2="15" />
-                        <circle cx="10" cy="10" r="8" />
-                      </svg>
-                    </button>
-                  </Form>
-                </Formik>
+                <Search>
+                  <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }}>
+                    <Form>
+                      <div className="relative">
+                        <div className="flex">
+                          <Field name="query" render={({ field }) => (
+                            <div className="flex items-center bg-primary-light">
+                              <input
+                                {...field}
+                                type="text"
+                                placeholder="Search..."
+                                className="bg-primary-light focus:outline-none  text-primary-dark  px-3 py-2 focus:text-primary-darker flex-grow"
+                              />
+            
+                              <button type="submit" className="ml-2">
+                                <SearchIcon className="text-primary-dark text-2xl mr-3" />
+                              </button>
+                            </div>
+                          )} />
+                        </div>
+                      </div>
+                    </Form>
+                  </Formik>
+                </Search>
+              
+
+
+
+
+
+
               </div>
             </div>
 

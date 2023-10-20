@@ -13,8 +13,8 @@ module.exports = {
       colors: {
         primary: {
           DEFAULT: '#324E4B', // Map your primary color to 'primary'
-          light: 'lighter-color-for-primary', // Define your custom light color
-          dark: 'darker-color-for-primary', // Define your custom dark color
+          light: '#5a716e', // Define your custom light color
+          dark: '#1e2e2d', // Define your custom dark color
         },
         secondary: {
           DEFAULT: '#F5C9C6', // Map your secondary color to 'secondary'
