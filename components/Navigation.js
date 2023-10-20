@@ -27,6 +27,8 @@ import Tooltip from '@mui/material/Tooltip';
 //import debounce from 'lodash/debounce';
 import { Formik, Form, Field } from "formik";
 import { useSearchState } from 'utils/search';
+import Link from 'next/link';
+
 
 import { useRouter } from 'next/router';
 import { ca } from "date-fns/locale";
@@ -41,6 +43,7 @@ const Search = styled('div')`
   width: '100%',
   },
 `;
+
 
 export default function Navigation({ sessionId }) {
   //const [searchTerm, setSearchTerm] = useState('');
@@ -58,6 +61,10 @@ export default function Navigation({ sessionId }) {
   const isReviewsPage = router.pathname === '/reviews';
   const isCartPage = router.pathname === '/cart';
   const isWishlistPage = router.pathname === '/wishlist';
+
+
+
+
   /*
   const handleChange = (event) => {
     //  setSearchTerm(event.target.value);
@@ -149,7 +156,7 @@ export default function Navigation({ sessionId }) {
       }
     },
   });
-  
+
   // const userId = useSessionId();
   const userId = sessionId;
 
@@ -328,11 +335,96 @@ export default function Navigation({ sessionId }) {
 
   return (
     <ThemeProvider theme={theme}>
+
+
+
+
+
+
       <Box
         position="sticky"
         top={0}
         sx={{ width: '100%', zIndex: "1000" }}
       >
+        {/* ---------------------MY NAV ---------------------------------------*/}
+
+        <nav className="bg-gray-800 text-white p-4 ">
+          <div className="mx-auto px-3 md:px-12 flex justify-between items-center">
+            <div className="flex items-center space-x-4">
+              <Link href="/">
+                <img
+                  src="../uploads/smartartlogo.png"
+                  className="h-12 md:h-24"
+                  alt="SmartArt Logo"
+                />
+              </Link>
+
+            </div>
+            <div className="flex space-x-2 md:space-x-8" >
+
+              {!userId ? (
+
+                <Link href="/api/auth/login" className={`hover:underline ${montserrat.className}`}>
+                  <div>
+                    Sign In
+                  </div>
+                </Link>
+
+              ) : (
+                <Link href="/api/auth/logout"
+                  className={`hover:underline ${montserrat.className}`}
+                  onClick={clearSession}>
+                  Log Out
+                </Link>
+              )}
+
+              {userId ? (
+
+                <Link href="/wishlist" className={`hover:cursor-pointer`}>
+                  <FavoriteBorderIcon sx={{ fontSize: "2em" }} />
+                </Link>
+              ) : (
+                  <div className={`hover:cursor-pointer`}>
+                  <FavoriteBorderIcon onClick={() => showLoginToast(textToastFav)}
+                    sx={{ fontSize: "2em" }}
+                  />
+                </div>
+
+              )}
+
+              {userId ? (
+
+                <Link href="/cart" className={`hover:cursor-pointer`}>
+                  <ShoppingCartCheckoutIcon sx={{ fontSize: "2em", marginRight: "1em" }} />
+                </Link>
+              ) : (
+                  <div className={`hover:cursor-pointer`}>
+                  <ShoppingCartCheckoutIcon onClick={() => showLoginToast(textToastCart)}
+                      sx={{ fontSize: "2em" }} />
+                </div>
+              )}
+
+              {userId ? (
+
+                <Link href="/profile" className={`hover:cursor-pointer`}>
+                  <ManageAccountsIcon
+                    sx={{ fontSize: "2.1em !important", marginRight: "1em" }}
+                  />
+                </Link>
+              ) : (
+                  <div className={`hover:cursor-pointer`} >
+                  <ManageAccountsIcon
+                    onClick={() => showLoginToast(textToastProfile)}
+                    sx={{ fontSize: "2.1em !important" }}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </nav>
+
+
+
         <Stack>
           <AppBar
             position="static"
@@ -442,18 +534,18 @@ export default function Navigation({ sessionId }) {
                 </Tooltip>
               ) : (
                 <Tooltip
-                  title="Cart"
-                  placement="top"
-                  TransitionComponent={Fade}
-                  TransitionProps={{ timeout: 600 }}
-                  componentsProps={{
-                    tooltip: {
-                      sx: {
-                        fontSize: "large"
-                      },
-                    },
-                  }}
-                  arrow
+                // title="Cart"
+                // placement="top"
+                // TransitionComponent={Fade}
+                // TransitionProps={{ timeout: 600 }}
+                // componentsProps={{
+                //   tooltip: {
+                //     sx: {
+                //       fontSize: "large"
+                //     },
+                //   },
+                // }}
+                // arrow
                 >
                   <>
                     <div onClick={() => showLoginToast(textToastCart)}>
@@ -497,6 +589,7 @@ export default function Navigation({ sessionId }) {
                     </Button>{renderUserMenu}
                   </>
                 </Tooltip>
+
               ) : (
                 <div onClick={() => showLoginToast(textToastProfile)}>
                   <ManageAccountsIcon sx={{ margin: "0.5em", fontSize: "2em" }} />
