@@ -28,7 +28,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { Formik, Form, Field } from "formik";
 import { useSearchState } from 'utils/search';
 import Link from 'next/link';
-
+import CloseIcon from '@material-ui/icons/Close';
 
 import { useRouter } from 'next/router';
 import { ca } from "date-fns/locale";
@@ -39,10 +39,10 @@ const montserrat = Montserrat({
   subsets: ['latin']
 });
 
-const Search = styled('div')`
-  width: '100%',
-  },
-`;
+// const Search = styled('div')`
+//   width: '100%',
+//   },
+// `;
 
 
 export default function Navigation({ sessionId }) {
@@ -53,8 +53,12 @@ export default function Navigation({ sessionId }) {
 
   const { searchResults, setSearchResults } = useSearchState();
   const open = Boolean(anchorEl);
- 
 
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  const toggleSearch = () => {
+    setSearchOpen(!searchOpen);
+  };
 
   //to render conditionally second stack on use profule page as we dont have access to search functionality from there
   const router = useRouter();
@@ -389,12 +393,12 @@ export default function Navigation({ sessionId }) {
                   </button>
                   {renderPaintingsMenu}
 
-                  
+
                 </div>
 
                 <Link href="/sale" className={`hover:underline ${montserrat.className}`}>
                   <div>
-                   Sale
+                    Sale
                   </div>
                 </Link>
                 <Link href="/about" className={`hover:underline ${montserrat.className}`}>
@@ -405,33 +409,72 @@ export default function Navigation({ sessionId }) {
 
                 {/* Search Bar */}
 
-             
-               
 
-                <Search>
-                  <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }}>
-                    <Form>
-                      <div className="relative">
-                        <div className="flex">
-                          <Field name="query" render={({ field }) => (
-                            <div className="flex items-center bg-primary-light">
-                              <input
-                                {...field}
-                                type="text"
-                                placeholder="Search..."
-                                className="bg-primary-light focus:outline-none  text-primary-dark  px-3 py-2 w-4/5 "
-                              />
-            
-                              <button type="submit" className="ml-2">
-                                <SearchIcon className="text-primary-dark text-2xl mr-3" />
-                              </button>
-                            </div>
-                          )} />
-                        </div>
+                {/* <Search> */}
+                <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }}>
+                  <Form>
+                    <div className="relative">
+                      <div className="flex">
+                        <Field name="query" render={({ field }) => (
+                          <div className="flex items-center bg-primary-light hidden md:block">
+                            <input
+                              {...field}
+                              type="text"
+                              placeholder="Search..."
+                              className="bg-primary-light focus:outline-none  text-primary-dark px-3 py-2 w-3/4 "
+                            />
+
+                            <button type="submit" className="ml-2">
+                              <SearchIcon className="text-primary-dark text-2xl mr-3" />
+                            </button>
+                          </div>
+                        )} />
                       </div>
-                    </Form>
-                  </Formik>
-                </Search>
+                    </div>
+                  </Form>
+                </Formik>
+                {/* </Search> */}
+    
+                    {searchOpen ? (
+                      // Search bar is open
+                      <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }}>
+                        <Form>
+                          <div className="relative">
+                            <div className="flex">
+                              <Field name="query" render={({ field }) => (
+                                <div className="flex items-center bg-primary-light relative z-10">
+                                  <input
+                                    {...field}
+                                    type="text"
+                                    placeholder="Search..."
+                                    className="bg-primary-light focus:outline-none text-primary-dark px-3 py-2 w-full"
+                                  />
+
+                                  <button type="submit" className="ml-2">
+                                    <SearchIcon className="text-primary-dark text-2xl mr-3" />
+                                  </button>
+                                  <button onClick={toggleSearch} className="text-primary-dark text-2xl absolute top-0 right-0 -mt-3 -mr-3 z-20">
+                                    <CloseIcon />
+                                  </button>
+                                </div>
+                              )} />
+                            </div>
+                          </div>
+                        </Form>
+                      </Formik>
+                    ) : (
+                      // Search bar is closed
+
+                      <button onClick={toggleSearch} className="text-2xl mr-3 md:hidden">
+                        <SearchIcon />
+                      </button>
+                      
+                    
+                 
+                
+                )}
+
+
               </div>
             </div>
 
@@ -563,35 +606,35 @@ export default function Navigation({ sessionId }) {
                       About
                     </Typography>
                   </NextLink>
-                  <Search>
-                    <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }}>
-                      <Form>
-                        <Field
-                          name="query"
-                          render={({ field }) => (
-                            <TextField
-                              {...field}
-                              placeholder="Search…"
-                              sx={{
-                                backgroundColor: theme.palette.primary.light,
-                                color: theme.palette.primary.main,
-                                marginTop: "0.5em",
-                                marginBottom: "0.5em",
-                                marginRight: "-5em",
-                              }}
-                              InputProps={{
-                                endAdornment: (
-                                  <InputAdornment position="end">
-                                    <button type="submit"><SearchIcon sx={{ margin: "0.5em", fontSize: "2em" }} /></button>
-                                  </InputAdornment>
-                                ),
-                              }}
-                            />
-                          )}
-                        />
-                      </Form>
-                    </Formik>
-                  </Search>
+                  {/* <Search> */}
+                  <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }}>
+                    <Form>
+                      <Field
+                        name="query"
+                        render={({ field }) => (
+                          <TextField
+                            {...field}
+                            placeholder="Search…"
+                            sx={{
+                              backgroundColor: theme.palette.primary.light,
+                              color: theme.palette.primary.main,
+                              marginTop: "0.5em",
+                              marginBottom: "0.5em",
+                              marginRight: "-5em",
+                            }}
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <button type="submit"><SearchIcon sx={{ margin: "0.5em", fontSize: "2em" }} /></button>
+                                </InputAdornment>
+                              ),
+                            }}
+                          />
+                        )}
+                      />
+                    </Form>
+                  </Formik>
+                  {/* </Search> */}
 
                 </Toolbar>
               </AppBar>
