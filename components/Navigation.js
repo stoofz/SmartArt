@@ -53,6 +53,8 @@ export default function Navigation({ sessionId }) {
 
   const { searchResults, setSearchResults } = useSearchState();
   const open = Boolean(anchorEl);
+ 
+
 
   //to render conditionally second stack on use profule page as we dont have access to search functionality from there
   const router = useRouter();
@@ -263,7 +265,7 @@ export default function Navigation({ sessionId }) {
               <Link href="/">
                 <img
                   src="../uploads/smartartlogo.png"
-                  className="h-12 md:h-24"
+                  className="h-12 md:h-20 lg:h-24"
                   alt="SmartArt Logo"
                 />
               </Link>
@@ -272,13 +274,13 @@ export default function Navigation({ sessionId }) {
 
               {!userId ? (
                 <>
-                  <Link href="/api/auth/login" className={`hover:underline ${montserrat.className}`}>
+                  <Link href="/api/auth/login" className={`hidden md:block hover:underline ${montserrat.className}`}>
                     <div>
                       Sign In
                     </div>
                   </Link>
 
-                  <div className={`hover:cursor-pointer`}>
+                  <div className={`hover:cursor-pointer hidden md:block`}>
                     <FavoriteBorderIcon onClick={() => showLoginToast(textToastFav)}
                       sx={{ fontSize: "2em" }}
                     />
@@ -289,12 +291,11 @@ export default function Navigation({ sessionId }) {
                       sx={{ fontSize: "2em" }} />
                   </div>
 
-                  <div className={`hover:cursor-pointer`} >
-                    <ManageAccountsIcon
-                      onClick={() => showLoginToast(textToastProfile)}
-                      sx={{ fontSize: "2.1em !important" }}
-                    />
-                  </div>
+                  <Link href="/api/auth/login" className={`hover:cursor-pointer ${montserrat.className}`}>
+                    <div>
+                      <ManageAccountsIcon sx={{ fontSize: "2.1em !important" }} />
+                    </div>
+                  </Link>
                 </>
               ) : (
                 <>
@@ -364,7 +365,7 @@ export default function Navigation({ sessionId }) {
                 <div className="relative inline-block text-left">
                   <button
                     onClick={(e) => setAnchorEl(e.currentTarget)}
-                    className={`inline-flex items-center justify-between w-40 px-8 py-2 font-medium  text-info hover:underline cursor-pointer  ${montserrat.className}`}
+                    className={`inline-flex items-center justify-between w-30  py-2 font-medium  text-info hover:underline cursor-pointer  ${montserrat.className}`}
                     id="options-menu"
                     aria-expanded="true"
                   >
@@ -403,6 +404,10 @@ export default function Navigation({ sessionId }) {
                 </Link>
 
                 {/* Search Bar */}
+
+             
+               
+
                 <Search>
                   <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }}>
                     <Form>
@@ -414,7 +419,7 @@ export default function Navigation({ sessionId }) {
                                 {...field}
                                 type="text"
                                 placeholder="Search..."
-                                className="bg-primary-light focus:outline-none  text-primary-dark  px-3 py-2 focus:text-primary-darker flex-grow"
+                                className="bg-primary-light focus:outline-none  text-primary-dark  px-3 py-2 w-4/5 "
                               />
             
                               <button type="submit" className="ml-2">
@@ -427,13 +432,6 @@ export default function Navigation({ sessionId }) {
                     </Form>
                   </Formik>
                 </Search>
-              
-
-
-
-
-
-
               </div>
             </div>
 
