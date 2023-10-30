@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -33,6 +33,17 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useRouter } from 'next/router';
 import { ca } from "date-fns/locale";
 import { showLoginToast } from "@/utils/loginToast";
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+
+
+
+
+
+
+
+
 
 const montserrat = Montserrat({
   weight: '600',
@@ -69,7 +80,17 @@ export default function Navigation({ sessionId }) {
   const isWishlistPage = router.pathname === '/wishlist';
 
 
-
+  // useEffect(() => {
+  //   new Swiper('.swiper-container', {
+  //     slidesPerView: 'auto', // Adjust the number of visible items based on the container's width
+  //     spaceBetween: 10,     // Adjust the space between items
+  //     centeredSlides: true, // Center the active item
+  //     navigation: {
+  //       nextEl: '.swiper-button-next',
+  //       prevEl: '.swiper-button-prev',
+  //     },
+  //   });
+  // }, []);
 
   /*
   const handleChange = (event) => {
@@ -337,7 +358,7 @@ export default function Navigation({ sessionId }) {
 
             <div className="bg-gray-800 text-white p-4">
               <div className="px-3 md:px-12 mx-auto flex justify-between items-center">
-                <Link href="/products" className={`hover:underline ${montserrat.className}`}>
+                <Link href="/products" className={`hover:underline pr-4 ${montserrat.className}`}>
                   <div>
                     The Collection
                   </div>
@@ -347,7 +368,7 @@ export default function Navigation({ sessionId }) {
                   onClick={() => {
                     handleClick('Photography');
                   }}
-                  className={`text-info hover:underline cursor-pointer ${montserrat.className}`}
+                  className={`text-info pr-4 hover:underline cursor-pointer ${montserrat.className}`}
 
                 >
                   Photography
@@ -357,7 +378,7 @@ export default function Navigation({ sessionId }) {
                   onClick={() => {
                     handleClick(' Sculptures');
                   }}
-                  className={`text-info hover:underline cursor-pointer ${montserrat.className}`}
+                  className={`text-info pr-4 hover:underline cursor-pointer ${montserrat.className}`}
 
                 >
                   Sculptures
@@ -366,7 +387,7 @@ export default function Navigation({ sessionId }) {
 
 
                 {/* Dropdown Menu */}
-                <div className="relative inline-block text-left">
+                <div className="pr-4 relative inline-block text-left">
                   <button
                     onClick={(e) => setAnchorEl(e.currentTarget)}
                     className={`inline-flex items-center justify-between w-30  py-2 font-medium  text-info hover:underline cursor-pointer  ${montserrat.className}`}
@@ -396,7 +417,7 @@ export default function Navigation({ sessionId }) {
 
                 </div>
 
-                <Link href="/sale" className={`hover:underline ${montserrat.className}`}>
+                <Link href="/sale" className={`hover:underline pr-4 ${montserrat.className}`}>
                   <div>
                     Sale
                   </div>
@@ -413,7 +434,7 @@ export default function Navigation({ sessionId }) {
                 {/* <Search> */}
                 <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }}>
                   <Form>
-                    <div className="relative">
+                    <div className="relative pl-10">
                       <div className="flex">
                         <Field name="query" render={({ field }) => (
                           <div className="flex items-center bg-primary-light hidden md:block">
@@ -421,7 +442,7 @@ export default function Navigation({ sessionId }) {
                               {...field}
                               type="text"
                               placeholder="Search..."
-                              className="bg-primary-light focus:outline-none  text-primary-dark px-3 py-2 w-3/4 "
+                              className="bg-primary-light focus:outline-none  text-primary-dark px-3 py-2 w-2/3 "
                             />
 
                             <button type="submit" className="ml-2">
@@ -468,13 +489,97 @@ export default function Navigation({ sessionId }) {
                       <button onClick={toggleSearch} className="text-2xl mr-3 md:hidden">
                         <SearchIcon />
                       </button>
-                      
-                    
-                 
-                
                 )}
 
+              </div>
+            </div>
 
+            {/* SWIPER */}
+            <div className="bg-gray-800 text-white p-4">
+              <div className="px-3 md:px-12 mx-auto">
+                <Swiper
+                  spaceBetween={20}
+                  slidesPerView={3}
+                  loop={true}
+                  onSlideChange={() => console.log('slide change')}
+                  onSwiper={(swiper) => console.log(swiper)}
+                >
+                  <SwiperSlide style={{ border: '2px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Link href="/products" className={`py-2 ${montserrat.className}`}>
+                      <button>
+                        The Collection
+                      </button>
+                    </Link>
+                  </SwiperSlide>
+
+                  <SwiperSlide style={{ border: '2px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <button
+                    onClick={() => {
+                      handleClick('Photography');
+                    }}
+                    className={`text-info py-2 cursor-pointer ${montserrat.className}`}
+
+                  >
+                    Photography
+                  </button>
+                  </SwiperSlide>
+
+                  <SwiperSlide style={{ border: '2px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <button
+                      onClick={() => {
+                        handleClick(' Sculptures');
+                      }}
+                      className={`text-info py-2 cursor-pointer ${montserrat.className}`}
+
+                    >
+                      Sculptures
+                    </button>
+
+                  </SwiperSlide>
+                  <SwiperSlide style={{ border: '2px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <button
+                      onClick={() => {
+                        handleClick('Watercolor');
+                      }}
+                      className={`text-xs text-info py-3 cursor-pointer ${montserrat.className}`}
+                    >
+                      Watercolor paintings
+                    </button>
+                  </SwiperSlide>
+                  <SwiperSlide style={{ border: '2px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <button
+                      onClick={() => {
+                        handleClick('Acrylic');
+                      }}
+                      className={`text-xs text-info py-3 cursor-pointer ${montserrat.className}`}
+                    >
+                      Acrylic paintings
+                    </button>
+                  </SwiperSlide>
+                  <SwiperSlide style={{ border: '2px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <button
+                      onClick={() => {
+                        handleClick('Oil');
+                      }}
+                      className={`text-xs text-info py-3 cursor-pointer ${montserrat.className}`}
+                    >
+                      Oil paintings
+                    </button>
+                  </SwiperSlide>
+                  <SwiperSlide style={{ border: '2px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <button
+                      onClick={() => {
+                        handleClick('Sale');
+                      }}
+                      className={`text-info py-2 cursor-pointer ${montserrat.className}`}
+                    >
+                      Sale
+                    </button>
+                  </SwiperSlide>
+                 
+                  
+                
+                </Swiper>
               </div>
             </div>
 
@@ -607,7 +712,7 @@ export default function Navigation({ sessionId }) {
                     </Typography>
                   </NextLink>
                   {/* <Search> */}
-                  <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }}>
+                  {/* <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }}>
                     <Form>
                       <Field
                         name="query"
@@ -633,7 +738,7 @@ export default function Navigation({ sessionId }) {
                         )}
                       />
                     </Form>
-                  </Formik>
+                  </Formik> */}
                   {/* </Search> */}
 
                 </Toolbar>

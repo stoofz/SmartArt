@@ -1,6 +1,7 @@
 import '@/styles/globals.css'
 import '../styles/tailwind.css'
 
+
 import { SearchState } from 'utils/search';
 import { WishlistProvider } from 'utils/wishlistContext';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
