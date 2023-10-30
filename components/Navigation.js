@@ -295,7 +295,7 @@ export default function Navigation({ sessionId }) {
                 />
               </Link>
             </div>
-            <div className="flex space-x-2 md:space-x-8 " >
+            <div className="flex space-x-2 md:space-x-8  " >
 
               {!userId ? (
                 <>
@@ -310,6 +310,46 @@ export default function Navigation({ sessionId }) {
                       sx={{ fontSize: "2em" }}
                     />
                   </div>
+
+
+
+                  {searchOpen ? (
+                    // Search bar is open
+                    <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }} >
+                      <Form style={{ width: "100%" }} className={`md:hidden w-full ${searchOpen ? 'relative z-10' : ''}`}>
+                        <div className="relative">
+                          <div className="flex">
+                            <Field name="query" render={({ field }) => (
+                              <div className="flex items-center bg-primary-light relative !w-full">
+                                <input
+                                  {...field}
+                                  type="text"
+                                  placeholder="Search..."
+                                  className="bg-primary-light focus:outline-none text-primary-dark px-3 py-2 block "
+                                />
+
+                                <button type="submit" className="pr-4">
+                                  <SearchIcon className="text-primary-dark " />
+                                </button>
+                                <button onClick={toggleSearch} className="text-primary-dark pr-4">
+                                  <CloseIcon />
+                                </button>
+                              </div>
+                            )} />
+                          </div>
+                        </div>
+                      </Form>
+                    </Formik>
+                  ) : (
+                    // Search bar is closed
+
+                    <button onClick={toggleSearch} className="text-2xl mr-3 md:hidden">
+                        <SearchIcon sx={{ fontSize: "1.5em" }} />
+                    </button>
+                  )}
+
+
+
 
                   <div className={`hover:cursor-pointer`}>
                     <ShoppingCartCheckoutIcon onClick={() => showLoginToast(textToastCart)}
@@ -346,8 +386,6 @@ export default function Navigation({ sessionId }) {
               )}
             </div>
           </div>
-
-
         </nav>
 
 
@@ -355,12 +393,11 @@ export default function Navigation({ sessionId }) {
 
         {!isUserProfilePage && !isOrdersPage && !isReviewsPage && !isCartPage && !isWishlistPage && (
           <>
-
-            <div className="bg-gray-800 text-white p-4">
-              <div className="px-3 md:px-12 mx-auto flex justify-between items-center">
-                <Link href="/products" className={`hover:underline pr-4 ${montserrat.className}`}>
+            <div className="bg-primary text-white p-4 hidden md:block">
+              <div className="px-3 md:px-12 mx-auto flex justify-between items-center ">
+                <Link href="/products" className={`hover:underline pr-4 whitespace-nowrap ${montserrat.className}`}>
                   <div>
-                    The Collection
+                    All Art
                   </div>
                 </Link>
 
@@ -369,7 +406,6 @@ export default function Navigation({ sessionId }) {
                     handleClick('Photography');
                   }}
                   className={`text-info pr-4 hover:underline cursor-pointer ${montserrat.className}`}
-
                 >
                   Photography
                 </button>
@@ -379,7 +415,6 @@ export default function Navigation({ sessionId }) {
                     handleClick(' Sculptures');
                   }}
                   className={`text-info pr-4 hover:underline cursor-pointer ${montserrat.className}`}
-
                 >
                   Sculptures
                 </button>
@@ -413,8 +448,6 @@ export default function Navigation({ sessionId }) {
                     </svg>
                   </button>
                   {renderPaintingsMenu}
-
-
                 </div>
 
                 <Link href="/sale" className={`hover:underline pr-4 ${montserrat.className}`}>
@@ -431,7 +464,7 @@ export default function Navigation({ sessionId }) {
                 {/* Search Bar */}
 
 
-                {/* <Search> */}
+               
                 <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }}>
                   <Form>
                     <div className="relative pl-10">
@@ -454,48 +487,11 @@ export default function Navigation({ sessionId }) {
                     </div>
                   </Form>
                 </Formik>
-                {/* </Search> */}
-    
-                    {searchOpen ? (
-                      // Search bar is open
-                      <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }}>
-                        <Form>
-                          <div className="relative">
-                            <div className="flex">
-                              <Field name="query" render={({ field }) => (
-                                <div className="flex items-center bg-primary-light relative z-10">
-                                  <input
-                                    {...field}
-                                    type="text"
-                                    placeholder="Search..."
-                                    className="bg-primary-light focus:outline-none text-primary-dark px-3 py-2 w-full"
-                                  />
-
-                                  <button type="submit" className="ml-2">
-                                    <SearchIcon className="text-primary-dark text-2xl mr-3" />
-                                  </button>
-                                  <button onClick={toggleSearch} className="text-primary-dark text-2xl absolute top-0 right-0 -mt-3 -mr-3 z-20">
-                                    <CloseIcon />
-                                  </button>
-                                </div>
-                              )} />
-                            </div>
-                          </div>
-                        </Form>
-                      </Formik>
-                    ) : (
-                      // Search bar is closed
-
-                      <button onClick={toggleSearch} className="text-2xl mr-3 md:hidden">
-                        <SearchIcon />
-                      </button>
-                )}
-
               </div>
             </div>
 
-            {/* SWIPER */}
-            <div className="bg-gray-800 text-white p-4">
+            {/* SWIPER MOBILE */}
+            <div className="bg-primary text-white p-4 md:hidden">
               <div className="px-3 md:px-12 mx-auto">
                 <Swiper
                   spaceBetween={20}
@@ -504,15 +500,15 @@ export default function Navigation({ sessionId }) {
                   onSlideChange={() => console.log('slide change')}
                   onSwiper={(swiper) => console.log(swiper)}
                 >
-                  <SwiperSlide style={{ border: '2px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <SwiperSlide style={{ border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Link href="/products" className={`py-2 ${montserrat.className}`}>
                       <button>
-                        The Collection
+                        All Art
                       </button>
                     </Link>
                   </SwiperSlide>
 
-                  <SwiperSlide style={{ border: '2px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <SwiperSlide style={{ border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <button
                     onClick={() => {
                       handleClick('Photography');
@@ -524,7 +520,7 @@ export default function Navigation({ sessionId }) {
                   </button>
                   </SwiperSlide>
 
-                  <SwiperSlide style={{ border: '2px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <SwiperSlide style={{ border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <button
                       onClick={() => {
                         handleClick(' Sculptures');
@@ -536,7 +532,7 @@ export default function Navigation({ sessionId }) {
                     </button>
 
                   </SwiperSlide>
-                  <SwiperSlide style={{ border: '2px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <SwiperSlide style={{ border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <button
                       onClick={() => {
                         handleClick('Watercolor');
@@ -546,7 +542,7 @@ export default function Navigation({ sessionId }) {
                       Watercolor paintings
                     </button>
                   </SwiperSlide>
-                  <SwiperSlide style={{ border: '2px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <SwiperSlide style={{ border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <button
                       onClick={() => {
                         handleClick('Acrylic');
@@ -556,7 +552,7 @@ export default function Navigation({ sessionId }) {
                       Acrylic paintings
                     </button>
                   </SwiperSlide>
-                  <SwiperSlide style={{ border: '2px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <SwiperSlide style={{ border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <button
                       onClick={() => {
                         handleClick('Oil');
@@ -566,7 +562,7 @@ export default function Navigation({ sessionId }) {
                       Oil paintings
                     </button>
                   </SwiperSlide>
-                  <SwiperSlide style={{ border: '2px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <SwiperSlide style={{ border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <button
                       onClick={() => {
                         handleClick('Sale');
@@ -576,174 +572,9 @@ export default function Navigation({ sessionId }) {
                       Sale
                     </button>
                   </SwiperSlide>
-                 
-                  
-                
                 </Swiper>
               </div>
             </div>
-
-            <Stack>
-              <AppBar
-                position="static"
-                className={montserrat.className}
-              >
-                <Toolbar sx={{ display: "flex", justifyContent: "space-evenly" }}>
-                  <NextLink
-                    href={{
-                      pathname: "/products",
-                    }}
-                    passHref
-                    overlay="true"
-                    sx={{ color: theme.palette.info.main }}
-                  //        onClick={clearSession}
-                  >
-                    <Typography
-                      sx={{
-                        color: theme.palette.info.main,
-                        textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
-                      }}
-                    >
-                      The Collection
-                    </Typography>
-                  </NextLink>
-
-                  <Button
-                    onClick={() => {
-                      handleClick('Photography');
-                    }}
-                    sx={{
-                      color: theme.palette.info.main,
-                      textTransform: "none",
-                      textDecoration: 'none',
-                      '&:hover': { textDecoration: 'underline' },
-                      cursor: 'pointer',
-                      background: 'none',
-                      border: 'none',
-                    }}>
-                    <Typography
-                      sx={{
-                        color: theme.palette.info.main,
-                        textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
-                      }}
-                    >
-                      Photography
-                    </Typography>
-                  </Button>
-
-                  <Button
-                    onClick={() => {
-                      handleClick('Sculptures');
-                    }}
-                    sx={{
-                      color: theme.palette.info.main,
-                      textTransform: "none",
-                      textDecoration: 'none',
-                      '&:hover': { textDecoration: 'underline' },
-                      cursor: 'pointer',
-                      background: 'none',
-                      border: 'none',
-                    }}>
-                    <Typography
-                      sx={{
-                        color: theme.palette.info.main,
-                        textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
-                      }}
-                    >
-                      Sculptures
-                    </Typography>
-                  </Button>
-
-                  <Button
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="open drawer"
-                    sx={{
-                      mr: 2,
-                      textTransform: 'none',
-                      fontFamily: theme.typography.fontFamily,
-                    }}
-                    onClick={e => setAnchorEl(e.currentTarget)}
-                    endIcon={<ArrowDropDownIcon sx={{ color: theme.palette.info }} />}
-                  >
-                    Paintings
-                  </Button>
-                  {/* 
-                  {renderPaintingsMenu} */}
-
-                  <NextLink
-                    href={{
-                      pathname: "/sale",
-                    }}
-                    passHref
-                    overlay="true"
-                    underline="none"
-                    sx={{ color: theme.palette.info.main }}
-                  //      onClick={clearSession}
-                  >
-                    <Typography
-                      sx={{
-                        color: theme.palette.info.main,
-                        textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
-                        marginLeft: "-1em"
-                      }}
-                    >
-                      Sale
-                    </Typography>
-                  </NextLink>
-                  <NextLink
-                    href={{
-                      pathname: "/about",
-                    }}
-                    passHref
-                    overlay="true"
-                    underline="none"
-                    sx={{ color: theme.palette.info.main }}
-                  //        onClick={clearSession}
-                  >
-                    <Typography
-                      sx={{
-                        color: theme.palette.info.main,
-                        textDecoration: 'none', '&:hover': { textDecoration: 'underline' },
-                      }}
-                    >
-                      About
-                    </Typography>
-                  </NextLink>
-                  {/* <Search> */}
-                  {/* <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }}>
-                    <Form>
-                      <Field
-                        name="query"
-                        render={({ field }) => (
-                          <TextField
-                            {...field}
-                            placeholder="Search…"
-                            sx={{
-                              backgroundColor: theme.palette.primary.light,
-                              color: theme.palette.primary.main,
-                              marginTop: "0.5em",
-                              marginBottom: "0.5em",
-                              marginRight: "-5em",
-                            }}
-                            InputProps={{
-                              endAdornment: (
-                                <InputAdornment position="end">
-                                  <button type="submit"><SearchIcon sx={{ margin: "0.5em", fontSize: "2em" }} /></button>
-                                </InputAdornment>
-                              ),
-                            }}
-                          />
-                        )}
-                      />
-                    </Form>
-                  </Formik> */}
-                  {/* </Search> */}
-
-                </Toolbar>
-              </AppBar>
-            </Stack>
           </>
         )}
       </Box>

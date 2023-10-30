@@ -29,7 +29,7 @@ module.exports = {
       },
       screens: {
         'xs': '480px', // Add your custom screen size
-        'md': '768px',
+        'md': '815px',
         'lg': '1024px',
         'xl': '1280px',
       },
