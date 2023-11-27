@@ -15,6 +15,7 @@ import { StyledEngineProvider } from '@mui/material/styles';
 export default function Index() {
   const { user, error, isLoading } = useUser();
 
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 

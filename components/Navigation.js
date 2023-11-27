@@ -343,8 +343,8 @@ export default function Navigation({ sessionId }) {
                   ) : (
                     // Search bar is closed
 
-                    <button onClick={toggleSearch} className="text-2xl mr-3 md:hidden">
-                        <SearchIcon sx={{ fontSize: "1.5em" }} />
+                    <button onClick={toggleSearch} className="text-2xl  md:hidden">
+                        <SearchIcon sx={{ fontSize: "1em" }} />
                     </button>
                   )}
 
@@ -353,12 +353,12 @@ export default function Navigation({ sessionId }) {
 
                   <div className={`hover:cursor-pointer`}>
                     <ShoppingCartCheckoutIcon onClick={() => showLoginToast(textToastCart)}
-                      sx={{ fontSize: "2em" }} />
+                      sx={{ fontSize: "1em" }} />
                   </div>
 
                   <Link href="/api/auth/login" className={`hover:cursor-pointer ${montserrat.className}`}>
                     <div>
-                      <ManageAccountsIcon sx={{ fontSize: "2.1em !important" }} />
+                      <ManageAccountsIcon sx={{ fontSize: "1.1em !important" }} />
                     </div>
                   </Link>
                 </>
@@ -492,82 +492,82 @@ export default function Navigation({ sessionId }) {
 
             {/* SWIPER MOBILE */}
             <div className="bg-primary text-white p-4 md:hidden">
-              <div className="px-3 md:px-12 mx-auto">
+              <div className="px-3 md:px-12 mx-auto text-xs">
                 <Swiper
                   spaceBetween={20}
-                  slidesPerView={3}
+                  slidesPerView={'auto'}
                   loop={true}
                   onSlideChange={() => console.log('slide change')}
                   onSwiper={(swiper) => console.log(swiper)}
                 >
-                  <SwiperSlide style={{ border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Link href="/products" className={`py-2 ${montserrat.className}`}>
-                      <button>
+                  <SwiperSlide style={{ width: 'auto', border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Link href="/products" className={`px-3 py-1 text-xs ${montserrat.className}`}>
+                      <button >
                         All Art
                       </button>
                     </Link>
                   </SwiperSlide>
 
-                  <SwiperSlide style={{ border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <SwiperSlide style={{ width: 'auto', border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <button
                     onClick={() => {
                       handleClick('Photography');
                     }}
-                    className={`text-info py-2 cursor-pointer ${montserrat.className}`}
+                      className={`text-xs text-info px-3 py-1 cursor-pointer ${montserrat.className}`}
 
                   >
                     Photography
                   </button>
                   </SwiperSlide>
 
-                  <SwiperSlide style={{ border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <SwiperSlide style={{ width: 'auto', border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <button
                       onClick={() => {
                         handleClick(' Sculptures');
                       }}
-                      className={`text-info py-2 cursor-pointer ${montserrat.className}`}
+                      className={`text-xs text-info px-3 py-1 cursor-pointer ${montserrat.className}`}
 
                     >
                       Sculptures
                     </button>
 
                   </SwiperSlide>
-                  <SwiperSlide style={{ border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <SwiperSlide style={{ width: 'auto', border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <button
                       onClick={() => {
                         handleClick('Watercolor');
                       }}
-                      className={`text-xs text-info py-3 cursor-pointer ${montserrat.className}`}
+                      className={`text-xs text-info px-3 py-1 cursor-pointer ${montserrat.className}`}
                     >
                       Watercolor paintings
                     </button>
                   </SwiperSlide>
-                  <SwiperSlide style={{ border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <SwiperSlide style={{ width: 'auto', border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <button
                       onClick={() => {
                         handleClick('Acrylic');
                       }}
-                      className={`text-xs text-info py-3 cursor-pointer ${montserrat.className}`}
+                      className={`text-xs text-info px-3 py-1 cursor-pointer ${montserrat.className}`}
                     >
                       Acrylic paintings
                     </button>
                   </SwiperSlide>
-                  <SwiperSlide style={{ border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <SwiperSlide style={{ width: 'auto', border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <button
                       onClick={() => {
                         handleClick('Oil');
                       }}
-                      className={`text-xs text-info py-3 cursor-pointer ${montserrat.className}`}
+                      className={`text-xs text-info px-3 py-1 cursor-pointer ${montserrat.className}`}
                     >
                       Oil paintings
                     </button>
                   </SwiperSlide>
-                  <SwiperSlide style={{ border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <SwiperSlide style={{ width: 'auto', border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <button
                       onClick={() => {
                         handleClick('Sale');
                       }}
-                      className={`text-info py-2 cursor-pointer ${montserrat.className}`}
+                      className={`text-xs px-3 py-1 cursor-pointer ${montserrat.className}`}
                     >
                       Sale
                     </button>

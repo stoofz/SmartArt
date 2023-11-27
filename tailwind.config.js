@@ -27,6 +27,9 @@ module.exports = {
         },
         // Add more custom colors as needed
       },
+      fontSize: {
+        xs: '0.7rem',
+      },
       screens: {
         'xs': '480px', // Add your custom screen size
         'md': '815px',
