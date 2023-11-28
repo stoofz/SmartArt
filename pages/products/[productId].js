@@ -53,6 +53,7 @@ import { setSession, clearSession } from 'utils/session';
 import Footer from '../../components/Footer';
 import Products from '../../components/Products';
 import Navigation from '../../components/Navigation';
+import { showLoginToast } from '@/utils/loginToast';
 
 
 // import { handleAddToWishlist, showLoginToast } from '@/utils/loginToast';
@@ -112,7 +113,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
   const { wishlist, isInWishlist, addToWishlist, deleteFromWishlist } = useWishlist();
 
   const userId = useSessionId();
-  const { handleAddToWishlist, showLoginToast } = useWishlistFunctions();
+  const { handleAddToWishlist } = useWishlistFunctions();
   //-------------------WISHLIST LOGIC --------------------
   const textToastFav = "Please log in to add items to your wishlist.";
 
@@ -538,16 +539,19 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
 
   return (
     <ThemeProvider theme={theme}>
+
+      {/* WHY here??? */}
       <Navigation />
       <main>
-        <Stack direction="row" sx={{ padding: "4em", display: "flex", justifyContent: "space-evenly" }}>
+      
+          <div className="flex flex-col md:flex-row items-center justify-evenly p-4 space-y-4 md:space-y-0">
           <CardMedia
             component="img"
             image={`../uploads/${product.image}`}
-            sx={{ display: 'block', marginBottom: "-1em", objectFit: "contain", width: 600, height: 600, padding: "2em" }}
+            className="block mb-[-1em] object-contain w-600  max-h-[600px] p-8"
           />
           <Card elevation={4} sx={{ maxWidth: "md" }}>
-            <Typography variant="h4" align="center" sx={{ paddingTop: "1em", paddingRight: "1em", paddingLeft: "1em", color: theme.palette.primary.main }}>
+            <Typography className="pt-4 pr-4 pl-4 text-primary-main text-lg md:text-xl lg:text-2xl"  align="center" >
               {product.name}
             </Typography>
             <Typography variant="h6" align="center" sx={{ color: theme.palette.primary.dark, paddingTop: "1.5em" }}>
@@ -582,14 +586,15 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
               </Tooltip>
             </Typography>
 
-            <div style={{ display: "flex", justifyContent: "center", paddingTop: "1.5em" }}>
+            <div className="flex justify-center md:px-4 pt-4">
               <Button
+                className=" text-lg md:text-xl lg:text-2xl px-4 py-2 md:px-10 md:py-4 md:mr-2 "
                 style={{
                   backgroundColor: theme.palette.primary.main,
                   color: theme.palette.info.main,
                   textTransform: "none",
-                  paddingRight: "5em",
-                  paddingLeft: "5em",
+                  // paddingRight: "5em",
+                  // paddingLeft: "5em",
                   marginRight: "2em",
                   ":hover": {
                     backgroundColor: theme.palette.secondary.main
@@ -655,7 +660,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
             </div>
 
             {/* Render the ToastContainer */}
-            <ToastContainer position="top-right" autoClose={2000} />
+            {/* <ToastContainer position="top-right" autoClose={2000} /> */}
 
             <div style={{ color: theme.palette.primary.main, paddingTop: "6em" }}>
               <Accordion disableGutters={true} width="100%">
@@ -722,7 +727,8 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
               </Accordion>
             </div>
           </Card>
-        </Stack>
+       
+        </div>
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
 
@@ -774,8 +780,10 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                 .sort((a, b) => new Date(b.date) - new Date(a.date))
                 .map((review, index) => (
                   // <div key={index} style={{ marginBottom: '10px' }}>
-                  <Paper key={index} elevation={4} style={{ marginBottom: '10px' }}>
-                    <Card key={index} style={{ minHeight: '150px' }}>
+                  <Paper key={index} elevation={4} style={{
+                    marginBottom: '10px', marginLeft: '20px', 
+                    marginRight: '20px', }}>
+                    <Card key={index} style={{ minHeight: '100px' }}>
                       <CardContent style={{ height: '150px', overflowY: 'auto', color: theme.palette.primary.main }} >
                         <ListItem alignItems="flex-start">
                           <Avatar style={{ marginRight: '8px', color: theme.palette.info.main, backgroundColor: theme.palette.primary.main }}>

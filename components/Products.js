@@ -346,7 +346,7 @@ const Products = () => {
 
 
 
-                      <DialogTitle id="alert-dialog-title" sx={{ textAlign: "center", padding: '1rem' }}>
+                      <DialogTitle id="alert-dialog-title" sx={{ textAlign: "center" }}>
                         <NextLink
                           sx={{ color: theme.palette.primary.main }}
                           href={{
