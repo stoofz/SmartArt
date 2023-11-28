@@ -38,7 +38,8 @@ import { useWishlist } from '@/utils/wishlistContext';
 import { ToastContainer } from 'react-toastify';
 import { useWishlistFunctions } from '@/utils/wishlistFnWithContext';
 import { showLoginToast } from '@/utils/loginToast';
-
+import { css } from '@emotion/react';
+import { MoonLoader } from 'react-spinners';
 
 
 
@@ -58,11 +59,12 @@ const Products = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [loading, setLoading] = useState(true);
   const { searchResults, setSearchResults } = useSearchState();
-
+ 
 
   const { wishlist, addToWishlist, deleteFromWishlist, isInWishlist } = useWishlist();
 
   const userId = useSessionId();
+
 
   //-------------------WISHLIST LOGIC --------------------
   const textToastFav = "Please log in to add items to your wishlist.";
@@ -90,7 +92,17 @@ const Products = () => {
     });
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+  `;
+
+  if (isLoading) return (
+    <div className="flex items-center justify-center h-screen">
+      <MoonLoader color={'#36D7B7'} loading={isLoading} css={override} size={50} />
+    </div>
+  );
   if (error) return <div>{error.message}</div>;
 
 
@@ -450,22 +462,10 @@ const Products = () => {
 
   if (loading) {
     return (
-      <ThemeProvider theme={theme}>
-        <Grid container
-          align="center"
-          justify-content="center"
-          maxWidth="90%"
-          paddingTop="5em"
-          paddingLeft="10em"
-          paddingRight="10em"
-          paddingBottom="1em"
-          margin="auto"
-          spacing={6}
-        >
-          <div>Loading...</div>
-
-        </Grid>
-      </ThemeProvider>
+      <div className="flex items-center justify-center flex-col ">
+        <MoonLoader color={'#1E2E2D'} loading={loading} css={override} size={50} />
+        <div>Loading...</div>
+      </div>
     );
   }
 
