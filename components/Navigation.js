@@ -284,109 +284,97 @@ export default function Navigation({ sessionId }) {
       >
         {/* ---------------------MY NAV ---------------------------------------*/}
 
-        <nav className="bg-primary text-info p-4 border-b-4 border-secondary" >
+        <nav className="bg-primary text-info p-4 border-b-4 border-secondary " >
           <div className="mx-auto px-3 md:px-12 flex justify-between items-center">
-            <div className="flex items-center space-x-4">
-              <Link href="/">
-                <img
-                  src="../uploads/smartartlogo.png"
-                  className="h-12 md:h-20 lg:h-24"
-                  alt="SmartArt Logo"
-                />
-              </Link>
-            </div>
-            <div className="flex space-x-2 md:space-x-8  " >
-
-              {!userId ? (
-                <>
-                  <Link href="/api/auth/login" className={`hidden md:block hover:underline ${montserrat.className}`}>
-                    <div>
-                      Sign In
-                    </div>
-                  </Link>
-
-                  <div className={`hover:cursor-pointer hidden md:block`}>
-                    <FavoriteBorderIcon onClick={() => showLoginToast(textToastFav)}
-                      sx={{ fontSize: "2em" }}
-                    />
-                  </div>
-
-
-
-                  {searchOpen ? (
-                    // Search bar is open
-                    <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }} >
-                      <Form style={{ width: "100%" }} className={`md:hidden w-full ${searchOpen ? 'relative z-10' : ''}`}>
-                        <div className="relative">
-                          <div className="flex">
-                            <Field name="query" render={({ field }) => (
-                              <div className="flex items-center bg-primary-light relative !w-full">
-                                <input
-                                  {...field}
-                                  type="text"
-                                  placeholder="Search..."
-                                  className="bg-primary-light focus:outline-none text-primary-dark px-3 py-2 block "
-                                />
-
-                                <button type="submit" className="pr-4">
-                                  <SearchIcon className="text-primary-dark " />
-                                </button>
-                                <button onClick={toggleSearch} className="text-primary-dark pr-4">
-                                  <CloseIcon />
-                                </button>
-                              </div>
-                            )} />
+            {/* <div className="flex space-x-2 md:space-x-8"> */}
+            {searchOpen ? (
+              // Search bar is open
+              <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }} >
+                <Form style={{ width: "100%" }} className={`md:hidden w-full ${searchOpen ? 'relative z-10' : ''}`}>
+                  <div className="relative">
+                    <div className="flex">
+                      <Field name="query" render={({ field }) => (
+                        <div className="flex items-center bg-primary-light relative !w-full">
+                          <input
+                            {...field}
+                            type="text"
+                            placeholder="Search..."
+                            className="bg-primary-light focus:outline-none text-primary-dark px-3 py-1 block"
+                          />
+                          <div >
+                          <button type="submit" className="pr-4">
+                            <SearchIcon className="text-primary-dark" />
+                          </button>
+                          <button onClick={toggleSearch} className="text-primary-dark pr-4" >
+                            <CloseIcon />
+                          </button>
                           </div>
                         </div>
-                      </Form>
-                    </Formik>
-                  ) : (
-                    // Search bar is closed
-
-                    <button onClick={toggleSearch} className="text-2xl  md:hidden">
-                        <SearchIcon sx={{ fontSize: "1em" }} />
-                    </button>
-                  )}
-
-
-
-
-                  <div className={`hover:cursor-pointer`}>
-                    <ShoppingCartCheckoutIcon onClick={() => showLoginToast(textToastCart)}
-                      sx={{ fontSize: "1em" }} />
-                  </div>
-
-                  <Link href="/api/auth/login" className={`hover:cursor-pointer ${montserrat.className}`}>
-                    <div>
-                      <ManageAccountsIcon sx={{ fontSize: "1.1em !important" }} />
+                      )} />
                     </div>
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link href="/api/auth/logout"
-                    className={`hover:underline ${montserrat.className}`}
-                    onClick={clearSession}>
-                    Log Out
-                  </Link>
+                  </div>
+                </Form>
+              </Formik>
+            ) : (
+              // Search bar is closed
+              <>
+                <Link href="/">
+                  <img
+                    src="../uploads/smartartlogo.png"
+                    className="h-8 md:h-20 lg:h-24"
+                    alt="SmartArt Logo"
+                  />
+                </Link>
+                <div className="flex space-x-2 md:space-x-8">
 
-                  <Link href="/wishlist" className={`hover:cursor-pointer`}>
-                    <FavoriteBorderIcon sx={{ fontSize: "2em" }} />
-                  </Link>
+                  {/* USER IS NOT LOGGED IN */}
+                  {!userId ? (
+                    <>
+                      <Link href="/api/auth/login" className={`text-xs md:text-base md:block hover:underline mt-1 md:mt-3 ${montserrat.className}`}>
+                        Sign In
+                      </Link>
+                        <div className={`hover:cursor-pointer hidden md:block md:text-[30px]`}>
+                        <FavoriteBorderIcon onClick={() => showLoginToast(textToastFav)} sx={{ fontSize: "1em" }} />
+                      </div>
+                      <button onClick={toggleSearch} className="md:hidden text-xl">
+                        <SearchIcon sx={{ fontSize: "1.1em" }} />
+                      </button>
+                        <div className={`hover:cursor-pointer md:text-[30px]`}>
+                        <ShoppingCartCheckoutIcon onClick={() => showLoginToast(textToastCart)} sx={{ fontSize: "1em" }} />
+                      </div>
+                        <Link href="/api/auth/login" className={`hover:cursor-pointer md:text-[30px] ${montserrat.className}`}>
+                        <div>
+                          <ManageAccountsIcon sx={{ fontSize: "1.1em !important" }} />
+                        </div>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      {/* USER IS LOGGED IN */}
+                      <Link href="/api/auth/logout" className={`hover:underline ${montserrat.className}`} onClick={clearSession}>
+                        Log Out
+                      </Link>
+                      <Link href="/wishlist" className={`hover:cursor-pointer`}>
+                        <FavoriteBorderIcon sx={{ fontSize: "2em" }} />
+                      </Link>
+                      <Link href="/cart" className={`hover:cursor-pointer`}>
+                        <ShoppingCartCheckoutIcon sx={{ fontSize: "2em", marginRight: "1em" }} />
+                      </Link>
+                      <Link href="/profile" className={`hover:cursor-pointer`}>
+                        <ManageAccountsIcon sx={{ fontSize: "2.1em !important", marginRight: "1em" }} />
+                      </Link>
+                    </>
+                  )}
+                </div>
+              </>
 
-                  <Link href="/cart" className={`hover:cursor-pointer`}>
-                    <ShoppingCartCheckoutIcon sx={{ fontSize: "2em", marginRight: "1em" }} />
-                  </Link>
-                  <Link href="/profile" className={`hover:cursor-pointer`}>
-                    <ManageAccountsIcon
-                      sx={{ fontSize: "2.1em !important", marginRight: "1em" }}
-                    />
-                  </Link>
-                </>
-              )}
-            </div>
+            )}
+            {/* </div> */}
+
           </div>
+
         </nav>
+
 
 
 
@@ -464,7 +452,7 @@ export default function Navigation({ sessionId }) {
                 {/* Search Bar */}
 
 
-               
+
                 <Formik initialValues={{ query: '' }} onSubmit={(values) => { handleSearch(values.query); }}>
                   <Form>
                     <div className="relative pl-10">
@@ -509,15 +497,15 @@ export default function Navigation({ sessionId }) {
                   </SwiperSlide>
 
                   <SwiperSlide style={{ width: 'auto', border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <button
-                    onClick={() => {
-                      handleClick('Photography');
-                    }}
+                    <button
+                      onClick={() => {
+                        handleClick('Photography');
+                      }}
                       className={`text-xs text-info px-3 py-1 cursor-pointer ${montserrat.className}`}
 
-                  >
-                    Photography
-                  </button>
+                    >
+                      Photography
+                    </button>
                   </SwiperSlide>
 
                   <SwiperSlide style={{ width: 'auto', border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
