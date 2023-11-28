@@ -102,7 +102,7 @@ function SwipeableTextMobileStepper() {
                   component="div"
                   sx={{
                     width: '100%',
-                    height: '700px',
+                    height: ['200px', '400px', '500px', '700px'],
                     display: 'block',
                     maxWidth: '100%',
                     objectFit: 'cover',
@@ -130,7 +130,7 @@ function SwipeableTextMobileStepper() {
                       backgroundColor: 'transperent', // Semi-transparent background
                       color: 'white',
                       padding: '20px',
-                      fontSize: '70px',
+                      fontSize: ['22px', '34px', '54px', '64px'],
                       fontWeight: 'bold',
                       textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
                       borderRadius: '10px',
