@@ -548,7 +548,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
           <CardMedia
             component="img"
             image={`../uploads/${product.image}`}
-            className="block mb-[-1em] object-contain w-600  max-h-[600px] p-8"
+            className="block object-contain max-w-[600px]  max-h-[600px] p-8"
           />
           <Card elevation={4} sx={{ maxWidth: "md" }}>
             <Typography className="pt-4 pr-4 pl-4 text-primary-main text-lg md:text-xl lg:text-2xl"  align="center" >
@@ -766,7 +766,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
         />
 
         <section style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <Typography variant="h4" gutterBottom align="center" sx={{ color: theme.palette.primary.main }}>
+          <Typography variant="h5" gutterBottom align="center" sx={{ color: theme.palette.primary.main }}>
             Customer Reviews
           </Typography>
 
