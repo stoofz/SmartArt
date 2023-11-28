@@ -285,7 +285,7 @@ export default function Navigation({ sessionId }) {
         {/* ---------------------MY NAV ---------------------------------------*/}
 
         <nav className="bg-primary text-info p-4 border-b-4 border-secondary " >
-          <div className="mx-auto px-3 md:px-12 flex justify-between items-center">
+          <div className="mx-auto md:px-12 flex justify-between items-center">
             {/* <div className="flex space-x-2 md:space-x-8"> */}
             {searchOpen ? (
               // Search bar is open
@@ -294,18 +294,18 @@ export default function Navigation({ sessionId }) {
                   <div className="relative">
                     <div className="flex">
                       <Field name="query" render={({ field }) => (
-                        <div className="flex items-center bg-primary-light relative !w-full">
+                        <div className="flex justify-between items-center bg-primary-light relative !w-full">
                           <input
                             {...field}
                             type="text"
                             placeholder="Search..."
-                            className="bg-primary-light focus:outline-none text-primary-dark px-3 py-1 block"
+                            className="bg-primary-light focus:outline-none text-primary-dark px-2 py-1 block"
                           />
                           <div >
-                          <button type="submit" className="pr-4">
+                          <button type="submit" className="pr-2">
                             <SearchIcon className="text-primary-dark" />
                           </button>
-                          <button onClick={toggleSearch} className="text-primary-dark pr-4" >
+                          <button onClick={toggleSearch} className="text-primary-dark pr-2" >
                             <CloseIcon />
                           </button>
                           </div>
