@@ -1,9 +1,10 @@
-DROP TABLE IF EXISTS feedback CASCADE;
-
-CREATE TABLE feedback (
-  id SERIAL PRIMARY KEY NOT NULL,
-  customer_id INTEGER NOT NULL REFERENCES customers (id) ON DELETE CASCADE,
-  product_id INTEGER NOT NULL REFERENCES products (id) ON DELETE CASCADE,
-  rating INTEGER NOT NULL,
-  comment VARCHAR(255) NOT NULL
+CREATE TABLE "feedback" (
+  "id" SERIAL PRIMARY KEY,
+  "customerId" INT,
+  "productId" INT,
+  "rating" INT,
+  "comment" VARCHAR(255),
+  "date" TIMESTAMP,
+  FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE CASCADE,
+  FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE CASCADE
 );

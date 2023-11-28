@@ -31,6 +31,10 @@ import Link from 'next/link';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { useRouter } from 'next/router';
+
+
+import { useWishlistFunctions } from '@/utils/loginToast';
+
 import { ca } from "date-fns/locale";
 import { showLoginToast } from "@/utils/loginToast";
 
@@ -154,6 +158,7 @@ export default function Navigation({ sessionId }) {
 
   //-------------------WISHLIST, Cart, Profile LOGIC --------------------
   //pass this text to show in toaster
+  const { showLoginToast } = useWishlistFunctions();
   const textToastFav = "Please log in to see your wishlist.";
   const textToastCart = "Please log in to see your cart.";
   const textToastProfile = "Please log in to access your account.";
