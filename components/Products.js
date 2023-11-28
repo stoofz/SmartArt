@@ -59,7 +59,7 @@ const Products = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [loading, setLoading] = useState(true);
   const { searchResults, setSearchResults } = useSearchState();
- 
+
 
   const { wishlist, addToWishlist, deleteFromWishlist, isInWishlist } = useWishlist();
 
@@ -92,6 +92,8 @@ const Products = () => {
     });
   };
 
+
+  //LOADER STYLE
   const override = css`
     display: block;
     margin: 0 auto;
@@ -243,11 +245,14 @@ const Products = () => {
           <CardMedia
             component="img"
             image={`./uploads/${product.image}`}
-            sx={{ display: 'block', marginBottom: "-1em", objectFit: "contain", width: 300, height: 300 }}
+            sx={{
+              display: 'block', objectFit: "contain", width: 300, height: 300,
+              height: window.innerWidth < 600 ? 'fitContent' : '300px',
+            }}
           />
           <CardContent>
 
-            <Grid item="true" p={1} m={0}>
+            <Grid item="true" m={0}>
               <Grid container style={{ height: '100%' }} justifyContent="center">
                 <CardActions>
                   <DivStyled>
@@ -302,14 +307,46 @@ const Products = () => {
                         }
                       }}
                     >
-                      <Button
-                        variant="text"
-                        onClick={handleClose}
-                        id={product.id}
-                      >
-                        <CloseIcon />
-                      </Button>
-                      <DialogTitle id="alert-dialog-title" sx={{ textAlign: "center" }}>
+                      <div className='flex justify-between'>
+                        <Button
+                          variant="text"
+                          onClick={handleClose}
+                          id={product.id}
+                        >
+                          <CloseIcon />
+                        </Button>
+                        <div>
+                          <Button
+                            sx={{
+                              color: theme.palette.primary.main,
+                            }}
+                            variant="text"
+                            type="button"
+                            className="icon-button"
+                            onClick={() => handleAddToWishlist(userId, product, textToastFav)}
+                          >
+                            {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                          </Button>
+
+                          {/* Render the ToastContainer */}
+                          {/* <ToastContainer position="top-right" autoClose={2000} /> */}
+
+                          <Button
+                            sx={{ color: theme.palette.primary.main }}
+                            variant="text"
+                            className="icon-button"
+                            onClick={() => handleAddToCartToast(product.id, userId, textToastCart)}
+                          >
+                            <AddShoppingCartIcon />
+                          </Button>
+
+                        </div>
+
+                      </div>
+
+
+
+                      <DialogTitle id="alert-dialog-title" sx={{ textAlign: "center", padding: '1rem' }}>
                         <NextLink
                           sx={{ color: theme.palette.primary.main }}
                           href={{
@@ -325,11 +362,14 @@ const Products = () => {
                           </Typography>
                         </NextLink>
                       </DialogTitle>
+
+
+
                       <Typography variant="h7" sx={{ color: theme.palette.secondary.dark }}>
                         {product.dimensions}
                       </Typography>
 
-                      <Typography variant="h7" sx={{ color: theme.palette.primary.dark, padding: "0.5em" }}>
+                      <Typography variant="h7" sx={{ color: theme.palette.primary.dark }}>
                         {product.discount && product.discount.length > 0 &&
                           new Date(product.discount[0].startDate) <= now &&
                           new Date(product.discount[0].endDate) >= now ? (
@@ -344,50 +384,27 @@ const Products = () => {
                           `$${formatPrice(product.price)}`
                         )}
                       </Typography>
-                      <div style={{ display: "flex", padding: "1.5em" }}>
+
+                      <div className="flex flex-col p-6 md:flex-row items-center">
                         <CardMedia
                           component="img"
                           image={`./uploads/${product.image}`}
                           alt="work portfolio"
-                          sx={{ display: 'block', marginBottom: "-1em", objectFit: "contain", width: 300, height: 300, paddingRight: "1em" }}
+                          sx={{ display: 'block', objectFit: "contain", width: 300, paddingRight: "1em", paddingBottom: "1em" }}
                         />
-                        <DialogContentText id="alert-dialog-description" sx={{ display: "flex", height: 300, alignItems: "center" }}>
-                          <Typography variant="h7" sx={{ color: theme.palette.primary.dark }}>
+                        <DialogContentText id="alert-dialog-description" sx={{ display: "flex", alignItems: "center" }}>
+                          <Typography variant="h9" sx={{ color: theme.palette.primary.dark }}>
                             {product.description}
                           </Typography>
                         </DialogContentText>
                       </div>
-                      <DialogActions sx={{ padding: "1.5em" }}>
-                        <Button
-                          sx={{
-                            color: theme.palette.primary.main,
-                          }}
-                          variant="text"
-                          type="button"
-                          className="icon-button"
-                          onClick={() => handleAddToWishlist(userId, product, textToastFav)}
-                        >
-                          {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                        </Button>
 
-                        {/* Render the ToastContainer */}
-                        {/* <ToastContainer position="top-right" autoClose={2000} /> */}
-
-                        <Button
-                          sx={{ color: theme.palette.primary.main }}
-                          variant="text"
-                          className="icon-button"
-                          onClick={() => handleAddToCartToast(product.id, userId, textToastCart)}
-                        >
-                          <AddShoppingCartIcon />
-                        </Button>
-                      </DialogActions>
 
                     </Dialog>
                   </DivStyled>
                   {/* // adjust backdrop to be transparent */}
                 </CardActions>
-                <Typography gutterBottom variant="h7" align="center" sx={{ color: theme.palette.primary.dark }}>
+                <Typography gutterBottom variant="h7" align="center" sx={{ color: theme.palette.primary.dark, paddingX: 3 }}>
                   <NextLink
                     href={{
                       pathname: "/products/[productId]",
@@ -400,7 +417,15 @@ const Products = () => {
                     {product.name}
                   </NextLink>
                 </Typography>
-                <Typography variant="h8" align="center" sx={{ color: theme.palette.secondary.dark }}>
+                <Typography variant="h8" align="center" sx={{
+                  fontSize: {
+                    xs: '12px',  // Font size for extra small screens (mobile)
+                    sm: '14px',  // Font size for small screens (tablet)
+                    md: '16px',  // Font size for medium screens
+                    lg: '18px',  // Font size for large screens
+                    xl: '20px',  // Font size for extra large screens
+                  }, color: theme.palette.secondary.dark
+                }}>
                   {product.dimensions}
                 </Typography>
               </Grid>
@@ -416,7 +441,7 @@ const Products = () => {
                 overlay="true"
                 underline="none"
               >
-                <Typography sx={{ margin: "-1em", overflow: "hidden" }}>
+                <Typography sx={{ overflow: "hidden" }}>
                   <Rating
                     id={product.id}
                     name="read-only"
@@ -435,7 +460,7 @@ const Products = () => {
                 <Typography
                   variant="h8"
                   align="center"
-                  sx={{ margin: "-1em", color: theme.palette.primary.dark }}
+                  sx={{ padding: 0, color: theme.palette.primary.dark }}
                 >
                   {product.discount && product.discount.length > 0 &&
                     new Date(product.discount[0].startDate) <= now &&
@@ -475,10 +500,10 @@ const Products = () => {
         align="center"
         justify-content="center"
         maxWidth="90%"
-        paddingTop="5em"
-        paddingLeft="10em"
-        paddingRight="10em"
-        paddingBottom="1em"
+        // paddingTop="5em"
+        // paddingLeft="10em"
+        // paddingRight="10em"
+        // paddingBottom="1em"
         margin="auto"
         spacing={6}
       >

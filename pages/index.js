@@ -9,14 +9,30 @@ import Navigation from '../components/Navigation';
 import MyCarousel from '@/components/MyCarousel';
 import { StyledEngineProvider } from '@mui/material/styles';
 
-
+import { css } from '@emotion/react';
+import { MoonLoader } from 'react-spinners';
 
 
 export default function Index() {
   const { user, error, isLoading } = useUser();
 
 
-  if (isLoading) return <div>Loading...</div>;
+  //LOADER STYLE
+  const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+  `;
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen flex-col ">
+        <MoonLoader color={'#1E2E2D'} loading={isLoading} css={override} size={50} />
+        <div>Loading...</div>
+      </div>
+    );
+  }
+  // if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
   if (user) {
