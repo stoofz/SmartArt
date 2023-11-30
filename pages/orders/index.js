@@ -1,9 +1,9 @@
 import Link from 'next/link';
-
 import prisma from 'utils/prisma';
 import formatDate from 'utils/formatDate';
 import formatPriceAlt from 'utils/formatPriceAlt';
 import Layout from '../../components/Layout';
+import UserLayout from '@/components/User/UserLayout';
 
 import { Typography, Container } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -12,6 +12,7 @@ const OrdersHistoryList = ({ userOrders }) => {
 
   return (
     <Layout>
+      <UserLayout>
       <Container className="px-32 flex flex-col pt-4">
 
 
@@ -64,15 +65,15 @@ const OrdersHistoryList = ({ userOrders }) => {
                     <Button
                       variant="contained"
                       style={{
-                        backgroundColor: '#324e4b', // Background color
-                        color: 'white', // Text color
+                        backgroundColor: '#324e4b', 
+                        color: 'white', 
                         transition: 'background-color 0.3s',
                         marginTop: '1rem',
                         marginBottom:'1rem',
                         '&:hover': {
-                          backgroundColor: '#32434e', // Hover background color
+                          backgroundColor: '#32434e', 
                           width: '200px',
-                          color: 'white', // Hover text color
+                          color: 'white', 
                         },
                       }}
                     >
@@ -85,6 +86,7 @@ const OrdersHistoryList = ({ userOrders }) => {
           </div>
         )}
       </Container>
+      </UserLayout>
     </Layout>
   );
 
@@ -94,8 +96,7 @@ export async function getServerSideProps({ req }) {
 
   const sessionId = req.cookies.sessionId || null;
   const userId = parseInt(sessionId);
-  // console.log("req.cookies", sessionId)
-  // const userId = 3;
+  
 
   try {
     // Fetch user-specific orders from Prisma

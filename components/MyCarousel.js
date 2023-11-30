@@ -2,13 +2,12 @@ import { useTheme } from '@mui/material/styles';
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import MobileStepper from '@mui/material/MobileStepper';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Montserrat } from 'next/font/google';
 import { autoPlay } from 'react-swipeable-views-utils';
 
@@ -102,7 +101,7 @@ function SwipeableTextMobileStepper() {
                   component="div"
                   sx={{
                     width: '100%',
-                    height: ['200px', '400px', '500px', '700px'],
+                    height: ['200px', '300px', '400px', '500px'],
                     display: 'block',
                     maxWidth: '100%',
                     objectFit: 'cover',

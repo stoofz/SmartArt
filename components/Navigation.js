@@ -1,29 +1,16 @@
 import { useState, useEffect } from "react";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Toolbar from "@mui/material/Toolbar";
-import { useSessionId } from '../utils/session';
 import { setSession, clearSession } from 'utils/session';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
-import NextLink from 'next/link';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Montserrat } from 'next/font/google';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import { handleAddToCart } from 'utils/cart';
-import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import Stack from '@mui/material/Stack';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import Fade from '@mui/material/Fade';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import Tooltip from '@mui/material/Tooltip';
 //import debounce from 'lodash/debounce';
 import { Formik, Form, Field } from "formik";
 import { useSearchState } from 'utils/search';
@@ -118,6 +105,7 @@ export default function Navigation({ sessionId }) {
         body: JSON.stringify({ query: categoryQuery }),
       });
       const results = await response.json();
+
       setSearchResults(results[0].products);
     }
     catch (error) {
@@ -125,13 +113,16 @@ export default function Navigation({ sessionId }) {
     }
   });
 
+  //To show all products again on products page when clicking All Art after other filtering
   const handleClick = (value) => {
-    handleCategorySearch(value);
+    const categoryToSearch = value === 'All Art' ? null : value;
+    handleCategorySearch(categoryToSearch);
   };
 
 
 
 
+  //---------------- HANDLE SEARCH BY WORD ------------------------------//
   const handleSearch = (async (searchQuery) => {
     //  const handleSearch = debounce(async (searchQuery) => {
     try {
@@ -168,9 +159,6 @@ export default function Navigation({ sessionId }) {
     palette: {
       primary: {
         main: '#324E4B'
-        // light: will be calculated from palette.primary.main,
-        // dark: will be calculated from palette.primary.main,
-        // contrastText: will be calculated to contrast with palette.primary.main
       },
       secondary: {
         main: '#F5C9C6'
@@ -299,15 +287,15 @@ export default function Navigation({ sessionId }) {
                             {...field}
                             type="text"
                             placeholder="Search..."
-                            className="bg-primary-light focus:outline-none text-primary-dark px-2 py-1 block"
+                            className="bg-primary-light w-[75px] focus:outline-none text-primary-dark px-2 py-1 block"
                           />
                           <div >
-                          <button type="submit" className="pr-2">
-                            <SearchIcon className="text-primary-dark" />
-                          </button>
-                          <button onClick={toggleSearch} className="text-primary-dark pr-2" >
-                            <CloseIcon />
-                          </button>
+                            <button type="submit" className="pr-2">
+                              <SearchIcon className="text-primary-dark" />
+                            </button>
+                            <button onClick={toggleSearch} className="text-primary-dark pr-2" >
+                              <CloseIcon />
+                            </button>
                           </div>
                         </div>
                       )} />
@@ -333,16 +321,16 @@ export default function Navigation({ sessionId }) {
                       <Link href="/api/auth/login" className={`text-xs md:text-base md:block hover:underline mt-1 md:mt-3 ${montserrat.className}`}>
                         Sign In
                       </Link>
-                        <div className={`hover:cursor-pointer hidden md:block md:text-[30px]`}>
+                      <div className={`hover:cursor-pointer hidden md:block md:text-[30px]`}>
                         <FavoriteBorderIcon onClick={() => showLoginToast(textToastFav)} sx={{ fontSize: "1em" }} />
                       </div>
-                      <button onClick={toggleSearch} className="md:hidden text-xl">
+                        <button onClick={toggleSearch} className="md:hidden md:text-[30px]">
                         <SearchIcon sx={{ fontSize: "1.1em" }} />
                       </button>
-                        <div className={`hover:cursor-pointer md:text-[30px]`}>
+                      <div className={`hover:cursor-pointer md:text-[30px]`}>
                         <ShoppingCartCheckoutIcon onClick={() => showLoginToast(textToastCart)} sx={{ fontSize: "1em" }} />
                       </div>
-                        <Link href="/api/auth/login" className={`hover:cursor-pointer md:text-[30px] ${montserrat.className}`}>
+                      <Link href="/api/auth/login" className={`hover:cursor-pointer md:text-[30px] ${montserrat.className}`}>
                         <div>
                           <ManageAccountsIcon sx={{ fontSize: "1.1em !important" }} />
                         </div>
@@ -351,17 +339,20 @@ export default function Navigation({ sessionId }) {
                   ) : (
                     <>
                       {/* USER IS LOGGED IN */}
-                      <Link href="/api/auth/logout" className={`hover:underline ${montserrat.className}`} onClick={clearSession}>
+                      <Link href="/api/auth/logout" className={`text-xs md:text-base md:block hover:underline mt-1 md:mt-3 ${montserrat.className}`} onClick={clearSession}>
                         Log Out
                       </Link>
-                      <Link href="/wishlist" className={`hover:cursor-pointer`}>
-                        <FavoriteBorderIcon sx={{ fontSize: "2em" }} />
+                          <Link href="/wishlist" className={`hover:cursor-pointer hidden md:block md:text-[30px]`}>
+                        <FavoriteBorderIcon sx={{ fontSize: "1em" }} />
                       </Link>
-                      <Link href="/cart" className={`hover:cursor-pointer`}>
-                        <ShoppingCartCheckoutIcon sx={{ fontSize: "2em", marginRight: "1em" }} />
+                          <button onClick={toggleSearch} className="md:hidden md:text-[30px]">
+                        <SearchIcon sx={{ fontSize: "1.1em" }} />
+                      </button>
+                      <Link href="/cart" className={`hover:cursor-pointer md:text-[30px]`}>
+                        <ShoppingCartCheckoutIcon sx={{ fontSize: "1em" }} />
                       </Link>
-                      <Link href="/profile" className={`hover:cursor-pointer`}>
-                        <ManageAccountsIcon sx={{ fontSize: "2.1em !important", marginRight: "1em" }} />
+                      <Link href="/profile" className={`hover:cursor-pointer md:text-[30px] ${montserrat.className}`}>
+                        <ManageAccountsIcon sx={{ fontSize: "1.1em !important" }} />
                       </Link>
                     </>
                   )}
@@ -384,9 +375,15 @@ export default function Navigation({ sessionId }) {
             <div className="bg-primary text-white p-4 hidden md:block">
               <div className="px-3 md:px-12 mx-auto flex justify-between items-center ">
                 <Link href="/products" className={`hover:underline pr-4 whitespace-nowrap ${montserrat.className}`}>
-                  <div>
+                  <button
+                    onClick={() => {
+                      handleClick('All Art');
+                    }}
+                    className={`text-info pr-4 hover:underline cursor-pointer ${montserrat.className}`}
+                  >
                     All Art
-                  </div>
+                  </button>
+
                 </Link>
 
                 <button
@@ -400,7 +397,7 @@ export default function Navigation({ sessionId }) {
 
                 <button
                   onClick={() => {
-                    handleClick(' Sculptures');
+                    handleClick('Sculptures');
                   }}
                   className={`text-info pr-4 hover:underline cursor-pointer ${montserrat.className}`}
                 >
@@ -463,7 +460,7 @@ export default function Navigation({ sessionId }) {
                               {...field}
                               type="text"
                               placeholder="Search..."
-                              className="bg-primary-light focus:outline-none  text-primary-dark px-3 py-2 w-2/3 "
+                              className="bg-primary-light  focus:outline-none text-primary-dark px-3 py-2 w-2/3"
                             />
 
                             <button type="submit" className="ml-2">

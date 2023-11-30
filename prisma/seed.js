@@ -67,7 +67,7 @@ async function main() {
     //   data: customersData,
     // });
     //Get and store in var newly created customers to extract id dinamically
-    const customers = await prisma.customer.findMany();
+    // const customers = await prisma.customer.findMany();
     // console.log("LINE 63: Customers:", customers);
 
 
@@ -132,7 +132,7 @@ async function main() {
     // });
 
     //Get and store in var newly created addresses to extract id dinamically
-    const addresses = await prisma.category.findMany();
+    // const addresses = await prisma.category.findMany();
 
 
 //CATEGORIES

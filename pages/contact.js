@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
-// import { TextField, Button } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { Button, TextField, Typography, Container, Grid, Paper } from '@mui/material';
 import Layout from '../components/Layout';
@@ -16,7 +15,7 @@ const ContactUs = () => {
   const sendEmail = (e) => {
     e.preventDefault();
 
-    emailjs.sendForm('service_obnskbd', 'template_bjrlix2', form.current, 'p3p1b53q_-yed7X7l')
+    emailjs.sendForm('service_a4er9au', 'template_n2vmsil', form.current, '8KYPt6ZD1v6KXMCVF')
       .then((result) => {
           console.log(result.text);
           // clear form on submit
@@ -37,14 +36,14 @@ const ContactUs = () => {
             <Typography variant="h4" gutterBottom>
               Thank you for sending your email!
             </Typography>
-            <Typography variant="body1">
+              <Typography variant="body1" className="font-bold pb-[30px]">
               We'll get back to you as soon as possible.
             </Typography>
             <Link href={`/products/`}>
               <Button size="small"
                 variant="contained"
                 style={{
-                  backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
+                  backgroundColor: '#141f1e', color: 'white', transition: 'background-color 0.3s',
                   '&:hover': {
                     backgroundColor: 'blue',
                   },
