@@ -65,7 +65,7 @@ export default function Footer() {
             </Toolbar>
             <Toolbar sx={{ display: 'flex', justifyContent: 'center', paddingBottom: '1em' }}>
               <div className="p-3">
-                <Link href="/">
+                <Link href="/about">
                   <h3 className="font-bold">About</h3>
                 </Link>
               </div>
@@ -93,7 +93,7 @@ export default function Footer() {
                 <GitHubIcon className="footer-icon" fontSize="large" sx={{ margin: '0.5em' }} />
               </Link>
               <Link href="https://github.com/anaProdigy" target="_blank" rel="noopener noreferrer">
-                <TwitterIcon className="footer-icon" fontSize="large" sx={{ margin: '0.5em' }} />
+                <GitHubIcon className="footer-icon" fontSize="large" sx={{ margin: '0.5em' }} />
               </Link>
             </Toolbar>
           </AppBar>
