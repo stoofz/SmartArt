@@ -481,7 +481,13 @@ const Products = () => {
         spacing={6}
       >
 
-        {totalProducts === 0 ? (<div>No results found </div>) : (productList())}
+        {totalProducts === 0 ? (
+          <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '1.2em', color: 'gray' }}>
+            No results found
+          </div>
+        ) : (
+          productList()
+        )}
 
         <Paginate
           count={Math.ceil(totalProducts / productsPerPage)}

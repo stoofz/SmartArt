@@ -39,7 +39,7 @@ const ReviewForm = ({ open, onClose, onSubmit, comment, setComment, rating, setR
 
   return (
     <Dialog open={open} onClose={onClose} >
-      <DialogTitle sx={{ color: theme.palette.primary.main }}>Write a Review:</DialogTitle>
+      <DialogTitle sx={{ color: theme.palette.primary.main, width: "600px" }}>Write a Review:</DialogTitle>
       <DialogContent>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Rating
@@ -52,7 +52,15 @@ const ReviewForm = ({ open, onClose, onSubmit, comment, setComment, rating, setR
           <TextareaAutosize
             placeholder="   Write your review here..."
             minRows={3}
-            style={{ width: "90%", border: `1px solid ${theme.palette.primary.main}`, borderRadius: "8px", marginTop: "15px" }}
+            style={{ width: "90%", 
+            border: `1px solid ${theme.palette.primary.main}`, 
+            borderRadius: "8px", 
+            marginTop: "15px",
+            fontSize: "0.8em",
+              '@media (min-width: 600px)': {
+                fontSize: "1.2em", // Adjust the font size for desktop
+              },
+           }}
             value={comment}
             onChange={(event) => {
               setComment(event.target.value);

@@ -271,8 +271,10 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                     backgroundColor: theme.palette.primary.main,
                     color: theme.palette.info.main,
                     textTransform: "none",
-                    // paddingRight: "5em",
-                    // paddingLeft: "5em",
+                    fontSize: "1.2em",
+                    '@media (max-width: 600px)': {
+                      fontSize: "1em", // Adjust the font size for mobile
+                    },
                     marginRight: "2em",
                     ":hover": {
                       backgroundColor: theme.palette.secondary.main
@@ -280,7 +282,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                   }}
                   onClick={() => handleAddToCartToast(product.id, userId, textToastCart)}
                 >
-                  <Typography variant="h6">
+                  <Typography>
                     Add To Cart
                   </Typography>
                 </Button>
@@ -418,11 +420,15 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                 justifyContent: "center",
                 margin: "2em",
                 paddingRight: "2em",
-                paddingLeft: "2em"
+                paddingLeft: "2em", 
+                fontSize: "1.2em",
+                '@media (max-width: 600px)': {
+                  fontSize: "1em", // Adjust the font size for mobile
+                },
               }}
 
             >
-              <Typography variant="h6">
+              <Typography >
                 Leave Your Review!
               </Typography>
             </Button>
@@ -454,55 +460,57 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                   .map((review, index) => (
                     // <div key={index} style={{ marginBottom: '10px' }}>
                     <Paper key={index} elevation={4} style={{
-                      marginBottom: '10px', marginLeft: '20px',
+                      marginBottom: '10px',
+                      marginLeft: '20px',
                       marginRight: '20px',
                     }}>
                       <Card key={index} style={{ minHeight: '100px' }}>
-                        <CardContent style={{ height: '150px', overflowY: 'auto', color: theme.palette.primary.main }} >
-                          <ListItem alignItems="flex-start">
-                            <Avatar style={{ marginRight: '8px', color: theme.palette.info.main, backgroundColor: theme.palette.primary.main }}>
-                              {review.firstName}
-                            </Avatar>
-                            <ListItemText
-                              primary={
-                                <div>
-                                  <div
+                        <CardContent style={{ height: '150px', overflowY: 'auto', color: theme.palette.primary.main }}>
+                          <ListItem alignItems="flex-start" style={{ flexDirection: 'column' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center' }}>
+
+                            
+                              <Avatar style={{ marginRight: '8px', color: theme.palette.info.main, backgroundColor: theme.palette.primary.main }}>
+                                {review.firstName}
+                              </Avatar>
+                              <Typography variant="body1" style={{ marginRight: '8px' }}>
+                                {review.firstName} {review.lastName}
+                              </Typography>
+                            </div>
+                              {/* <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}> */}
+                                
+                                {user && user.id === review.customerId && (
+                                  <Button
+                                    onClick={() => {
+                                      console.log("review.id", review.id);
+                                      deleteReviewFromDb(review.id);
+                                    }}
                                     style={{
-                                      display: 'flex',
-                                      alignItems: 'center',
-                                      marginBottom: '8px',
+                                      minWidth: 'unset',
+                                      backgroundColor: theme.palette.warning.dark,
+                                      color: 'white',
+                                      borderColor: 'transparent',
+                                      marginLeft: 'auto',
+                                      marginTop: '8px',
+                          
                                     }}
                                   >
-                                    <Typography variant="body1" style={{ marginRight: '8px' }}>
-                                      {review.firstName} {review.lastName}
-                                    </Typography>
-                                    <Rating name="read-only" readOnly value={review.rating} sx={{ display: 'flex', alignItems: 'center' }} />
-                                  </div>
-                                  <div style={{ fontSize: '14px', color: '#777' }}>
-                                    {new Date(review.date).toLocaleDateString('en-CA')}
-                                  </div>
-                                  <div style={{ fontSize: '14px', color: '#777', marginTop: '8px' }}>
-                                    {review.comment}
-                                  </div>
-                                </div>
-                              }
-                            />
-
-                            {user && user.id === review.customerId && (
-                              <Button
-                                sx={{
-                                  minWidth: 'unset', // Remove the minimum width
-                                }}
-                                onClick={() => {
-                                  console.log("review.id", review.id);
-                                  deleteReviewFromDb(review.id);
-                                }
-                                }
-                                style={{ backgroundColor: 'lightpink', color: 'white', borderColor: 'transparent' }}
-                              >
-                                <DeleteIcon /> Delete
-                              </Button>
-                            )}
+                                  <DeleteIcon /> <div class="hidden md:block">Delete</div>
+                                  </Button>
+                                )}
+                              </div>
+                              
+                            {/* </div> */}
+                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                              <Rating name="read-only" readOnly value={review.rating} sx={{ marginRight: '8px', display: 'flex', alignItems: 'center' }} />
+                              <Typography variant="caption" style={{ color: '#777' }}>
+                                {new Date(review.date).toLocaleDateString('en-CA')}
+                              </Typography>
+                            </div>
+                            <div style={{ fontSize: '14px', color: '#777', marginTop: '8px', width: '100%' }}>
+                              {review.comment}
+                            </div>
                           </ListItem>
                         </CardContent>
                       </Card>
