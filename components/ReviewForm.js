@@ -52,7 +52,7 @@ const ReviewForm = ({ open, onClose, onSubmit, comment, setComment, rating, setR
           <TextareaAutosize
             placeholder="   Write your review here..."
             minRows={3}
-            style={{ width: "500px", border: `1px solid ${theme.palette.primary.main}`, borderRadius: "8px", marginTop: "15px" }}
+            style={{ width: "90%", border: `1px solid ${theme.palette.primary.main}`, borderRadius: "8px", marginTop: "15px" }}
             value={comment}
             onChange={(event) => {
               setComment(event.target.value);
@@ -64,14 +64,15 @@ const ReviewForm = ({ open, onClose, onSubmit, comment, setComment, rating, setR
         <Button
           onClick={onClose}
           sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main, borderColor: 'transparent',
-          "&:hover": { backgroundColor: theme.palette.primary.main
+            "&:hover": {
+              backgroundColor: theme.palette.primary.main, fontSize: { xs: '12px', md: 'inherit' },
           },
           }}>
           Cancel
         </Button>
         <Button
           onClick={() => onSubmit(rating, comment)}
-          sx={{ backgroundColor: theme.palette.secondary.dark, color: theme.palette.info.main, borderColor: 'transparent', 
+          sx={{ backgroundColor: theme.palette.primary.dark, color: theme.palette.info.main, borderColor: 'transparent', 
           "&:hover": { backgroundColor: theme.palette.primary.main
           },
           }}>
