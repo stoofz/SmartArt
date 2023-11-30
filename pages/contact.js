@@ -15,7 +15,7 @@ const ContactUs = () => {
   const sendEmail = (e) => {
     e.preventDefault();
 
-    emailjs.sendForm('service_a4er9au', 'template_bjrlix2', form.current, 'p3p1b53q_-yed7X7l')
+    emailjs.sendForm('service_a4er9au', 'template_n2vmsil', form.current, '8KYPt6ZD1v6KXMCVF')
       .then((result) => {
           console.log(result.text);
           // clear form on submit
