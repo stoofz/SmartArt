@@ -93,7 +93,7 @@ export default function Footer() {
                 <GitHubIcon className="footer-icon" fontSize="large" sx={{ margin: '0.5em' }} />
               </Link>
               <Link href="https://github.com/anaProdigy" target="_blank" rel="noopener noreferrer">
-                <TwitterIcon className="footer-icon" fontSize="large" sx={{ margin: '0.5em' }} />
+                <GitHubIcon className="footer-icon" fontSize="large" sx={{ margin: '0.5em' }} />
               </Link>
             </Toolbar>
           </AppBar>

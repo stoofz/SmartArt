@@ -374,7 +374,7 @@ const Products = () => {
                   {/* // adjust backdrop to be transparent */}
                 </CardActions>
 
-                <Typography gutterBottom variant="h7" align="center" sx={{ color: theme.palette.primary.dark }}>
+                <Typography gutterBottom variant="h7" align="center" sx={{ color: theme.palette.primary.dark, padding: "0 px" }}>
                   <NextLink
                     href={{
                       pathname: "/products/[productId]",

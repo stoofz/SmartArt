@@ -27,21 +27,17 @@ const Layout = ({ children }) => {
     );
   }
 
-
-
   if (error) return <div>{error.message}</div>;
 
   if (user) {
 
-    //setSession(user);
-
     return (
       <>
-       {/* <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }} > */}
+        {/* <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }} > */}
         <Navigation sessionId={setSession(user)} />
         {children}
         <Footer />
-       {/* </div> */}
+        {/* </div> */}
       </>
     );
   }
@@ -53,7 +49,6 @@ const Layout = ({ children }) => {
       <Footer />
     </>
   );
-
 };
 
 export default Layout;
