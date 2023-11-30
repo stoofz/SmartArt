@@ -2,7 +2,6 @@ import prisma from 'utils/prisma';
 import formatDate from 'utils/formatDate';
 import Link from 'next/link';
 import { Typography, Container } from '@mui/material';
-import Button from '@mui/material/Button';
 import Layout from '../../components/Layout';
 import formatPriceAlt from '@/utils/formatPriceAlt';
 

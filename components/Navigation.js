@@ -118,6 +118,7 @@ export default function Navigation({ sessionId }) {
         body: JSON.stringify({ query: categoryQuery }),
       });
       const results = await response.json();
+     
       setSearchResults(results[0].products);
     }
     catch (error) {
@@ -125,13 +126,16 @@ export default function Navigation({ sessionId }) {
     }
   });
 
+  //To show all products again on products page when clicking All Art after other filtering
   const handleClick = (value) => {
-    handleCategorySearch(value);
+    const categoryToSearch = value === 'All Art' ? null : value;
+    handleCategorySearch(categoryToSearch);
   };
 
+  
 
 
-
+  //---------------- HANDLE SEARCH BY WORD ------------------------------//
   const handleSearch = (async (searchQuery) => {
     //  const handleSearch = debounce(async (searchQuery) => {
     try {
@@ -384,11 +388,17 @@ export default function Navigation({ sessionId }) {
             <div className="bg-primary text-white p-4 hidden md:block">
               <div className="px-3 md:px-12 mx-auto flex justify-between items-center ">
                 <Link href="/products" className={`hover:underline pr-4 whitespace-nowrap ${montserrat.className}`}>
-                  <div>
+                  <button
+                    onClick={() => {
+                      handleClick('All Art');
+                    }}
+                    className={`text-info pr-4 hover:underline cursor-pointer ${montserrat.className}`}
+                  >
                     All Art
-                  </div>
+                  </button> 
+                 
                 </Link>
-
+                
                 <button
                   onClick={() => {
                     handleClick('Photography');
@@ -400,7 +410,7 @@ export default function Navigation({ sessionId }) {
 
                 <button
                   onClick={() => {
-                    handleClick(' Sculptures');
+                    handleClick('Sculptures');
                   }}
                   className={`text-info pr-4 hover:underline cursor-pointer ${montserrat.className}`}
                 >

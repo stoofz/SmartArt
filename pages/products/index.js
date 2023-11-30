@@ -1,39 +1,13 @@
-import { useUser } from '@auth0/nextjs-auth0/client';
-
-import { setSession, clearSession } from 'utils/session';
-
-import Footer from '../../components/Footer';
 import Products from '../../components/Products';
-import Navigation from '../../components/Navigation';
+import Layout from '../../components/Layout';
 
 export default function Index() {
-  const { user, error, isLoading } = useUser();
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
-
-  if (user) {
-
-    //setSession(user);
-
-    return (
-      <>
-        <Navigation sessionId={setSession(user)} />
-        <main>
-          <Products />
-        </main>
-        <Footer />
-      </>
-    );
-  }
 
   return (
-    <>
-      <Navigation />
+    <Layout>
       <main>
         <Products />
       </main>
-      <Footer />
-    </>
+    </Layout>
   );
 }

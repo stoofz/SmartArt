@@ -102,7 +102,7 @@ function SwipeableTextMobileStepper() {
                   component="div"
                   sx={{
                     width: '100%',
-                    height: ['200px', '400px', '500px', '700px'],
+                    height: ['200px', '300px', '400px', '500px'],
                     display: 'block',
                     maxWidth: '100%',
                     objectFit: 'cover',
