@@ -36,14 +36,14 @@ const ContactUs = () => {
             <Typography variant="h4" gutterBottom>
               Thank you for sending your email!
             </Typography>
-            <Typography variant="body1">
+              <Typography variant="body1" className="font-bold pb-[30px]">
               We'll get back to you as soon as possible.
             </Typography>
             <Link href={`/products/`}>
               <Button size="small"
                 variant="contained"
                 style={{
-                  backgroundColor: 'lightblue', color: 'white', transition: 'background-color 0.3s',
+                  backgroundColor: '#141f1e', color: 'white', transition: 'background-color 0.3s',
                   '&:hover': {
                     backgroundColor: 'blue',
                   },
