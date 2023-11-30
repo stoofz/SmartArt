@@ -118,7 +118,7 @@ export default function Navigation({ sessionId }) {
         body: JSON.stringify({ query: categoryQuery }),
       });
       const results = await response.json();
-     
+
       setSearchResults(results[0].products);
     }
     catch (error) {
@@ -132,7 +132,7 @@ export default function Navigation({ sessionId }) {
     handleCategorySearch(categoryToSearch);
   };
 
-  
+
 
 
   //---------------- HANDLE SEARCH BY WORD ------------------------------//
@@ -172,9 +172,6 @@ export default function Navigation({ sessionId }) {
     palette: {
       primary: {
         main: '#324E4B'
-        // light: will be calculated from palette.primary.main,
-        // dark: will be calculated from palette.primary.main,
-        // contrastText: will be calculated to contrast with palette.primary.main
       },
       secondary: {
         main: '#F5C9C6'
@@ -306,12 +303,12 @@ export default function Navigation({ sessionId }) {
                             className="bg-primary-light focus:outline-none text-primary-dark px-2 py-1 block"
                           />
                           <div >
-                          <button type="submit" className="pr-2">
-                            <SearchIcon className="text-primary-dark" />
-                          </button>
-                          <button onClick={toggleSearch} className="text-primary-dark pr-2" >
-                            <CloseIcon />
-                          </button>
+                            <button type="submit" className="pr-2">
+                              <SearchIcon className="text-primary-dark" />
+                            </button>
+                            <button onClick={toggleSearch} className="text-primary-dark pr-2" >
+                              <CloseIcon />
+                            </button>
                           </div>
                         </div>
                       )} />
@@ -337,16 +334,16 @@ export default function Navigation({ sessionId }) {
                       <Link href="/api/auth/login" className={`text-xs md:text-base md:block hover:underline mt-1 md:mt-3 ${montserrat.className}`}>
                         Sign In
                       </Link>
-                        <div className={`hover:cursor-pointer hidden md:block md:text-[30px]`}>
+                      <div className={`hover:cursor-pointer hidden md:block md:text-[30px]`}>
                         <FavoriteBorderIcon onClick={() => showLoginToast(textToastFav)} sx={{ fontSize: "1em" }} />
                       </div>
-                      <button onClick={toggleSearch} className="md:hidden text-xl">
+                        <button onClick={toggleSearch} className="md:hidden md:text-[30px]">
                         <SearchIcon sx={{ fontSize: "1.1em" }} />
                       </button>
-                        <div className={`hover:cursor-pointer md:text-[30px]`}>
+                      <div className={`hover:cursor-pointer md:text-[30px]`}>
                         <ShoppingCartCheckoutIcon onClick={() => showLoginToast(textToastCart)} sx={{ fontSize: "1em" }} />
                       </div>
-                        <Link href="/api/auth/login" className={`hover:cursor-pointer md:text-[30px] ${montserrat.className}`}>
+                      <Link href="/api/auth/login" className={`hover:cursor-pointer md:text-[30px] ${montserrat.className}`}>
                         <div>
                           <ManageAccountsIcon sx={{ fontSize: "1.1em !important" }} />
                         </div>
@@ -355,17 +352,20 @@ export default function Navigation({ sessionId }) {
                   ) : (
                     <>
                       {/* USER IS LOGGED IN */}
-                      <Link href="/api/auth/logout" className={`hover:underline ${montserrat.className}`} onClick={clearSession}>
+                      <Link href="/api/auth/logout" className={`text-xs md:text-base md:block hover:underline mt-1 md:mt-3 ${montserrat.className}`} onClick={clearSession}>
                         Log Out
                       </Link>
-                      <Link href="/wishlist" className={`hover:cursor-pointer`}>
-                        <FavoriteBorderIcon sx={{ fontSize: "2em" }} />
+                          <Link href="/wishlist" className={`hover:cursor-pointer hidden md:block md:text-[30px]`}>
+                        <FavoriteBorderIcon sx={{ fontSize: "1em" }} />
                       </Link>
-                      <Link href="/cart" className={`hover:cursor-pointer`}>
-                        <ShoppingCartCheckoutIcon sx={{ fontSize: "2em", marginRight: "1em" }} />
+                          <button onClick={toggleSearch} className="md:hidden md:text-[30px]">
+                        <SearchIcon sx={{ fontSize: "1.1em" }} />
+                      </button>
+                      <Link href="/cart" className={`hover:cursor-pointer md:text-[30px]`}>
+                        <ShoppingCartCheckoutIcon sx={{ fontSize: "1em" }} />
                       </Link>
-                      <Link href="/profile" className={`hover:cursor-pointer`}>
-                        <ManageAccountsIcon sx={{ fontSize: "2.1em !important", marginRight: "1em" }} />
+                      <Link href="/profile" className={`hover:cursor-pointer md:text-[30px] ${montserrat.className}`}>
+                        <ManageAccountsIcon sx={{ fontSize: "1.1em !important" }} />
                       </Link>
                     </>
                   )}
@@ -395,10 +395,10 @@ export default function Navigation({ sessionId }) {
                     className={`text-info pr-4 hover:underline cursor-pointer ${montserrat.className}`}
                   >
                     All Art
-                  </button> 
-                 
+                  </button>
+
                 </Link>
-                
+
                 <button
                   onClick={() => {
                     handleClick('Photography');
@@ -473,7 +473,7 @@ export default function Navigation({ sessionId }) {
                               {...field}
                               type="text"
                               placeholder="Search..."
-                              className="bg-primary-light focus:outline-none  text-primary-dark px-3 py-2 w-2/3 "
+                              className="bg-primary-light focus:outline-none w-[75px] text-primary-dark px-3 py-2 w-2/3"
                             />
 
                             <button type="submit" className="ml-2">

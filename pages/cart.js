@@ -8,6 +8,7 @@ import prisma from 'utils/prisma';
 
 import Cart from '../components/Cart';
 import Layout from '../components/Layout';
+import UserLayout from '@/components/User/UserLayout';
 
 
 
@@ -35,7 +36,9 @@ const applyDiscountToProduct = async (productId, productPrice) => {
 export default function CartPage({ productDetails, subtotal }) {
     return (
       <Layout>
+        <UserLayout>
         <Cart productDetails={productDetails} subtotal={subtotal} />
+        </UserLayout>
       </Layout>
     );
   }

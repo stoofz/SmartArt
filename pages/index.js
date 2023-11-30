@@ -49,7 +49,7 @@ export default function Index() {
        
           <Products />
         </main>
-        <Footer />
+        {/* <Footer /> */}
       </>
     );
   }

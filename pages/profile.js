@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Layout from '../components/Layout';
 import { useSessionId } from '/utils/session';
+// import Subnav from 'components/User/UserSubNav';
+import UserLayout from '@/components/User/UserLayout';
 
-// import { useSearchState } from 'utils/search';
 
 
 import Link from 'next/link';
@@ -52,6 +53,7 @@ const userProfilePage = () => {
   
   return (
     <Layout>
+     <UserLayout>
       <Paper elevation={10} style={{
         padding: '1rem',
         borderRadius: '16px',
@@ -123,6 +125,8 @@ const userProfilePage = () => {
           Edit Profile
         </Button>
       </Paper>
+     
+      </UserLayout>
     </Layout>
   );
 };
