@@ -10,7 +10,7 @@ import Cart from '../components/Cart';
 import Layout from '../components/Layout';
 import UserLayout from '@/components/User/UserLayout';
 
-
+const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:3000';
 
 const applyDiscountToProduct = async (productId, productPrice) => {
   try {
@@ -20,7 +20,8 @@ const applyDiscountToProduct = async (productId, productPrice) => {
     };
 
     // only full path works with port 3000, works on 127.0.0.1:80 by default
-    const response = await axios.post('http://127.0.0.1:3000/api/applyDiscount', payload);
+    // const response = await axios.post('http://127.0.0.1:3000/api/applyDiscount', payload);
+    const response = await axios.post(`${baseUrl}/api/applyDiscount`, payload);
 
     if (response.status === 200) {
       const data = await response.data;
