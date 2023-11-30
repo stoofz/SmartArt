@@ -57,7 +57,7 @@ const Products = () => {
   const { searchResults, setSearchResults } = useSearchState();
 
 
-  const { wishlist, addToWishlist, deleteFromWishlist, isInWishlist } = useWishlist();
+  const { isInWishlist } = useWishlist();
 
   const userId = useSessionId();
 
@@ -96,11 +96,6 @@ const Products = () => {
     border-color: red;
   `;
 
-  if (isLoading) return (
-    <div className="flex items-center justify-center h-screen">
-      <MoonLoader color={'#36D7B7'} loading={isLoading} css={override} size={50} />
-    </div>
-  );
   if (error) return <div>{error.message}</div>;
 
 
@@ -151,15 +146,6 @@ const Products = () => {
   const pageProducts = products.slice(firstProductOfPage, lastProductOfPage);
 
 
-  //add logic to add to wishlist
-  const handleHeartClick = (productId) => {
-    if (clicked === productId) {
-      setClicked(false);
-    } else {
-      setClicked(productId);
-    }
-  };
-
   //Dialog fns
   const handleClickOpen = (productId) => {
     setOpenId(productId);
@@ -174,9 +160,6 @@ const Products = () => {
     palette: {
       primary: {
         main: '#324E4B'  //green
-        // light: will be calculated from palette.primary.main,
-        // dark: will be calculated from palette.primary.main,
-        // contrastText: will be calculated to contrast with palette.primary.main
       },
       secondary: {
         main: '#F5C9C6'
@@ -232,6 +215,7 @@ const Products = () => {
       sx={{ maxWidth: '100%', margin: 'auto', color: theme.palette.primary.main }}
       key={product.id}
       className={montserrat.className}
+      
     >
       <ContainerStyled>
         <Card sx={{ boxShadow: 1 }}
@@ -248,7 +232,7 @@ const Products = () => {
           />
           <CardContent>
 
-            <Grid item="true" m={0}>
+            <Grid item="true" m={0} >
               <Grid container style={{ height: '100%' }} justifyContent="center">
                 <CardActions>
                   <DivStyled>
@@ -267,13 +251,7 @@ const Products = () => {
                       >
                         {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                       </HeartIconStyled>
-
-                      {/* Render the ToastContainer */}
-                      {/* <ToastContainer position="top-right" autoClose={2000} /> */}
                     </div>
-
-
-
 
                     <CartIconStyled
                       variant="text"
@@ -335,9 +313,7 @@ const Products = () => {
                           >
                             <AddShoppingCartIcon />
                           </Button>
-
                         </div>
-
                       </div>
 
 
@@ -358,7 +334,6 @@ const Products = () => {
                           </Typography>
                         </NextLink>
                       </DialogTitle>
-
 
 
                       <Typography variant="h7" sx={{ color: theme.palette.secondary.dark }}>
@@ -394,13 +369,12 @@ const Products = () => {
                           </Typography>
                         </DialogContentText>
                       </div>
-
-
                     </Dialog>
                   </DivStyled>
                   {/* // adjust backdrop to be transparent */}
                 </CardActions>
-                <Typography gutterBottom variant="h7" align="center" sx={{ color: theme.palette.primary.dark, paddingX: 3 }}>
+
+                <Typography gutterBottom variant="h7" align="center" sx={{ color: theme.palette.primary.dark }}>
                   <NextLink
                     href={{
                       pathname: "/products/[productId]",
@@ -415,11 +389,11 @@ const Products = () => {
                 </Typography>
                 <Typography variant="h8" align="center" sx={{
                   fontSize: {
-                    xs: '12px',  // Font size for extra small screens (mobile)
-                    sm: '14px',  // Font size for small screens (tablet)
-                    md: '16px',  // Font size for medium screens
-                    lg: '18px',  // Font size for large screens
-                    xl: '20px',  // Font size for extra large screens
+                    xs: '12px',  
+                    sm: '14px',  
+                    md: '16px',  
+                    lg: '18px',  
+                    xl: '20px',  
                   }, color: theme.palette.secondary.dark
                 }}>
                   {product.dimensions}
@@ -427,7 +401,7 @@ const Products = () => {
               </Grid>
             </Grid>
 
-            <Grid item="true">
+            <Grid item="true" sx={{ padding: 0 }}>
               <NextLink
                 href={{
                   pathname: "/products/[productId]",
@@ -436,8 +410,9 @@ const Products = () => {
                 passHref
                 overlay="true"
                 underline="none"
+                
               >
-                <Typography sx={{ overflow: "hidden" }}>
+                <Typography sx={{ overflow: "hidden", padding: "0 px" }}>
                   <Rating
                     id={product.id}
                     name="read-only"
@@ -445,13 +420,15 @@ const Products = () => {
                     precision={0.1}
                     // how to access nested select value and average it?
                     value={averageRating(product.feedback)}
+                   
+                    
                   >
                   </Rating>
                 </Typography>
               </NextLink>
             </Grid>
 
-            <Grid item="true">
+            <Grid item="true" sx={{ padding: 0 }}>
               <Grid container sx={{ height: '100%' }} justifyContent="center">
                 <Typography
                   variant="h8"
