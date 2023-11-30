@@ -63,11 +63,11 @@ async function main() {
     ];
 
     //  //Insert data into the "customers" table
-    const createdCustomers = await prisma.customer.createMany({
-      data: customersData,
-    });
+    // const createdCustomers = await prisma.customer.createMany({
+    //   data: customersData,
+    // });
     //Get and store in var newly created customers to extract id dinamically
-    const customers = await prisma.customer.findMany();
+    // const customers = await prisma.customer.findMany();
     // console.log("LINE 63: Customers:", customers);
 
 
@@ -127,12 +127,12 @@ async function main() {
       },
     ]
     // Insert data into the "addresses" table
-    const createdAddresses = await prisma.address.createMany({
-      data: addressesData,
-    });
+    // const createdAddresses = await prisma.address.createMany({
+    //   data: addressesData,
+    // });
 
     //Get and store in var newly created addresses to extract id dinamically
-    const addresses = await prisma.category.findMany();
+    // const addresses = await prisma.category.findMany();
 
 
 //CATEGORIES
