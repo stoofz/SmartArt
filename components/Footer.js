@@ -65,7 +65,7 @@ export default function Footer() {
             </Toolbar>
             <Toolbar sx={{ display: 'flex', justifyContent: 'center', paddingBottom: '1em' }}>
               <div className="p-3">
-                <Link href="/">
+                <Link href="/about">
                   <h3 className="font-bold">About</h3>
                 </Link>
               </div>
