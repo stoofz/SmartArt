@@ -26,12 +26,6 @@ import 'swiper/css';
 
 
 
-
-
-
-
-
-
 const montserrat = Montserrat({
   weight: '600',
   subsets: ['latin']
@@ -268,7 +262,13 @@ export default function Navigation({ sessionId }) {
       <Box
         position="sticky"
         top={0}
-        sx={{ width: '100%', zIndex: "1000" }}
+        sx={{
+          width: '100%', 
+          zIndex: "1000", 
+          '@media (max-width: 767px)': {
+            position: 'relative', // Non-sticky on mobile
+          }, 
+        }}
       >
         {/* ---------------------MY NAV ---------------------------------------*/}
 
