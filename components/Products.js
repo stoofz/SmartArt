@@ -17,7 +17,6 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import CloseIcon from '@mui/icons-material/Close';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import DialogTitle from '@mui/material/DialogTitle';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContentText from '@mui/material/DialogContentText';
 import Dialog from '@mui/material/Dialog';
 import Rating from '@mui/material/Rating';
@@ -30,12 +29,9 @@ import { averageRating } from 'utils/rating';
 
 import formatPrice from 'utils/formatPrice';
 import { Montserrat } from 'next/font/google';
-import Image from 'material-ui-image';
 import { useSearchState } from 'utils/search';
 
 import { useWishlist } from '@/utils/wishlistContext';
-// import { handleAddToWishlist, showLoginToast } from '@/utils/wishlistFnWithContext';
-import { ToastContainer } from 'react-toastify';
 import { useWishlistFunctions } from '@/utils/wishlistFnWithContext';
 import { showLoginToast } from '@/utils/loginToast';
 import { css } from '@emotion/react';

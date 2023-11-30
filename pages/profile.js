@@ -3,14 +3,9 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Layout from '../components/Layout';
 import { useSessionId } from '/utils/session';
-// import Subnav from 'components/User/UserSubNav';
 import UserLayout from '@/components/User/UserLayout';
 
-
-
-import Link from 'next/link';
 import {
-  Container,
   Typography,
   Button,
   Paper,
@@ -24,8 +19,7 @@ const userProfilePage = () => {
   const userId = useSessionId()
   const [customer, setCustomer] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  // const { searchResults } = useSearchState();
-// console.log("customer", customer)
+
 
  
   useEffect(() => {
