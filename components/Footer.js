@@ -5,7 +5,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Link from 'next/link';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import Toolbar from "@mui/material/Toolbar";
 import AppBar from "@mui/material/AppBar";
 import Stack from '@mui/material/Stack';
@@ -44,69 +45,55 @@ export default function Footer() {
       <Box
         position="sticky"
         top={0}
-        sx={{ width: '100%', zIndex: "1000" }}
+        sx={{ width: '100%', zIndex: 1000 }}
       >
-        <Stack direction="row">
+        <Stack direction={{ xs: 'column', sm: 'row' }}>
           <AppBar
             position="static"
-            className={montserrat.className}
-            sx={{ padding: "0 1.5em" }}
+            sx={{ padding: '1em' }}
           >
             <Toolbar
-              sx={{ display: "flex", justifyContent: "flex-start", paddingTop: "5em", marginBottom: "-3em" }}
+              sx={{ display: 'flex', justifyContent: 'center', paddingBottom: '1em', paddingTop: '2em' }}
             >
-              <NextLink href={{
-                pathname: "/",
-              }}>
+              <NextLink href="/">
                 <img
-                  src='../uploads/smartartlogo.png'
-                  style={{ height: "4em" }}
+                  src="../uploads/smartartlogo.png"
+                  style={{ height: '3em' }}
+                  alt="SmartArt Logo"
                 />
               </NextLink>
             </Toolbar>
-            <Toolbar sx={{ display: "flex", justifyContent: "center", paddingBottom: "2em", marginTop: "-3em" }}>
+            <Toolbar sx={{ display: 'flex', justifyContent: 'center', paddingBottom: '1em' }}>
               <div className="p-3">
-                <h3 className="font-bold">Information</h3>
-                <ul>
-                  <li>About</li>
-                  <li>Product</li>
-                </ul>
+                <Link href="/">
+                  <h3 className="font-bold">About</h3>
+                </Link>
               </div>
               <div className="p-3">
-                <h3 className="font-bold">Company</h3>
-                <ul>
-                  <li>
-                    <Link href={`/admin`}>
-                      <h3 className="font-bold">Admin</h3>
-                    </Link>
-                  </li>
-                  <li>Getting Started</li>
-                </ul>
+                <Link href="/admin">
+                  <h3 className="font-bold">Admin</h3>
+                </Link>
               </div>
               <div className="p-3">
-                <ul>
-                  <li>                  
-                    <Link href={`/contact`}>
-                    <h3 className="font-bold">Contact</h3>
-                  </Link>
-                  </li>
-                  <li>Pricing</li>
-                  <li>Resources</li>
-                </ul>
+                <Link href="/contact">
+                  <h3 className="font-bold">Contact</h3>
+                </Link>
               </div>
             </Toolbar>
-            <Typography sx={{ display: "flex", justifyContent: "center", paddingBottom: "1em", paddingRight: "2em" }}>
+            <Typography
+              sx={{ display: 'flex', justifyContent: 'center', paddingBottom: '1em' }}
+            >
               2023 All Rights Reserved SmartArt
             </Typography>
-            <Toolbar sx={{ display: "flex", justifyContent: "flex-end", marginRight: "5em", paddingBottom: "5em", marginTop: "-8em" }}>
-              <Link href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                <FacebookIcon className="footer-icon" fontSize="large" sx={{ margin: "0.5em" }} />
+            <Toolbar sx={{ display: 'flex', justifyContent: 'center', paddingBottom: '1em' }}>
+              <Link href="https://www.linkedin.com/in/anastasia-zaika/" target="_blank" rel="noopener noreferrer">
+                <LinkedInIcon className="footer-icon" fontSize="large" sx={{ margin: '0.5em' }} />
               </Link>
-              <Link href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-                <InstagramIcon className="footer-icon " fontSize="large" sx={{ margin: "0.5em" }} />
+              <Link href="https://github.com/anaProdigy/SmartArt" target="_blank" rel="noopener noreferrer">
+                <GitHubIcon className="footer-icon" fontSize="large" sx={{ margin: '0.5em' }} />
               </Link>
-              <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                <TwitterIcon className="footer-icon" fontSize="large" sx={{ margin: "0.5em" }} />
+              <Link href="https://github.com/anaProdigy" target="_blank" rel="noopener noreferrer">
+                <TwitterIcon className="footer-icon" fontSize="large" sx={{ margin: '0.5em' }} />
               </Link>
             </Toolbar>
           </AppBar>
