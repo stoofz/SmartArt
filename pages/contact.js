@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
-// import { TextField, Button } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { Button, TextField, Typography, Container, Grid, Paper } from '@mui/material';
 import Layout from '../components/Layout';
@@ -16,7 +15,7 @@ const ContactUs = () => {
   const sendEmail = (e) => {
     e.preventDefault();
 
-    emailjs.sendForm('service_obnskbd', 'template_bjrlix2', form.current, 'p3p1b53q_-yed7X7l')
+    emailjs.sendForm('service_a4er9au', 'template_bjrlix2', form.current, 'p3p1b53q_-yed7X7l')
       .then((result) => {
           console.log(result.text);
           // clear form on submit
