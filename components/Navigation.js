@@ -300,7 +300,7 @@ export default function Navigation({ sessionId }) {
                             {...field}
                             type="text"
                             placeholder="Search..."
-                            className="bg-primary-light focus:outline-none text-primary-dark px-2 py-1 block"
+                            className="bg-primary-light w-[75px] focus:outline-none text-primary-dark px-2 py-1 block"
                           />
                           <div >
                             <button type="submit" className="pr-2">
@@ -473,7 +473,7 @@ export default function Navigation({ sessionId }) {
                               {...field}
                               type="text"
                               placeholder="Search..."
-                              className="bg-primary-light focus:outline-none w-[75px] text-primary-dark px-3 py-2 w-2/3"
+                              className="bg-primary-light  focus:outline-none text-primary-dark px-3 py-2 w-2/3"
                             />
 
                             <button type="submit" className="ml-2">
