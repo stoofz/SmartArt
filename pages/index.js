@@ -8,13 +8,13 @@ export default function Index() {
   
 
   return (
-    <Layout>
+    // <Layout>
       <main>
       <StyledEngineProvider injectFirst>
         <MyCarousel />
       </StyledEngineProvider>
       <Products />
       </main>
-    </Layout>
+    // </Layout>
   );
 }

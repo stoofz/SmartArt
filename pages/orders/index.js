@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 const OrdersHistoryList = ({ userOrders }) => {
 
   return (
-    <Layout>
+    // <Layout>
       <UserLayout>
         <Container className="px-32 flex flex-col pt-4">
           {userOrders.length === 0 ? (
@@ -82,7 +82,7 @@ const OrdersHistoryList = ({ userOrders }) => {
           )}
         </Container>
       </UserLayout>
-    </Layout>
+    // </Layout>
   );
 
 };

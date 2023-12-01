@@ -8,7 +8,7 @@ const AboutPage = () => {
   
   const fadeIn = useSpring({ opacity: 1, from: { opacity: 0 } });
   return (
-    <Layout>
+    // <Layout>
       <div className="container mx-auto mt-16 text-center px-6">
         <animated.h1 className="text-3xl md:text-5xl font-bold mb-8 text-primary" style={fadeIn}>
           Welcome to SmartArt E-commerce!
@@ -38,7 +38,7 @@ const AboutPage = () => {
 
         <p className="text-xl text-gray-700 pb-14 md:pb-24">Thank you for choosing SmartArt!</p>
       </div>
-    </Layout>
+    // </Layout>
   );
 };
 

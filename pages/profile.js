@@ -46,7 +46,7 @@ const userProfilePage = () => {
   // };
   
   return (
-    <Layout>
+    // <Layout>
      <UserLayout>
       <Paper elevation={10} style={{
         padding: '1rem',
@@ -121,7 +121,7 @@ const userProfilePage = () => {
       </Paper>
      
       </UserLayout>
-    </Layout>
+    
   );
 };
 
