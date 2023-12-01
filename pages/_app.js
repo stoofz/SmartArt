@@ -7,6 +7,7 @@ import { WishlistProvider } from 'utils/wishlistContext';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { ToastContainer } from 'react-toastify';
 import MobileMessage from '../components/MobileMessage'
+import Layout from '@/components/Layout';
 
 export default function App({ Component, pageProps }) {
   const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
@@ -30,9 +31,12 @@ export default function App({ Component, pageProps }) {
     <SearchState>
       <UserProvider>
         <WishlistProvider>
-          {/* {isMobileOrTablet ? <MobileMessage /> : <Component {...pageProps} />} */}
-          <Component {...pageProps} />
-          <ToastContainer />
+          <Layout>
+            {/* {isMobileOrTablet ? <MobileMessage /> : <Component {...pageProps} />} */}
+            <Component {...pageProps} />
+            <ToastContainer />
+          </Layout>
+         
         </WishlistProvider> 
       </UserProvider>
     </SearchState>

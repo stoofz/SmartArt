@@ -8,11 +8,11 @@ import Wishlist from '../components/Wishlist';
 export default function WishlistPage({ serializedWishlistData }) {
 
   return (
-    <Layout>
+    // <Layout>
       <UserLayout>
         <Wishlist serializedWishlistData={serializedWishlistData} />
       </UserLayout>
-    </Layout>
+    // </Layout>
   );
 }
 

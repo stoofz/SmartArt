@@ -487,13 +487,22 @@ export default function Navigation({ sessionId }) {
                 >
                   <SwiperSlide style={{ width: 'auto', border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Link href="/products" className={`px-3 py-1 text-xs ${montserrat.className}`}>
-                      <button >
+                      <button
+                        onClick={() => {
+                          handleClick('All Art');
+                        }}
+                        // className={`text-info pr-4 hover:underline cursor-pointer ${montserrat.className}`}
+                      >
                         All Art
                       </button>
                     </Link>
                   </SwiperSlide>
 
+                  
+
+
                   <SwiperSlide style={{ width: 'auto', border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    {/* <Link href="/products" className={`px-3 py-1 text-xs ${montserrat.className}`}> */}
                     <button
                       onClick={() => {
                         handleClick('Photography');
@@ -503,12 +512,13 @@ export default function Navigation({ sessionId }) {
                     >
                       Photography
                     </button>
+                    {/* </Link> */}
                   </SwiperSlide>
 
                   <SwiperSlide style={{ width: 'auto', border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <button
                       onClick={() => {
-                        handleClick(' Sculptures');
+                        handleClick('Sculptures');
                       }}
                       className={`text-xs text-info px-3 py-1 cursor-pointer ${montserrat.className}`}
 
@@ -548,14 +558,18 @@ export default function Navigation({ sessionId }) {
                     </button>
                   </SwiperSlide>
                   <SwiperSlide style={{ width: 'auto', border: '1px solid white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Link href="/sale" >
                     <button
-                      onClick={() => {
-                        handleClick('Sale');
-                      }}
+                      // onClick={() => {
+                      //   handleClick('Sale');
+                      // }}
                       className={`text-xs px-3 py-1 cursor-pointer ${montserrat.className}`}
                     >
                       Sale
                     </button>
+                    
+                    
+                    </Link>
                   </SwiperSlide>
                 </Swiper>
               </div>

@@ -8,7 +8,7 @@ const Subnav = () => {
     <nav style={{ 
       position: "sticky",
       top: "7rem",
-      zIndex: 1000,
+      // zIndex: 2000,
      
       padding: '20px', 
       display: 'flex', 
