@@ -36,7 +36,7 @@ export default async function handler(req, res) {
           },
         });
       } else {
-        // If query is null or empty, return all products
+        // If query is null or empty, return all products. To accomodate All Art
         products = await prisma.category.findMany({
           include: {
             products: {

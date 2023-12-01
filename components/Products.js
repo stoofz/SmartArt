@@ -202,10 +202,7 @@ const Products = () => {
    }
    `;
 
-  const DivStyled = styled("div")`
-    display: flex;
-    justify-content: space-evenly;
-  `;
+
 
   const now = new Date();
 
@@ -235,7 +232,7 @@ const Products = () => {
             <Grid item="true" m={0} >
               <Grid container style={{ height: '100%' }} justifyContent="center">
                 <CardActions>
-                  <DivStyled>
+                  <div className="flex justify-evenly">
                     {/* Always display the favorite icon */}
                     <div>
                       <HeartIconStyled
@@ -370,7 +367,7 @@ const Products = () => {
                         </DialogContentText>
                       </div>
                     </Dialog>
-                  </DivStyled>
+                  </div>
                   {/* // adjust backdrop to be transparent */}
                 </CardActions>
 
