@@ -11,37 +11,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Montserrat } from 'next/font/google';
 import { autoPlay } from 'react-swipeable-views-utils';
 
-const montserrat = Montserrat({
-  weight: '600',
-  subsets: ['latin']
-});
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
-
-const theme = createTheme({
-  typography: {
-    fontFamily: [
-      montserrat
-    ]
-  },
-  palette: {
-    primary: {
-      main: '#324E4B'
-      // light: will be calculated from palette.primary.main,
-      // dark: will be calculated from palette.primary.main,
-      // contrastText: will be calculated to contrast with palette.primary.main
-    },
-    secondary: {
-      main: '#F5C9C6'
-    },
-    warning: {
-      main: '#893F04'
-    },
-    info: {
-      main: '#fff'
-    }
-  },
-});
 
 const images = [
   {
@@ -64,6 +35,7 @@ const images = [
     label: 'Bright Watercolour',
     imgPath: '/swiper/watercolor.jpg',
   },
+  
 ];
 
 function SwipeableTextMobileStepper() {
@@ -126,7 +98,7 @@ function SwipeableTextMobileStepper() {
                       bottom: '10%', // Adjust the bottom value to position it as desired
                       left: '50%',
                       transform: 'translateX(-50%)',
-                      backgroundColor: 'transperent', // Semi-transparent background
+                      backgroundColor: 'transparent', // Semi-transparent background
                       color: 'white',
                       padding: '20px',
                       fontSize: ['22px', '34px', '54px', '64px'],
