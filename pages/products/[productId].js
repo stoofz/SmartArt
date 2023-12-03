@@ -271,7 +271,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                     color: theme.palette.info.main,
                     textTransform: "none",
                     fontSize: "1.2em",
-                    '@media (max-width: 600px)': {
+                    '@media (maxWidth: 600px)': {
                       fontSize: "1em", // Adjust the font size for mobile
                     },
                     marginRight: "2em",
@@ -421,7 +421,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                 paddingRight: "2em",
                 paddingLeft: "2em", 
                 fontSize: "1.2em",
-                '@media (max-width: 600px)': {
+                '@media (maxWidth: 600px)': {
                   fontSize: "1em", // Adjust the font size for mobile
                 },
               }}

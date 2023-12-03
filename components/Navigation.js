@@ -265,7 +265,7 @@ export default function Navigation({ sessionId }) {
         sx={{
           width: '100%', 
           zIndex: "1000", 
-          '@media (max-width: 767px)': {
+          '@media (maxWidth: 767px)': {
             position: 'relative', // Non-sticky on mobile
           }, 
         }}
