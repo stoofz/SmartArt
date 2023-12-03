@@ -11,7 +11,6 @@ import ReviewForm from '../../components/ReviewForm';
 import Paper from '@mui/material/Paper';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button';
@@ -44,7 +43,7 @@ import { showLoginToast } from '@/utils/loginToast';
 import { useWishlistFunctions } from '@/utils/wishlistFnWithContext';
 
 //---------------WHY HERE??---------------//
-
+const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:3000';
 const applyDiscountToProduct = async (productId, productPrice) => {
   try {
     const payload = {
@@ -53,8 +52,8 @@ const applyDiscountToProduct = async (productId, productPrice) => {
     };
 
     // only full path works with port 3000, works on 127.0.0.1:80 by default
-    const response = await axios.post('http://127.0.0.1:3000/api/applyDiscount', payload);
-
+    // const response = await axios.post('http://127.0.0.1:3000/api/applyDiscount', payload);
+    const response = await axios.post(`${baseUrl}/api/applyDiscount`, payload);
     if (response.status === 200) {
       const data = await response.data;
       return data.discountedPrice;
@@ -220,7 +219,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Layout >
+      {/* <Layout > */}
         <main>
           <div className="flex flex-col md:flex-row items-center justify-evenly p-4 space-y-4 md:space-y-0">
             <CardMedia
@@ -520,7 +519,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
             </List>
           </section>
         </main>
-      </Layout >
+      {/* </Layout > */}
     </ThemeProvider >
   );
 };
