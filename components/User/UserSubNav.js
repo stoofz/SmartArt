@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { List, ListItem, ListItemText, Button, Typography } from '@mui/material';
+import { List, ListItem, Button, Typography } from '@mui/material';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 const Subnav = () => {
@@ -23,7 +23,7 @@ const Subnav = () => {
           fontWeight: 'bold', 
           marginBottom: '1rem',
           textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)' }}>
-          {/* Hi, {user.first_name} {user.last_name}! */}
+          Hi, {user.first_name} {user.last_name}!
           {/* Hello, Kate Spade! */}
         </Typography>
         {/* My Info */}
