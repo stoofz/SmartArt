@@ -23,7 +23,8 @@ const Subnav = () => {
           fontWeight: 'bold', 
           marginBottom: '1rem',
           textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)' }}>
-          Hi, {user.first_name} {user.last_name}!
+          Hi, {user.given_name} {user.family_name}!
+          
           {/* Hello, Kate Spade! */}
         </Typography>
         {/* My Info */}
