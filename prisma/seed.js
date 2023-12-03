@@ -68,7 +68,7 @@ async function main() {
     // });
     //Get and store in var newly created customers to extract id dinamically
     // const customers = await prisma.customer.findMany();
-    // console.log("LINE 63: Customers:", customers);
+  
 
 
 //ADDRESSES
@@ -441,21 +441,21 @@ async function main() {
           productId: products[1].id,
           discount: 10,
           startDate: new Date('2023-08-01'),
-          endDate: new Date('2023-09-30'),
+          endDate: new Date('2024-09-30'),
           description: '10% off in August - September'
         },
         { 
           productId: products[0].id,
           discount: 20,
           startDate: new Date('2023-08-01'),
-          endDate: new Date('2023-09-30'),
+          endDate: new Date('2024-09-30'),
           description: '20% off in August - September' 
         },
         { 
           productId: products[3].id,
           discount: 40,
           startDate: new Date('2023-08-01'),
-          endDate: new Date('2023-09-30'),
+          endDate: new Date('2024-09-30'),
           description: '40% off in August - September' 
         },
       ],

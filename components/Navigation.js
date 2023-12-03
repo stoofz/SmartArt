@@ -265,7 +265,7 @@ export default function Navigation({ sessionId }) {
         sx={{
           width: '100%', 
           zIndex: "1000", 
-          '@media (max-width: 767px)': {
+          '@media (maxWidth: 767px)': {
             position: 'relative', // Non-sticky on mobile
           }, 
         }}
@@ -281,24 +281,26 @@ export default function Navigation({ sessionId }) {
                 <Form style={{ width: "100%" }} className={`md:hidden w-full ${searchOpen ? 'relative z-10' : ''}`}>
                   <div className="relative">
                     <div className="flex">
-                      <Field name="query" render={({ field }) => (
-                        <div className="flex justify-between items-center bg-primary-light relative !w-full">
-                          <input
-                            {...field}
-                            type="text"
-                            placeholder="Search..."
-                            className="bg-primary-light w-[75px] focus:outline-none text-primary-dark px-2 py-1 block"
-                          />
-                          <div >
-                            <button type="submit" className="pr-2">
-                              <SearchIcon className="text-primary-dark" />
-                            </button>
-                            <button onClick={toggleSearch} className="text-primary-dark pr-2" >
-                              <CloseIcon />
-                            </button>
+                      <Field name="query">
+                        {({ field }) => (
+                          <div className="flex justify-between items-center bg-primary-light relative !w-full">
+                            <input
+                              {...field}
+                              type="text"
+                              placeholder="Search..."
+                              className="bg-primary-light w-[75px] focus:outline-none text-primary-dark px-2 py-1 block"
+                            />
+                            <div>
+                              <button type="submit" className="pr-2">
+                                <SearchIcon className="text-primary-dark" />
+                              </button>
+                              <button onClick={toggleSearch} className="text-primary-dark pr-2">
+                                <CloseIcon />
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      )} />
+                        )}
+                      </Field>
                     </div>
                   </div>
                 </Form>
@@ -454,20 +456,22 @@ export default function Navigation({ sessionId }) {
                   <Form>
                     <div className="relative pl-10">
                       <div className="flex">
-                        <Field name="query" render={({ field }) => (
-                          <div className="flex items-center bg-primary-light hidden md:block">
-                            <input
-                              {...field}
-                              type="text"
-                              placeholder="Search..."
-                              className="bg-primary-light  focus:outline-none text-primary-dark px-3 py-2 w-2/3"
-                            />
+                        <Field name="query">
+                          {({ field }) => (
+                            <div className="flex items-center bg-primary-light hidden md:block">
+                              <input
+                                {...field}
+                                type="text"
+                                placeholder="Search..."
+                                className="bg-primary-light  focus:outline-none text-primary-dark px-3 py-2 w-2/3"
+                              />
 
-                            <button type="submit" className="ml-2">
-                              <SearchIcon className="text-primary-dark text-2xl mr-3" />
-                            </button>
-                          </div>
-                        )} />
+                              <button type="submit" className="ml-2">
+                                <SearchIcon className="text-primary-dark text-2xl mr-3" />
+                              </button>
+                            </div>
+                          )}
+                        </Field>
                       </div>
                     </div>
                   </Form>
