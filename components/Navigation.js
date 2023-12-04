@@ -363,7 +363,6 @@ export default function Navigation({ sessionId }) {
 
             )}
             {/* </div> */}
-
           </div>
 
         </nav>

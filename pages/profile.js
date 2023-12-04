@@ -4,6 +4,7 @@ import axios from 'axios';
 import Layout from '../components/Layout';
 import { useSessionId } from '/utils/session';
 import UserLayout from '@/components/User/UserLayout';
+import DrawerAppBar from '@/components/User/DrawerAppBar';
 
 import {
   Typography,
@@ -13,7 +14,17 @@ import {
   Box,
 } from '@mui/material';
 
-
+// const userProfilePage = () => {
+//   return (
+//     <DrawerAppBar>
+//       {/* Your profile content goes here */}
+//       <div>
+//         <h1>User Profile</h1>
+//         {/* Other profile-related content */}
+//       </div>
+//     </DrawerAppBar>
+//   );
+// };
 
 const userProfilePage = () => {
   const userId = useSessionId()
@@ -47,7 +58,7 @@ const userProfilePage = () => {
   
   return (
     // <Layout>
-     <UserLayout>
+    // <DrawerAppBar>
       <Paper elevation={10} style={{
         padding: '1rem',
         borderRadius: '16px',
@@ -120,7 +131,7 @@ const userProfilePage = () => {
         </Button>
       </Paper>
      
-      </UserLayout>
+      // </DrawerAppBar>
     
   );
 };

@@ -37,9 +37,9 @@ const applyDiscountToProduct = async (productId, productPrice) => {
 export default function CartPage({ productDetails, subtotal }) {
     return (
       // <Layout>
-        <UserLayout>
+        // <UserLayout>
         <Cart productDetails={productDetails} subtotal={subtotal} />
-        </UserLayout>
+        // </UserLayout>
       // </Layout>
     );
   }

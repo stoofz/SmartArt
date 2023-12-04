@@ -12,10 +12,10 @@ const OrdersHistoryList = ({ userOrders }) => {
 
   return (
     // <Layout>
-      <UserLayout>
+      // <UserLayout>
         <Container className="px-32 flex flex-col pt-4">
           {userOrders.length === 0 ? (
-            <Typography variant="body1">You have no order history.</Typography>
+        <Typography variant="body1" style={{ paddingTop: "130px"}}>You have no order history.</Typography>
           ) : (
             <div style={{ paddingRight: "150px", paddingLeft: "150px" }}>
               <Typography variant="h4" gutterBottom style={{ paddingTop: "30px", paddingBottom: "30px" }}>
@@ -81,7 +81,7 @@ const OrdersHistoryList = ({ userOrders }) => {
             </div>
           )}
         </Container>
-      </UserLayout>
+      // </UserLayout>
     // </Layout>
   );
 
