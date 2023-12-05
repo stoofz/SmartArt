@@ -79,7 +79,7 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
         <Container style={containerStyles}>
           <FavoriteIcon style={{ fontSize: '3rem', color: "#5a716e" }} />
           <Paper elevation={3} style={paperStyles}>
-            <Typography sx={{ fontSize: ['1.3rem', '1.5rem', '2rem', '3em'] }}>
+            <Typography sx={{ fontSize: ['1rem', '1.2rem', '1.5rem', '1.5rem'] }}>
               {/* <FavoriteIcon style={{ fontSize: '3rem', color: "#5a716e", paddingRight: "10px" }} /> */}
               Your wishlist is empty.
             </Typography>
@@ -90,10 +90,9 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
               sx={{
                 backgroundColor: '#1E2E2D',
                 color: 'white',
-                fontSize: ['1rem', '1.2rem', '1.5rem', '2em'],
+                fontSize: ['1rem', '1.2rem', '1.5rem', '1.6rem'],
                 marginBottom: '3rem',
                 alignSelf: 'center',
-                // width: '30%',
               }}
             >
               Go to the main page

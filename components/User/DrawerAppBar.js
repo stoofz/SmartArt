@@ -81,7 +81,7 @@ function DrawerAppBar(props) {
     <Box sx={{
       display: 'flex', 
       position: 'sticky',
-      top: ['4.25em', '4.25em','7.25em', '8.2em'], }}>
+      top: ['4.25em', '4.25em','7.3em', '8.2em'], }}>
       {/* <CssBaseline /> */}
       <AppBar component="nav" sx={{
         position: 'sticky',
@@ -92,7 +92,7 @@ function DrawerAppBar(props) {
         
 
 }}>
-        <Toolbar sx={{  flexDirection: { xs: 'none', sm: 'column' } }}>
+        <Toolbar >
           <IconButton
             color="inherit"
             aria-label="open drawer"

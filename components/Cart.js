@@ -144,16 +144,15 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: '20px', // Adjust the margin as needed
+    marginTop: '20px', 
   };
 
   const paperStyles = {
-    padding: '60px',
+    padding: '50px',
     textAlign: 'center',
-    maxWidth: '400px', // Adjust the width as needed
-    margin: '0 auto',
-    marginBottom: '30px',
-    marginTop: '60px'
+    maxWidth: '400px', 
+    marginBottom: '40px',
+    marginTop: '40px'
   };
 
   //to display on top of cart
@@ -164,32 +163,56 @@ const Cart = ({ productDetails: defaultProducts, subtotal }) => {
     <>
       <Container className="px-32 flex flex-col pt-4">
         {productDetails.length === 0 ? (
-          <Container style={containerStyles}>
-            <Paper elevation={3} style={paperStyles}>
+             <Container style={containerStyles}>
+         <AddShoppingCartIcon style={{ fontSize: '3rem', color: "#5a716e", paddingRight: "10px" }} />
+          <Paper elevation={3} style={paperStyles}>
+              <Typography sx={{ fontSize: ['1rem', '1.2rem', '1.5rem', '1.5rem'] }}>
+              {/* <FavoriteIcon style={{ fontSize: '3rem', color: "#5a716e", paddingRight: "10px" }} /> */}
+             Your cart is empty.
+            </Typography>
+          </Paper>
+          <Link href={`/`}>
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: '#1E2E2D',
+                color: 'white',
+                fontSize: ['1rem', '1.2rem', '1.5rem', '1.5rem'],
+                marginBottom: '3rem',
+                alignSelf: 'center',
+              }}
+            >
+              Go to the main page
+            </Button>
+          </Link>
+        </Container>
 
-              <Typography variant="h4">
-                <AddShoppingCartIcon style={{ fontSize: '3rem', color: "#5a716e", paddingRight: "10px" }} /> 
-                Your cart is empty.
-              </Typography>
-            </Paper>
-            <Link href={`/`}>
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: '#c1c9c9',
-                  color: 'black',
-                  fontSize: '1.2rem',
-                  marginTop: '1rem',
-                  alignSelf: 'center',
-                  // width: '30%',
-                }}
-              >
-                Go to the main page
-              </Button>
+          // <Container style={containerStyles}>
+          //   <Paper elevation={3} style={paperStyles}>
+
+          //     <Typography variant="h4">
+          //       <AddShoppingCartIcon style={{ fontSize: '3rem', color: "#5a716e", paddingRight: "10px" }} /> 
+          //       Your cart is empty.
+          //     </Typography>
+          //   </Paper>
+          //   <Link href={`/`}>
+          //     <Button
+          //       variant="contained"
+          //       style={{
+          //         backgroundColor: '#c1c9c9',
+          //         color: 'black',
+          //         fontSize: '1.2rem',
+          //         marginTop: '1rem',
+          //         alignSelf: 'center',
+          //         // width: '30%',
+          //       }}
+          //     >
+          //       Go to the main page
+          //     </Button>
 
 
-            </Link>
-          </Container>
+          //   </Link>
+          // </Container>
         ) : (
             <div style={{ paddingRight: "150px", paddingLeft: "150px" }}
               >

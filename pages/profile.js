@@ -77,12 +77,12 @@ const userProfilePage = () => {
             <p>Loading...</p>
           ) : customer ? (
             <>
-                <Grid container spacing={2} style={{ width: '100%', justifyContent: 'space-between', paddingLeft: '40px' }}>
+                <Grid container spacing={2} style={{ width: '100%', justifyContent: 'space-between' }}>
                 <Grid item xs={12} sm={4} style={{ textAlign: 'left', padding: '32px' }}>
-                  <Typography variant="h5" style={{ fontSize: '2rem', marginTop: '2rem', marginBottom: '2.5rem' }}>
+                  <Typography variant="h5" sx={{ fontSize: '2rem', marginTop: '2rem', marginBottom: '2.5rem' }}>
                     General Info
                   </Typography>
-                  <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Email: {customer.email}</Typography>
+                  <Typography variant="body1" style={{ fontSize: ['0.7rem', '1rem', '1rem', '1rem'], textAlign: 'left' }}>Email: {customer.email}</Typography>
                   <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Phone: (123) 456-7890</Typography>
                   <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Location: New York, NY, USA</Typography>
                   <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Member Since: January 1, 2022</Typography>
@@ -118,13 +118,13 @@ const userProfilePage = () => {
 
         <Button
           variant="contained"
-          style={{
+          sx={{
             backgroundColor: '#849493',
             color: 'white',
-            fontSize: '1.2rem',
+            fontSize: ['0.9rem', '1rem', '1rem', '1rem'],
             marginTop: '1rem',
             alignSelf: 'center',
-            width: '30%',
+            // width: '30%',
           }}
         >
           Edit Profile
