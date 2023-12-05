@@ -5,11 +5,17 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { setSession, clearSession } from 'utils/session';
 import { MoonLoader } from 'react-spinners';
 import { css } from '@emotion/react';
-
+import DrawerAppBar from './User/DrawerAppBar';
+import { useRouter } from 'next/router';
 
 const Layout = ({ children }) => {
   const { user, error, isLoading } = useUser();
-
+  const router = useRouter();
+  const isUserProfilePage = router.pathname === '/profile';
+  const isOrdersPage = router.pathname.startsWith('/orders');
+  const isReviewsPage = router.pathname === '/reviews';
+  const isCartPage = router.pathname === '/cart';
+  const isWishlistPage = router.pathname === '/wishlist';
 
   //LOADER STYLE
   const override = css`
@@ -35,9 +41,12 @@ const Layout = ({ children }) => {
       <>
         {/* <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }} > */}
         <Navigation sessionId={setSession(user)} />
+        {(isUserProfilePage || isOrdersPage || isReviewsPage || isCartPage || isWishlistPage) && (
+        <DrawerAppBar>{children}</DrawerAppBar>
+        )}
         {children}
         <Footer />
-        {/* </div> */}
+
       </>
     );
   }

@@ -4,23 +4,41 @@ import axios from 'axios';
 import Layout from '../components/Layout';
 import { useSessionId } from '/utils/session';
 import UserLayout from '@/components/User/UserLayout';
+import DrawerAppBar from '@/components/User/DrawerAppBar';
+
 
 import {
   Typography,
   Button,
-  Paper,
   Grid,
   Box,
+  Paper,
 } from '@mui/material';
 
-
+// const userProfilePage = () => {
+//   return (
+//     <DrawerAppBar>
+//       {/* Your profile content goes here */}
+//       <div>
+//         <h1>User Profile</h1>
+//         {/* Other profile-related content */}
+//       </div>
+//     </DrawerAppBar>
+//   );
+// };
 
 const userProfilePage = () => {
   const userId = useSessionId()
   const [customer, setCustomer] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-
+  const paperStyles = {
+    padding: '50px',
+    textAlign: 'center',
+    maxWidth: '400px',
+    marginBottom: '40px',
+    marginTop: '40px'
+  };
  
   useEffect(() => {
    
@@ -47,7 +65,7 @@ const userProfilePage = () => {
   
   return (
     // <Layout>
-     <UserLayout>
+    // <DrawerAppBar>
       <Paper elevation={10} style={{
         padding: '1rem',
         borderRadius: '16px',
@@ -66,12 +84,12 @@ const userProfilePage = () => {
             <p>Loading...</p>
           ) : customer ? (
             <>
-                <Grid container spacing={2} style={{ width: '100%', justifyContent: 'space-between', paddingLeft: '40px' }}>
+                <Grid container spacing={2} style={{ width: '100%', justifyContent: 'space-between' }}>
                 <Grid item xs={12} sm={4} style={{ textAlign: 'left', padding: '32px' }}>
-                  <Typography variant="h5" style={{ fontSize: '2rem', marginTop: '2rem', marginBottom: '2.5rem' }}>
+                  <Typography variant="h5" sx={{ fontSize: '2rem', marginTop: '2rem', marginBottom: '2.5rem' }}>
                     General Info
                   </Typography>
-                  <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Email: {customer.email}</Typography>
+                  <Typography variant="body1" style={{ fontSize: ['0.7rem', '1rem', '1rem', '1rem'], textAlign: 'left' }}>Email: {customer.email}</Typography>
                   <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Phone: (123) 456-7890</Typography>
                   <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Location: New York, NY, USA</Typography>
                   <Typography variant="body1" style={{ fontSize: '1.2rem', textAlign: 'left' }}>Member Since: January 1, 2022</Typography>
@@ -101,26 +119,32 @@ const userProfilePage = () => {
               </Grid>
             </>
           ) : (
-            <p>Please log in to view your profile.</p>
+           
+            <Paper elevation={3} style={paperStyles}>
+            <Typography sx={{ fontSize: ['1rem', '1.2rem', '1.5rem', '1.5rem'] }}>
+              {/* <FavoriteIcon style={{ fontSize: '3rem', color: "#5a716e", paddingRight: "10px" }} /> */}
+              Please log in to view your profile.
+            </Typography>
+          </Paper>
           )}
         </Box>
 
         <Button
           variant="contained"
-          style={{
-            backgroundColor: '#849493',
+          sx={{
+            backgroundColor: '#1E2E2D',
             color: 'white',
-            fontSize: '1.2rem',
+            fontSize: ['0.9rem', '1rem', '1rem', '1rem'],
             marginTop: '1rem',
             alignSelf: 'center',
-            width: '30%',
+            // width: '30%',
           }}
         >
           Edit Profile
         </Button>
       </Paper>
      
-      </UserLayout>
+      // </DrawerAppBar>
     
   );
 };

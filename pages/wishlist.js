@@ -9,9 +9,9 @@ export default function WishlistPage({ serializedWishlistData }) {
 
   return (
     // <Layout>
-      <UserLayout>
+      // <UserLayout>
         <Wishlist serializedWishlistData={serializedWishlistData} />
-      </UserLayout>
+      // </UserLayout>
     // </Layout>
   );
 }
