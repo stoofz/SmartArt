@@ -42,7 +42,7 @@ const Layout = ({ children }) => {
         {/* <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }} > */}
         <Navigation sessionId={setSession(user)} />
         {(isUserProfilePage || isOrdersPage || isReviewsPage || isCartPage || isWishlistPage) && (
-          <DrawerAppBar>{children}</DrawerAppBar>
+        <DrawerAppBar>{children}</DrawerAppBar>
         )}
         {children}
         <Footer />

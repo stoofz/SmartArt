@@ -36,7 +36,7 @@ function DrawerAppBar(props) {
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-
+//MOBILE 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -46,7 +46,7 @@ function DrawerAppBar(props) {
       <List>
         {navItems.map((item) => (
           <ListItem key={item.label} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
+            <ListItemButton sx={{ textAlign: 'center', paddingLeft:'30px' }}>
               <Link href={item.path} passHref>
                 {item.label}
               </Link>
@@ -78,16 +78,21 @@ function DrawerAppBar(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{
+      display: 'flex', 
+      position: 'sticky',
+      top: ['4.25em', '4.25em','7.25em', '8.2em'], }}>
       {/* <CssBaseline /> */}
       <AppBar component="nav" sx={{
-        top: '8.3em', 
+        position: 'sticky',
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: '#324E4B',
+        width:'100%',
+        
 
 }}>
-        <Toolbar>
+        <Toolbar sx={{  flexDirection: { xs: 'none', sm: 'column' } }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -97,23 +102,28 @@ function DrawerAppBar(props) {
           >
             <MenuIcon />
           </IconButton>
+
+          {/* DESKTOP */}
           <Typography
-            variant="h6"
+             variant="h7"
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block', 
+            // fontSize: ['1rem',  '1rem'], 
+          } }}
           >
             Hi, {user.given_name} {user.family_name}!
           </Typography>
        
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            <Link href={`/`}>
+            <Link href={`/`} className='text-[10px] md:text-[13px]' >
               <Button
-                variant="contained"
-                style={{
-                  backgroundColor: '#1E2E2D', // Background color
+                // variant="contained"
+                sx={{
+                  backgroundColor: '#1E2E2D', 
                   color: 'white', // Text color
                   transition: 'background-color 0.3s',
-                  // marginTop: '1rem',
+                  fontSize: ['0.5rem', '0.6rem', '0.9rem'],
+
                   '&:hover': {
                     backgroundColor: '#32434e',
                     width: '200px',
@@ -127,9 +137,10 @@ function DrawerAppBar(props) {
             {navItems.map((item) => (
               <Button
                 key={item.label}
-                sx={{ color: router.pathname === item.path ? '#fff' : 'inherit' }}
+                sx={{ color: router.pathname === item.path ? '#fff' : 'inherit',
+}}
               >
-                <Link href={item.path} passHref>
+                <Link href={item.path} className='text-[9px] md:text-[13px]'>
                   {item.label}
                 </Link>
               </Button>

@@ -54,19 +54,19 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
   };
 
   const paperStyles = {
-    padding: '60px',
+    padding: '50px',
     textAlign: 'center',
-    maxWidth: '400px', // Adjust the width as needed
-    margin: '0 auto',
-    marginBottom: '30px', 
-    marginTop: '60px'
+    maxWidth: '400px', 
+    // margin: '0 auto',
+    marginBottom: '40px', 
+    marginTop: '40px'
   };
 
   if (loading) {
     return (
       <div style={{ position: 'relative', textAlign: 'center' }}>
         <CircularProgress style={circularProgressStyle} />
-        {/* <Typography variant="h6" style={{ color: 'blue' }}>Loading...</Typography> */}
+        <Typography variant="h6" style={{ color: 'blue' }}>Loading...</Typography>
       </div>
     );
 
@@ -75,25 +75,23 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
 
   return (
     <Container className="px-32 flex flex-col pt-4">
-
-
       {wishlistData.length === 0 ? (
         <Container style={containerStyles}>
+          <FavoriteIcon style={{ fontSize: '3rem', color: "#5a716e" }} />
           <Paper elevation={3} style={paperStyles}>
-
-            <Typography variant="h4">
-              <FavoriteIcon style={{ fontSize: '3rem', color: "#5a716e", paddingRight: "10px" }} />
+            <Typography sx={{ fontSize: ['1.3rem', '1.5rem', '2rem', '3em'] }}>
+              {/* <FavoriteIcon style={{ fontSize: '3rem', color: "#5a716e", paddingRight: "10px" }} /> */}
               Your wishlist is empty.
             </Typography>
           </Paper>
           <Link href={`/`}>
             <Button
               variant="contained"
-              style={{
-                backgroundColor: '#c1c9c9',
-                color: 'black',
-                fontSize: '1.2rem',
-                marginTop: '1rem',
+              sx={{
+                backgroundColor: '#1E2E2D',
+                color: 'white',
+                fontSize: ['1rem', '1.2rem', '1.5rem', '2em'],
+                marginBottom: '3rem',
                 alignSelf: 'center',
                 // width: '30%',
               }}
