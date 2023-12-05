@@ -6,12 +6,13 @@ import { useSessionId } from '/utils/session';
 import UserLayout from '@/components/User/UserLayout';
 import DrawerAppBar from '@/components/User/DrawerAppBar';
 
+
 import {
   Typography,
   Button,
-  Paper,
   Grid,
   Box,
+  Paper,
 } from '@mui/material';
 
 // const userProfilePage = () => {
@@ -31,7 +32,13 @@ const userProfilePage = () => {
   const [customer, setCustomer] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-
+  const paperStyles = {
+    padding: '50px',
+    textAlign: 'center',
+    maxWidth: '400px',
+    marginBottom: '40px',
+    marginTop: '40px'
+  };
  
   useEffect(() => {
    
@@ -112,14 +119,20 @@ const userProfilePage = () => {
               </Grid>
             </>
           ) : (
-            <p>Please log in to view your profile.</p>
+           
+            <Paper elevation={3} style={paperStyles}>
+            <Typography sx={{ fontSize: ['1rem', '1.2rem', '1.5rem', '1.5rem'] }}>
+              {/* <FavoriteIcon style={{ fontSize: '3rem', color: "#5a716e", paddingRight: "10px" }} /> */}
+              Please log in to view your profile.
+            </Typography>
+          </Paper>
           )}
         </Box>
 
         <Button
           variant="contained"
           sx={{
-            backgroundColor: '#849493',
+            backgroundColor: '#1E2E2D',
             color: 'white',
             fontSize: ['0.9rem', '1rem', '1rem', '1rem'],
             marginTop: '1rem',

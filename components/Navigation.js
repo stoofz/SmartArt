@@ -332,11 +332,11 @@ export default function Navigation({ sessionId }) {
                       <div className={`hover:cursor-pointer md:text-[30px]`}>
                         <ShoppingCartCheckoutIcon onClick={() => showLoginToast(textToastCart)} sx={{ fontSize: "1em" }} />
                       </div>
-                      <Link href="/api/auth/login" className={`hover:cursor-pointer md:text-[30px] ${montserrat.className}`}>
-                        <div>
-                          <ManageAccountsIcon sx={{ fontSize: "1.1em !important" }} />
+                      {/* <Link href="/profile" className={`hover:cursor-pointer md:text-[30px] ${montserrat.className}`}> */}
+                          <div className={`hover:cursor-pointer md:text-[30px]`} >
+                            <ManageAccountsIcon onClick={() => showLoginToast(textToastProfile)}  sx={{ fontSize: "1.1em !important" }} />
                         </div>
-                      </Link>
+                      {/* </Link> */}
                     </>
                   ) : (
                     <>
