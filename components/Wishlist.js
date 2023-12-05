@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import { useSessionId } from '/utils/session';
-import { deleteFromWishlist } from 'utils/wishlist';
-import CircularProgress from '@mui/material/CircularProgress';
-
-import { Typography, Container, Button, Paper } from '@mui/material';
+import { useWishlist } from '@/utils/wishlistContext';
+import { Typography, Container, Button, Paper, CircularProgress, DeleteIcon } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import Link from 'next/link';
@@ -16,7 +14,7 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
   const [loading, setLoading] = useState(true);
 
   const userId = useSessionId();
-
+  const { deleteFromWishlist } = useWishlist();
 
   useEffect(() => {
     setWishlistData(defaultWishlistData);
@@ -27,7 +25,7 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
   // Handle onClisk when deleting from wishlist
   const handleDeleteFromWishlist = async (userId, productId) => {
     const result = await deleteFromWishlist(userId, productId);
-    console.log("result", result);
+    // console.log("result", result);
     if (result.success) {
 
       setWishlistData(result.data.data); // Update wishlistData here
@@ -140,13 +138,13 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
                     {/* Add any other details you want to display */}
                   </div>
                 </div>
-
+               
                 <Button
                   onClick={() => handleDeleteFromWishlist(userId, item.product.id)}
                   size="small"
                   variant="contained"
                   style={{
-                    backgroundColor: '#465f5d',
+                    backgroundColor: '#893F04',
                     marginRight:'50px',
                     color: 'white',
                     transition: 'background-color 0.3s',
@@ -155,6 +153,7 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
                     },
                   }}
                 >
+                  
                   Delete
                 </Button>
               </div>

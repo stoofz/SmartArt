@@ -52,6 +52,14 @@ export function WishlistProvider({ children }) {
   // Function to remove a product from the wishlist
   const deleteFromWishlist = async (userId, productId) => {
 
+    // CHANGE CONFIRMATIONA MSG
+    const confirmed = window.confirm('Are you sure you want to delete this item from your wishlist?');
+
+    if (!confirmed) {
+      // If the user cancels the deletion, return early
+      return { success: false, canceled: true };
+    }
+
     try {
       // Create a payload with the userId and productId
       const payload = {
@@ -71,6 +79,7 @@ export function WishlistProvider({ children }) {
         return { success: true, data: response }; 
       } else {
         console.error('Failed to delete item from wishlist');
+         return { success: false, canceled: false };
       }
 
       // return { success: false, error: 'Failed to delete item from wishlist' };
