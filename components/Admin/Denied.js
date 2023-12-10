@@ -12,7 +12,7 @@ const DeniedAccess = () => {
   };
 
   return (
-    <Layout>
+    // <Layout>
       <Container maxWidth="md" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }} >
         <Paper elevation={6} style={{ padding: '16px' }}>
           <div className="container mx-auto mt-10 text-center">
@@ -43,7 +43,7 @@ const DeniedAccess = () => {
         </Paper>
       </Container>
 
-    </Layout>
+    // </Layout>
   );
 };
 

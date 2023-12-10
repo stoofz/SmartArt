@@ -14,7 +14,7 @@ import Products from 'components/Products';
 const Layout = ({ children }) => {
   const router = useRouter();
   const { user, error, isLoading } = useUser();
-  
+
   const isAdminPage = router.pathname.startsWith('/admin');
 
   const { searchResults, setSearchResults } = useSearchState();
@@ -27,15 +27,15 @@ const Layout = ({ children }) => {
     //setSession(user);
 
     return (
-<div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-  <div>
+      <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+        <div>
           <Navigation sessionId={setSession(user)} />
         </div>
 
         {searchResults.length !== 0 ? (
           <Products />
         ) : (
-            <div style={{ flex: 1, display: "flex", flexDirection: "row", backgroundColor: "#eaeded" }}>
+          <div style={{ flex: 1, display: "flex", flexDirection: "row", backgroundColor: "#eaeded" }}>
             {isAdminPage}
             <Sidebar />
             <div style={{ width: "1000px" }}>
@@ -43,11 +43,11 @@ const Layout = ({ children }) => {
             </div>
           </div>
         )}
-      
-      <Footer />
-    </div>
+
+        <Footer />
+      </div>
     );
- }
+  }
 
   return (
     <>
