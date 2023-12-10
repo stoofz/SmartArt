@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { List, ListItem, ListItemText, Button, Typography } from '@mui/material';
+import { List, ListItem, Button } from '@mui/material';
 
 export default function Sidebar() {
     return (
