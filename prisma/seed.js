@@ -29,38 +29,38 @@ async function main() {
 
 // CUSTOMERS
     //Hold "customers" table data in array
-    const customersData = [
-      {
-        firstName: 'Pete',
-        lastName: 'Mo',
-        email: 'mpo@mail.com',
-        subId: 'werff34r23f',
-      },
-      {
-        firstName: 'Lyda',
-        lastName: 'Feep',
-        email: 'feep@mail.com',
-        subId: '32141241241',
-      },
-      {
-        firstName: 'Todd',
-        lastName: 'Bangaran',
-        email: 'tbang@mail.com',
-        subId: '4324235',
-      },
-      {
-        firstName: 'George',
-        lastName: 'Till',
-        email: 'gtill@mail.com',
-        subId: '4234235235',
-      },
-      {
-        firstName: 'Tyson',
-        lastName: 'Meo',
-        email: 'tmeo@mail.com',
-        subId: '4234235332',
-      }
-    ];
+    // const customersData = [
+    //   {
+    //     firstName: 'Pete',
+    //     lastName: 'Mo',
+    //     email: 'mpo@mail.com',
+    //     subId: 'werff34r23f',
+    //   },
+    //   {
+    //     firstName: 'Lyda',
+    //     lastName: 'Feep',
+    //     email: 'feep@mail.com',
+    //     subId: '32141241241',
+    //   },
+    //   {
+    //     firstName: 'Todd',
+    //     lastName: 'Bangaran',
+    //     email: 'tbang@mail.com',
+    //     subId: '4324235',
+    //   },
+    //   {
+    //     firstName: 'George',
+    //     lastName: 'Till',
+    //     email: 'gtill@mail.com',
+    //     subId: '4234235235',
+    //   },
+    //   {
+    //     firstName: 'Tyson',
+    //     lastName: 'Meo',
+    //     email: 'tmeo@mail.com',
+    //     subId: '4234235332',
+    //   }
+    // ];
 
     //  //Insert data into the "customers" table
     // const createdCustomers = await prisma.customer.createMany({
@@ -73,66 +73,66 @@ async function main() {
 
 //ADDRESSES
     //Hold "customers" table data in array
-    const addressesData = [
-      {
-        customerId: customers[0].id,
-        street: '123 Main St',
-        city: 'Denver',
-        province: 'CO',
-        country: 'USA',
-        postal: '80202',
-        phone: '111341789302',
-        billing: true,
-      },
-      {
-        customerId: customers[1].id,
-        street: '325 Cycle St',
-        city: 'Toronto',
-        province: 'ON',
-        country: 'CANADA',
-        postal: 'M1S3X1',
-        phone: '133341789302',
-        billing: true,
-      },
-      {
-        customerId: customers[2].id,
-        street: '12 Too Ct',
-        city: 'New York',
-        province: 'NY',
-        country: 'USA',
-        postal: '10111',
-        phone: '131341789302',
-        billing: true,
-      },
-      {
-        customerId: customers[3].id,
-        street: '2882 Triple Ct',
-        city: 'Tampa',
-        province: 'FL',
-        country: 'USA',
-        postal: '22222',
-        phone: '136341789302',
-        billing: false,
-      },
+    // const addressesData = [
+    //   {
+    //     customerId: customers[0].id,
+    //     street: '123 Main St',
+    //     city: 'Denver',
+    //     province: 'CO',
+    //     country: 'USA',
+    //     postal: '80202',
+    //     phone: '111341789302',
+    //     billing: true,
+    //   },
+    //   {
+    //     customerId: customers[1].id,
+    //     street: '325 Cycle St',
+    //     city: 'Toronto',
+    //     province: 'ON',
+    //     country: 'CANADA',
+    //     postal: 'M1S3X1',
+    //     phone: '133341789302',
+    //     billing: true,
+    //   },
+    //   {
+    //     customerId: customers[2].id,
+    //     street: '12 Too Ct',
+    //     city: 'New York',
+    //     province: 'NY',
+    //     country: 'USA',
+    //     postal: '10111',
+    //     phone: '131341789302',
+    //     billing: true,
+    //   },
+    //   {
+    //     customerId: customers[3].id,
+    //     street: '2882 Triple Ct',
+    //     city: 'Tampa',
+    //     province: 'FL',
+    //     country: 'USA',
+    //     postal: '22222',
+    //     phone: '136341789302',
+    //     billing: false,
+    //   },
 
-      {
-        customerId: customers[4].id,
-        street: '3567 Dice St',
-        city: 'Vancouver',
-        province: 'BC',
-        country: 'CANADA',
-        postal: 'B1N1L6',
-        phone: '133343789302',
-        billing: true,
-      },
-    ]
+    //   {
+    //     customerId: customers[4].id,
+    //     street: '3567 Dice St',
+    //     city: 'Vancouver',
+    //     province: 'BC',
+    //     country: 'CANADA',
+    //     postal: 'B1N1L6',
+    //     phone: '133343789302',
+    //     billing: true,
+    //   },
+    // ]
     // Insert data into the "addresses" table
-    const createdAddresses = await prisma.address.createMany({
-      data: addressesData,
-    });
+    // const createdAddresses = await prisma.address.createMany({
+    //   data: addressesData,
+    // });
 
     //Get and store in var newly created addresses to extract id dinamically
-    const addresses = await prisma.category.findMany();
+    // const addresses = await prisma.category.findMany();
 
 
 //CATEGORIES
