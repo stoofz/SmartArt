@@ -29,38 +29,38 @@ async function main() {
 
 // CUSTOMERS
     //Hold "customers" table data in array
-    const customersData = [
-      {
-        firstName: 'Pete',
-        lastName: 'Mo',
-        email: 'mpo@mail.com',
-        subId: 'werff34r23f',
-      },
-      {
-        firstName: 'Lyda',
-        lastName: 'Feep',
-        email: 'feep@mail.com',
-        subId: '32141241241',
-      },
-      {
-        firstName: 'Todd',
-        lastName: 'Bangaran',
-        email: 'tbang@mail.com',
-        subId: '4324235',
-      },
-      {
-        firstName: 'George',
-        lastName: 'Till',
-        email: 'gtill@mail.com',
-        subId: '4234235235',
-      },
-      {
-        firstName: 'Tyson',
-        lastName: 'Meo',
-        email: 'tmeo@mail.com',
-        subId: '4234235332',
-      }
-    ];
+    // const customersData = [
+    //   {
+    //     firstName: 'Pete',
+    //     lastName: 'Mo',
+    //     email: 'mpo@mail.com',
+    //     subId: 'werff34r23f',
+    //   },
+    //   {
+    //     firstName: 'Lyda',
+    //     lastName: 'Feep',
+    //     email: 'feep@mail.com',
+    //     subId: '32141241241',
+    //   },
+    //   {
+    //     firstName: 'Todd',
+    //     lastName: 'Bangaran',
+    //     email: 'tbang@mail.com',
+    //     subId: '4324235',
+    //   },
+    //   {
+    //     firstName: 'George',
+    //     lastName: 'Till',
+    //     email: 'gtill@mail.com',
+    //     subId: '4234235235',
+    //   },
+    //   {
+    //     firstName: 'Tyson',
+    //     lastName: 'Meo',
+    //     email: 'tmeo@mail.com',
+    //     subId: '4234235332',
+    //   }
+    // ];
 
     //  //Insert data into the "customers" table
     // const createdCustomers = await prisma.customer.createMany({
