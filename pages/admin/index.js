@@ -90,11 +90,9 @@ export async function getServerSideProps() {
       adminDashStats
     },
   };
-
 }
 
 export default function AdminDash({ adminDashStats }) {
-
 
   if (isAdmin()) {
     return (
@@ -136,14 +134,12 @@ export default function AdminDash({ adminDashStats }) {
         </AdminLayout>
       </>
     );
-
   }
   else {
     return (
       <DeniedAccess />
     );
   }
-
 };
 
 
