@@ -81,6 +81,7 @@ function DrawerAppBar(props) {
     <Box sx={{
       display: 'flex', 
       position: 'sticky',
+      zIndex: "1000",
       top: ['4.25em', '4.25em','7.3em', '8.2em'], }}>
       {/* <CssBaseline /> */}
       <AppBar component="nav" sx={{
