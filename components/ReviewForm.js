@@ -57,7 +57,7 @@ const ReviewForm = ({ open, onClose, onSubmit, comment, setComment, rating, setR
             borderRadius: "8px", 
             marginTop: "15px",
             fontSize: "0.8em",
-              '@media (min-width: 600px)': {
+              '@media (minWidth: 600px)': {
                 fontSize: "1.2em", // Adjust the font size for desktop
               },
            }}

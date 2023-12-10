@@ -495,7 +495,7 @@ const ProductDetailsPage = ({ product, reviews: defaultReviews, user }) => {
                           
                                     }}
                                   >
-                                  <DeleteIcon /> <div class="hidden md:block">Delete</div>
+                                  <DeleteIcon /> <div className="hidden md:block">Delete</div>
                                   </Button>
                                 )}
                               </div>

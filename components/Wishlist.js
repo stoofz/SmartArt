@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import { useSessionId } from '/utils/session';
 import { useWishlist } from '@/utils/wishlistContext';
-import { Typography, Container, Button, Paper, CircularProgress, DeleteIcon } from '@mui/material';
+import { Typography, Container, Button, Paper, CircularProgress } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import Link from 'next/link';
 
@@ -54,9 +55,9 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
   const paperStyles = {
     padding: '50px',
     textAlign: 'center',
-    maxWidth: '400px', 
+    maxWidth: '400px',
     // margin: '0 auto',
-    marginBottom: '40px', 
+    marginBottom: '40px',
     marginTop: '40px'
   };
 
@@ -98,67 +99,67 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
           </Link>
         </Container>
       ) : (
-          <div style={{ paddingRight: "150px", paddingLeft: "150px" }}>
-            <Typography variant="h4" gutterBottom style={{ paddingTop: "30px", paddingBottom: "30px" }}>
-              <FavoriteIcon style={{ fontSize: '3rem', color: '#5a716e', paddingRight: '10px' }} />
-              Your Wishlist
-            </Typography>
+        <div className="px-[50px] md:px-[100px] lg:px-[[150px] ">
+          <Typography variant="h4" gutterBottom sx={{ fontSize: ['1.2rem', '1.5rem', '1.8rem', '2rem'], paddingTop: "30px", paddingBottom: "30px" }}>
+            <FavoriteIcon style={{ fontSize: '3rem', color: '#5a716e', paddingRight: '10px' }} />
+            Your Wishlist
+          </Typography>
 
-            {wishlistData.map((item, index) => (
-              <div
-                key={index}
-                className="cart-item"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: '20px',
-                  boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-                  transition: 'background-color 0.3s',
-                }}
-                onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#EEEEEE')}
-                onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
-              >
+          {wishlistData.map((item, index) => (
+            <div
+              key={index}
+              // className="cart-item"
+              className="flex items-center flex-col md:justify-between md:flex-row mb-10 shadow-md transition duration-300"
+              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#EEEEEE')}
+              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+            >
+              <div className=" flex flex-col md:flex-row items-center"> 
+              <Link href={`/products/${item.product.id}`}>
+                <img className=" w-[109px] h-[134px]" src={`/uploads/${item.product.image}`} alt={item.product.name} />
+              </Link>
+
+                <div className="text-sm text-center md:text-md lg:text-lg ml-[10px] mr-[10px] md:ml-[20px]">
                 <Link href={`/products/${item.product.id}`}>
-                  <img className="w-[109px] h-[134px]" src={`/uploads/${item.product.image}`} alt={item.product.name} />
+                  <Typography>{item.product.name}</Typography>
                 </Link>
-                <div className="cart-item-details" style={{ marginLeft: '20px', flex: '1' }}>
-                  <Link href={`/products/${item.product.id}`}>
-                    <Typography variant="h6">{item.product.name}</Typography>
-                  </Link>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      width: '50%',
-                      paddingTop: '10px',
-                    }}
-                  >
-                    <Typography variant="body2">Price: ${(item.product.price / 100).toFixed(2)}</Typography>
-                    {/* Add any other details you want to display */}
-                  </div>
-                </div>
-               
-                <Button
-                  onClick={() => handleDeleteFromWishlist(userId, item.product.id)}
-                  size="small"
-                  variant="contained"
+                  <div className="items-center pt-10 md:flex  "
                   style={{
-                    backgroundColor: '#893F04',
-                    marginRight:'50px',
-                    color: 'white',
-                    transition: 'background-color 0.3s',
-                    '&:hover': {
-                      backgroundColor: 'darkgray',
-                    },
+                    // display: 'flex',
+                    // justifyContent: 'space-between',
+                    // alignItems: 'center',
+                    // width: '50%',
+                    // paddingTop: '10px',
                   }}
                 >
-                  
-                  Delete
-                </Button>
+                  <div>Price: ${(item.product.price / 100).toFixed(2)}</div>
+                  {/* Add any other details you want to display */}
+                </div>
               </div>
-            ))}
-          </div>
+              </div>
+              <Button
+                onClick={() => handleDeleteFromWishlist(userId, item.product.id)}
+
+                variant="contained"
+                style={{
+                  backgroundColor: '#893F04',
+                  minWidth: 'unset',
+                  marginRight: '10px',
+                  marginTop:'10px',
+                  marginBottom:'10px',
+                  color: 'white',
+                  transition: 'background-color 0.3s',
+                  '&:hover': {
+                    backgroundColor: 'darkgray',
+                  },
+                }}
+              >
+
+                <DeleteIcon />
+                <div className="hidden md:block">Delete</div>
+              </Button>
+            </div>
+          ))}
+        </div>
       )}
     </Container>
   );
