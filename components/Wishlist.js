@@ -108,7 +108,6 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
           {wishlistData.map((item, index) => (
             <div
               key={index}
-              // className="cart-item"
               className="flex items-center flex-col md:justify-between md:flex-row mb-10 shadow-md transition duration-300"
               onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#EEEEEE')}
               onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
@@ -122,15 +121,7 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
                 <Link href={`/products/${item.product.id}`}>
                   <Typography>{item.product.name}</Typography>
                 </Link>
-                  <div className="items-center pt-10 md:flex  "
-                  style={{
-                    // display: 'flex',
-                    // justifyContent: 'space-between',
-                    // alignItems: 'center',
-                    // width: '50%',
-                    // paddingTop: '10px',
-                  }}
-                >
+                  <div className="items-center pt-10 md:flex">
                   <div>Price: ${(item.product.price / 100).toFixed(2)}</div>
                   {/* Add any other details you want to display */}
                 </div>
@@ -153,7 +144,6 @@ const Wishlist = ({ serializedWishlistData: defaultWishlistData }) => {
                   },
                 }}
               >
-
                 <DeleteIcon />
                 <div className="hidden md:block">Delete</div>
               </Button>

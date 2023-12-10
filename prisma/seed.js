@@ -63,11 +63,11 @@ async function main() {
     ];
 
     //  //Insert data into the "customers" table
-    const createdCustomers = await prisma.customer.createMany({
-      data: customersData,
-    });
+    // const createdCustomers = await prisma.customer.createMany({
+    //   data: customersData,
+    // });
     //Get and store in var newly created customers to extract id dinamically
-    const customers = await prisma.customer.findMany();
+    // const customers = await prisma.customer.findMany();
   
 
 
