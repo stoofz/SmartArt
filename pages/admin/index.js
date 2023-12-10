@@ -5,7 +5,7 @@ import { Grid } from '@mui/material';
 import formatPrice from '@/utils/formatPrice';
 import Container from '@mui/material/Container';
 import prisma from 'utils/prisma';
-import Layout from 'components/Admin/Layout';
+import AdminLayout from 'components/Admin/AdminLayout';
 
 export async function getServerSideProps() {
 
@@ -15,7 +15,7 @@ export async function getServerSideProps() {
   const dayAgo = new Date(new Date() - 1 * 60 * 60 * 24 * 1000);
 
   const totalOrders = await prisma.order.count() || 0;
-  
+
   const totalOrdersToday = await prisma.order.aggregate({
     _count: {
       id: true,
@@ -41,7 +41,7 @@ export async function getServerSideProps() {
   const productsTotal = await prisma.product.count() || 0;
   const categoryTotal = await prisma.category.count() || 0;
   const customersTotal = await prisma.customer.count() | 0;
-  
+
   const totalRevenue = await prisma.order.aggregate({
     _sum: {
       totalPrice: true,
@@ -90,23 +90,17 @@ export async function getServerSideProps() {
       adminDashStats
     },
   };
-
 }
 
 export default function AdminDash({ adminDashStats }) {
- 
 
   if (isAdmin()) {
     return (
       <>
-       <Layout>
-
-
+        <AdminLayout>
           <Container maxWidth="sm" style={{ minHeight: "560px", marginTop: '2em' }}>
-    
             <Grid container spacing={12}>
-
-            <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={4}>
                 <DisplayStatBox data={{ stat: adminDashStats.revenue, name: 'Revenue - Total' }} />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -115,7 +109,7 @@ export default function AdminDash({ adminDashStats }) {
               <Grid item xs={12} sm={4}>
                 <DisplayStatBox data={{ stat: adminDashStats.revenueToday, name: 'Revenue - Today' }} />
               </Grid>
-    
+
               <Grid item xs={12} sm={4}>
                 <DisplayStatBox data={{ stat: adminDashStats.totalOrders, name: 'Orders - Total' }} />
               </Grid>
@@ -125,7 +119,7 @@ export default function AdminDash({ adminDashStats }) {
               <Grid item xs={12} sm={4}>
                 <DisplayStatBox data={{ stat: adminDashStats.totalOrdersToday, name: 'Orders - Today' }} />
               </Grid>
-    
+
               <Grid item xs={12} sm={4}>
                 <DisplayStatBox data={{ stat: adminDashStats.customers, name: 'Customers' }} />
               </Grid>
@@ -136,21 +130,16 @@ export default function AdminDash({ adminDashStats }) {
                 <DisplayStatBox data={{ stat: adminDashStats.categories, name: 'Categories' }} />
               </Grid>
             </Grid>
-
-       
-            </Container>
-            </Layout>
+          </Container>
+        </AdminLayout>
       </>
     );
-    
   }
-  else
-  {
+  else {
     return (
-       <DeniedAccess />
+      <DeniedAccess />
     );
   }
-
 };
 
 

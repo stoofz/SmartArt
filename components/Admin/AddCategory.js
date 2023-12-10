@@ -4,7 +4,6 @@ const AddCategoryForm = ({ onSuccess } ) => {
 
   return (
     <div>
-  
       <Formik
         initialValues={{ name: '' }}
         onSubmit={async (values, { setSubmitting }) => {
@@ -47,9 +46,6 @@ const AddCategoryForm = ({ onSuccess } ) => {
                 Submit
               </button>
             </div>
-
-          
-
           </Form>
         )}
       </Formik>

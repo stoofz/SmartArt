@@ -1,7 +1,4 @@
 import { useRouter } from 'next/router';
-import Link from 'next/link';
-
-import Layout from '../Layout';
 import { Button, Typography, Container, Paper } from '@mui/material';
 
 const DeniedAccess = () => {
@@ -12,7 +9,6 @@ const DeniedAccess = () => {
   };
 
   return (
-    <Layout>
       <Container maxWidth="md" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }} >
         <Paper elevation={6} style={{ padding: '16px' }}>
           <div className="container mx-auto mt-10 text-center">
@@ -32,8 +28,6 @@ const DeniedAccess = () => {
                 '&:hover': {
                   backgroundColor: 'blue',
                 },
-               
-                
               }}
               onClick={handleReturnHome}
             >
@@ -42,8 +36,6 @@ const DeniedAccess = () => {
           </div>
         </Paper>
       </Container>
-
-    </Layout>
   );
 };
 
