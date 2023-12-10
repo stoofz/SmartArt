@@ -13,7 +13,7 @@ const OrderPage = ({ order }) => {
   }
 
   return (
-    <Layout>
+    // <Layout>
       <Container className="px-32 flex flex-col pt-4" style={{ paddingRight: "150px", paddingLeft: "150px" }}>
         <div className="flex justify-between" style={{ paddingLeft: '15px' }}>
           <Typography variant="h4" gutterBottom>
@@ -70,7 +70,7 @@ const OrderPage = ({ order }) => {
           </div>
         </div>
       </Container>
-      </Layout>
+      // </Layout>
   );
 };
 

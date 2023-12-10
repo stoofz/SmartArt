@@ -1,4 +1,4 @@
-import Subnav from './UserSubNav';
+import UserSubnav from './UserSubNav';
 
 import { useRouter } from 'next/router';
 
@@ -21,7 +21,7 @@ const UserLayout = ({ children }) => {
         <div style={{ flex: 1, display: "flex", flexDirection: "row", backgroundColor: "#fae4e2" }}>
           {isUserProfilePage || isOrdersPage || isReviewsPage || isCartPage || isWishlistPage ? (
             <div>
-              <Subnav />
+              <UserSubnav />
             </div>
           ) : null}
           <div

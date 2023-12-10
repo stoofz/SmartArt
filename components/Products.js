@@ -173,24 +173,14 @@ const Products = () => {
     },
   });
 
-  const ExpandIconStyled = styled(Button)`
+//Icons on each product - wishlist, cart, expand
+  const IconStyled = styled(Button)`
     width: fit-content;
-    height: 40px;
+   
+    color: ${theme.palette.primary.main};
+    @media (min-width: 769px) {
     visibility: hidden;
-    color: ${theme.palette.primary.main}
-  `;
-
-  const HeartIconStyled = styled(Button)`
-    width: fit-content;
-    visibility: hidden;
-    color: ${theme.palette.primary.main}
-    `;
-
-  const CartIconStyled = styled(Button)`
-    width: fit-content;
-    height: 40px;
-    visibility: hidden;
-    color: ${theme.palette.primary.main}
+  }
     `;
 
   const ContainerStyled = styled("div")`
@@ -235,10 +225,10 @@ const Products = () => {
                   <div className="flex justify-evenly">
                     {/* Always display the favorite icon */}
                     <div>
-                      <HeartIconStyled
+                      <IconStyled
                         sx={{
                           width: 'fit-content',
-                          visibility: 'hidden',
+                          // visibility: 'hidden',
                           color: '#324E4B' // Set the color here
                         }}
                         variant="text"
@@ -247,23 +237,23 @@ const Products = () => {
                         onClick={() => handleAddToWishlist(userId, product, textToastFav)}
                       >
                         {isInWishlist(product.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                      </HeartIconStyled>
+                      </IconStyled>
                     </div>
 
-                    <CartIconStyled
+                    <IconStyled
                       variant="text"
                       className="icon-button"
                       onClick={() => handleAddToCartToast(product.id, userId, textToastCart)}
                     >
                       <AddShoppingCartIcon />
-                    </CartIconStyled>
-                    <ExpandIconStyled
+                    </IconStyled>
+                    <IconStyled
                       variant="text"
                       className="icon-button"
                       onClick={() => handleClickOpen(product.id)}
                     >
                       <OpenInFullIcon />
-                    </ExpandIconStyled>
+                    </IconStyled>
                     <Dialog
                       className={montserrat.className}
                       open={openId === product.id}
