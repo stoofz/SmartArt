@@ -67,7 +67,7 @@ async function main() {
     //   data: customersData,
     // });
     //Get and store in var newly created customers to extract id dinamically
-    // const customers = await prisma.customer.findMany();
+    const customers = await prisma.customer.findMany();
   
 
 
