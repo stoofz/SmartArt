@@ -2,8 +2,9 @@ import prisma from 'utils/prisma';
 import formatDate from 'utils/formatDate';
 import Link from 'next/link';
 import { Typography, Container } from '@mui/material';
-import Layout from '../../components/Layout';
 import formatPriceAlt from '@/utils/formatPriceAlt';
+import { applyDiscountToProduct } from '@/utils/applyDiscount';
+
 
 
 const OrderPage = ({ order }) => {
@@ -13,7 +14,6 @@ const OrderPage = ({ order }) => {
   }
 
   return (
-    // <Layout>
       <Container className="px-32 flex flex-col pt-4" style={{ paddingRight: "150px", paddingLeft: "150px" }}>
         <div className="flex justify-between" style={{ paddingLeft: '15px' }}>
           <Typography variant="h4" gutterBottom>
@@ -60,17 +60,17 @@ const OrderPage = ({ order }) => {
                         <Typography variant="body2">
                           {`Price: $${(item.price / 100).toFixed(2)}`}
                         </Typography>
-                        <Typography variant="body2">Total: ${(item.qty * item.price / 100).toFixed(2)}</Typography>
+                       
                       </div>
                     </div>
                   </li>
                 ))}
               </ul>
+           
             </div>
           </div>
         </div>
       </Container>
-      // </Layout>
   );
 };
 

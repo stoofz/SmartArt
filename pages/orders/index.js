@@ -2,12 +2,15 @@ import Link from 'next/link';
 import prisma from 'utils/prisma';
 import formatDate from 'utils/formatDate';
 import formatPriceAlt from 'utils/formatPriceAlt';
-
+import { applyDiscountToProduct } from '@/utils/applyDiscount';
 
 import { Typography, Container, Paper, Button } from '@mui/material';
 
 
+
 const OrdersHistoryList = ({ userOrders }) => {
+
+  console.log("userOrders", userOrders)
 
   const containerStyles = {
     display: 'flex',
@@ -92,7 +95,22 @@ const OrdersHistoryList = ({ userOrders }) => {
                     {order.orderItem.map((item, index) => (
                       <li key={index} className="flex items-center space-x-4">
                         {/* add an image here if needed */}
-                        <span>{`${item.qty}x ${item.product.name} - $${(item.price / 100).toFixed(2)}`}</span>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <div>{`${item.qty}x ${item.product.name}`}</div>
+                        
+                          {item.price !== item.discountedPrice ? (
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                              <div style={{ textDecoration: 'line-through', color: '#7D0012', paddingRight: '10px' }}>
+                              ${(item.price / 100).toFixed(2)}
+                              </div>
+                              <div>
+                                ${(item.discountedPrice / 100).toFixed(2)}
+                              </div>
+                            </div>
+                          ) : (`$${(item.price / 100).toFixed(2)}`)}
+                        </div>
+                        
+                       
                       </li>
                     ))}
                   </ul>
@@ -152,7 +170,25 @@ export async function getServerSideProps({ req }) {
 
     const serializedOrders = JSON.parse(JSON.stringify(userOrders));
 
-    return { props: { userOrders: serializedOrders } };
+    // Apply discounts to order items
+    const ordersWithDiscounts = await Promise.all(serializedOrders.map(async (order) => {
+      const orderItemWithDiscount = await Promise.all(order.orderItem.map(async (item) => {
+        const discountedPrice = await applyDiscountToProduct(item.product.id, item.price);
+        return {
+          ...item,
+          discountedPrice: discountedPrice || 0, // Provide a default value if discountedPrice is undefined
+        };
+      }));
+
+      return {
+        ...order,
+        orderItem: orderItemWithDiscount,
+      };
+    }));
+
+    return { props: { userOrders: ordersWithDiscounts } };
+
+   
 
   } catch (error) {
     console.error('Error fetching user orders', error);
