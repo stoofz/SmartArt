@@ -8,7 +8,7 @@ import { applyDiscountToProduct } from '@/utils/applyDiscount';
 
 
 const OrderPage = ({ order }) => {
-  console.log("order.orderItem", order.orderItem)
+
   if (!order) {
     return <div>Loading...</div>;
   }

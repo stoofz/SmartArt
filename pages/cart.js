@@ -15,9 +15,7 @@ export default function CartPage({ productDetails, subtotal }) {
     );
   }
 
-
-
-
+  
 
 export async function getServerSideProps({ req }) {
  

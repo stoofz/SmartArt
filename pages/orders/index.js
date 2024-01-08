@@ -10,7 +10,6 @@ import { Typography, Container, Paper, Button } from '@mui/material';
 
 const OrdersHistoryList = ({ userOrders }) => {
 
-  console.log("userOrders", userOrders)
 
   const containerStyles = {
     display: 'flex',
@@ -61,7 +60,7 @@ const OrdersHistoryList = ({ userOrders }) => {
 
 
       ) : (
-        <div style={{ paddingRight: "150px", paddingLeft: "150px" }}>
+          <div className="px-10 md:px-32 " >
           <Typography variant="h4" gutterBottom style={{ paddingTop: "30px", paddingBottom: "30px" }}>
             Your Order History
           </Typography>
@@ -108,7 +107,7 @@ const OrdersHistoryList = ({ userOrders }) => {
                               </div>
                             </div>
                           ) : (`$${(item.price / 100).toFixed(2)}`)}
-                          
+
                         </div>
                         
                        
