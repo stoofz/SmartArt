@@ -28,7 +28,7 @@ const OrdersHistoryList = ({ userOrders }) => {
 
   return (
 
-    <Container className="px-32 flex flex-col pt-4">
+    <Container className="flex flex-col pt-4">
       {userOrders.length === 0 ? (
 
         // <Typography variant="body1" style={{ paddingTop: "130px"}}>You have no order history.</Typography>
@@ -60,8 +60,8 @@ const OrdersHistoryList = ({ userOrders }) => {
 
 
       ) : (
-          <div className="px-10 md:px-32 " >
-          <Typography variant="h4" gutterBottom style={{ paddingTop: "30px", paddingBottom: "30px" }}>
+          <div className="px-2 md:px-32 " >
+            <Typography variant="h4" gutterBottom sx={{ fontSize: ['1.2rem', '1.5rem', '1.8rem', '2rem'], paddingTop: "30px", paddingBottom: "30px" }}>
             Your Order History
           </Typography>
 
@@ -80,21 +80,26 @@ const OrdersHistoryList = ({ userOrders }) => {
               onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
             >
               <div className="cart-item-details" style={{ marginLeft: '20px', flex: '1' }}>
-                <div className="flex justify-between" style={{ paddingRight: '60px', paddingTop: '20px' }}>
-                  <Typography variant="h6" style={{ fontWeight: 'bold' }}>{`Order #${order.id}`}</Typography>
-                  <Typography variant="h6" style={{ fontWeight: 'bold' }}>Total: ${formatPriceAlt(order.totalPrice)}</Typography>
+                <div className="flex justify-between pr-5 md:pr-20 pt-5">
+                  <Typography  sx={{ fontWeight: 'bold', fontSize: ['1rem', '1.2rem', '1.5rem', '1.8rem'], }}>{`Order #${order.id}`}</Typography>
+                  <Typography sx={{ fontWeight: 'bold', fontSize: ['0.8rem', '1.2rem', '1.5rem', '1.8rem'] }}>Total: ${formatPriceAlt(order.totalPrice)}</Typography>
                 </div>
-                <div className="flex justify-between w-1/2 pt-5">
+                <div className="flex justify-between pt-5">
                   <Typography variant="body2">{`Order Date: ${formatDate(order.orderDate)}`}</Typography>
                 </div>
-                <Typography variant="body2">{`Order Status: ${order.orderStatus}`}</Typography>
+                <Typography variant="body2" style={{ marginBottom: '20px' }}>
+                  Order Status:
+                  <span style={{ color: order.orderStatus === "Completed" ? "green" : "inherit" }}>
+                    {order.orderStatus}
+                  </span>
+                </Typography>
                 <div>
                   <h4 style={{ fontWeight: 'bold' }}>Order Items:</h4>
                   <ul>
                     {order.orderItem.map((item, index) => (
                       <li key={index} className="flex items-center space-x-4">
                         {/* add an image here if needed */}
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', paddingRight:'2px' }}>
                           <div>{`${item.qty}x ${item.product.name}`}</div>
                         
                           {item.price !== item.discountedPrice ? (
