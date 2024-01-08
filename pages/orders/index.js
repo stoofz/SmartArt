@@ -108,6 +108,7 @@ const OrdersHistoryList = ({ userOrders }) => {
                               </div>
                             </div>
                           ) : (`$${(item.price / 100).toFixed(2)}`)}
+                          
                         </div>
                         
                        

@@ -8,7 +8,7 @@ import { applyDiscountToProduct } from '@/utils/applyDiscount';
 
 
 const OrderPage = ({ order }) => {
-
+  console.log("order.orderItem", order.orderItem)
   if (!order) {
     return <div>Loading...</div>;
   }
@@ -58,8 +58,20 @@ const OrderPage = ({ order }) => {
                       </Link>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '50%', paddingTop: '10px' }}>
                         <Typography variant="body2">
-                          {`Price: $${(item.price / 100).toFixed(2)}`}
+                          Price: 
+
+                         
                         </Typography>
+                        {item.price !== item.discountedPrice ? (
+                          <div style={{ display: 'flex', flexDirection: 'row' }}>
+                            <div style={{ textDecoration: 'line-through', color: '#7D0012', paddingRight: '10px' }}>
+                              ${(item.price / 100).toFixed(2)}
+                            </div>
+                            <div>
+                              ${(item.discountedPrice / 100).toFixed(2)}
+                            </div>
+                          </div>
+                        ) : (`$${(item.price / 100).toFixed(2)}`)}
                        
                       </div>
                     </div>
@@ -112,7 +124,23 @@ export async function getServerSideProps( {req, params }) {
       };
     }
 
-    const serializedOrder = JSON.parse(JSON.stringify(order));
+    // Apply discounts to order items
+    const orderItemsWithDiscounts = await Promise.all(
+      order.orderItem.map(async (item) => {
+        const discountedPrice = await applyDiscountToProduct(item.product.id, item.price);
+        return {
+          ...item,
+          discountedPrice,
+        };
+      })
+    );
+
+    const orderWithDiscounts = {
+      ...order,
+      orderItem: orderItemsWithDiscounts,
+    };
+
+    const serializedOrder = JSON.parse(JSON.stringify(orderWithDiscounts));
 
     return { props: { order: serializedOrder } };
   } catch (error) {
